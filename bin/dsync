@@ -1,0 +1,119 @@
+#!/bin/bash
+
+#/ dsync -- Copy files to many hosts in parallel.
+#/ 
+#/ USAGE        dsync [options] -- [RSYNC_OPTIONS] SRC[...] DEST
+#/ 
+#/ `dsync` copies files (using `rsync`) to many hosts in parallel.
+#/ 
+#/ Where possible, `dsync` follows semantics of `dsh` and `rsync` -- it
+#/ understands `~/.dsh/groups`, and uses `dsh`-like flags for specifying
+#/ machines via command options. In almost all other terms, it follows `rsync`
+#/ in argument structure and options (or, really, just passes them through).
+#/ 
+#/ The transfers are executed in parallel, so output in verbose mode from the
+#/ different processes will be interleaved.
+#/ 
+#/ 
+#/ ARGUMENTS
+#/ 
+#/      SRC[...]        Source files.
+#/      DEST            Destination path.
+#/      [RSYNC_OPTIONS] Arguments to pass directly to `rsync` may also be
+#/                      specified after the dashes.
+#/ 
+#/ Note that the separating dashes ("--") are *required* if you wish to pass options
+#/ to `dsync`. If they are omitted, all arguments and options are passed to `rsync`.
+#/ 
+#/ The token `HOST` (case-sensitive) will be replaced with the destination host
+#/ for the current transfer in both the `SRC` and `DEST` arguments, wherever it
+#/ is found.
+#/ 
+#/ 
+#/ OPTIONS
+#/ 
+#/      -h --help       Displays this help.
+#/      -v              Verbose logging.
+#/      -m MACHINE      Adds MACHINE to the list of targets. Repeatable.
+#/      -g GROUP        Group file, located at '~/.dsh/group/GROUP'. Repeatable.
+#/      -P PROCS        Number of parallel processes to spawn. [default: 4]
+#/      -R              Don't pass the options '-Cavz' to rsync.
+#/ 
+#/ 
+#/ Written by David Schoonover <dsc@less.ly>, 2009-2012. http://less.ly
+#/ Released under the MIT License.
+#/ 
+
+
+VERBOSE=''
+PROCS=4
+RSYNC_OPTS="-Caz"
+
+
+# (The most important line in any shell program.)
+set -e        # Terminate on subcommand errors.
+
+### Utilities
+log   () { [ "$VERBOSE" ] && echo -e "$*" >&2; :; }
+logs  () { [ "$VERBOSE" ] && printf "%s" "$*"; :; }
+fail  () { echo >&2; echo "[ERROR] $*" >&2; exit 1; }
+count () { echo $#; }
+nth   () { local n="$1"; shift; [ -z "$n" ] && return 1; [[ "$n" < 0 ]] && n=$(( 1 + $# + $n )); echo "${!n}"; }
+join  () { local sep="$1"; shift; [ -z "$*" ] && return 1; printf "$1"; shift; for a in $*; do printf "$sep$a"; done; echo; }
+# join  () { local sep="$1" old="$IFS"; export IFS=\n; read -t1 out; while read -t1 line; do out="$out$sep$line"; done; echo "$out"; export IFS=$old; }
+
+SELF="$0"
+halp () { grep '^#/' <"$SELF" | cut -c4-; :; }
+
+### Parse `rsync` args
+for opt in $*; do
+    case "$opt" in
+        -h | -he | -hel | -help | --h | --he | --hel | --help )
+            halp; exit 0 ;;
+        -- )
+            SEEN_DASHES=1 ;;
+        * )
+            if [ -z "$SEEN_DASHES" ]; then
+                OPTIONS="$OPTIONS $opt"
+            else
+                RSYNC_ARGS="$RSYNC_ARGS $opt"
+            fi
+            ;;
+    esac
+done
+
+### Parse `dsync` args
+SHIFT=0
+incshift () { SHIFT=$(( $SHIFT + ${1:-1} )); }
+if [ "$SEEN_DASHES" ]; then
+    while getopts "vg:m:P:Rt" opt $OPTIONS; do
+        case $opt in
+            v ) VERBOSE='-v';                   incshift    ;;
+            g ) GRPS="$GRPS $OPTARG";           incshift 2  ;;
+            m ) MACHINES="$MACHINES $OPTARG";   incshift 2  ;;
+            P ) PROCS=$OPTARG;                  incshift 2  ;;
+            R ) RSYNC_OPTS='';                  incshift    ;;
+            t ) PRINT_CMD='-t';                 incshift    ;;
+        esac
+    done
+    # XXX: Hmm.
+    # shift $SHIFT
+    
+# No dashes? assume everything goes to rsync
+else
+    RSYNC_ARGS=$*
+fi
+
+# Look up `dsh` groups
+if [ "$GRPS" ]; then
+    for G in $GRPS; do
+        MACHINES="$MACHINES $(cat ~/.dsh/group/$G)"
+    done
+fi
+
+[ -z "$MACHINES"   ] && fail "No machines specified. Use -m to list machines or -g to add groups."
+[ -z "$RSYNC_ARGS" ] && fail "Must specify SRC and DEST for rsync."
+
+### Go!
+xargs -t -P $PROCS -I HOST rsync $RSYNC_OPTS $VERBOSE $RSYNC_ARGS < <(join $'\n' $MACHINES)
+
