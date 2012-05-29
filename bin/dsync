@@ -114,6 +114,7 @@ fi
 [ -z "$MACHINES"   ] && fail "No machines specified. Use -m to list machines or -g to add groups."
 [ -z "$RSYNC_ARGS" ] && fail "Must specify SRC and DEST for rsync."
 
+
 ### Go!
 xargs -t -P $PROCS -I HOST rsync $RSYNC_OPTS $VERBOSE $RSYNC_ARGS < <(join $'\n' $MACHINES)
 
