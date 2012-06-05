@@ -5,6 +5,18 @@
 cassandra_commitlog_directory="/var/lib/cassandra/commitlog"
 cassandra_data_directory="/var/lib/cassandra/data"
 
+# If we are running RAID on any of these disks,
+# we need to stop it before we can write out
+# changes to the partition tables.  (This should
+# only be true on analytics1001 namenode.)
+
+if [ -e /dev/md2 ]; then
+    sudo mdadm --stop /dev/md2
+fi
+if [ -e /dev/md_d2 ]; then
+    sudo mdadm --stop /dev/md_d2
+fi
+
 for disk in /dev/sd{e,f,g,h,i,j}; do sudo fdisk $disk <<EOF
 n
 p
@@ -15,6 +27,17 @@ w
 EOF
 
 done
+
+# For some reason, mdadm restarts our RAID array
+# as /dev/md_d2 after writing the changes out to 
+# sde and sdf.  If this device exists, stop the
+# md_d2 device and create the md2 one.
+if [ -e /dev/md_d2 ]; then
+    sudo mdadm --stop /dev/md_d2
+    sudo mdadm --create /dev/md2 --level 1 --raid-devices=2 /dev/sde1 /dev/sdf1 <<EOF
+y
+EOF
+fi
 
 # sde2 is the commitlog_directory.
 # ext3 and mounted at /var/lib/cassandra/commitlog
