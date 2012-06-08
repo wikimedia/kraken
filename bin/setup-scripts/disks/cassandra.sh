@@ -51,7 +51,7 @@ sudo mount /var/lib/cassandra/commitlog
 sudo -u cassandra mkdir -p $cassandra_data_directory
 for disk_letter in f g h i j ; do 
     partition="/dev/sd${disk_letter}2"
-    data_directory="$cassandra_data_directory/data_${disk_letter}"
+    data_directory="$cassandra_data_directory/${disk_letter}"
     
     sudo -u cassandra mkdir -p $data_directory
     
