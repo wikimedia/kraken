@@ -61,7 +61,8 @@ command="hadoop jar $load_jar \
 --NM $default_mappers \
 --NR $default_reducers \
 --gs $file_size \
---gf $num_files"
+--gf $num_files \
+--ALL"
 
 
 echo "Running
