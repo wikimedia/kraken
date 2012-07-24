@@ -40,7 +40,7 @@ for disk_letter in e f g h i j ; do
     sudo chown hdfs:hadoop $data_directory/{hdfs,hdfs/dn}
     sudo chmod 700 $data_directory/{hdfs,hdfs/dn}
     
-    sudo -u mapred mkdir -pv $data_directory/mapred/local
+    sudo mkdir -pv $data_directory/mapred/local
     sudo chown mapred:hadoop $data_directory/{mapred,mapred/local}
 done
 
