@@ -39,6 +39,6 @@ EOF
 sudo mkfs.ext3 /dev/md2
 
 # mount it at $hadoop_name_directory
-sudo mkdir -p $hadoop_name_directory && sudo chgrp hadoop $hadoop_name_directory
+sudo mkdir -p $hadoop_name_directory && sudo chown hdfs:hadoop $hadoop_name_directory && sudo chmod 700 $hadoop_name_directory
 grep -q "$hadoop_name_directory" /etc/fstab || echo -e "# Hadoop namenode partition\n/dev/md2\t$hadoop_name_directory\text3\tdefaults,noatime\t0\t2" | sudo tee -a /etc/fstab
 
