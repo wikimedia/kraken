@@ -44,7 +44,7 @@ fi
 sudo -u cassandra mkdir $cassandra_commitlog_directory
 sudo mkfs.ext3 /dev/sde2
 grep -q "$cassandra_commitlog_directory" /etc/fstab || echo -e "# Cassandra commitlog partition\n/dev/sde2\t$cassandra_commitlog_directory\text3\tdefaults,noatime\t0\t2" | sudo tee -a /etc/fstab
-sudo mount /var/lib/cassandra/commitlog
+sudo mount $cassandra_commitlog_directory
 
 # sd{f,g,h,i,j}2 are data_file_directories.
 # xfs and mounted at /var/lib/cassandra/data/data_X
