@@ -11,6 +11,9 @@
 REGISTER 'akela-0.5-SNAPSHOT.jar' 
 REGISTER 'maxmind-geoip-1.2.5.jar'
 
+-- I get Heap Errors if I don't set this when working with large inputs.
+set pig.exec.nocombiner true;
+
 -- use the GeoIpLookup function from https://github.com/mozilla-metrics/akela/blob/master/src/main/java/com/mozilla/pig/eval/geoip/GeoIpLookup.java
 DEFINE GeoIpLookup com.mozilla.pig.eval.geoip.GeoIpLookup('/usr/share/GeoIP/GeoIPCity.dat');
 -- Load in the access log data
