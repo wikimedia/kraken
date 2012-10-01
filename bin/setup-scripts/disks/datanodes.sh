@@ -5,7 +5,7 @@ hadoop_data_directory="/var/lib/hadoop-0.20/data"
 
 # HDFS datanodes
 #
-# sd{e,f,g,h,i,j}1 become 300G ext3 partitions
+# sd{e,f,g,h,i,j}1 become full ext3 partitions
 
 for disk in /dev/sd{e,f,g,h,i,j}; do sudo fdisk $disk <<EOF
 n
