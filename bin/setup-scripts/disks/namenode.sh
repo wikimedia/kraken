@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-hadoop_name_directory="/var/lib/hadoop-0.20/name"
+hadoop_name_directory="/var/lib/hadoop/name"
 
 # HDFS namenode sde and sdf
 

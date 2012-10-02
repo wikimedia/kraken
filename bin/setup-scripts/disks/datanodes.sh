@@ -1,6 +1,6 @@
 #!/bin/bash
 
-hadoop_data_directory="/var/lib/hadoop-0.20/data"
+hadoop_data_directory="/var/lib/hadoop/data"
 
 
 # HDFS datanodes
@@ -40,8 +40,8 @@ for disk_letter in e f g h i j ; do
     sudo chown hdfs:hadoop $data_directory/{hdfs,hdfs/dn}
     sudo chmod 700 $data_directory/{hdfs,hdfs/dn}
     
-    sudo mkdir -pv $data_directory/mapred/local
-    sudo chown mapred:hadoop $data_directory/{mapred,mapred/local}
+    sudo mkdir -pv $data_directory/yarn/{local,logs}
+    sudo chown mapred:hadoop $data_directory/{yarn,yarn/{local,logs}}
 done
 
 
