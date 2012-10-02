@@ -37,11 +37,12 @@ for disk_letter in e f g h i j ; do
     sudo mount -v $data_directory
     
     sudo mkdir -pv $data_directory/hdfs/dn
-    sudo chown hdfs:hadoop $data_directory/{hdfs,hdfs/dn}
+    sudo chown hdfs:hdfs $data_directory/{hdfs,hdfs/dn}
     sudo chmod 700 $data_directory/{hdfs,hdfs/dn}
     
     sudo mkdir -pv $data_directory/yarn/{local,logs}
-    sudo chown mapred:hadoop $data_directory/{yarn,yarn/{local,logs}}
+    sudo chown yarn:yarn $data_directory/{yarn,yarn/{local,logs}}
+    sudo chmod 755 $data_directory/{yarn,yarn/{local,logs}}
 done
 
 
