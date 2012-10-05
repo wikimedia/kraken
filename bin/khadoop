@@ -103,26 +103,3 @@ if __name__ == '__main__':
 
     else:
         service(arguments['<service>'], arguments['<action>'], arguments['NODES'])
-
-
-
-
-
-#!/usr/bin/env bash
-# Usage: k puppet (up | test)
-# Summary: Run a Kraken puppet command
-#
-#    k puppet up     # updates puppetmaster on an01
-#    k puppet test   # runs puppet on all Kraken nodes
-#
-
-# Provide k completions
-
-# Provide rbenv completions
-# if [ "$1" = "--complete" ]; then
-#   echo "up"
-#   echo "test"
-# fi
-# 
-# $_K_ROOT/libexec/k-puppet-${1}
-# 
