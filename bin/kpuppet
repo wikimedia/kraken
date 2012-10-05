@@ -1,0 +1,85 @@
+#!/usr/bin/env python
+"""Kraken Puppet Handy Dandy shortcuts
+
+
+Usage:
+  kpuppet up
+  kpuppet run [NODES...]
+  kpuppet uprun [NODES...]
+
+Options:
+  -h --help             show this help message and exit
+
+Examples:
+  kpuppet up               # updates the puppetmaster puppet directory
+  kpuppet run              # runs puppet on all Kraken nodes
+  kpuppet run an01 an03    # runs puppet on an01 and an03
+  kpuppet uprun an01 an03  # updates puppetmaster and runs puppet on an01 and an03
+
+Note:
+  This requires that you have dsh installed, and that you have a dsh 
+  group named 'k' that includes all of the Kraken Analytics nodes.
+
+"""
+
+from docopt import docopt
+import sys
+import os
+
+
+kraken_dsh_name = 'k'
+kraken_puppetmaster = 'an01'
+
+def puppet_run(nodes=None):
+    command = 'dsh'
+    
+    if nodes:
+        nodes = ' -m '.join(nodes)
+        command += ' -m ' + nodes
+    else:
+        command += ' -g ' + kraken_dsh_name
+    
+    command += ' "sudo sudo puppetd --test --verbose --server analytics1001.wikimedia.org --vardir /var/lib/puppet.analytics --ssldir /var/lib/puppet.analytics/ssl --confdir=/etc/puppet.analytics"'
+    print command
+    os.system(command)
+
+
+def puppet_up():
+    command = "dsh -m %s \"cd /etc/puppet.analytics; sudo git pull; sudo git submodule update\"" % (kraken_puppetmaster)
+    print command
+    os.system(command)
+
+if __name__ == '__main__':
+    # parse arguments
+    arguments = docopt(__doc__)
+
+    if arguments['up'] or arguments['uprun']:
+        puppet_up()
+
+    if arguments['run'] or arguments['uprun']:
+        puppet_run(arguments['NODES'])
+
+
+
+
+
+
+
+#!/usr/bin/env bash
+# Usage: k puppet (up | test)
+# Summary: Run a Kraken puppet command
+#
+#    k puppet up     # updates puppetmaster on an01
+#    k puppet test   # runs puppet on all Kraken nodes
+#
+
+# Provide k completions
+
+# Provide rbenv completions
+# if [ "$1" = "--complete" ]; then
+#   echo "up"
+#   echo "test"
+# fi
+# 
+# $_K_ROOT/libexec/k-puppet-${1}
+# 
