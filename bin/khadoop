@@ -1,0 +1,128 @@
+#!/usr/bin/env python
+"""Kraken Hadoop remote control
+
+Usage:
+  khadoop <service> <action> [NODES...]
+  khadoop logs [NODES...]
+
+Options:
+  -h --help             show this help message and exit
+
+Examples:
+  
+  Get the status of the namenode on an01:
+    khadoop namenode status an01
+  
+  Restart all hadoop services across all nodes:
+    khadoop all restart
+  
+  Stop nodenamanger on an01 and an02:
+    khadoop nodemanager stop an01 an02
+  
+  Restart worker processes (nodemanager, datanode) on worker nodes:
+    khadoop workers restart
+   
+  Restart master processes (namenode, resourcemanager) on master node.:
+    khadoop master restart
+    
+  tail all hadoop logs:
+    khadoop logs
+
+Note:
+  This requires that you have dsh installed, and that you have a dsh 
+  group named 'k' that includes all of the Kraken Analytics nodes.
+
+"""
+
+from docopt import docopt
+import sys
+import os
+import time
+
+kraken_dsh_name = 'k'
+
+services = {
+    'namenode':          'hadoop-hdfs-namenode',
+    'datanode':          'hadoop-hdfs-datanode',
+    'historyserver':     'hadoop-mapreduce-historyserver',
+    'resoucemanager':    'hadoop-yarn-resourcemanager',
+    'nodemanager':       'hadoop-yarn-nodemanager',
+    'proxyserver':       'hadoop-yarn-proxyserver',
+}
+
+master_node = 'an01'
+# worker_nodes = ['an02','an03','an04','an05','an06','an07','an08','an09','an10']
+worker_nodes = ['an03','an04','an05','an06','an08','an09','an10']
+
+
+def parse_dsh_nodes(nodes=None):
+    # print nodes
+    if nodes:
+        nodes = '-m ' + ' -m '.join(nodes)
+    else:
+        nodes = ' -g ' + kraken_dsh_name
+    return nodes
+
+def master(action):
+    service('resoucemanager', action, [master_node])
+    service('namenode',       action, [master_node])
+
+def workers(action):
+    service('nodemanager',  action, worker_nodes)
+    service('datanode',     action, worker_nodes)
+
+def service(name, action, nodes=None):
+    command = "dsh " + parse_dsh_nodes(nodes) + " \"sudo service %s %s\"" % (services[name], action)
+    print command
+    os.system(command)
+
+if __name__ == '__main__':
+    # parse arguments
+    arguments = docopt(__doc__)
+    
+    if arguments['logs']:
+        os.system("dsh " + parse_dsh_nodes(arguments['NODES']) + " \"sudo tail -f /var/log/hadoop*/*\"")
+        exit()
+        
+    
+    if (arguments['<service>'] not in (services.keys() + ["all", "workers", "master"])):
+        print "Error.  service must be one of " + ', '.join(services.keys() + ["all", "worker", "master"])
+        exit(1)
+        
+
+    if arguments['<service>'] == 'all':
+        master(arguments['<action>'])
+        time.sleep(5)
+        workers(arguments['<action>'])
+
+    elif arguments['<service>'] == 'master':
+        master(arguments['<action>'])
+
+    elif arguments['<service>'] == 'workers':
+        workers(arguments['<action>'])
+
+    else:
+        service(arguments['<service>'], arguments['<action>'], arguments['NODES'])
+
+
+
+
+
+#!/usr/bin/env bash
+# Usage: k puppet (up | test)
+# Summary: Run a Kraken puppet command
+#
+#    k puppet up     # updates puppetmaster on an01
+#    k puppet test   # runs puppet on all Kraken nodes
+#
+
+# Provide k completions
+
+# Provide rbenv completions
+# if [ "$1" = "--complete" ]; then
+#   echo "up"
+#   echo "test"
+# fi
+# 
+# $_K_ROOT/libexec/k-puppet-${1}
+# 
