@@ -1,6 +1,9 @@
 DEFINE EXTRACT org.apache.pig.builtin.REGEX_EXTRACT_ALL();
 LOG_FIELDS = LOAD '$input' USING PigStorage(' ') AS (hostname:chararray, udplog_sequence:chararray, timestamp:chararray, request_time:chararray, remote_addr:chararray, http_status:chararray, bytes_sent:chararray, request_method:chararray, uri:chararray, proxy_host:chararray, content_type:chararray, referer:chararray, x_forwarded_for:chararray, user_agent);
-
+-- only count text/html
+LOG_FIELDS = FILTER LOG_FIELDS BY content_type == 'text/html';
+-- only count 200 and 302 response statuses
+LOG_FIELDS = FILTER LOG_FIELDS BY (http_status MATCHES '^.*(200|302)$');
 
 -- Extract the Month and subdomain out of the request log fields
 MONTH_SUBDOMAIN = FOREACH LOG_FIELDS GENERATE FLATTEN(EXTRACT(timestamp, '^.*(\\d\\d\\d\\d-\\d\\d)-.*')) as month:chararray, FLATTEN (EXTRACT(uri, 'https?://(en|ja|es|de|ru|fr)\\..+.+')) as subdomain:chararray;
