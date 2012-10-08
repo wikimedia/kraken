@@ -45,7 +45,7 @@ def puppet_run(nodes=None):
 
 
 def puppet_up():
-    command = "dsh -m %s \"cd /etc/puppet.analytics; sudo git pull; sudo git submodule update\"" % (kraken_puppetmaster)
+    command = "dsh -m %s \"cd /etc/puppet.analytics; sudo git pull; sudo git submodule update --recursive;\"" % (kraken_puppetmaster)
     print command
     os.system(command)
 
