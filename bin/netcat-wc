@@ -1,0 +1,48 @@
+#!/bin/bash
+
+USAGE="Usage: `basename $0` [-s sleep_seconds] [-i ip] [-p port]
+
+Listens for incoming UDP traffic and prints out a
+periodic count of lines and bytes recieved.
+
+  -s sleep_seconds  Seconds to sleep in between byte count output.    Default: 10 seconds
+  -i ip             Listens for UDP packets on this IP address.       Default: 127.0.0.1
+  -p port           Listens for UDP packets on this port.             Default: 8420
+"
+
+sleep_time="30"
+ip="127.0.0.1"
+port="8420"
+
+while getopts "hs:i:p:" OPT; do
+    case "$OPT" in
+        h)
+            echo "${USAGE}"
+            exit 0
+            ;;
+        s)
+            sleep_time=$OPTARG
+            ;;
+        i)
+            ip=$OPTARG
+            ;;
+        p)
+            port=$OPTARG
+            ;;
+        \?)
+            echo "${USAGE}" >2
+            exit 1
+            ;;
+    esac
+done
+
+echo $(date "+%F_%H.%M.%S") 0 0
+
+while true; do
+    # run netcat in the backround
+    echo $(date "+%F_%H.%M.%S") $(netcat -lu $ip $port | wc -lc) &
+    # sleep for a bit
+    sleep $sleep_time
+    # kill the netcat process
+    killall netcat
+done
