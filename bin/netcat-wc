@@ -36,8 +36,6 @@ while getopts "hs:i:p:" OPT; do
     esac
 done
 
-echo $(date "+%F_%H.%M.%S") 0 0
-
 while true; do
     # run netcat in the backround
     echo $(date "+%F_%H.%M.%S") $(netcat -lu $ip $port | wc -lc) &
