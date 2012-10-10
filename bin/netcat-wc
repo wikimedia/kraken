@@ -36,12 +36,13 @@ while getopts "hs:i:p:" OPT; do
     esac
 done
 
+echo $(date "+%F_%H.%M.%S") 0 0
+
 while true; do
     # run netcat in the backround
-    count=$(netcat -lu $ip $port | wc -lc >> /dev/stdout) &
+    echo $(date "+%F_%H.%M.%S") $(netcat -lu $ip $port | wc -lc) &
     # sleep for a bit
     sleep $sleep_time
     # kill the netcat process
     killall netcat
-    echo $(date "+%F_%H.%M.%S") $count
 done
