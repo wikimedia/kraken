@@ -1,0 +1,81 @@
+#!/usr/bin/env python
+"""Reads data from stdin and prints counts bytes and lines read during a given interval.
+
+Usage:
+  inputcount [--interval=SECONDS]
+
+Options:
+  -h --help                           show this help message and exit
+  -i SECONDS, --interval=SECONDS      sleep interval in seconds [default: 5]
+"""
+
+
+import os, sys, time, multiprocessing
+from docopt import docopt
+
+def threaded_input_count(file_handle, byte_count, line_count):
+    """
+    Reads bytes from file_handle and increments byte_count and line_count.
+    byte_count and line_count are multiprocessing.Value shared objects.
+    """
+    while (True):
+        try:
+            c = file_handle.read(1)
+        except KeyboardInterrupt:
+            sys.exit(0)
+        
+        if (c == ''):
+            sys.exit(0)
+        byte_count.value += 1
+        if c == "\n":
+            line_count.value += 1
+
+
+def print_input_count(start, end, byte_count, line_count, byte_count_total, line_count_total):
+    print "%s\t%s\t%s\t%s\t%s\t%s\n" % (start, end, line_count, byte_count, line_count_total, byte_count_total)
+    
+
+if __name__ == '__main__':
+    # parse arguments
+    arguments = docopt(__doc__)
+    sleep_interval = int(arguments['--interval'])
+    
+    # duplicate stdin
+    file_handle = os.fdopen(os.dup(sys.stdin.fileno()))
+    # close it here in the parent, so thing don't get confusin.
+    sys.stdin.close()
+    
+    # initialize byte_count and line_count
+    byte_count = multiprocessing.Value('i', 0)
+    line_count = multiprocessing.Value('i', 0)
+    
+    # start a threaded_input_count Process
+    p = multiprocessing.Process(target=threaded_input_count, args=(file_handle,byte_count,line_count))
+    p.start()
+
+    byte_count_total = 0
+    line_count_total = 0
+    try:
+        # forever, sleep and print values of byte_count and line_count,
+        # and reset them between wakeups
+        while (p.is_alive()):
+            start = time.strftime('%Y-%m-%dT%H:%M:%S')
+            # time.sleep(sleep_interval)
+            p.join(sleep_interval)
+            end = time.strftime('%Y-%m-%dT%H:%M:%S')
+            # keep running totals
+            byte_count_total += byte_count.value
+            line_count_total += line_count.value
+        
+            print_input_count(start, end, line_count.value, byte_count.value, line_count_total, byte_count_total)
+            # reset line_count and byte_count
+            line_count.value = 0
+            byte_count.value = 0
+    except KeyboardInterrupt:
+        end = time.strftime('%Y-%m-%dT%H:%M:%S')
+        # keep running totals
+        byte_count_total += byte_count.value
+        line_count_total += line_count.value
+        print_input_count(start, end, line_count.value, byte_count.value, line_count_total, byte_count_total)
+        sys.exit(0)
+        
