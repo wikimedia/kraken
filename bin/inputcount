@@ -32,7 +32,7 @@ def threaded_input_count(file_handle, byte_count, line_count):
 
 
 def print_input_count(start, end, byte_count, line_count, byte_count_total, line_count_total):
-    print "%s\t%s\t%s\t%s\t%s\t%s\n" % (start, end, line_count, byte_count, line_count_total, byte_count_total)
+    print "%s\t%s\t%s\t%s\t%s\t%s" % (start, end, line_count, byte_count, line_count_total, byte_count_total)
     
 
 if __name__ == '__main__':
