@@ -1,4 +1,4 @@
-#!/usr/bin/env python -u
+#!/usr/bin/python -u
 """Reads data from stdin and prints counts bytes and lines read during a given interval.
 
 Usage:
