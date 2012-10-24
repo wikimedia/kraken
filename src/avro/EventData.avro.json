@@ -1,0 +1,42 @@
+{
+    "name"      : "EventData",
+    "namespace" : "org.wikimedia.analytics.kraken",
+    "doc"       : "Represents a logged event.",
+    "type"      : "record",
+    
+    "fields": [
+        { "name": "timestamp", "type": "long",
+            "doc": "Microseconds since the epoch." },
+        { "name": "product_code", "type": "string",
+            "doc":"Product that generated the data for this request." },
+        
+        { "name": "uid", "type": ["null", "string"], "default":null, "order": "ignore",
+            "doc":"User UUIDv4" },
+        { "name": "visit_id", "type": "string", "order": "ignore",
+            "doc":"Visit/session identifier, representing a continuous (without significant idle time) set of pageloads by a user." },
+        { "name": "pageload_id", "type": "string", "order": "ignore",
+            "doc":"Pageload identifier, representing a particular pageload." },
+        
+        { "name": "event", "type": "string",
+            "doc": "Event name." },
+        { "name": "data", "type":{ "type": "map", "values": "string" }, "order": "ignore",
+            "doc": "Data payload of the event." },
+        
+        { "name": "ip", "type": ["int", "string"], "order": "ignore",
+            "doc":"int == IPv4; string == IPv6 or hash" },
+        { "name": "url", "type": "string",
+            "doc": "URL of the page that generated the event. (Appears as the referer in the actual HTTP request.)" },
+        { "name": "referer", "type": ["null", "string"], "default":null, "order": "ignore",
+            "doc": "Referer of the page that generated the event. (Sent in the data payload as the key `ref`.)" },
+        { "name": "ua", "type": "string", "order": "ignore" },
+        { "name": "ua_flags", "type": "int", "default":0, "order": "ignore",
+            "doc": "Bitfield of UA components; 0 when empty" },
+        { "name": "carrier", "type": ["null", "string"], "default":null, "order": "ignore",
+            "doc": "Mobile carrier for Zero project; from X-CARRIER header" },
+        
+        { "name": "metadata", "type":{ "type": "map", "values": "string" }, "order": "ignore",
+            "doc": "Additional metadata annotations." },
+        { "name": "tags", "type":{ "type": "array", "items": "string" }, "order": "ignore",
+            "doc": "Tags that identify the request as a particular type." },
+    ]
+}

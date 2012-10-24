@@ -1,0 +1,36 @@
+{
+    "name"      : "WebRequest",
+    "namespace" : "org.wikimedia.analytics.kraken",
+    "doc"       : "Represents a logline from a web/cache server.",
+    "type"      : "record",
+    
+    "fields": [
+        { "name": "timestamp", "type": "long",
+            "doc": "micros since the epoch" },
+        { "name": "product_code", "type": "string", "default":"web",
+            "doc":"Product that generated the data for this request" },
+        { "name": "ip", "type": ["int", "string"], "order": "ignore",
+            "doc":"int == IPv4; string == IPv6 or hash" },
+        { "name": "uid", "type": ["null", "string"], "default":null, "order": "ignore",
+            "doc":"User UUIDv4" },
+        { "name": "url", "type": "string" },
+        { "name": "referer", "type": ["null", "string"], "default":null, "order": "ignore" },
+        { "name": "method", "type": { "type": "enum", "name": "HTTPRequestMethod", "symbols": ["GET", "POST", "PUT", "DELETE", "UPDATE"] }, "order": "ignore" },
+        { "name": "ua", "type": "string", "order": "ignore" },
+        { "name": "ua_flags", "type": "int", "default":0, "order": "ignore",
+            "doc": "Bitfield of UA components; 0 when empty" },
+        { "name": "carrier", "type": ["null", "string"], "default":null, "order": "ignore",
+            "doc": "Mobile carrier for Zero project; from X-CARRIER header" },
+        
+        { "name": "response_server", "type": "string", "order": "ignore" },
+        { "name": "response_status", "type": "int", "order": "ignore" },
+        { "name": "response_time", "type": "long", "order": "ignore" },
+        { "name": "response_size", "type": "long", "order": "ignore" },
+        { "name": "response_mime", "type": "string" },
+        
+        { "name": "metadata", "type":{ "type": "map", "values": "string" }, "order": "ignore",
+            "doc":"Additional metadata annotations." },
+        { "name": "tags", "type":{ "type": "array", "items": "string" }, "order": "ignore",
+            "doc":"Tags that identify the request as a particular type." },
+    ]
+}
