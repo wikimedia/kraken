@@ -44,43 +44,28 @@ import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
 
 public class ParseWikiUrl extends EvalFunc<Tuple> {
-<<<<<<< HEAD:src/org/wikimedia/analytics/kraken/ParseWikiUrl.java
 	private static Set<String> languages;
 	private static String languageFile;
-=======
-	private static String languageRegex = "[a-zA-Z]{2}";
 	private static Tuple defaultOutput;
-	private Pattern languagePattern;
 	
 	public ParseWikiUrl() {
-		
+		languageFile = "resources/languages.txt";
 	}
->>>>>>> 31f75e6b4b83230a4d00faf68e64ccb10b2c4c21:src/org/wikimedia/analytics/kraken/pig/ParseWikiUrl.java
 	
 	public ParseWikiUrl(String languageFile) {
 		ParseWikiUrl.languageFile = languageFile;
 	}
 	
-	public Tuple exec(Tuple input) throws ExecException {
-<<<<<<< HEAD:src/org/wikimedia/analytics/kraken/ParseWikiUrl.java
-		
-		Tuple defaultOutput = TupleFactory.getInstance().newTuple(3);
-		defaultOutput.set(0, null);
-		defaultOutput.set(1, null);
-		defaultOutput.set(2, null);
-=======
+	public Tuple exec(Tuple input) throws ExecException {		
 		String language = "N/A";
 		Boolean isMobile = null;
 		String domain = "N/A";
->>>>>>> 31f75e6b4b83230a4d00faf68e64ccb10b2c4c21:src/org/wikimedia/analytics/kraken/pig/ParseWikiUrl.java
 		
 		if(input == null) {
 			warn("null input", PigWarning.UDF_WARNING_1);
 			return defaultOutput;
 		}
 		
-<<<<<<< HEAD:src/org/wikimedia/analytics/kraken/ParseWikiUrl.java
-=======
 		if(defaultOutput == null) {
 			defaultOutput = TupleFactory.getInstance().newTuple(3);
 			defaultOutput.set(0, language);
@@ -88,7 +73,6 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 			defaultOutput.set(2, domain);
 		}
 		
->>>>>>> 31f75e6b4b83230a4d00faf68e64ccb10b2c4c21:src/org/wikimedia/analytics/kraken/pig/ParseWikiUrl.java
 		//gets the urlString from the first argument, return if 
 		String urlString;
 		
@@ -139,8 +123,6 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 				throw new RuntimeException(e);
 			}
 		}
-		
-		String language = null;
 
 		//takes the first subdomain and check if it is a language code
 		String firstSubDomain = subdomains[0];
@@ -152,7 +134,7 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 		domain = subdomains[subdomains.length - 2] + "." + subdomains[subdomains.length - 1].substring(0,3); 
 		
 		//default isMobile to false since the domain is fine
-		boolean isMobile = false;
+		isMobile = false;
 		
 		//iterate through each subdomain from the 2nd subdomain to the 3rd to the last subdomain
 		//	to look for 'm'
@@ -167,7 +149,7 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 		//create the tuple for output
 		Tuple output = TupleFactory.getInstance().newTuple(3);
 		output.set(0, language);
-		output.set(1, isMobile);
+		output.set(1, isMobile.toString());
 		output.set(2, domain);
 		return output;
 	}
@@ -181,7 +163,7 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 		}
 		List<FieldSchema> tupleFields = new LinkedList<FieldSchema>();
 		tupleFields.add(new FieldSchema("language", DataType.CHARARRAY));
-		tupleFields.add(new FieldSchema("isMobile", DataType.BOOLEAN));
+		tupleFields.add(new FieldSchema("isMobile", DataType.CHARARRAY));
 		tupleFields.add(new FieldSchema("domain", DataType.CHARARRAY));
 		Schema tupleSchema = new Schema(tupleFields);
 		try {
