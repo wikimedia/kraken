@@ -21,7 +21,7 @@
 /**
  * Modified for Kraken to initialize GeoIp database file in back-end.
  */
-package org.wikimedia.analytics.kraken;
+package org.wikimedia.analytics.kraken.pig;
 
 import java.io.IOException;
 import java.util.ArrayList;

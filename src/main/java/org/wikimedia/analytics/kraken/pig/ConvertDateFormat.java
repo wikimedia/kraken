@@ -22,7 +22,7 @@
  * Modified for Kraken to accept arguments at run-time.
  */
 
-package org.wikimedia.analytics.kraken;
+package org.wikimedia.analytics.kraken.pig;
 
 import java.io.IOException;
 import java.text.ParseException;

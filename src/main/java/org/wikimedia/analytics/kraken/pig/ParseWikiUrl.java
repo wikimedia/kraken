@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  * 	for example: in en.m.wikipedia.org, the subdomains are 'en', 'm', 'wikipedia'.
  */
 
-package org.wikimedia.analytics.kraken;
+package org.wikimedia.analytics.kraken.pig;
 
 import java.util.HashSet;
 import java.util.LinkedList;
