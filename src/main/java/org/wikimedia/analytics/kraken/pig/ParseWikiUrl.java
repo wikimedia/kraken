@@ -50,11 +50,11 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 	private static boolean useBoolean;
 	
 	public ParseWikiUrl() {
-		this("src/resources/languages.txt");
+		this("src/main/resources/languages.txt");
 	}
 	
 	public ParseWikiUrl(boolean useBoolean) {
-		this("src/resources/languages.txt", useBoolean);
+		this("src/main/resources/languages.txt", useBoolean);
 	}
 	
 	public ParseWikiUrl(String languageFile) {
@@ -156,12 +156,10 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 			}
 		}
 		
-		Object isMobileOutput = useBoolean ? isMobile : isMobile.toString();
-		
 		//create the tuple for output
 		Tuple output = TupleFactory.getInstance().newTuple(3);
 		output.set(0, language);
-		output.set(1, isMobileOutput);
+		output.set(1, useBoolean ? isMobile : isMobile.toString());
 		output.set(2, domain);
 		return output;
 	}
