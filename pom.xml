@@ -55,15 +55,25 @@
 
    <plugins>
      <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-site-plugin</artifactId>
-      <version>2.3</version>
-        <configuration>
-        <reportPlugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>findbugs-maven-plugin</artifactId>
-            <version>2.5.2</version>
+       <artifactId>maven-compiler-plugin</artifactId>
+       <version>2.3.2</version>
+       <configuration>
+         <source>1.6</source>
+         <target>1.6</target>
+         <compilerArgument></compilerArgument>
+       </configuration>
+      </plugin>
+    
+       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>2.3</version>
+          <configuration>
+          <reportPlugins>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>findbugs-maven-plugin</artifactId>
+              <version>2.5.2</version>
                   <!--
                   <threshold>Normal</threshold> High|Normal|Low|Exp|Ignore 
                   <effort>Default</effort>Min|Default|Max 
