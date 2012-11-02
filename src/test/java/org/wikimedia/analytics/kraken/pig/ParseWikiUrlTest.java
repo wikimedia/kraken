@@ -20,10 +20,10 @@ package org.wikimedia.analytics.kraken.pig;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import org.apache.pig.backend.executionengine.ExecException;
@@ -33,9 +33,15 @@ import org.apache.pig.data.TupleFactory;
 
 public class ParseWikiUrlTest {
 	
-	private ParseWikiUrl parseWikiUrl = new ParseWikiUrl("languages");
+	private ParseWikiUrl parseWikiUrl = new ParseWikiUrl(true);
 	private TupleFactory tupleFactory = TupleFactory.getInstance();
 	private Tuple defaultOutput = tupleFactory.newTuple(3);
+	
+	@Before public void before() throws ExecException {
+		defaultOutput.set(0, "N/A");
+		defaultOutput.set(1, null);
+		defaultOutput.set(2, "N/A");
+	}
 	
 	/**
 	 * average url
@@ -121,7 +127,7 @@ public class ParseWikiUrlTest {
 		String outputLang = (String) output.get(0);
 		Boolean outputMobile = (Boolean) output.get(1);
 		String outputDomain = (String) output.get(2);
-		assertNull(outputLang);
+		assertEquals(outputLang, "N/A");
 		assertFalse(outputMobile);
 		assertEquals(outputDomain,  "wikipedia.org");
 	}
