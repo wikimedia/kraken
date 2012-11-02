@@ -412,7 +412,7 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 		}
 		
 		//sets the domain as the second to the last subdomain concatenated with the last
-		domain = subdomains[subdomains.length - 2] + "." + subdomains[subdomains.length - 1].substring(0,3); 
+		domain = subdomains[subdomains.length - 2] + "." + subdomains[subdomains.length - 1]; 
 		
 		//default isMobile to false since the domain is fine
 		isMobile = false;
