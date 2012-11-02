@@ -31,8 +31,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -45,7 +43,6 @@ import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
 
 public class ParseWikiUrl extends EvalFunc<Tuple> {
 	private static Set<String> languages;
-	private static String languageFile;
 	private static Tuple defaultOutput;
 	private static boolean useBoolean;
 	
@@ -63,7 +60,6 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 	
 	public ParseWikiUrl(String languageFile, boolean useBoolean) {
 		ParseWikiUrl.useBoolean = useBoolean;
-		ParseWikiUrl.languageFile = languageFile;
 	}
 	
 	public Tuple exec(Tuple input) throws ExecException {		
