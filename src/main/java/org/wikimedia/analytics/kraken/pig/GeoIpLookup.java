@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.pig.EvalFunc;
+import org.apache.pig.PigWarning;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 import com.maxmind.geoip.Location;
@@ -102,6 +103,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
             return output;
         }
         
+        warn("getLocation() returned null on input: " + ip, PigWarning.UDF_WARNING_1);
         return null;
     }
     
