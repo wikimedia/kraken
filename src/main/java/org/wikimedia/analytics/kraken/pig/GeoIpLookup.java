@@ -37,7 +37,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 
     private static final String EMPTY_STRING = "";
     
-    private final String lookupFilename;
+    private String lookupFileName;
 
     private LookupService lookupService;
     private TupleFactory tupleFactory = TupleFactory.getInstance();
@@ -64,9 +64,8 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
      */
     
 
-    public GeoIpLookup(String lookupFile) {
-    	this.lookupFilename=lookupFile;
-  
+    public GeoIpLookup(String lookupFileName) {
+    	this.lookupFileName=lookupFileName;
     }
 
     @Override
@@ -75,7 +74,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
         // Note that this forces us to use basenames only.  If we need
         // to support other paths, we either need two arguments in the
         // constructor, or to parse the filename to extract the basename.
-        cacheFiles.add(lookupFilename + "#" + lookupFilename);
+        cacheFiles.add(lookupFileName + "#" + lookupFileName);
         return cacheFiles;
     }
 
@@ -86,7 +85,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
         }
         
         if (lookupService == null) {
-            lookupService = new LookupService(lookupFilename);
+            lookupService = new LookupService(lookupFileName);
         }
         
         String ip = (String)input.get(0);
