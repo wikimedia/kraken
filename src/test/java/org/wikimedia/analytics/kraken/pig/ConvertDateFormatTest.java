@@ -31,6 +31,7 @@ import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 import org.junit.Test;
 
+
 public class ConvertDateFormatTest {
     
     private ConvertDateFormat convDateFormat = new ConvertDateFormat("yyyyMMdd", "yyyy-MM-dd");
