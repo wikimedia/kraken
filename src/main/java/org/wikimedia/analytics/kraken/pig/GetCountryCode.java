@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.pig.EvalFunc;
+import org.apache.pig.PigWarning;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 
@@ -52,6 +53,9 @@ public class GetCountryCode extends EvalFunc<Tuple> {
 		if (country != null) {
 			output = tupleFactory.newTuple(1);
 			output.set(0, country.getCode());
+		}
+		else {
+			warn("Couldn't get country for the ip: " + ip, PigWarning.UDF_WARNING_1);
 		}
 
 		return output;
