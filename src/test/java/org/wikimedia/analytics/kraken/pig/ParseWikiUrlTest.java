@@ -50,7 +50,7 @@ public class ParseWikiUrlTest {
 	@Test
 	public void testExec1() throws ExecException {
 		Tuple input = tupleFactory.newTuple(1);
-		input.set(0, "http://en.wikipedia.org/wiki/Main_Page");
+		input.set(0, " http://en.wikipedia.org/wiki/Main_Page");
 		Tuple output = parseWikiUrl.exec(input);
 		assertNotNull(output);
 		String outputLang = (String) output.get(0);
