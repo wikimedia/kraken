@@ -27,7 +27,7 @@ import org.apache.pig.data.*;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
 
-public class RegexMatch extends EvalFunc<String> {
+public class RegexMatch extends EvalFunc<Boolean> {
 	protected Pattern pattern;
 
 	public RegexMatch() {
@@ -39,17 +39,17 @@ public class RegexMatch extends EvalFunc<String> {
 		pattern = Pattern.compile(regex);
 	}
 
-	public String exec(Tuple input) throws IOException {
+	public Boolean exec(Tuple input) throws IOException {
 		String inputString = (String) input.get(0);
 		// return null if input is null
 		if (inputString == null) {
-			return "false";
+			return false;
 		}
 		// compile the given regex if it has not been defined yet
 		if (pattern == null) {
 			pattern = Pattern.compile((String) input.get(1));
 		}
-		return pattern.matcher(inputString).matches() ? "true" : "false";
+		return pattern.matcher(inputString).matches();
 	}
 
 	public Schema outputSchema(Schema input) {
@@ -70,6 +70,6 @@ public class RegexMatch extends EvalFunc<String> {
 					+ inputModel + ", received schema " + input + msg);
 		}
 		// output schema will be: (chararray).
-		return new Schema(new FieldSchema(null, DataType.CHARARRAY));
+		return new Schema(new FieldSchema(null, DataType.BOOLEAN));
 	}
 }

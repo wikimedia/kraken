@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.pig.EvalFunc;
+import org.apache.pig.PigWarning;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 import com.maxmind.geoip.Location;
@@ -36,7 +37,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 
     private static final String EMPTY_STRING = "";
     
-    private final String lookupFilename;
+    private String lookupFileName;
 
     private LookupService lookupService;
     private TupleFactory tupleFactory = TupleFactory.getInstance();
@@ -63,9 +64,8 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
      */
     
 
-    public GeoIpLookup(String lookupFile) {
-    	this.lookupFilename=lookupFile;
-  
+    public GeoIpLookup(String lookupFileName) {
+    	this.lookupFileName=lookupFileName;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
         // Note that this forces us to use basenames only.  If we need
         // to support other paths, we either need two arguments in the
         // constructor, or to parse the filename to extract the basename.
-        cacheFiles.add(lookupFilename + "#" + lookupFilename);
+        cacheFiles.add(lookupFileName + "#" + lookupFileName);
         return cacheFiles;
     }
 
@@ -85,7 +85,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
         }
         
         if (lookupService == null) {
-            lookupService = new LookupService(lookupFilename);
+            lookupService = new LookupService(lookupFileName);
         }
         
         String ip = (String)input.get(0);
@@ -102,6 +102,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
             return output;
         }
         
+        warn("getLocation() returned null on input: " + ip, PigWarning.UDF_WARNING_1);
         return null;
     }
     
