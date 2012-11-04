@@ -27,7 +27,7 @@ public class isValidIPv4Address extends RegexMatch {
 		super("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$");
 	}
 
-	public String exec(Tuple input) throws IOException {
+	public Boolean exec(Tuple input) throws IOException {
 		return super.exec(input);
 	}
 

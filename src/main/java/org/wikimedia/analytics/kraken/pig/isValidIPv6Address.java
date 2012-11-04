@@ -28,7 +28,7 @@ public class isValidIPv6Address extends RegexMatch {
 				"^(?:[0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}(?::(?:[0-9]{1,3}\\.){3}[0-9]{1,3})*$");
 	}
 
-	public String exec(Tuple input) throws IOException {
+	public Boolean exec(Tuple input) throws IOException {
 		return super.exec(input);
 	}
 
