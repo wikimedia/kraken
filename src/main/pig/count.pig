@@ -4,7 +4,7 @@ REGISTER 'geoip-1.2.5.jar'
 
 DEFINE EXTRACT org.apache.pig.piggybank.evaluation.string.RegexExtract();
 DEFINE PARSE org.wikimedia.analytics.kraken.pig.ParseWikiUrl();
-DEFINE GEO org.wikimedia.analytics.kraken.pig.getCountryCode('GeoIP.dat');
+DEFINE GEO org.wikimedia.analytics.kraken.pig.GetCountryCode('GeoIP.dat');
 DEFINE TO_MONTH org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM');
 DEFINE TO_MONTH_MS org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss.SSS', 'yyyy-MM');
 DEFINE HAS_MS org.wikimedia.analytics.kraken.pig.RegexMatch('.*\\.[0-9]{3}');
@@ -31,7 +31,7 @@ LOG_FIELDS     = FILTER LOG_FIELDS BY content_type == 'text/html' OR (content_ty
 PARSED    = FOREACH LOG_FIELDS GENERATE
 		    FLATTEN(PARSE(uri)) AS (language_code:chararray, isMobile:chararray, domain:chararray),
 		    GEO(remote_addr) AS country,
-		    HAS_MS(timestamp) ? TO_MONTH_HS(timestamp) : TO_MONTH(timestamp) AS month;
+		    (HAS_MS(timestamp) ? TO_MONTH_MS(timestamp) : TO_MONTH(timestamp)) AS month;
 
 FILTERED    = FILTER PARSED BY (domain eq 'wikipedia.org');
         
