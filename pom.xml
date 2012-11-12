@@ -1,0 +1,136 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.wikimedia.analytics</groupId>
+	<artifactId>kraken</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>kraken</name>
+	<description>Wikimedia Analytics team's utility library for Kraken including UDF's for Pig, Hive, etc.</description>
+	<url>https://github.com/wmf-analytics/kraken</url>
+
+	<organization>
+		<name>Wikimedia Foundation</name>
+		<url>http://www.wikimediafoundation.org</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<name>Apache 2</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git@github.com:wmf-analytics/kraken.git</connection>
+		<url>git@github.com:wmf-analytics/kraken.git</url>
+	</scm>
+
+	<mailingLists>
+		<mailingList>
+			<name>Analytics Mailinglist</name>
+			<subscribe>https://lists.wikimedia.org/mailman/listinfo/analytics</subscribe>
+			<unsubscribe>https://lists.wikimedia.org/mailman/listinfo/analytics</unsubscribe>
+			<post>analytics@lists.wikimedia.org</post>
+			<archive>http://lists.wikimedia.org/pipermail/analytics/</archive>
+		</mailingList>
+	</mailingLists>
+
+	<issueManagement>
+		<system>Github Issues</system>
+		<url>https://github.com/wmf-analytics/kraken/issues</url>
+	</issueManagement>
+
+	<build>
+		<sourceDirectory>src/main/java/</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<finalName>kraken</finalName>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<compilerArgument></compilerArgument>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<linksource>true</linksource>
+					<includeDependencySources>true</includeDependencySources>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<reportPlugins>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>findbugs-maven-plugin</artifactId>
+							<version>2.5.2</version>
+							<!-- <threshold>Normal</threshold> High|Normal|Low|Exp|Ignore <effort>Default</effort>Min|Default|Max 
+								<debug>true</debug> <failOnError>false</failOnError> -->
+						</plugin>
+					</reportPlugins>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+
+	<repositories>
+		<repository>
+			<id>cloudera-2</id>
+			<name>Cloudera  Repository</name>
+			<url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
+		</repository>
+	</repositories>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<skip.tests>false</skip.tests>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.9</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-client</artifactId>
+			<version>2.0.0-cdh4.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.pig</groupId>
+			<artifactId>pig</artifactId>
+			<version>0.10.0-cdh4.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.kohsuke</groupId>
+			<artifactId>geoip</artifactId>
+			<version>1.2.5</version>
+		</dependency>
+	</dependencies>
+
+</project>
