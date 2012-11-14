@@ -45,14 +45,14 @@ services = {
     'namenode':          'hadoop-hdfs-namenode',
     'datanode':          'hadoop-hdfs-datanode',
     'historyserver':     'hadoop-mapreduce-historyserver',
-    'resoucemanager':    'hadoop-yarn-resourcemanager',
+    'resourcemanager':   'hadoop-yarn-resourcemanager',
     'nodemanager':       'hadoop-yarn-nodemanager',
     'proxyserver':       'hadoop-yarn-proxyserver',
 }
 
 master_node = 'an01'
 # worker_nodes = ['an02','an03','an04','an05','an06','an07','an08','an09','an10']
-worker_nodes = ['an03','an04','an05','an06','an08','an09','an10']
+worker_nodes = ['an02','an03','an04','an05','an06','an08','an09','an10','an11','an12','an13','an14','an15','an16','an17','an18','an19','an20']
 
 
 def parse_dsh_nodes(nodes=None):
@@ -64,8 +64,8 @@ def parse_dsh_nodes(nodes=None):
     return nodes
 
 def master(action):
-    service('resoucemanager', action, [master_node])
-    service('namenode',       action, [master_node])
+    service('resourcemanager', action, [master_node])
+    service('namenode',        action, [master_node])
 
 def workers(action):
     service('nodemanager',  action, worker_nodes)
