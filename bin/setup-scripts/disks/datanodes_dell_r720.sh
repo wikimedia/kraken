@@ -7,7 +7,7 @@ hadoop_data_directory="/var/lib/hadoop/data"
 #
 # sd{c,d,e,f,h,i,j,k,l}1 become full ext3 partitions
 
-for disk in /dev/sd{c,d,e,f,h,i,j,k,l}; do sudo fdisk $disk <<EOF
+for disk in /dev/sd{c,d,e,f,g,h,i,j,k,l}; do sudo fdisk $disk <<EOF
 n
 p
 1
@@ -23,7 +23,7 @@ done
 # ext3 and moutned at /var/lib/hadoop-0.20/data/X
 sudo mkdir -p $hadoop_data_directory
 sudo chgrp hadoop $hadoop_data_directory
-for disk_letter in c d e f h i j k l; do 
+for disk_letter in c d e f g h i j k l; do 
     partition="/dev/sd${disk_letter}1"
     data_directory="$hadoop_data_directory/${disk_letter}"
     
