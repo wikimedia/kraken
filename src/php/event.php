@@ -9,8 +9,6 @@
  * described at
  * https://www.mediawiki.org/wiki/Analytics/Kraken/Data_Formats#Event_Data_Format
  * and sends the formatted event line to a Kafka broker.
- *
- * Set $_REQUEST['debug'] to 0 if you want to get a 204 No Content response.
  */
 
 $kafka_lib_path = '/home/otto/kafka-0.7.1-incubating/clients/php/src/lib';
@@ -18,8 +16,7 @@ set_include_path(get_include_path() . ':' . $kafka_lib_path);
 require 'autoloader.php';
 define('PRODUCE_REQUEST_ID', 0);
 
-
-$debug = $_REQUEST['debug'] == 0 ? false : true;
+$debug = true;
 
 $topic      = str_replace('/', '', $_SERVER['PATH_INFO']);
 $message    = format_event($topic);
@@ -28,12 +25,10 @@ $bytes_sent = send_kafka_message($topic, $message);
 
 if ($debug)
 {
-	echo "<pre>\n";
 	echo $message . "\n";
 	if (!$bytes_sent) {
-		echo "ERROR: Failed sending message to Kafka\n";
+		echo "<br/>\nERROR: Failed sending message to Kafka\n";
 	}
-	echo "<pre/>\n";
 }
 else
 {
