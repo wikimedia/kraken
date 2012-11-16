@@ -81,7 +81,7 @@ function format_event($topic) {
 		$_SERVER['HTTP_ACCEPT_LANGUAGE']     ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '-',
 		$_SERVER['HTTP_COOKIE']              ? $_SERVER['HTTP_COOKIE'] : '-',
 		$_SERVER['HTTP_X_WAP_PROFILE']       ? $_SERVER['HTTP_X_WAP_PROFILE'] : '-',
-		$_SERVER['USER_AGENT']               ? $_SERVER['USER_AGENT'] : '-',
+		$_SERVER['HTTP_USER_AGENT']          ? $_SERVER['HTTP_USER_AGENT'] : '-',
 		`hostname`,
 		sequence()
 	);
