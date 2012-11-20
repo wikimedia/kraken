@@ -17,7 +17,7 @@ $frontend_host = "analytics1027.eqiad.wmnet";
 <ul>
 <li><a href="http://jobs.analytics.wikimedia.org/cluster">Hadoop Jobs</a> (<a href="http://<?php echo $namenode_host ?>:8088/cluster">internal</a>)</li>
 <li><a href="http:///history.analytics.wikimedia.org/jobhistory">Hadoop Job History</a> (<a href="http://<?php echo $namenode_host ?>:19888/jobhistory">internal</a>)</li>
-<li><a href="http://jobs.analytics.wikimedia.org/dfshealth.jsp">NameNode</a> (<a href="http://<?php echo $namenode_host ?>:50070/dfshealth.jsp">internal</a>)
+<li><a href="http://namenode.analytics.wikimedia.org/dfshealth.jsp">NameNode</a> (<a href="http://<?php echo $namenode_host ?>:50070/dfshealth.jsp">internal</a>)
 </ul>
 
 <h2>Hue</h2>
