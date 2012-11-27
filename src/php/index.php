@@ -1,7 +1,7 @@
 <?php
 $namenode_host = "analytics1010.eqiad.wmnet";
 $frontend_host = "analytics1027.eqiad.wmnet";
-$storm_host    = "analtyics1002.eqiad.wmnet";
+$storm_host    = "analytics1002.eqiad.wmnet";
 ?>
 <html>
 <head>
