@@ -35,6 +35,7 @@ PARSED         = FOREACH LOG_FIELDS GENERATE
                     FLATTEN(GEO(remote_addr)) AS country,
 	            (HAS_MS(timestamp) ? TO_DAY_MS(timestamp) : TO_DAY(timestamp)) AS date,
                     EXTRACT(filename, 'hdfs\\://analytics1001\\.wikimedia\\.org/traffic/zero/(.*)\\.log-[0-9{8}\\.gz]', 1) as provider;
+                    --TODO: shouldn't need to use the host name ^ here
 
 GROUPED        = GROUP PARSED BY (provider, date, language_code, project, version, country);
 
