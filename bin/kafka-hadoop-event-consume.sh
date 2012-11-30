@@ -17,6 +17,6 @@ for topic in $(zookeeper-client -server analytics1023.eqiad.wmnet:2181 ls /broke
         timestamp=$(date "+%Y-%m-%d_%H.%M.%S")
         hadoop fs -mkdir -p $log_path
         echo "Consuming $topic logs into $log_path/$(date "+%Y-%m-%d_%H.%M.%S")"
-        $kakfa_hadoop_consume --topic=$topic --group=kconsumer0 --output=$log_path/$(date "+%Y-%m-%d_%H.%M.%S")
+        $kakfa_hadoop_consume --topic=$topic --group=kconsumer0 --limit=-1 --output=$log_path/$(date "+%Y-%m-%d_%H.%M.%S")
     fi
 done
