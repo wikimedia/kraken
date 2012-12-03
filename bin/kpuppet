@@ -4,17 +4,18 @@
 
 Usage:
   kpuppet up
-  kpuppet run [NODES...]
-  kpuppet uprun [NODES...]
+  kpuppet run [-g GROUP | NODES...]
+  kpuppet uprun [-g GROUP | NODES...]
 
 Options:
   -h --help             show this help message and exit
 
 Examples:
-  kpuppet up               # updates the puppetmaster puppet directory
-  kpuppet run              # runs puppet on all Kraken nodes
-  kpuppet run an01 an03    # runs puppet on an01 and an03
-  kpuppet uprun an01 an03  # updates puppetmaster and runs puppet on an01 and an03
+  kpuppet up                    # updates the puppetmaster puppet directory
+  kpuppet run                   # runs puppet on all Kraken nodes
+  kpuppet run an01 an03         # runs puppet on an01 and an03
+  kpuppet uprun an01 an03       # updates puppetmaster and runs puppet on an01 and an03
+  kpuppet run -g kraken-hadoop  # runs puppet on nodes in the dsh group 'kraken-hadoop'
 
 Note:
   This requires that you have dsh installed, and that you have a dsh 
@@ -27,19 +28,21 @@ import sys
 import os
 
 
-kraken_dsh_name = 'k'
+kraken_dsh_name = 'kraken'
 kraken_puppetmaster = 'an01'
 
-def puppet_run(nodes=None):
+def puppet_run(group=None, nodes=None):
     command = 'dsh'
     
-    if nodes:
+    if group:
+        command += ' -g ' + group
+    elif nodes:
         nodes = ' -m '.join(nodes)
         command += ' -m ' + nodes
     else:
         command += ' -g ' + kraken_dsh_name
     
-    command += ' "sudo sudo puppetd --test --verbose --server analytics1001.wikimedia.org --vardir /var/lib/puppet.analytics --ssldir /var/lib/puppet.analytics/ssl --confdir=/etc/puppet.analytics"'
+    command += ' "sudo puppetd --test --verbose --server analytics1001.wikimedia.org --vardir /var/lib/puppet.analytics --ssldir /var/lib/puppet.analytics/ssl --confdir=/etc/puppet.analytics"'
     print command
     os.system(command)
 
@@ -57,7 +60,7 @@ if __name__ == '__main__':
         puppet_up()
 
     if arguments['run'] or arguments['uprun']:
-        puppet_run(arguments['NODES'])
+        puppet_run(arguments['GROUP'], arguments['NODES'])
 
 
 
