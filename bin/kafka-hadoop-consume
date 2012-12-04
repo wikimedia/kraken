@@ -10,7 +10,7 @@ Usage:
   kafka-hadoop-consume --topic=<topic> --group=<group> --output=<dir> [--regex] [--limit=<limit>]
 
 Options:
-  --help                    Show this help message and exit
+  --help            Show this help message and exit
   --topic=<topic>   Comma seprated list of Kafka topics from which to consume.  If --regex is given, then this is interpreted as a topic regular expression pattern.
   --group=<group>   Kafka consumer group to join
   --output=<dir>    HDFS directory in which to store output
