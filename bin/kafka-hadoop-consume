@@ -1,0 +1,62 @@
+#!/usr/bin/env python
+"""Hadoop Kafka Consumer.
+
+This uses https://github.com/miniway/kafka-hadoop-consumer to consume from Kafka
+and output into HDFS.  Messages will be consumed into the HDFS path
+<output_dir>/<topic>/<timestamp>.  Zookeeper server hosts will be
+read out of the /etc/zookeeper/conf/zoo.cfg file.
+
+Usage:
+  kafka-hadoop-consume --topic=<topic> --group=<group> --output=<dir> [--regex] [--limit=<limit>]
+
+Options:
+  --help                    Show this help message and exit
+  --topic=<topic>   Comma seprated list of Kafka topics from which to consume.  If --regex is given, then this is interpreted as a topic regular expression pattern.
+  --group=<group>   Kafka consumer group to join
+  --output=<dir>    HDFS directory in which to store output
+  --regex           If specified, topic will be interpreted as a regex, and matching topics in zookeeper will be consumed.
+  --limit=<limit>   Number of messages to consume [default: -1] (-1 means no limit; messages will be read until the end of the stream.)
+"""
+
+import os, re, time
+from docopt import docopt
+
+def get_topics(zookeeper_hosts, topic_regex):
+    """Uses shell zookeeper-client to read Kafka topics matching topic_regex from ZooKeeper."""
+    command        = "/usr/bin/zookeeper-client -server %s ls /brokers/topics | tail -n 1 | tr '[],' '   '" % ','.join(zookeeper_hosts)
+    topics         = os.popen(command).read().strip().split()
+    matched_topics = [ topic for topic in topics if re.match(topic_regex, topic) ]
+    return matched_topics
+
+def consume_topic(zookeeper_hosts, topic, group, output_dir, limit):
+    print "Consuming %s messages from topic '%s' in consumer group %s into %s..." % (limit, topic, group, output_dir)
+    timestamp = time.strftime("%Y-%m-%d_%H.%M.%S")
+    output_path = "%s/%s/%s" % (output_dir, topic, timestamp)
+    command = "/usr/bin/kafka-hadoop-consumer -z %s -t %s -g %s -l %s -o %s" % (','.join(zookeeper_hosts), topic, group, limit, output_path)
+    print command
+    os.system(command)
+
+if __name__ == '__main__':
+    # parse arguments
+    arguments = docopt(__doc__)
+    # print arguments
+    group     = arguments['--group']
+    limit     = arguments['--limit']
+    output    = arguments['--output']
+    regex     = arguments['--regex']
+    topic     = arguments['--topic']
+
+
+    # read zookeeper hosts out of zoo.cfg
+    zookeeper_conf_file = "/etc/zookeeper/conf/zoo.cfg"
+    zookeeper_hosts = os.popen("grep server. %s | awk -F '=' '{print $2}' | awk -F ':' '{print $1}'" % zookeeper_conf_file).read().strip().split("\n")
+
+    if regex:
+        topics = get_topics(zookeeper_hosts, topic)
+    else:
+        topics = topic.split(',')
+
+    print "Consuming topics: [%s] into Hadoop" ', '.join(topics)
+
+    for topic in topics:
+        consume_topic(zookeeper_hosts, topic, group, output, limit)
