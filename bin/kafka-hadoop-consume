@@ -35,7 +35,7 @@ def consume_topic(zookeeper_hosts, topic, group, output_dir, limit):
     os.system("/usr/bin/hadoop fs -mkdir %s" % output_path)
     command = "/usr/bin/kafka-hadoop-consumer -z %s -t %s -g %s -l %s -o %s" % (','.join(zookeeper_hosts), topic, group, limit, output_path)
     print command
-    os.system(command)
+    return os.system(command)
 
 if __name__ == '__main__':
     # parse arguments
@@ -59,5 +59,12 @@ if __name__ == '__main__':
 
     print "Consuming topics: [%s] into Hadoop" ', '.join(topics)
 
+    exitval = 0
     for topic in topics:
-        consume_topic(zookeeper_hosts, topic, group, output, limit)
+        retval = consume_topic(zookeeper_hosts, topic, group, output, limit)
+        if (retval != 0):
+            exitval = retval
+
+    # exit 0 if all topics were consumed,
+    # exit 1 if there were any failures.
+    sys.exit(exitval)
