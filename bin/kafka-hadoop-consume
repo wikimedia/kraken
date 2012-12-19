@@ -62,7 +62,7 @@ if __name__ == '__main__':
     exitval = 0
     for topic in topics:
         retval = consume_topic(zookeeper_hosts, topic, group, output, limit)
-        print "There was an error encountered during consumption of topic %s" %s topic
+        print "There was an error encountered during consumption of topic %s" % topic
         if (retval != 0):
             exitval = retval
 
