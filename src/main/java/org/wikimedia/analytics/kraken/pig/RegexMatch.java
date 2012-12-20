@@ -30,15 +30,27 @@ import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
 public class RegexMatch extends EvalFunc<Boolean> {
 	protected Pattern pattern;
 
+	/**
+	 * Constructs a UDF where regex is to be passed in later.
+	 */
 	public RegexMatch() {
 		pattern = null;
 	}
 
+	/**
+	 * Constructs a UDF where the regex is precompiled.
+	 * @param regex
+	 */
 	public RegexMatch(String regex) {
 		// use this if you want to define your regex at compile-time
 		pattern = Pattern.compile(regex);
 	}
 
+	/**
+	 * Returns a boolean on whether the given string matches the given regex.
+	 * @param input Tuple containing the string to be matched and a regex if not specified in constructor
+	 * @throws IOException
+	 */
 	public Boolean exec(Tuple input) throws IOException {
 		String inputString = (String) input.get(0);
 		// return null if input is null

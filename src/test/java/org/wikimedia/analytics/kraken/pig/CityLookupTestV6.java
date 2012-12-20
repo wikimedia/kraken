@@ -12,7 +12,7 @@ import java.io.IOException;
 class CityLookupTestV6 {
     public static void main(String[] args) {
 	try {
-	    LookupService cl = new LookupService("src/test/java/resources/GeoIPCity.dat",
+	    LookupService cl = new LookupService("/usr/share/GeoIP/GeoIPCityv6.dat",
 					LookupService.GEOIP_MEMORY_CACHE );
             Location l1 = cl.getLocationV6("::213.52.50.8");
             Location l2 = l1;
