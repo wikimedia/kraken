@@ -23,11 +23,18 @@ import org.apache.pig.data.*;
 
 public class isValidIPv6Address extends RegexMatch {
 
+	/**
+	 * Constructs the UDF.
+	 */
 	public isValidIPv6Address() {
 		super(
 				"^(?:[0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}(?::(?:[0-9]{1,3}\\.){3}[0-9]{1,3})*$");
 	}
 
+	/**
+	 * Aeturns true if the ip address is IPv6
+	 * @param input  an ip address.
+	 */
 	public Boolean exec(Tuple input) throws IOException {
 		return super.exec(input);
 	}

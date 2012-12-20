@@ -46,6 +46,9 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 	private static Tuple defaultOutput;
 	private static boolean useBoolean;
 	
+	/**
+	 * Constructs the ParseWikiUrl UDF.
+	 */
 	public ParseWikiUrl() {
 		this("src/main/resources/languages.txt");
 	}
@@ -62,6 +65,11 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 		ParseWikiUrl.useBoolean = useBoolean;
 	}
 	
+	/**
+	 * Returns a tuple of a language code, mobile, and domain (project) name.
+	 * @param input tuple containing a Wikimedia URL.
+	 * @throws ExecException
+	 */
 	public Tuple exec(Tuple input) throws ExecException {		
 		String language = "N/A";
 		Boolean isMobile = null;

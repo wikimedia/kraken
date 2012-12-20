@@ -16,7 +16,7 @@ class CountryLookupTestV6 {
 	    // String dir = System.getProperty("user.dir"); 
 
 	    // Uncomment for Linux
-	    String dir = "src/test/java/resources";
+	    String dir = "/usr/share/GeoIP/GeoIPv6.dat";
 
 	    String dbfile = dir + sep + "GeoIPv6.dat"; 
 	    // You should only call LookupService once, especially if you use

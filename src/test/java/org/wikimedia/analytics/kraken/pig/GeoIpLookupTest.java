@@ -31,7 +31,7 @@ import org.apache.pig.data.TupleFactory;
 
 
 public class GeoIpLookupTest {
-	private GeoIpLookup geo = new GeoIpLookup("src/test/java/resources/GeoIPCity.dat");
+	private GeoIpLookup geo = new GeoIpLookup("/usr/share/GeoIP/GeoIPCity.dat");
 	private TupleFactory tupleFactory = TupleFactory.getInstance();
 	private Tuple input = tupleFactory.newTuple(1);
 	

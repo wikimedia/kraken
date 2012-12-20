@@ -37,9 +37,11 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 
     private static final String EMPTY_STRING = "";
     
-    private String lookupFileName;
+    private String ip4dat;
+    private String ip6dat;
 
-    private LookupService lookupService;
+    private LookupService ip4lookup;
+    private LookupService ip6lookup;
     private TupleFactory tupleFactory = TupleFactory.getInstance();
     
     /**
@@ -59,13 +61,18 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
      *  -Dmapred.create.symlink
      * options to pig.
      *
-     * @param filename Basename of the GeoIP Database file.  Should be located in your home dir in HDFS
+     * @param ip4dat Basename of the GeoIPCity Database file.  Should be located in your home dir in HDFS
      * @throws IOException
      */
     
 
-    public GeoIpLookup(String lookupFileName) {
-    	this.lookupFileName=lookupFileName;
+    public GeoIpLookup(String ip4dat) {
+    	this(ip4dat, null);
+    }
+    
+    public GeoIpLookup(String ip4dat, String ip6dat) {
+    	this.ip4dat=ip4dat;
+    	this.ip6dat=ip6dat;
     }
 
     @Override
@@ -74,7 +81,8 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
         // Note that this forces us to use basenames only.  If we need
         // to support other paths, we either need two arguments in the
         // constructor, or to parse the filename to extract the basename.
-        cacheFiles.add(lookupFileName + "#" + lookupFileName);
+        cacheFiles.add(ip4dat + "#" + ip4dat);
+        cacheFiles.add(ip6dat + "#" + ip6dat);
         return cacheFiles;
     }
 
@@ -84,12 +92,16 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
             return null;
         }
         
-        if (lookupService == null) {
-            lookupService = new LookupService(lookupFileName);
+        if (ip4lookup == null) {
+            ip4lookup = new LookupService(ip4dat);
+        }
+        
+        if (ip6dat != null && ip6lookup == null) {
+        	ip6lookup = new LookupService(ip6dat);
         }
         
         String ip = (String)input.get(0);
-        Location location = lookupService.getLocation(ip);
+        Location location = ip4lookup.getLocation(ip);
         if (location != null) {
             Tuple output = tupleFactory.newTuple(6);
             output.set(0, location.countryName != null ? location.countryName : EMPTY_STRING);
@@ -97,8 +109,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
             output.set(2, location.region != null ? location.region : EMPTY_STRING);
             output.set(3, location.city != null ? location.city : EMPTY_STRING);
             output.set(4, location.postalCode != null ? location.postalCode : EMPTY_STRING);
-            output.set(5, location.metro_code);
-            
+            output.set(5, location.metro_code); 
             return output;
         }
         
