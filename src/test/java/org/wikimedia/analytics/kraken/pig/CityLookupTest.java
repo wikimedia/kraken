@@ -11,7 +11,7 @@ import java.io.IOException;
 class CityLookupTest {
     public static void main(String[] args) {
 	try {
-	    LookupService cl = new LookupService("src/test/java/resources/GeoIPCity.dat",
+	    LookupService cl = new LookupService("/usr/share/GeoIP/GeoIPCity.dat",
 					LookupService.GEOIP_MEMORY_CACHE );
             Location l1 = cl.getLocation("213.52.50.8");
             Location l2 = l1;

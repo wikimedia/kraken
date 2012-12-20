@@ -23,10 +23,17 @@ import org.apache.pig.data.*;
 
 public class isValidIPv4Address extends RegexMatch {
 
+	/**
+	 * Constructs the UDF.
+	 */
 	public isValidIPv4Address() {
 		super("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$");
 	}
 
+	/**
+	 * Returns true if the given ip address is IPv4
+	 * @param input an ip address
+	 */
 	public Boolean exec(Tuple input) throws IOException {
 		return super.exec(input);
 	}

@@ -42,6 +42,25 @@
 		<url>https://github.com/wmf-analytics/kraken/issues</url>
 	</issueManagement>
 
+	<distributionManagement>
+		<site>
+			<id>stats</id>
+			<url>scpexe://stat1001.wikimedia.org/srv/stats.wikimedia.org/htdocs/kraken</url>
+		</site>
+	</distributionManagement>
+
+	<reporting>
+		<plugins>
+	        	<plugin>
+                                <artifactId>maven-javadoc-plugin</artifactId>
+                                <version>2.9</version>
+                                <configuration>
+                                        <linksource>true</linksource>
+                                </configuration>
+                        </plugin>
+		</plugins>
+	</reporting>
+
 	<build>
 		<sourceDirectory>src/main/java/</sourceDirectory>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
@@ -69,22 +88,32 @@
 				<version>2.9</version>
 				<configuration>
 					<linksource>true</linksource>
-					<includeDependencySources>true</includeDependencySources>
 				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>2.3</version>
+				<version>3.0</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-ssh-external</artifactId>
+						<version>2.2</version>
+					</dependency>
+				</dependencies>
+				
 				<configuration>
 					<reportPlugins>
 						<plugin>
 							<groupId>org.codehaus.mojo</groupId>
 							<artifactId>findbugs-maven-plugin</artifactId>
 							<version>2.5.2</version>
-							<!-- <threshold>Normal</threshold> High|Normal|Low|Exp|Ignore <effort>Default</effort>Min|Default|Max 
-								<debug>true</debug> <failOnError>false</failOnError> -->
+							<!-- 
+							<threshold>Normal</threshold> High|Normal|Low|Exp|Ignore <effort>Default</effort>Min|Default|Max 
+							<debug>true</debug> 
+							<failOnError>false</failOnError> 
+							-->
 						</plugin>
 					</reportPlugins>
 				</configuration>
