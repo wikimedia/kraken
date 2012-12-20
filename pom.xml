@@ -49,6 +49,18 @@
 		</site>
 	</distributionManagement>
 
+	<reporting>
+		<plugins>
+	        	<plugin>
+                                <artifactId>maven-javadoc-plugin</artifactId>
+                                <version>2.9</version>
+                                <configuration>
+                                        <linksource>true</linksource>
+                                </configuration>
+                        </plugin>
+		</plugins>
+	</reporting>
+
 	<build>
 		<sourceDirectory>src/main/java/</sourceDirectory>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
@@ -76,7 +88,6 @@
 				<version>2.9</version>
 				<configuration>
 					<linksource>true</linksource>
-					<includeDependencySources>true</includeDependencySources>
 				</configuration>
 			</plugin>
 
