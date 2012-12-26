@@ -57,7 +57,7 @@ if __name__ == '__main__':
     else:
         topics = topic.split(',')
 
-    print "Consuming topics: [%s] into Hadoop" ', '.join(topics)
+    print "Consuming topics: [%s] into Hadoop" % ', '.join(topics)
 
     exitval = 0
     for topic in topics:
