@@ -18,7 +18,7 @@ Options:
   --limit=<limit>   Number of messages to consume [default: -1] (-1 means no limit; messages will be read until the end of the stream.)
 """
 
-import os, re, time
+import os, re, time, sys
 from docopt import docopt
 
 def get_topics(zookeeper_hosts, topic_regex):
