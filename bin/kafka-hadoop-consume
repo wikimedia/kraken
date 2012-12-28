@@ -29,7 +29,7 @@ def get_topics(zookeeper_hosts, topic_regex):
     matched_topics = [ topic for topic in topics if re.match(topic_regex, topic) ]
     return matched_topics
 
-def consume_topic(zookeeper_hosts, topic, group, output_dir, limit, redirect_stderr=false):
+def consume_topic(zookeeper_hosts, topic, group, output_dir, limit, redirect_stderr=False):
     print "Consuming %s messages from topic '%s' in consumer group %s into %s..." % (limit, topic, group, output_dir)
     timestamp = time.strftime("%Y-%m-%d_%H.%M.%S")
     output_path = "%s/%s/%s" % (output_dir, topic, timestamp)
