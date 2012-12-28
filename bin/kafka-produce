@@ -9,6 +9,11 @@
 # set JMX_PORT, and use in udp2log config files while still
 # reading from stdin.
 
+function log {
+    message=$1
+    file="/var/log/kraken/kafka_produce.log"
+    echo "$(date '+%Y-%m-%d_%H:%M:%S') $message" | /usr/bin/tee -a $file
+}
 
 # topic is the first arg, it is required.
 topic=$1
@@ -18,7 +23,8 @@ test -z $topic && echo "Usage: $(basename $0) topic [jmx_port]" && exit 1
 # by exporting JMX_PORT, kafka-run-class.sh will set
 # -Dcom.sun.management.jmxremote.port
 export JMX_PORT=$2
-
+ 
 command="/usr/lib/kafka/bin/kafka-producer-shell.sh --props=/etc/kafka/producer.properties --topic=$topic"
-echo $command
+log "Starting Kafka Producer for topic '$topic'.  Command: '$command'"
+
 $command
