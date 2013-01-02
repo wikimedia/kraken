@@ -43,9 +43,12 @@ public class GeoIpLookupTest {
 	@Test
 	public void testExec1() throws IOException {
 		input.set(0, "71.217.23.156");
-		String output = (String) geo.exec(input).get(1);
-		assertNotNull(output);
-		assertEquals("US", output);
+		Tuple geoData = geo.exec(input);
+		assertNotNull(geoData);
+		String countryCode = (String) geoData.get(1);
+		assertEquals("US", countryCode);
+		String continentCode = (String) geoData.get(6);
+		assertEquals("NA", continentCode);
 	}
 	
 	/**
@@ -69,6 +72,6 @@ public class GeoIpLookupTest {
 		String output = (String) geo.exec(input).get(1);	
 		assertEquals("US", output);
 	}
-	
+
 
 }
