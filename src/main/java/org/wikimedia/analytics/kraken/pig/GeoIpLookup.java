@@ -333,7 +333,9 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
         // to support other paths, we either need two arguments in the
         // constructor, or to parse the filename to extract the basename.
         cacheFiles.add(ip4dat + "#" + ip4dat);
-        cacheFiles.add(ip6dat + "#" + ip6dat);
+        if (ip6dat != null) {
+            cacheFiles.add(ip6dat + "#" + ip6dat);
+        }
         return cacheFiles;
     }
 
