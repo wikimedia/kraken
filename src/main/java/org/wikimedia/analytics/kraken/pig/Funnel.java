@@ -36,6 +36,9 @@ public class Funnel extends EvalFunc<Tuple> {
 		 * to be available before it starts processing. Instead, it can use the Accumulator interface 
 		 * (see the section called “Accumulator Interface”) which is much more memory efficient.
 		 */
+                if (input == null || input.size() != 4) {
+                    return null;
+                }
 		DataBag bag = (DataBag) input.get(0);
 		Iterator<Tuple> it = bag.iterator();
 		Tuple funnelUrls = (Tuple) input.get(1);
