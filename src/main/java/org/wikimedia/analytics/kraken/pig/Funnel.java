@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
+import java.net.URL;
+import java.net.MalformedURLException;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.Tuple;
@@ -28,7 +30,7 @@ public class Funnel extends EvalFunc<Tuple> {
 	/** Method exec takes a tuple containing four objects:
 	 * 1) A bag of tuples containing: the user id, the time stamp, the uri request
 	 * 2) A tuple of URLs
-	 * 3) An integer as the maximum timeframe between the first and last request in the funnel in seconds
+	 * 3) An integer as the maximum timeframe between the first and last request in the funnel in seconds.
 	 * @param input  Tuple containing a bag of the user history and the funnel as a tuple of strings
 	 */
 	public Tuple exec(Tuple input) throws IOException {
@@ -121,10 +123,14 @@ public class Funnel extends EvalFunc<Tuple> {
 		urlMap = new HashMap<String, Node>();
 		
 		for(int i = 0; i < urls.size(); i++) {
-			String url = (String) urls.get(i);
-			Node node = new Node((String) url);
-			nodes.add(node);
-			urlMap.put(url, node);
+                        try {
+                            URL url = new URL((String) urls.get(i));
+			    Node node = new Node((String) url.toString());
+			    nodes.add(node);
+			    urlMap.put(url.toString(), node);
+                        } catch (MalformedURLException e) {
+                            throw new ExecException("Your funnel definition contains an invalid formed URL.\n MalformedURLException:" + e.getMessage());
+                        }
 		}
 		
 		for(Object edge : edges) {

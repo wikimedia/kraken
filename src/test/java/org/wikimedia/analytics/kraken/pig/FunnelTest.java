@@ -20,10 +20,10 @@ public class FunnelTest {
 		Tuple input = tupleFactory.newTuple(4);
 		DataBag bag = BagFactory.getInstance().newDefaultBag();
 		Tuple urls = tupleFactory.newTuple(4);
-		urls.set(0, "A");
-		urls.set(1, "B");
-		urls.set(2, "C");
-		urls.set(3, "D");
+		urls.set(0, "http://www.wikimedia.org/A");
+		urls.set(1, "http://www.wikimedia.org/B");
+		urls.set(2, "http://www.wikimedia.org/C");
+		urls.set(3, "http://www.wikimedia.org/D");
 		Tuple DAG = tupleFactory.newTuple(4);
 		Tuple edge1 = tupleFactory.newTuple(2);
 		Tuple edge2 = tupleFactory.newTuple(2);
@@ -50,9 +50,9 @@ public class FunnelTest {
 		row1.set(1, 5);
 		row2.set(1, 10);
 		row3.set(1, 15);
-		row1.set(2, "A");
-		row2.set(2, "C");
-		row3.set(2, "D");
+		row1.set(2, "http://www.wikimedia.org/A");
+		row2.set(2, "http://www.wikimedia.org/C");
+		row3.set(2, "http://www.wikimedia.org/D");
 		bag.add(row1);
 		bag.add(row2);
 		bag.add(row3);
