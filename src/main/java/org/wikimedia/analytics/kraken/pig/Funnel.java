@@ -78,6 +78,8 @@ public class Funnel extends EvalFunc<Tuple> {
 				end = timestamps.get(j);
 				//break out of the loop when time delta is greater than given timeframe.
 				if(end - beginning > timeframe) {
+                                        // we can fast-forward the funnel analysis by incrementing i with j
+                                        i += j;
 					break;
 				}
 				//if current node is a leaf then user has went through the funnel and return true
@@ -89,6 +91,8 @@ public class Funnel extends EvalFunc<Tuple> {
 				//if child is not in funnel or is not a child of the current node then break out of loop
 				if(candidate == null || !curr.getChildren().contains(candidate)) {
 					drop = curr;
+                                        // we can fast-forward the funnel analysis by incrementing i with j
+                                        i += j;
 					break;
 				}
 				//set current to candidate if candidate is a child of current node.
