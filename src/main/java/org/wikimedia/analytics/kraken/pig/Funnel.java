@@ -19,6 +19,10 @@ import org.apache.pig.data.TupleFactory;
 public class Funnel extends EvalFunc<Tuple> {
 	private Node funnel;
 	private Map<String, Node> urlMap;
+	
+	public Funnel() {
+		
+	}
 
 	@Override
 	/** Method exec takes a tuple containing four objects:
@@ -53,7 +57,7 @@ public class Funnel extends EvalFunc<Tuple> {
 		//Create history and timestamp list
 		while(it.hasNext()) {
 			Tuple t = (Tuple) it.next();
-			if(t!=null && t.size() == 3 && t.get(0) !=null) {
+			if(t!=null && t.size() == 3 && t.get(0) !=null) {			
 				String url = (String) t.get(2);
 				int timestamp = (Integer) t.get(1);
 				history.add(url);
@@ -62,7 +66,7 @@ public class Funnel extends EvalFunc<Tuple> {
 		}
 		
 		//Create the output tuple
-		Tuple output = TupleFactory.getInstance().newTuple(1);
+		Tuple output = TupleFactory.getInstance().newTuple(2);
 		
 		//Iterate through user's request history
 		for(int i = 0; i < history.size(); i++) {
@@ -80,16 +84,18 @@ public class Funnel extends EvalFunc<Tuple> {
 				if(end - beginning > timeframe) {
 					break;
 				}
-				//if current node is a leaf then user has went through the funnel and return true
-				if(curr.getChildren().size() == 0) {
-					output.set(0, true);
-					return output;
-				}
+				
 				Node candidate = urlMap.get(history.get(j));
 				//if child is not in funnel or is not a child of the current node then break out of loop
 				if(candidate == null || !curr.getChildren().contains(candidate)) {
 					drop = curr;
 					break;
+				}
+				//if candidate node is a leaf then user has went through the funnel and return true
+				if(candidate.getChildren().size() == 0) {
+					output.set(0, true);
+					output.set(1, null);
+					return output;
 				}
 				//set current to candidate if candidate is a child of current node.
 				curr = candidate;
@@ -97,7 +103,8 @@ public class Funnel extends EvalFunc<Tuple> {
 		}
 
 		output.set(0, false);
-		output.set(1, drop.getUrl());
+		String dropUrl = (drop == null) ? null : drop.getUrl();
+		output.set(1, dropUrl);
 		return output;
 		
 	}
@@ -120,7 +127,6 @@ public class Funnel extends EvalFunc<Tuple> {
 			Node childNode = nodes.get(childIndex);
 			parentNode.getChildren().add(childNode);
 		}
-		
 		return nodes.get(0);
 	}
 	
@@ -138,6 +144,10 @@ public class Funnel extends EvalFunc<Tuple> {
 		}
 		
 		public String getUrl() {
+			return url;
+		}
+		
+		public String toString() {
 			return url;
 		}
 	}
