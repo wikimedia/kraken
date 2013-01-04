@@ -17,7 +17,7 @@ Options:
   --regex                   If specified, topic will be interpreted as a regex, and matching topics in zookeeper will be consumed.
   --limit=<limit>           Number of messages to consume [default: -1] (-1 means no limit; messages will be read until the end of the stream.)
   --redirect-stderr         Redirects stderr into stdout.  This is useful if running in a cron job wrapped in cronic.
-  --frequency=<frequency>   The interval in minutes between two consecutive generated Kafka datasets. [default: 15] and this parameter is supplied to standardize the timestamp within a filename.
+  --frequency=<frequency>   The interval in minutes between two consecutive generated Kafka datasets. [default: 15] and this parameter is supplied to standardize the timestamp within a filename. Set frequency to 0 to generate daily filenames without a time component.
 """
 
 import os
@@ -25,7 +25,6 @@ import re
 import sys
 
 from datetime import datetime
-from datetime import timedelta
 from docopt import docopt
 
 def get_topics(zookeeper_hosts, topic_regex):
@@ -39,32 +38,37 @@ def standardized_timestamp(frequency):
     '''
     This function generates a timestamp with predictable minute and seconds
     components. Right now, we hardcode seconds to 0. The minutes component 
-    is more interesting. 
+    is more interesting. For Oozie coordinator we need to have a predictable 
+    timestamp component so we can predict how future input paths will look
+    like. That's why we can't rely on a 'real' timestamp because the minutes
+    and seconds are arbitrary. 
 
-    @param frequency (integer) that indicates how to collapse minutes. For
-    example frequency=15 will create a dictionary like:
-    t[0]=0
-    t[1]=15
-    t[2]=30
-    t[3]=45
-    so when you divide the actual minutes by frequency you can lookup in the
-    dictionary how it collapses. 
+    @param frequency (integer) that indicates how to collapse minutes. 
+    For example frequency=15
+    10:06 -> 10:00
+    10:23 -> 10:15
+    10:59 -> 10:45
+
+    Frequency=30
+    10:21 -> 10:00
+    10:49 -> 10:30
+    Frequency 0 is a special case used to generate daily filenames.
     '''
     blocks = 59 / int(frequency)
     standardized_minutes = {}
     for block in xrange(blocks):
         standardized_minutes[block] = block * frequency
+    
     dt = datetime.now()
-    collapsed_minutes = (dt.minute / frequency) + 1
-    if collapsed_minutes > blocks:
-        collapsed_minutes = 0
-        delta = timedelta(minutes=60)
-    else:
-        delta = timedelta(minutes=0)
-    minutes = standardized_minutes.get(collapsed_minutes)
+    collapsed_minutes = (dt.minute / frequency)
+    minutes = standardized_minutes.get(collapsed_minutes, 0)
     dt += delta
     timestamp = datetime(dt.year, dt.month, dt.day, dt.hour, minutes, 0)
-    return timestamp
+    if frequency > 0:
+        return timestamp
+    else:
+        # Special case were frequency=0 so we only return the date component
+        return timestamp.date()
 
 def consume_topic(zookeeper_hosts, topic, group, output_dir, limit, frequency, redirect_stderr=False):
     print "Consuming %s messages from topic '%s' in consumer group %s into %s..." % (limit, topic, group, output_dir)
