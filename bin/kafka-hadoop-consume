@@ -52,23 +52,26 @@ def standardized_timestamp(frequency):
     Frequency=30
     10:21 -> 10:00
     10:49 -> 10:30
-    Frequency 0 is a special case used to generate daily filenames.
+    
+    Frequency=0 is a special case used to generate daily filenames.
+    2013-01-04 11:18 -> 2013-01-04
+    2013-01-05 00:01 -> 2013-01-05
     '''
+    # Special case were frequency=0 so we only return the date component
+    if frequency == 0:
+        return datetime.now().strftime('%Y-%m-%d')
+
     blocks = 59 / int(frequency)
     standardized_minutes = {}
     for block in xrange(blocks):
         standardized_minutes[block] = block * frequency
-    
+
     dt = datetime.now()
     collapsed_minutes = (dt.minute / frequency)
     minutes = standardized_minutes.get(collapsed_minutes, 0)
-    dt += delta
     timestamp = datetime(dt.year, dt.month, dt.day, dt.hour, minutes, 0)
-    if frequency > 0:
-        return timestamp.strftime('%Y-%m-%d_%H.%M.%S')
-    else:
-        # Special case were frequency=0 so we only return the date component
-        return timestamp.date().strftime('%Y-%m-%d')
+
+    return timestamp.strftime('%Y-%m-%d_%H.%M.%S')
 
 def consume_topic(zookeeper_hosts, topic, group, output_dir, limit, frequency, redirect_stderr=False):
     print "Consuming %s messages from topic '%s' in consumer group %s into %s..." % (limit, topic, group, output_dir)
