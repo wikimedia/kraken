@@ -23,7 +23,6 @@ Options:
 import os
 import re
 import sys
-import time
 
 from datetime import datetime
 from docopt import docopt
@@ -66,11 +65,12 @@ def standardized_timestamp(frequency, dt=None):
     if dt is None:
       dt = datetime.now() 
 
+    frequency = int(frequency)
     # Special case were frequency=0 so we only return the date component
     if frequency == 0:
         return dt.strftime('%Y-%m-%d')
 
-    blocks = 59 / int(frequency)
+    blocks = 59 / frequency
     standardized_minutes = {}
     for block in xrange(blocks):
         standardized_minutes[block] = block * frequency
