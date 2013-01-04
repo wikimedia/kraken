@@ -23,6 +23,7 @@ Options:
 import os
 import re
 import sys
+import time
 
 from datetime import datetime
 from docopt import docopt
@@ -34,14 +35,18 @@ def get_topics(zookeeper_hosts, topic_regex):
     matched_topics = [ topic for topic in topics if re.match(topic_regex, topic) ]
     return matched_topics
 
-def standardized_timestamp(frequency):
+def standardized_timestamp(frequency, dt=None):
     '''
     This function generates a timestamp with predictable minute and seconds
     components. Right now, we hardcode seconds to 0. The minutes component 
     is more interesting. For Oozie coordinator we need to have a predictable 
     timestamp component so we can predict how future input paths will look
     like. That's why we can't rely on a 'real' timestamp because the minutes
-    and seconds are arbitrary. 
+    and seconds are arbitrary.
+
+    If dt is not given, then the a standarized timestamp based on the current
+    time will be returned.  Else the standardized timestamp of dt will be
+    returned.
 
     @param frequency (integer) that indicates how to collapse minutes. 
     For example frequency=15
@@ -57,16 +62,19 @@ def standardized_timestamp(frequency):
     2013-01-04 11:18 -> 2013-01-04
     2013-01-05 00:01 -> 2013-01-05
     '''
+
+    if dt is None:
+      dt = datetime.now() 
+
     # Special case were frequency=0 so we only return the date component
     if frequency == 0:
-        return datetime.now().strftime('%Y-%m-%d')
+        return dt.strftime('%Y-%m-%d')
 
     blocks = 59 / int(frequency)
     standardized_minutes = {}
     for block in xrange(blocks):
         standardized_minutes[block] = block * frequency
 
-    dt = datetime.now()
     collapsed_minutes = (dt.minute / frequency)
     minutes = standardized_minutes.get(collapsed_minutes, 0)
     timestamp = datetime(dt.year, dt.month, dt.day, dt.hour, minutes, 0)
