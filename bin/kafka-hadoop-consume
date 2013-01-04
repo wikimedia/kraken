@@ -65,10 +65,10 @@ def standardized_timestamp(frequency):
     dt += delta
     timestamp = datetime(dt.year, dt.month, dt.day, dt.hour, minutes, 0)
     if frequency > 0:
-        return timestamp
+        return timestamp.strftime('%Y-%m-%d_%H.%M.%S')
     else:
         # Special case were frequency=0 so we only return the date component
-        return timestamp.date()
+        return timestamp.date().strftime('%Y-%m-%d')
 
 def consume_topic(zookeeper_hosts, topic, group, output_dir, limit, frequency, redirect_stderr=False):
     print "Consuming %s messages from topic '%s' in consumer group %s into %s..." % (limit, topic, group, output_dir)
