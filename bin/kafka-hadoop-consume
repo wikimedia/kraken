@@ -70,7 +70,7 @@ def standardized_timestamp(frequency, dt=None):
     if frequency == 0:
         return dt.strftime('%Y-%m-%d')
 
-    blocks = 59 / frequency
+    blocks = 60 / frequency
     standardized_minutes = {}
     for block in xrange(blocks):
         standardized_minutes[block] = block * frequency
