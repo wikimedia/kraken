@@ -49,7 +49,9 @@ public class GetCountryCode extends EvalFunc<Tuple> {
 		// to support other paths, we either need two arguments in the
 		// constructor, or to parse the filename to extract the basename.
 		cacheFiles.add(ip4path + "#" + ip4path);
-		cacheFiles.add(ip6path + "#" + ip6path);
+                if (ip6path != null) {
+		    cacheFiles.add(ip6path + "#" + ip6path);
+                }
 		return cacheFiles;
 	}
 
