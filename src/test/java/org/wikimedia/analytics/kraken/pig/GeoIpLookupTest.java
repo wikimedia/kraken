@@ -49,6 +49,8 @@ public class GeoIpLookupTest {
 		assertEquals("US", countryCode);
 		String continentCode = (String) geoData.get(6);
 		assertEquals("NA", continentCode);
+		String continentName = (String) geoData.get(7);
+		assertEquals("North America", continentName);
 	}
 	
 	/**

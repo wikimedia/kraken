@@ -47,6 +47,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
     private LookupService ip6lookup;
     private TupleFactory tupleFactory = TupleFactory.getInstance();
 
+    // HashMap that maps ISO_3166-1 country codes onto continent codes
     private static final Map<String, String> countryCodeToContinentCode = new HashMap<String, String>() {{
       put("AF", "AS");
       put("AX", "EU");
@@ -294,6 +295,17 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
       put("ZW", "AF");
     }};
 
+    // HashMap that maps ISO_3166-1 continent codes to Continent Names
+    private static final Map<String, String> continentCodeToContinentName = new HashMap<String, String>() {{
+      put("AS", "Asia");
+      put("AN", "Antarctica");
+      put("AF", "Africa");
+      put("SA", "South America");
+      put("EU", "Europe");
+      put("OC", "Oceania");
+      put("NA", "North America");
+    }};
+
     
     /**
      * Create a IP -> Location mapper.
@@ -356,14 +368,20 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
         String ip = (String)input.get(0);
         Location location = ip4lookup.getLocation(ip);
         if (location != null) {
-            Tuple output = tupleFactory.newTuple(7);
+            // get the continent code and name from the
+            // static mappings defined at the top of this class.
+            String continentCode = location.countryCode != null ? countryCodeToContinentCode.get(location.countryCode) : EMPTY_STRING;
+            String continentName = continentCode != EMPTY_STRING ? continentCodeToContinentName.get(continentCode) : EMPTY_STRING;
+	
+            Tuple output = tupleFactory.newTuple(8);
             output.set(0, location.countryName != null ? location.countryName : EMPTY_STRING);
             output.set(1, location.countryCode != null ? location.countryCode : EMPTY_STRING);
             output.set(2, location.region != null ? location.region : EMPTY_STRING);
             output.set(3, location.city != null ? location.city : EMPTY_STRING);
             output.set(4, location.postalCode != null ? location.postalCode : EMPTY_STRING);
             output.set(5, location.metro_code);
-            output.set(6, location.countryCode != null ? countryCodeToContinentCode.get(location.countryCode) : EMPTY_STRING);
+            output.set(6, continentCode);
+            output.set(7, continentName);
             return output;
         }
         
