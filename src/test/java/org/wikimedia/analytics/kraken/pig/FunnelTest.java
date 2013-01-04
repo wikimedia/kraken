@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+
+import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.BagFactory;
 import org.apache.pig.data.DataBag;
 import org.apache.pig.data.Tuple;
@@ -17,13 +19,43 @@ public class FunnelTest {
 
 	@Test
 	public void testExec1() throws IOException {
-		Tuple input = tupleFactory.newTuple(4);
+		Tuple input = defaultInput();
+		Tuple output = funnel.exec(input);
+		assertNotNull(output);
+		assertTrue((Boolean) output.get(0));
+		assertNull(output.get(1));
+	}
+	
+	@Test
+	public void testExec2() throws IOException {
+		Tuple input = defaultInput();
+		Tuple row1 = tupleFactory.newTuple(3);
+		Tuple row2 = tupleFactory.newTuple(3);
+		row1.set(0, "1");
+		row2.set(0, "1");
+		row1.set(1, 5);
+		row2.set(1, 10);
+		row1.set(2, "http://www.wikimedia.org/A");
+		row2.set(2, "http://www.wikimedia.org/C");
+		DataBag bag = BagFactory.getInstance().newDefaultBag();
+		bag.add(row1);
+		bag.add(row2);
+		input.set(0, bag);
+		Tuple output = funnel.exec(input);
+		assertNotNull(output);
+		assertTrue(!(Boolean) output.get(0));
+		assertNotNull(output.get(1));
+		assertEquals(output.get(1), "http://www.wikimedia.org/C");
+	}
+
+	private Tuple defaultInput() throws ExecException {
 		DataBag bag = BagFactory.getInstance().newDefaultBag();
 		Tuple urls = tupleFactory.newTuple(4);
 		urls.set(0, "http://www.wikimedia.org/A");
 		urls.set(1, "http://www.wikimedia.org/B");
 		urls.set(2, "http://www.wikimedia.org/C");
 		urls.set(3, "http://www.wikimedia.org/D");
+		Tuple input = tupleFactory.newTuple(4);
 		Tuple DAG = tupleFactory.newTuple(4);
 		Tuple edge1 = tupleFactory.newTuple(2);
 		Tuple edge2 = tupleFactory.newTuple(2);
@@ -60,10 +92,7 @@ public class FunnelTest {
 		input.set(1, urls);
 		input.set(2, DAG);
 		input.set(3, 100);
-		Tuple output = funnel.exec(input);
-		assertNotNull(output);
-		assertTrue((Boolean) output.get(0));
-		assertNull(output.get(1));
+		return input;
 	}
 	
 }

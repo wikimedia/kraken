@@ -84,20 +84,21 @@ public class Funnel extends EvalFunc<Tuple> {
 			int beginning = timestamps.get(i);
 			int end = beginning;
 			for(int j = i+1; j < history.size(); j++) {
+				
 				end = timestamps.get(j);
 				//break out of the loop when time delta is greater than given timeframe.
 				if(end - beginning > timeframe) {
-                                        // we can fast-forward the funnel analysis by incrementing i with j
-                                        i += j;
+					// we can fast-forward the funnel analysis by incrementing i with j
+					i += j;
 					break;
 				}
 				
 				Node candidate = urlMap.get(history.get(j));
-				//if child is not in funnel or is not a child of the current node then break out of loop
+				//if candidate is not in funnel or is not a child of the current node then break out of loop
 				if(candidate == null || !curr.getChildren().contains(candidate)) {
 					drop = curr;
-                                        // we can fast-forward the funnel analysis by incrementing i with j
-                                        i += j;
+                    // we can fast-forward the funnel analysis by incrementing i with j
+                    i += j;
 					break;
 				}
 				//if candidate node is a leaf then user has went through the funnel and return true
@@ -105,6 +106,12 @@ public class Funnel extends EvalFunc<Tuple> {
 					output.set(0, true);
 					output.set(1, null);
 					return output;
+				}
+				//if candidate is not a leaf and we reach the end of history break 
+				if(j == history.size()-1) {
+					drop = candidate;
+					i += j;
+					break;
 				}
 				//set current to candidate if candidate is a child of current node.
 				curr = candidate;
