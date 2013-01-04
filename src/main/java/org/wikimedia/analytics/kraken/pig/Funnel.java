@@ -18,6 +18,22 @@ import org.apache.pig.data.Tuple;
 import org.apache.pig.data.DataBag;
 import org.apache.pig.data.TupleFactory;
 
+/**
+ * Usage:
+ * 
+ * REGISTER 'kraken.jar';
+ * DEFINE funnel org.wikimedia.analytics.kraken.pig.Funnel();
+ * 
+ * log = LOAD 'example.log' AS (timestamp:chararray, ip:chararray, url:chararray);
+ * grpd = GROUP log BY ip;
+ * funneled = FOREACH grpd {
+ *    sorted = ORDER log BY timestamp;
+ *    GENERATE group, FLATTEN(funnel(sorted)) AS (funneled:boolean, drop:chararray);
+ * };
+ * filtered = FILTER funneled BY funneled == true;
+ * DUMP filtered;
+ */
+
 public class Funnel extends EvalFunc<Tuple> {
 	private Node funnel;
 	private Map<String, Node> urlMap;
@@ -42,9 +58,9 @@ public class Funnel extends EvalFunc<Tuple> {
 		 * to be available before it starts processing. Instead, it can use the Accumulator interface 
 		 * (see the section called “Accumulator Interface”) which is much more memory efficient.
 		 */
-                if (input == null || input.size() != 4) {
-                    return null;
-                }
+        if (input == null || input.size() != 4) {
+            return null;
+        }
 		DataBag bag = (DataBag) input.get(0);
 		Iterator<Tuple> it = bag.iterator();
 		Tuple funnelUrls = (Tuple) input.get(1);
@@ -83,41 +99,30 @@ public class Funnel extends EvalFunc<Tuple> {
 			Node curr = funnel;
 			int beginning = timestamps.get(i);
 			int end = beginning;
-			for(int j = i+1; j < history.size(); j++) {
-				
-				end = timestamps.get(j);
-				//break out of the loop when time delta is greater than given timeframe.
+			while(i < history.size()) {
+				i++;
+				end = timestamps.get(i);
 				if(end - beginning > timeframe) {
-					// we can fast-forward the funnel analysis by incrementing i with j
-					i += j;
 					break;
 				}
-				
-				Node candidate = urlMap.get(history.get(j));
-				//if candidate is not in funnel or is not a child of the current node then break out of loop
+				Node candidate = urlMap.get(history.get(i));
 				if(candidate == null || !curr.getChildren().contains(candidate)) {
 					drop = curr;
-                    // we can fast-forward the funnel analysis by incrementing i with j
-                    i += j;
 					break;
 				}
-				//if candidate node is a leaf then user has went through the funnel and return true
 				if(candidate.getChildren().size() == 0) {
 					output.set(0, true);
 					output.set(1, null);
 					return output;
 				}
-				//if candidate is not a leaf and we reach the end of history break 
-				if(j == history.size()-1) {
+				if(i == history.size() - 1) {
 					drop = candidate;
-					i += j;
 					break;
 				}
-				//set current to candidate if candidate is a child of current node.
 				curr = candidate;
 			}
 		}
-
+		System.out.println(drop);
 		output.set(0, false);
 		String dropUrl = (drop == null) ? null : drop.getUrl();
 		output.set(1, dropUrl);

@@ -1,9 +1,6 @@
 package org.wikimedia.analytics.kraken.pig;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 
 import org.apache.pig.backend.executionengine.ExecException;
@@ -11,11 +8,16 @@ import org.apache.pig.data.BagFactory;
 import org.apache.pig.data.DataBag;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
+import org.apache.pig.pigunit.Cluster;
+import org.apache.pig.pigunit.PigTest;
+import org.apache.pig.tools.parameters.ParseException;
 import org.junit.Test;
 
 public class FunnelTest {
 	private Funnel funnel = new Funnel();
 	private TupleFactory tupleFactory = TupleFactory.getInstance();
+	private PigTest pigTest;
+	private static Cluster cluster;
 
 	@Test
 	public void testExec1() throws IOException {
@@ -46,6 +48,11 @@ public class FunnelTest {
 		assertTrue(!(Boolean) output.get(0));
 		assertNotNull(output.get(1));
 		assertEquals(output.get(1), "http://www.wikimedia.org/C");
+	}
+	
+	@Test
+	public void testPig() throws IOException, ParseException {
+		pigTest = new PigTest("src/funnel.pig");	
 	}
 
 	private Tuple defaultInput() throws ExecException {
@@ -94,5 +101,9 @@ public class FunnelTest {
 		input.set(3, 100);
 		return input;
 	}
+	
+	
+	
+
 	
 }
