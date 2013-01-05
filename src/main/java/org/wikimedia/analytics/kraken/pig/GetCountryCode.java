@@ -99,7 +99,8 @@ public class GetCountryCode extends EvalFunc<Tuple> {
 			output = tupleFactory.newTuple(1);
 			output.set(0, country.getCode());
 		}
-		else {
+		
+		if (country == null || country.getCode().equals("--")){
 			warn("Couldn't get country for the ip: " + ip, PigWarning.UDF_WARNING_1);
 		}
 

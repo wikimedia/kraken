@@ -35,14 +35,14 @@ LOG_FIELDS     = FILTER LOG_FIELDS BY content_type == 'text/html';
  
 PARSED    = FOREACH LOG_FIELDS GENERATE
             TO_HOUR(timestamp) AS hour,
-            FLATTEN(GEO(remote_addr)) AS (country:chararray, country_code:chararray, region:chararray,  city:chararray,  postal_code:chararray, metro_code:int, continent_code:chararray);
+            FLATTEN(GEO(remote_addr)) AS (country:chararray, country_code:chararray, region:chararray,  city:chararray,  postal_code:chararray, metro_code:int, continent_code:chararray, continent_name:chararray);
 
-PARSED    = FOREACH PARSED GENERATE hour, continent_code;
+PARSED    = FOREACH PARSED GENERATE hour, continent_name;
 
-GROUPED     = GROUP PARSED BY (hour, continent_code);
+GROUPED     = GROUP PARSED BY (hour, continent_name);
  
 COUNT       = FOREACH GROUPED GENERATE
-              FLATTEN(group) AS (day, continent_code),
+              FLATTEN(group) AS (day, continent_name),
               COUNT_STAR($1) as num PARALLEL 1;
 
 --DUMP COUNT;
