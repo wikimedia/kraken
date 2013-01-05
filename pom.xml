@@ -160,6 +160,12 @@
 			<artifactId>geoip</artifactId>
 			<version>1.2.5</version>
 		</dependency>
+
+		<dependency>
+  			<groupId>org.apache.pig</groupId>
+  			<artifactId>pigunit</artifactId>
+  			<version>0.10.0-cdh4.1.2</version>
+		</dependency>
 	</dependencies>
 
 </project>
