@@ -1,8 +1,4 @@
 /**
-Method exec() takes a tuple containing a Wikimedia URL and returns a tuple
-	containing (if possible) it's language, boolean on whether it's a mobile site, 
-	and it's domain name.
-
 Copyright (C) 2012  Wikimedia Foundation
 
 This program is free software; you can redistribute it and/or
@@ -67,9 +63,14 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 	
 	/**
 	 * Returns a tuple of a language code, mobile, and domain (project) name.
+	 * Method exec() takes a tuple containing a Wikimedia URL and returns a tuple
+	 * containing (if possible) it's language, boolean on whether it's a mobile 
+	 * site, and it's domain name.
+
 	 * @param input tuple containing a Wikimedia URL.
 	 * @throws ExecException
 	 */
+	
 	public Tuple exec(Tuple input) throws ExecException {		
 		String language = "N/A";
 		Boolean isMobile = null;
