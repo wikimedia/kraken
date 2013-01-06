@@ -1,25 +1,23 @@
 /**
-Copyright (C) 2012  Wikimedia Foundation
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. 
-*/
-
-/*
- * In these comments I may refer to any part of the host separated by '.' a subdomain
- * 	for example: in en.m.wikipedia.org, the subdomains are 'en', 'm', 'wikipedia'.
+ *Copyright (C) 2012  Wikimedia Foundation
+ *
+ *This program is free software; you can redistribute it and/or
+ *modify it under the terms of the GNU General Public License
+ *as published by the Free Software Foundation; either version 2
+ *of the License, or (at your option) any later version.
+ *
+ *This program is distributed in the hope that it will be useful,
+ *but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *GNU General Public License for more details.
+ *
+ *You should have received a copy of the GNU General Public License
+ *along with this program; if not, write to the Free Software
+ *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * @version $Id: $Id
  */
+
 
 package org.wikimedia.analytics.kraken.pig;
 
@@ -36,7 +34,6 @@ import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.*;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
-
 public class ParseWikiUrl extends EvalFunc<Tuple> {
 	private static Set<String> languages;
 	private static Tuple defaultOutput;
@@ -49,28 +46,45 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 		this("src/main/resources/languages.txt");
 	}
 	
+	/**
+	 * <p>Constructor for ParseWikiUrl.</p>
+	 * /*
+	 * In these comments I may refer to any part of the host separated by '.' a 
+	 * subdomain for example: in en.m.wikipedia.org, the subdomains are 'en', 
+	 * 'm', 'wikipedia'.
+	 * @param useBoolean a boolean.
+	 */
 	public ParseWikiUrl(boolean useBoolean) {
 		this("src/main/resources/languages.txt", useBoolean);
 	}
 	
+	/**
+	 * <p>Constructor for ParseWikiUrl.</p>
+	 *
+	 * @param languageFile a {@link java.lang.String} object.
+	 */
 	public ParseWikiUrl(String languageFile) {
 		this(languageFile, false);
 	}
 	
+	/**
+	 * <p>Constructor for ParseWikiUrl.</p>
+	 *
+	 * @param languageFile a {@link java.lang.String} object.
+	 * @param useBoolean a boolean.
+	 */
 	public ParseWikiUrl(String languageFile, boolean useBoolean) {
 		ParseWikiUrl.useBoolean = useBoolean;
 	}
 	
 	/**
+	 * {@inheritDoc}
+	 *
 	 * Returns a tuple of a language code, mobile, and domain (project) name.
 	 * Method exec() takes a tuple containing a Wikimedia URL and returns a tuple
-	 * containing (if possible) it's language, boolean on whether it's a mobile 
+	 * containing (if possible) it's language, boolean on whether it's a mobile
 	 * site, and it's domain name.
-
-	 * @param input tuple containing a Wikimedia URL.
-	 * @throws ExecException
 	 */
-	
 	public Tuple exec(Tuple input) throws ExecException {		
 		String language = "N/A";
 		Boolean isMobile = null;
@@ -444,6 +458,7 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 		return output;
 	}
 	
+	/** {@inheritDoc} */
 	public Schema outputSchema(Schema input) {
 		Schema inputModel = new Schema(new FieldSchema(null, DataType.CHARARRAY));
 		if (!Schema.equals(inputModel, input, true, true)) {

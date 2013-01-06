@@ -69,7 +69,7 @@ public class FunnelTest {
 	
 	@Test
 	public void testPig() throws IOException, ParseException {
-		pigTest = new PigTest("src/funnel.pig");	
+		pigTest = new PigTest("src/main/pig/funnel.pig");	
 	}
 
 	private Tuple defaultInput() throws ExecException {
@@ -118,9 +118,4 @@ public class FunnelTest {
 		input.set(3, 100);
 		return input;
 	}
-	
-	
-	
-
-	
 }

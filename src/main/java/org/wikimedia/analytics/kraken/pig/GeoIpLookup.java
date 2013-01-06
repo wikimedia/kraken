@@ -20,6 +20,8 @@
 
 /**
  * Modified for Kraken to initialize GeoIp database file in back-end.
+ *
+ * @version $Id: $Id
  */
 package org.wikimedia.analytics.kraken.pig;
 
@@ -35,7 +37,6 @@ import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 import com.maxmind.geoip.Location;
 import com.maxmind.geoip.LookupService;
-
 public class GeoIpLookup extends EvalFunc<Tuple> {
 
 	private static final String EMPTY_STRING = "";
@@ -54,7 +55,6 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 		/**
 		 * HashMap that maps ISO_3166-1 country codes onto continent codes
 		 */
-
 		{
 			put("AF", "AS");
 			put("AX", "EU");
@@ -337,19 +337,24 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 			 * options to pig.
 			 *
 			 * @param ip4dat Basename of the GeoIPCity Database file.  Should be located in your home dir in HDFS
-			 * @throws IOException
+			 * @throws IOException if any.
 			 */
-
-
 			public GeoIpLookup(String ip4dat) {
 				this(ip4dat, null);
 			}
 
+			/**
+			 * <p>Constructor for GeoIpLookup.</p>
+			 *
+			 * @param ip4dat a {@link java.lang.String} object.
+			 * @param ip6dat a {@link java.lang.String} object.
+			 */
 			public GeoIpLookup(String ip4dat, String ip6dat) {
 				this.ip4dat=ip4dat;
 				this.ip6dat=ip6dat;
 			}
 
+			/** {@inheritDoc} */
 			@Override
 			public List<String> getCacheFiles() {
 				List<String> cacheFiles = new ArrayList<String>(1);
@@ -363,6 +368,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 				return cacheFiles;
 			}
 
+			/** {@inheritDoc} */
 			@Override
 			public Tuple exec(Tuple input) throws IOException {
 				if (input == null || input.size() == 0) {

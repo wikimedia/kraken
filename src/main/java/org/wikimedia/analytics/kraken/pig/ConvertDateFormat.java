@@ -18,8 +18,10 @@
  * limitations under the License.
  */
 
-/** 
+/**
  * Modified for Kraken to accept arguments at run-time.
+ *
+ * @version $Id: $Id
  */
 
 package org.wikimedia.analytics.kraken.pig;
@@ -31,7 +33,6 @@ import java.util.Date;
 
 import org.apache.pig.EvalFunc;
 import org.apache.pig.data.Tuple;
-
 public class ConvertDateFormat extends EvalFunc<String> {
 
 	public static enum ERRORS { DateParseError };
@@ -39,16 +40,26 @@ public class ConvertDateFormat extends EvalFunc<String> {
 	private SimpleDateFormat inputSdf;
 	private SimpleDateFormat outputSdf;
 	
+	/**
+	 * <p>Constructor for ConvertDateFormat.</p>
+	 */
 	public ConvertDateFormat() {
 		inputSdf = null;
 		outputSdf = null;
 	}
 	
+	/**
+	 * <p>Constructor for ConvertDateFormat.</p>
+	 *
+	 * @param inputDateFormat a {@link java.lang.String} object.
+	 * @param outputDateFormat a {@link java.lang.String} object.
+	 */
 	public ConvertDateFormat(String inputDateFormat, String outputDateFormat) {
 	    this.inputSdf = new SimpleDateFormat(inputDateFormat);
 	    this.outputSdf = new SimpleDateFormat(outputDateFormat);
 	}
 	
+	/** {@inheritDoc} */
 	@Override
 	public String exec(Tuple input) throws IOException {
 		if (input == null || input.size() == 0) {

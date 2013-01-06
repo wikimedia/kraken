@@ -1,19 +1,21 @@
 /**
-Copyright (C) 2012  Wikimedia Foundation
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. 
+ *Copyright (C) 2012  Wikimedia Foundation
+ *
+ *This program is free software; you can redistribute it and/or
+ *modify it under the terms of the GNU General Public License
+ *as published by the Free Software Foundation; either version 2
+ *of the License, or (at your option) any later version.
+ *
+ *This program is distributed in the hope that it will be useful,
+ *but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *GNU General Public License for more details.
+ *
+ *You should have received a copy of the GNU General Public License
+ *along with this program; if not, write to the Free Software
+ *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * @version $Id: $Id
  */
 
 package org.wikimedia.analytics.kraken.pig;
@@ -26,7 +28,6 @@ import org.apache.pig.EvalFunc;
 import org.apache.pig.data.*;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
-
 public class RegexMatch extends EvalFunc<Boolean> {
 	protected Pattern pattern;
 
@@ -39,7 +40,8 @@ public class RegexMatch extends EvalFunc<Boolean> {
 
 	/**
 	 * Constructs a UDF where the regex is precompiled.
-	 * @param regex
+	 *
+	 * @param regex a {@link java.lang.String} object.
 	 */
 	public RegexMatch(String regex) {
 		// use this if you want to define your regex at compile-time
@@ -47,9 +49,9 @@ public class RegexMatch extends EvalFunc<Boolean> {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 *
 	 * Returns a boolean on whether the given string matches the given regex.
-	 * @param input Tuple containing the string to be matched and a regex if not specified in constructor
-	 * @throws IOException
 	 */
 	public Boolean exec(Tuple input) throws IOException {
 		String inputString = (String) input.get(0);
@@ -64,6 +66,7 @@ public class RegexMatch extends EvalFunc<Boolean> {
 		return pattern.matcher(inputString).matches();
 	}
 
+	/** {@inheritDoc} */
 	public Schema outputSchema(Schema input) {
 		List<FieldSchema> arguments = new LinkedList<FieldSchema>();
 		arguments.add(new FieldSchema(null, DataType.CHARARRAY));

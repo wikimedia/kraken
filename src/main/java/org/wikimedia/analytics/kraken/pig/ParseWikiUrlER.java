@@ -1,28 +1,28 @@
 /**
-Method exec() takes a tuple containing a Wikimedia URL and returns a tuple
-	containing (if possible) it's language, boolean on whether it's a mobile site, 
-	and it's domain name.
 
-Copyright (C) 2012  Wikimedia Foundation
+ *Copyright (C) 2012  Wikimedia Foundation
+ *
+ *This program is free software; you can redistribute it and/or
+ *modify it under the terms of the GNU General Public License
+ *as published by the Free Software Foundation; either version 2
+ *of the License, or (at your option) any later version.
+ *
+ *This program is distributed in the hope that it will be useful,
+ *but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *GNU General Public License for more details.
+ *
+ *You should have received a copy of the GNU General Public License
+ *along with this program; if not, write to the Free Software
+ *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * @version $Id: $Id
+ */
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. 
-*/
-
-/*
- * In these comments I may refer to any part of the host separated by '.' a subdomain
- * 	for example: in en.m.wikipedia.org, the subdomains are 'en', 'm', 'wikipedia'.
+/**
+ * In these comments I may refer to any part of the host separated by '.' a 
+ * subdomain for example: in en.m.wikipedia.org, the subdomains are 'en', 'm', 
+ * 'wikipedia'.
  */
 
 package org.wikimedia.analytics.kraken.pig;
@@ -42,49 +42,53 @@ import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.*;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
-
 public class ParseWikiUrlER extends EvalFunc<Tuple> {
 	private static Set<String> languages;
 	private static Map<String,String> versions;
 	private static Tuple defaultOutput;
-	
-// 	public ParseWikiUrlER() {
-// 		this("src/main/resources/languages.txt");
-// 	}
-		
-	public Tuple exec(Tuple input) throws ExecException {		
+
+	// 	public ParseWikiUrlER() {
+	// 		this("src/main/resources/languages.txt");
+	// 	}
+
+	/** {@inheritDoc} */
+	public Tuple exec(Tuple input) throws ExecException {
+		/** Method exec() takes a tuple containing a Wikimedia URL and returns 
+		 *  a tuple containing (if possible) it's language, boolean on whether 
+		 *  it's a mobile site, and it's domain name.
+		 */
 		String language = "N/A";
 		String version  = "N/A";
 		String project = "N/A";
-		
+
 		if(input == null) {
 			warn("null input", PigWarning.UDF_WARNING_1);
 			return defaultOutput;
 		}
-		
+
 		if(defaultOutput == null) {
 			defaultOutput = TupleFactory.getInstance().newTuple(3);
 			defaultOutput.set(0, language);
 			defaultOutput.set(1, null);
 			defaultOutput.set(2, version);
 		}
-		
+
 		//gets the urlString from the first argument, return if 
 		String urlString;
-		
+
 		try {
 			urlString = (String)input.get(0);
 		} catch (Exception e) {
 			warn("argument is invalid", PigWarning.UDF_WARNING_1);
 			return defaultOutput;
 		}
-		
+
 		if(urlString == null) {
 			warn("null input", PigWarning.UDF_WARNING_1);
 			return defaultOutput;
 		}
-		
-		
+
+
 		//use url class for parsing
 		URL url;	
 		try {
@@ -93,18 +97,18 @@ public class ParseWikiUrlER extends EvalFunc<Tuple> {
 			warn("malformed URL: " + urlString, PigWarning.UDF_WARNING_1);
 			return defaultOutput;
 		}	
-		
+
 		//gets the host
 		String host = url.getHost();
 		String[] subdomains = host.split("\\.");
-		
+
 
 		//if subdomains has less than two elements then can't find domain so return
 		if(subdomains.length < 2) {
 			warn("host name: " + host + " has less than two subdomains", PigWarning.UDF_WARNING_1);
 			return defaultOutput;
 		}
-		
+
 		//add language codes from languageFile to a hash set
 		if(languages==null) {
 			languages = new HashSet<String>();
@@ -395,36 +399,36 @@ public class ParseWikiUrlER extends EvalFunc<Tuple> {
 			languages.add("hz");
 		}
 
-        
-        versions = new HashMap<String,String>();
-        versions.put("zero", "Z");
-        versions.put("m", "M");
 
-        int consumed = 0;
-        
-        // find language, if any
+		versions = new HashMap<String,String>();
+		versions.put("zero", "Z");
+		versions.put("m", "M");
+
+		int consumed = 0;
+
+		// find language, if any
 		if(languages.contains(subdomains[consumed])) {
 			language = subdomains[consumed];
-            consumed++;
+			consumed++;
 		}
-		
-        // find version, else set to main site
-        if(versions.containsKey(subdomains[consumed])) {
-            version = versions.get(subdomains[consumed]);
-            consumed++;
-        } else {
-            version = "X";
-        }
 
-        project = "";
-        for (int i = consumed; i < subdomains.length; i++) {
-            if (i < subdomains.length - 1) {
-                project += subdomains[i] + '.';
-            } else {
-                project += subdomains[i];
-            }
-        }
-		
+		// find version, else set to main site
+		if(versions.containsKey(subdomains[consumed])) {
+			version = versions.get(subdomains[consumed]);
+			consumed++;
+		} else {
+			version = "X";
+		}
+
+		project = "";
+		for (int i = consumed; i < subdomains.length; i++) {
+			if (i < subdomains.length - 1) {
+				project += subdomains[i] + '.';
+			} else {
+				project += subdomains[i];
+			}
+		}
+
 		//create the tuple for output
 		Tuple output = TupleFactory.getInstance().newTuple(3);
 		output.set(0, language);
@@ -432,7 +436,8 @@ public class ParseWikiUrlER extends EvalFunc<Tuple> {
 		output.set(2, project);
 		return output;
 	}
-	
+
+	/** {@inheritDoc} */
 	public Schema outputSchema(Schema input) {
 		Schema inputModel = new Schema(new FieldSchema(null, DataType.CHARARRAY));
 		if (!Schema.equals(inputModel, input, true, true)) {
@@ -448,7 +453,6 @@ public class ParseWikiUrlER extends EvalFunc<Tuple> {
 		try {
 			return new Schema(new FieldSchema(null, tupleSchema, DataType.TUPLE));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			throw new RuntimeException(e);
 		}
 	}

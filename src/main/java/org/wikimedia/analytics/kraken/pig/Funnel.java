@@ -1,19 +1,19 @@
 /**
-Copyright (C) 2012  Wikimedia Foundation
+ * Copyright (C) 2012  Wikimedia Foundation
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. 
  */
 package org.wikimedia.analytics.kraken.pig;
 
@@ -34,11 +34,12 @@ import org.apache.pig.data.DataBag;
 import org.apache.pig.data.TupleFactory;
 
 /**
+ * <pre>
  * Usage:
- * 
+ *
  * REGISTER 'kraken.jar';
  * DEFINE funnel org.wikimedia.analytics.kraken.pig.Funnel();
- * 
+ *
  * log = LOAD 'example.log' AS (timestamp:chararray, ip:chararray, url:chararray);
  * grpd = GROUP log BY ip;
  * funneled = FOREACH grpd {
@@ -47,35 +48,47 @@ import org.apache.pig.data.TupleFactory;
  * };
  * filtered = FILTER funneled BY funneled == true;
  * DUMP filtered;
+ * </pre>
+ * @version $Id: $Id
  */
-
 public class Funnel extends EvalFunc<Tuple> {
 	private Node funnel;
 	private Map<String, Node> urlMap;
-	
+
+	/**
+	 * <p>Constructor for Funnel.</p>
+	 */
 	public Funnel() {
-		
+
 	}
 
 	@Override
-	/** Method exec takes a tuple containing four objects:
-	 * 1) A bag of tuples containing: the user id, the time stamp, the uri request
+	/**
+	 * {@inheritDoc}
+	 *
+	 * Method exec takes a tuple containing four objects:
+	 * 1) A bag of tuples containing: the user id, the time stamp, the uri
+	 * request
 	 * 2) A tuple of URLs
-	 * 3) An integer as the maximum timeframe between the first and last request in the funnel in seconds.
-	 * @param input  Tuple containing a bag of the user history and the funnel as a tuple of strings
+	 * 3) An integer as the maximum timeframe between the first and last 
+	 * request in the funnel in seconds.
 	 */
+
 	public Tuple exec(Tuple input) throws IOException {
 		/*
-		 * Doing the sorting in Pig Latin, rather than in your UDF, is important for a couple of reasons. 
-		 * One, it means Pig can offload the sorting to MapReduce. MapReduce has the ability to sort data 
-		 * by a secondary key while grouping it. So the order statement in this case does not require a 
-		 * separate sorting operation. Two, it means that your UDF does not need to wait for all data 
-		 * to be available before it starts processing. Instead, it can use the Accumulator interface 
-		 * (see the section called “Accumulator Interface”) which is much more memory efficient.
+		 * Doing the sorting in Pig Latin, rather than in your UDF, is important
+		 * for a couple of reasons. One, it means Pig can offload the sorting to 
+		 * MapReduce. MapReduce has the ability to sort data by a secondary key 
+		 * while grouping it. So the order statement in this case does not 
+		 * require a separate sorting operation. Two, it means that your UDF 
+		 * does not need to wait for all data to be available before it starts 
+		 * processing. Instead, it can use the Accumulator interface (see the 
+		 * section called “Accumulator Interface”) which is much more memory 
+		 * efficient.
 		 */
-        if (input == null || input.size() != 4) {
-            return null;
-        }
+		if (input == null || input.size() != 4) {
+			return null;
+		}
 		DataBag bag = (DataBag) input.get(0);
 		Iterator<Tuple> it = bag.iterator();
 		Tuple funnelUrls = (Tuple) input.get(1);
@@ -84,12 +97,12 @@ public class Funnel extends EvalFunc<Tuple> {
 		List<String> history = new ArrayList<String>();
 		List<Integer> timestamps = new ArrayList<Integer>();
 		Node drop = null;
-		
+
 		//Create graph data structure
 		if(funnel == null && urlMap == null) {
 			funnel = constructFunnel(funnelDag.getAll(), funnelUrls.getAll());
 		}
-		
+
 		//Create history and timestamp list
 		while(it.hasNext()) {
 			Tuple t = (Tuple) it.next();
@@ -100,10 +113,10 @@ public class Funnel extends EvalFunc<Tuple> {
 				timestamps.add(timestamp);
 			}
 		}
-		
+
 		//Create the output tuple
 		Tuple output = TupleFactory.getInstance().newTuple(2);
-		
+
 		//Iterate through user's request history
 		for(int i = 0; i < history.size(); i++) {
 			String url = history.get(i);
@@ -142,24 +155,24 @@ public class Funnel extends EvalFunc<Tuple> {
 		String dropUrl = (drop == null) ? null : drop.getUrl();
 		output.set(1, dropUrl);
 		return output;
-		
+
 	}
-	
+
 	private Node constructFunnel(List<Object> edges, List<Object> urls) throws ExecException {
 		List<Node> nodes = new ArrayList<Node>();
 		urlMap = new HashMap<String, Node>();
-		
+
 		for(int i = 0; i < urls.size(); i++) {
-                        try {
-                            URL url = new URL((String) urls.get(i));
-			    Node node = new Node((String) url.toString());
-			    nodes.add(node);
-			    urlMap.put(url.toString(), node);
-                        } catch (MalformedURLException e) {
-                            throw new ExecException("Your funnel definition contains an invalid formed URL.\n MalformedURLException:" + e.getMessage());
-                        }
+			try {
+				URL url = new URL((String) urls.get(i));
+				Node node = new Node((String) url.toString());
+				nodes.add(node);
+				urlMap.put(url.toString(), node);
+			} catch (MalformedURLException e) {
+				throw new ExecException("Your funnel definition contains an invalid formed URL.\n MalformedURLException:" + e.getMessage());
+			}
 		}
-		
+
 		for(Object edge : edges) {
 			int parentIndex = (Integer) ((Tuple) edge).get(0);
 			int childIndex = (Integer) ((Tuple) edge).get(1);
@@ -169,24 +182,24 @@ public class Funnel extends EvalFunc<Tuple> {
 		}
 		return nodes.get(0);
 	}
-	
+
 	private class Node {
 		private Set<Node> children;
 		String url;
-		
+
 		public Node(String url) {
 			this.url = url;
 			children = new HashSet<Node>();
 		}
-		
+
 		public Set<Node> getChildren() {
 			return children;
 		}
-		
+
 		public String getUrl() {
 			return url;
 		}
-		
+
 		public String toString() {
 			return url;
 		}
