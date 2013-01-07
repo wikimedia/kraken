@@ -21,5 +21,11 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>net.sf.jgrapht</groupId>
+      <artifactId>jgrapht</artifactId>      
+      <version>0.8.3</version>
+    </dependency>
   </dependencies>
 </project>
