@@ -60,32 +60,41 @@ import org.jgrapht.traverse.DepthFirstIterator;
 public class Funnel {
 	Funnel funnel;
 	/** The graph. */
-	DirectedGraph<URL, DefaultEdge> graph = new DefaultDirectedGraph<URL, DefaultEdge>(DefaultEdge.class);
+	DirectedGraph<URL, DefaultEdge> graph;
 
 	/** The start vertices. */
-	List<URL> startVertices = new ArrayList<URL>();
+	List<URL> startVertices;
 
 	/** The end vertices. */
-	List<URL> endVertices = new ArrayList<URL>();
+	List<URL> endVertices;
 
 	/** The paths. */
-	List<ArrayList<URL>> paths = new ArrayList<ArrayList<URL>>();
+	List<ArrayList<URL>> paths;
 
 	/**
 	 * Constructor for the funnel.
 	 * @throws MalformedFunnelException
+	 * @throws MalformedURLException 
 	 */
-	public Funnel() throws MalformedFunnelException {
-		String exampleFunnelDefinition = "http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B,http://en.wikipedia.org/wiki/C,http://en.wikipedia.org/wiki/D;";
-		this.createFunnel(exampleFunnelDefinition);
+	public Funnel() throws MalformedFunnelException, MalformedURLException {
+		String exampleFunnelDefinition = "http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
+			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/C\n" +
+			"http://en.wikipedia.org/wiki/C, http://en.wikipedia.org/wiki/D\n";
+		String funnelDefinition = "http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
+			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/C\n" +
+			"http://en.wikipedia.org/wiki/D, http://en.wikipedia.org/wiki/B\n" +
+			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/E\n";
+		this.createFunnel(funnelDefinition);
 	}
 
 	/**
 	 * Constructor for the funnel.
 	 * @param funnelDefinition
 	 * @throws MalformedFunnelException
+	 * @throws MalformedURLException 
 	 */
-	public Funnel(String funnelDefinition) throws MalformedFunnelException{
+	public Funnel(String funnelDefinition) throws MalformedFunnelException, MalformedURLException{
+		graph = new DefaultDirectedGraph<URL, DefaultEdge>(DefaultEdge.class);
 		this.createFunnel(funnelDefinition);
 	}
 
@@ -107,6 +116,26 @@ public class Funnel {
 		funnel.analysis();
 	}
 
+	public final DirectedGraph<URL, DefaultEdge> constructGraph(String edges) throws MalformedURLException{
+		String[] edgelist = edges.split("\n");
+		DirectedGraph<URL, DefaultEdge> dg = new DefaultDirectedGraph<URL, DefaultEdge>(DefaultEdge.class);
+		for (String  edgeData : edgelist) {
+			String[] edge = edgeData.split(",");
+			URL source = new URL(edge[0]);
+			URL target = new URL(edge[1]);
+			if (!dg.containsVertex(source)) {
+				dg.addVertex(source);
+			}
+			if (!dg.containsVertex(target)) {
+				dg.addVertex(target);
+			}
+			if (!dg.containsEdge(source,target)) {
+				dg.addEdge(source, target);
+				}
+			}
+		return dg;
+	}
+
 	/**
 	 * Simple wrapper script that conducts all the steps to do a funnel
 	 * analysis.
@@ -114,8 +143,7 @@ public class Funnel {
 	public final void analysis() {
 		this.getStartingVertices();
 		this.getDestinationVertices();
-		boolean result = this.isDag();
-		System.out.println("Funnel is a DAG (true/false): " + result);
+		//System.out.println("Funnel is a DAG (true/false): " + result);
 		DirectedGraph<URL, DefaultEdge> history = this.createFakeUserHistory(100, 250);
 		System.out.println("Graph summary: " + history.toString());
 		this.determineUniquePaths();
@@ -163,14 +191,21 @@ public class Funnel {
 	 * and {@link endVertices}.
 	 */
 	public final void determineUniquePaths() {
+		paths = new ArrayList<ArrayList<URL>>();
 		for (URL startVertex : startVertices) {
+			System.out.println("Start vertex: " + startVertex.toString());
 			DepthFirstIterator<URL, DefaultEdge> dfi = new DepthFirstIterator<URL, DefaultEdge>(graph, startVertex);
 			ArrayList<URL> path = new ArrayList<URL>();
 			while (dfi.hasNext()) {
 				URL url = dfi.next();
 				path.add(url);
-				System.out.println(url.toString());
+				System.out.println("--> " + url.toString());
+				if (endVertices.contains(url)) {
+					break;
+				}
+				
 			}
+			System.out.println(path.toString());
 			paths.add(path);
 		}
 	}
@@ -179,6 +214,7 @@ public class Funnel {
 	 * Retrieve all the possible start vertices from the funnel.
 	 */
 	public final void getStartingVertices() {
+		startVertices = new ArrayList<URL>();
 		Set<URL> vertices = graph.vertexSet();
 		int indegree;
 		for (URL vertex: vertices) {
@@ -193,6 +229,7 @@ public class Funnel {
 	 * Retrieve all the possible destination vertices from the funnel.
 	 */
 	public final void getDestinationVertices() {
+		endVertices = new ArrayList<URL>();
 		Set<URL> vertices = graph.vertexSet();
 		int outdegree;
 		for (URL vertex : vertices) {
@@ -207,16 +244,30 @@ public class Funnel {
 		HashMap<Integer, Boolean> results = new HashMap<Integer, Boolean>();
 		int i = 0;
 		int j = 0;
+		int p = 0;
 		for (ArrayList<URL> path : paths) {
 			for (i = 0; i < path.size() - 1; i++) {
-				//
+				j = i + 1;
+				URL source = path.get(i);
+				URL target = path.get(j);
+				DefaultEdge edge = history.getEdge(source, target);
+				if (edge == null) {
+					break;
+				}
 			}
+			if (j == path.size()) {
+				results.put(p, true);
+			} else {
+				results.put(p, false);
+			}
+			j = 0;
+			p++;
 		}
 		return results;
 	}
 
 	/**
-	 * Detailed fall out analysis.
+	 * Detailed fallout analysis.
 	 *
 	 * @param history the browser history of a single user
 	 * @return the hashmap< integer, integer>. The key is the path id and the
@@ -266,38 +317,47 @@ public class Funnel {
 	 * @param funnelDefinition, a string where the different steps are separated
 	 * by a comma and the end of a path is indicated using a semi-colon. 
 	 * @throws MalformedFunnelException the malformed funnel exception
+	 * @throws MalformedURLException 
 	 */
-	public void createFunnel(String funnelDefinition) throws MalformedFunnelException{
-		String[] paths = funnelDefinition.split(";");
-		HashMap<String, URL> map = new HashMap<String, URL>();
-
-		for (String path : paths) {
-			String[] vertices = path.split(",");
-			System.out.println(Arrays.toString(vertices));
-			if (vertices.length == 1) {
-				throw new MalformedFunnelException("A funnel needs to have two nodes at the very minimum.");
-			}
-
-			// Add vertices to the funnel
-			for (String vertex : vertices) {
-				try {
-					URL url = new URL(vertex);
-					graph.addVertex(url);
-					map.put(vertex, url);
-				} catch (MalformedURLException e) {
-					throw new MalformedFunnelException(e);
-				}
-			}
-
-			// Add edges between the vertices in the funnel
-			int j;
-			for (int i = 0; i < vertices.length - 1; i++) {
-				j = i + 1;
-				URL source = map.get(vertices[i]);
-				URL target = map.get(vertices[j]);
-				graph.addEdge(source, target);
-			}
+	public void createFunnel(String funnelDefinition) throws MalformedFunnelException, MalformedURLException{
+		graph = constructGraph(funnelDefinition);
+		if (graph.edgeSet().size() == 0 || graph.vertexSet().size() < 2) {
+			throw new MalformedFunnelException("A funnel needs to have two connected nodes at the very minimum.");
 		}
+		if (!isDag()) {
+			throw new MalformedFunnelException("A funnel needs to have two connected nodes at the very minimum.");
+		}
+		
+//		String[] paths = funnelDefinition.split(";");
+//		HashMap<String, URL> map = new HashMap<String, URL>();
+//
+//		for (String path : paths) {
+//			String[] vertices = path.split(",");
+//			System.out.println(Arrays.toString(vertices));
+//			if (vertices.length == 1) {
+//				throw new MalformedFunnelException("A funnel needs to have two nodes at the very minimum.");
+//			}
+//
+//			// Add vertices to the funnel
+//			for (String vertex : vertices) {
+//				try {
+//					URL url = new URL(vertex);
+//					graph.addVertex(url);
+//					map.put(vertex, url);
+//				} catch (MalformedURLException e) {
+//					throw new MalformedFunnelException(e);
+//				}
+//			}
+//
+//			// Add edges between the vertices in the funnel
+//			int j;
+//			for (int i = 0; i < vertices.length - 1; i++) {
+//				j = i + 1;
+//				URL source = map.get(vertices[i]);
+//				URL target = map.get(vertices[j]);
+//				graph.addEdge(source, target);
+//			}
+//		}
 	}
 
 	/**

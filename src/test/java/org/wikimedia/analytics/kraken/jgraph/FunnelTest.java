@@ -21,9 +21,11 @@ import static org.junit.Assert.*;
 public class FunnelTest {
 
     /** Create the test case. */
+	public final String funnelDefinition = "http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
+			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/C\n" +
+			"http://en.wikipedia.org/wiki/D, http://en.wikipedia.org/wiki/B\n" +
+			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/E\n";
 	private Funnel funnel;
-	private DirectedGraph<URL, DefaultEdge> history;
-
 
 	/**
 	 * The first non-trivial funnel is:
@@ -34,17 +36,16 @@ public class FunnelTest {
 	 * There are two unique paths in this funnel: {A,B,C} and {D,B,E}
 	 */
 	public FunnelTest() {
-		String funnelDefinition = "http://en.wikipedia.org/A,http://en.wikipedia.org/B," +
-				"http://en.wikipedia.org/C;http://en.wikipedia.org/D," +
-				"http://en.wikipedia.org/E";
+		
 		try {
 			this.funnel = new Funnel(funnelDefinition);
 		} catch (MalformedFunnelException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		this.history = funnel.createFakeUserHistory(100, 250);
 	}
 
 	/**
@@ -65,8 +66,8 @@ public class FunnelTest {
 
 	@Test
 	public final void testGetStartingVertices() {
-		funnel.getStartingVertices();
 		List<URL> startVertices = new ArrayList<URL>();
+		funnel.getStartingVertices();
 		try {
 			startVertices.add(new URL("http://en.wikipedia.org/A"));
 			startVertices.add(new URL("http://en.wikipedia.org/D"));
@@ -83,11 +84,29 @@ public class FunnelTest {
 
 	@Test
 	public final void testDetermineUniquePaths() {
+		funnel.getStartingVertices();
+		funnel.getDestinationVertices();
 		funnel.determineUniquePaths();
+		System.out.println("Unique paths: " + funnel.paths.size());
 		assert (funnel.paths.size() == 2);
 	}
 	@Test
-	public final void testFallOutAnalysis() {
+	public final void testFallOutAnalysis() throws MalformedURLException {
+		ArrayList<URL> path0 = new ArrayList<URL>();
+		path0.add(new URL("http://en.wikipedia.org/A"));
+		path0.add(new URL("http://en.wikipedia.org/B"));
+		path0.add(new URL("http://en.wikipedia.org/C"));
+		
+		ArrayList<URL> path1 = new ArrayList<URL>();
+		path1.add(new URL("http://en.wikipedia.org/D"));
+		path1.add(new URL("http://en.wikipedia.org/B"));
+		path1.add(new URL("http://en.wikipedia.org/E"));
+		
+		funnel.paths.add(0, path0);
+		funnel.paths.add(1, path1);
+		
+		
+		
 		HashMap<Integer, Boolean> results = funnel.fallOutAnalysis(funnel.graph);
 		assert (results.size() == 2);
 		Collection<Boolean> obsValues = results.values();
@@ -95,5 +114,13 @@ public class FunnelTest {
 		testValues.add(true);
 		testValues.add(true);
 		assert (obsValues.containsAll(testValues));
+	}
+	
+	@Test
+	public final void testAnalysis() {
+		//Unfinished test, add code to compare that the results of the two runs
+		//are identical.
+		funnel.analysis();
+		funnel.analysis();
 	}
 }
