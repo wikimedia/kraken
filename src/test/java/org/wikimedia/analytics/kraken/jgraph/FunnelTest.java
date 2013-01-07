@@ -5,15 +5,13 @@ import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.jgrapht.DirectedGraph;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
 import org.junit.Test;
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 /**
  * Unit tests for Funnel.
@@ -36,7 +34,6 @@ public class FunnelTest {
 	 * There are two unique paths in this funnel: {A,B,C} and {D,B,E}
 	 */
 	public FunnelTest() {
-		
 		try {
 			this.funnel = new Funnel(funnelDefinition);
 		} catch (MalformedFunnelException e) {
@@ -53,8 +50,10 @@ public class FunnelTest {
 	 */
 	@Test
 	public final void testGetDestinationVertices() {
-		funnel.getDestinationVertices();
 		List<URL> endVertices = new ArrayList<URL>();
+		funnel.getDestinationVertices();
+		System.out.println("Number of vertices: " + funnel.endVertices.size());
+		
 		try {
 			endVertices.add(new URL("http://en.wikipedia.org/C"));
 			endVertices.add(new URL("http://en.wikipedia.org/E"));
@@ -65,16 +64,23 @@ public class FunnelTest {
 	}
 
 	@Test
-	public final void testGetStartingVertices() {
+	public final void testGetStartingVertices() throws MalformedURLException, MalformedFunnelException {
 		List<URL> startVertices = new ArrayList<URL>();
 		funnel.getStartingVertices();
+		System.out.println("Number of vertices: " + funnel.startVertices.size());
 		try {
 			startVertices.add(new URL("http://en.wikipedia.org/A"));
 			startVertices.add(new URL("http://en.wikipedia.org/D"));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		assert funnel.startVertices.containsAll(startVertices);
+//		for (URL startVertex : funnel.startVertices) {
+//			System.out.println(startVertex.toString());	
+//		}
+		//assert funnel.startVertices.equals()
+		System.out.println("Found starting Vertices: " + Arrays.toString(funnel.startVertices.toArray()));
+		assert (funnel.startVertices.indexOf(new URL("http://en.wikipedia.org/A")) > -1);
+		assert (funnel.startVertices.indexOf(new URL("http://en.wikipedia.org/D")) > -1);
 	}
 	
 	@Test
@@ -105,15 +111,13 @@ public class FunnelTest {
 		funnel.paths.add(0, path0);
 		funnel.paths.add(1, path1);
 		
-		
-		
 		HashMap<Integer, Boolean> results = funnel.fallOutAnalysis(funnel.graph);
 		assert (results.size() == 2);
 		Collection<Boolean> obsValues = results.values();
-		Collection<Boolean> testValues = new ArrayList<Boolean>();
-		testValues.add(true);
-		testValues.add(true);
-		assert (obsValues.containsAll(testValues));
+//		Collection<Boolean> testValues = new ArrayList<Boolean>();
+//		testValues.add(true);
+//		testValues.add(true);
+		assert (!obsValues.contains(false));
 	}
 	
 	@Test

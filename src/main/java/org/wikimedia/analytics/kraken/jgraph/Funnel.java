@@ -77,14 +77,11 @@ public class Funnel {
 	 * @throws MalformedURLException 
 	 */
 	public Funnel() throws MalformedFunnelException, MalformedURLException {
-		String exampleFunnelDefinition = "http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
-			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/C\n" +
-			"http://en.wikipedia.org/wiki/C, http://en.wikipedia.org/wiki/D\n";
-		String funnelDefinition = "http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
+		this("http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
 			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/C\n" +
 			"http://en.wikipedia.org/wiki/D, http://en.wikipedia.org/wiki/B\n" +
-			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/E\n";
-		this.createFunnel(funnelDefinition);
+			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/E\n"
+			);
 	}
 
 	/**
@@ -94,6 +91,7 @@ public class Funnel {
 	 * @throws MalformedURLException 
 	 */
 	public Funnel(String funnelDefinition) throws MalformedFunnelException, MalformedURLException{
+		paths = new ArrayList<ArrayList<URL>>();
 		graph = new DefaultDirectedGraph<URL, DefaultEdge>(DefaultEdge.class);
 		this.createFunnel(funnelDefinition);
 	}
@@ -191,7 +189,6 @@ public class Funnel {
 	 * and {@link endVertices}.
 	 */
 	public final void determineUniquePaths() {
-		paths = new ArrayList<ArrayList<URL>>();
 		for (URL startVertex : startVertices) {
 			System.out.println("Start vertex: " + startVertex.toString());
 			DepthFirstIterator<URL, DefaultEdge> dfi = new DepthFirstIterator<URL, DefaultEdge>(graph, startVertex);
