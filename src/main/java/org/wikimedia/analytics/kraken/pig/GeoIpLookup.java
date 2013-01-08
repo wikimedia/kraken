@@ -300,6 +300,15 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 			put("YE", "AS");
 			put("ZM", "AF");
 			put("ZW", "AF");
+
+			// Sometimes Maxmind returns these as Country Codes.
+			// This addtion maps those Country Codes to proper
+			// Continent Codes.
+			put("EU", "EU");   // Europe
+			put("AP", "AS");   // Asia/Pacific (These addresses often map to Chinese lat/lon, so we choose Asia as the continent.)
+			put("A1", "--");   // Anonymous Proxy
+			put("A2", "--");   // Satellite Proxy
+			put("O1", "--");   // Other Country
 		}};
 
 		// HashMap that maps ISO_3166-1 continent codes to Continent Names
@@ -316,6 +325,11 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 				put("EU", "Europe");
 				put("OC", "Oceania");
 				put("NA", "North America");
+
+				// map these Maxmind defined Countries to unknown continents.
+				put("--", "Unknown");
+				put(null, "Unknown");
+				put(EMPTY_STRING, "Unknown");
 			}};
 
 
@@ -389,7 +403,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 					// get the continent code and name from the
 					// static mappings defined at the top of this class.
 					String continentCode = location.countryCode != null ? countryCodeToContinentCode.get(location.countryCode) : EMPTY_STRING;
-					String continentName = continentCode != EMPTY_STRING ? continentCodeToContinentName.get(continentCode) : EMPTY_STRING;
+					String continentName = continentCodeToContinentName.get(continentCode);
 
 					Tuple output = tupleFactory.newTuple(8);
 					output.set(0, location.countryName != null ? location.countryName : EMPTY_STRING);

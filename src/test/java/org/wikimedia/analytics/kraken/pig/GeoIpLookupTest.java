@@ -65,15 +65,65 @@ public class GeoIpLookupTest {
 	}
 	
 	/**
-	 * Wikipedia
+	 * A1, Anonymous Proxy
 	 * @throws IOException 
 	 */
 	@Test
 	public void testExec3() throws IOException {
+		input.set(0, "65.49.68.181");
+		Tuple geoData = geo.exec(input);
+		assertNotNull(geoData);
+		String countryCode = (String) geoData.get(1);
+		assertEquals("A1", countryCode);
+		String continentCode = (String) geoData.get(6);
+		assertEquals("--", continentCode);
+		String continentName = (String) geoData.get(7);
+		assertEquals("Unknown", continentName);
+	}
+
+	/**
+	 * AP, Asia/Pacific
+	 * @throws IOException 
+	 */
+	@Test
+	public void testExec4() throws IOException {
+		input.set(0, "206.53.148.17");
+		Tuple geoData = geo.exec(input);
+		assertNotNull(geoData);
+		String countryCode = (String) geoData.get(1);
+		assertEquals("AP", countryCode);
+		String continentCode = (String) geoData.get(6);
+		assertEquals("AS", continentCode);
+		String continentName = (String) geoData.get(7);
+		assertEquals("Asia", continentName);
+	}
+
+	/**
+	 * Wikipedia
+	 * @throws IOException 
+	 */
+	@Test
+	public void testExec5() throws IOException {
 		input.set(0, "wikipedia.org");
 		String output = (String) geo.exec(input).get(1);	
 		assertEquals("US", output);
 	}
 
+	/**
+	 * Yemen, was getting bad results for this.
+	 * @throws IOException 
+	 */
+	@Test
+	public void testExec6() throws IOException {
+		input.set(0, "185.11.8.188");
+		Tuple geoData = geo.exec(input);
+		assertNotNull(geoData);
+		String countryCode = (String) geoData.get(1);
+		assertEquals("YE", countryCode);
+		String continentCode = (String) geoData.get(6);
+		assertEquals("AS", continentCode);
+		String continentName = (String) geoData.get(7);
+		assertEquals("Asia", continentName);
+	}
 
 }

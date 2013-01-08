@@ -3,14 +3,14 @@
 REGISTER 'piggybank.jar'
 REGISTER 'kraken.jar'
 REGISTER 'geoip-1.2.5.jar'
-SET default_parallism 7;
+SET default_parallism 8;
  
 DEFINE EXTRACT org.apache.pig.piggybank.evaluation.string.RegexExtract();
 DEFINE GEO     org.wikimedia.analytics.kraken.pig.GeoIpLookup('GeoIPCity.dat');
 DEFINE TO_HOUR org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd_HH');
-DEFINE MATCH   org.wikimedia.analytics.kraken.pig.RegexMatch();
 
-LOG_FIELDS     = LOAD '$input' USING PigStorage(' ') AS (
+/*LOG_FIELDS     = LOAD '$input' USING PigStorage(' ') AS (*/
+LOG_FIELDS     = LOAD '/wmf/raw/webrequest/webrequest-all.100/2013-01-08*/part*' USING PigStorage(' ') AS (
   byteoffset_hostname,
   udplog_sequence,
   timestamp:chararray,
@@ -26,24 +26,27 @@ LOG_FIELDS     = LOAD '$input' USING PigStorage(' ') AS (
   x_forwarded_for,
   user_agent );
  
-
+-- Filter out unwanted requests
 LOG_FIELDS     = FILTER LOG_FIELDS BY (request_method MATCHES '(GET|get)');
 LOG_FIELDS     = FILTER LOG_FIELDS BY (http_status MATCHES '.*(200|304)'); 
 LOG_FIELDS     = FOREACH LOG_FIELDS GENERATE (EXTRACT(content_type, 'text/html', 0)) as content_type:chararray, http_status, request_method, timestamp, remote_addr, uri;
 LOG_FIELDS     = FILTER LOG_FIELDS BY content_type == 'text/html';
  
- 
+-- Extract the hour of the request and GeoCode the client's IP address
 PARSED    = FOREACH LOG_FIELDS GENERATE
             TO_HOUR(timestamp) AS hour,
             FLATTEN(GEO(remote_addr)) AS (country:chararray, country_code:chararray, region:chararray,  city:chararray,  postal_code:chararray, metro_code:int, continent_code:chararray, continent_name:chararray);
 
-PARSED    = FOREACH PARSED GENERATE hour, continent_name;
+-- Extract the hour and the continent_name, using 'Unknown' for any NULLs
+PARSED    = FOREACH PARSED GENERATE hour, (continent_name IS NULL ? 'Unknown' : continent_name) as continent_name;
 
-GROUPED     = GROUP PARSED BY (hour, continent_name);
+-- Group by hour and continent_name
+GROUPED   = GROUP PARSED BY (hour, continent_name);
  
-COUNT       = FOREACH GROUPED GENERATE
-              FLATTEN(group) AS (day, continent_name),
-              COUNT_STAR($1) as num PARALLEL 1;
+-- Count Results.
+COUNTED   = FOREACH GROUPED GENERATE
+            FLATTEN(group) AS (hour, continent_name),
+            COUNT_STAR($1) as value PARALLEL 1;
 
---DUMP COUNT;
-STORE COUNT INTO '$output' USING PigStorage();
+-- save results into $output
+STORE COUNTED INTO '$output' USING PigStorage();
