@@ -9,8 +9,7 @@ DEFINE EXTRACT org.apache.pig.piggybank.evaluation.string.RegexExtract();
 DEFINE GEO     org.wikimedia.analytics.kraken.pig.GeoIpLookup('GeoIPCity.dat');
 DEFINE TO_HOUR org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd_HH');
 
-/*LOG_FIELDS     = LOAD '$input' USING PigStorage(' ') AS (*/
-LOG_FIELDS     = LOAD '/wmf/raw/webrequest/webrequest-all.100/2013-01-08*/part*' USING PigStorage(' ') AS (
+LOG_FIELDS     = LOAD '$input' USING PigStorage(' ') AS (
   byteoffset_hostname,
   udplog_sequence,
   timestamp:chararray,
