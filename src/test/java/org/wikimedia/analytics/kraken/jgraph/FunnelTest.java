@@ -9,9 +9,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
 import org.junit.Test;
-//import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 
 /**
  * Unit tests for Funnel.
@@ -55,12 +54,12 @@ public class FunnelTest {
 		System.out.println("Number of vertices: " + funnel.endVertices.size());
 		
 		try {
-			endVertices.add(new URL("http://en.wikipedia.org/C"));
-			endVertices.add(new URL("http://en.wikipedia.org/E"));
+			endVertices.add(new URL("http://en.wikipedia.org/wiki/C"));
+			endVertices.add(new URL("http://en.wikipedia.org/wiki/E"));
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}
-		assert funnel.endVertices.containsAll(endVertices);
+		assertTrue(funnel.endVertices.containsAll(endVertices));
 	}
 
 	@Test
@@ -69,8 +68,8 @@ public class FunnelTest {
 		funnel.getStartingVertices();
 		System.out.println("Number of vertices: " + funnel.startVertices.size());
 		try {
-			startVertices.add(new URL("http://en.wikipedia.org/A"));
-			startVertices.add(new URL("http://en.wikipedia.org/D"));
+			startVertices.add(new URL("http://en.wikipedia.org/wiki/A"));
+			startVertices.add(new URL("http://en.wikipedia.org/wiki/D"));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -79,13 +78,13 @@ public class FunnelTest {
 //		}
 		//assert funnel.startVertices.equals()
 		System.out.println("Found starting Vertices: " + Arrays.toString(funnel.startVertices.toArray()));
-		assert (funnel.startVertices.indexOf(new URL("http://en.wikipedia.org/A")) > -1);
-		assert (funnel.startVertices.indexOf(new URL("http://en.wikipedia.org/D")) > -1);
+		assertTrue(funnel.startVertices.indexOf(new URL("http://en.wikipedia.org/wiki/A")) > -1);
+		assertTrue(funnel.startVertices.indexOf(new URL("http://en.wikipedia.org/wiki/D")) > -1);
 	}
 	
 	@Test
 	public final void testIsDag() {
-		assert funnel.isDag();
+		assertTrue(funnel.isDag());
 	}
 
 	@Test
@@ -94,30 +93,26 @@ public class FunnelTest {
 		funnel.getDestinationVertices();
 		funnel.determineUniquePaths();
 		System.out.println("Unique paths: " + funnel.paths.size());
-		assert (funnel.paths.size() == 2);
+		assertTrue(funnel.paths.size() == 2);
 	}
 	@Test
 	public final void testFallOutAnalysis() throws MalformedURLException {
 		ArrayList<URL> path0 = new ArrayList<URL>();
-		path0.add(new URL("http://en.wikipedia.org/A"));
-		path0.add(new URL("http://en.wikipedia.org/B"));
-		path0.add(new URL("http://en.wikipedia.org/C"));
+		path0.add(new URL("http://en.wikipedia.org/wiki/A"));
+		path0.add(new URL("http://en.wikipedia.org/wiki/B"));
+		path0.add(new URL("http://en.wikipedia.org/wiki/C"));
 		
 		ArrayList<URL> path1 = new ArrayList<URL>();
-		path1.add(new URL("http://en.wikipedia.org/D"));
-		path1.add(new URL("http://en.wikipedia.org/B"));
-		path1.add(new URL("http://en.wikipedia.org/E"));
+		path1.add(new URL("http://en.wikipedia.org/wiki/D"));
+		path1.add(new URL("http://en.wikipedia.org/wiki/B"));
+		path1.add(new URL("http://en.wikipedia.org/wiki/E"));
 		
 		funnel.paths.add(0, path0);
 		funnel.paths.add(1, path1);
 		
 		HashMap<Integer, Boolean> results = funnel.fallOutAnalysis(funnel.graph);
-		assert (results.size() == 2);
-		Collection<Boolean> obsValues = results.values();
-//		Collection<Boolean> testValues = new ArrayList<Boolean>();
-//		testValues.add(true);
-//		testValues.add(true);
-		assert (!obsValues.contains(false));
+		assertTrue(results.size() == 2);
+		assertTrue(!results.values().contains(false));
 	}
 	
 	@Test

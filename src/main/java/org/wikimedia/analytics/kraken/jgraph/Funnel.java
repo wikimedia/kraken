@@ -252,7 +252,7 @@ public class Funnel {
 					break;
 				}
 			}
-			if (j == path.size()) {
+			if (j == path.size()-1) {
 				results.put(p, true);
 			} else {
 				results.put(p, false);
