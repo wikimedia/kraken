@@ -51,6 +51,8 @@ public abstract class AbstractNode {
 	 */
 	public abstract boolean equals(Node b);
 
+	public abstract boolean equals(FunnelNode b);
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

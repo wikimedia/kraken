@@ -347,37 +347,6 @@ public class Funnel {
 		if (!isDag()) {
 			throw new MalformedFunnelException("A funnel needs to have two connected nodes at the very minimum.");
 		}
-		
-//		String[] paths = funnelDefinition.split(";");
-//		HashMap<String, URL> map = new HashMap<String, URL>();
-//
-//		for (String path : paths) {
-//			String[] vertices = path.split(",");
-//			System.out.println(Arrays.toString(vertices));
-//			if (vertices.length == 1) {
-//				throw new MalformedFunnelException("A funnel needs to have two nodes at the very minimum.");
-//			}
-//
-//			// Add vertices to the funnel
-//			for (String vertex : vertices) {
-//				try {
-//					URL url = new URL(vertex);
-//					graph.addVertex(url);
-//					map.put(vertex, url);
-//				} catch (MalformedURLException e) {
-//					throw new MalformedFunnelException(e);
-//				}
-//			}
-//
-//			// Add edges between the vertices in the funnel
-//			int j;
-//			for (int i = 0; i < vertices.length - 1; i++) {
-//				j = i + 1;
-//				URL source = map.get(vertices[i]);
-//				URL target = map.get(vertices[j]);
-//				graph.addEdge(source, target);
-//			}
-//		}
 	}
 
 	/**
