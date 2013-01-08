@@ -18,7 +18,7 @@
  * @version $Id: $Id
  */
 
-package org.wikimedia.analytics.kraken.jgraph;
+package org.wikimedia.analytics.kraken.funnel;
 
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
@@ -38,6 +38,7 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.traverse.DepthFirstIterator;
 
+// TODO: Auto-generated Javadoc
 /**
  * Funnel fun!.
  *
@@ -58,6 +59,8 @@ import org.jgrapht.traverse.DepthFirstIterator;
  * single visitor, ideally during one session.
  */
 public class Funnel {
+	
+	/** The funnel. */
 	Funnel funnel;
 	/** The graph. */
 	DirectedGraph<URL, DefaultEdge> graph;
@@ -73,8 +76,9 @@ public class Funnel {
 
 	/**
 	 * Constructor for the funnel.
-	 * @throws MalformedFunnelException
-	 * @throws MalformedURLException 
+	 *
+	 * @throws MalformedFunnelException the malformed funnel exception
+	 * @throws MalformedURLException the malformed url exception
 	 */
 	public Funnel() throws MalformedFunnelException, MalformedURLException {
 		this("http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
@@ -86,9 +90,10 @@ public class Funnel {
 
 	/**
 	 * Constructor for the funnel.
-	 * @param funnelDefinition
-	 * @throws MalformedFunnelException
-	 * @throws MalformedURLException 
+	 *
+	 * @param funnelDefinition the funnel definition
+	 * @throws MalformedFunnelException the malformed funnel exception
+	 * @throws MalformedURLException the malformed url exception
 	 */
 	public Funnel(String funnelDefinition) throws MalformedFunnelException, MalformedURLException{
 		paths = new ArrayList<ArrayList<URL>>();
@@ -114,6 +119,13 @@ public class Funnel {
 		funnel.analysis();
 	}
 
+	/**
+	 * Construct graph.
+	 *
+	 * @param edges the edges
+	 * @return the directed graph
+	 * @throws MalformedURLException the malformed url exception
+	 */
 	public final DirectedGraph<URL, DefaultEdge> constructGraph(String edges) throws MalformedURLException{
 		String[] edgelist = edges.split("\n");
 		DirectedGraph<URL, DefaultEdge> dg = new DefaultDirectedGraph<URL, DefaultEdge>(DefaultEdge.class);
@@ -152,6 +164,8 @@ public class Funnel {
 	/**
 	 * Creates a fake browse history for a fake person.
 	 *
+	 * @param numberNodes the number nodes
+	 * @param numberEdges the number edges
 	 * @return the directed graph< url, default edge>
 	 */
 	public DirectedGraph<URL, DefaultEdge> createFakeUserHistory(Integer numberNodes, Integer numberEdges){
@@ -209,6 +223,8 @@ public class Funnel {
 
 	/**
 	 * Retrieve all the possible start vertices from the funnel.
+	 *
+	 * @return the starting vertices
 	 */
 	public final void getStartingVertices() {
 		startVertices = new ArrayList<URL>();
@@ -224,6 +240,8 @@ public class Funnel {
 
 	/**
 	 * Retrieve all the possible destination vertices from the funnel.
+	 *
+	 * @return the destination vertices
 	 */
 	public final void getDestinationVertices() {
 		endVertices = new ArrayList<URL>();
@@ -237,6 +255,12 @@ public class Funnel {
 		}
 	}
 
+	/**
+	 * Fall out analysis.
+	 *
+	 * @param history the history
+	 * @return the hash map
+	 */
 	public HashMap<Integer, Boolean> fallOutAnalysis(DirectedGraph<URL, DefaultEdge> history) {
 		HashMap<Integer, Boolean> results = new HashMap<Integer, Boolean>();
 		int i = 0;
@@ -311,10 +335,9 @@ public class Funnel {
 	/**
 	 * Creates the funnel.
 	 *
-	 * @param funnelDefinition, a string where the different steps are separated
-	 * by a comma and the end of a path is indicated using a semi-colon. 
+	 * @param funnelDefinition the funnel definition
 	 * @throws MalformedFunnelException the malformed funnel exception
-	 * @throws MalformedURLException 
+	 * @throws MalformedURLException the malformed url exception
 	 */
 	public void createFunnel(String funnelDefinition) throws MalformedFunnelException, MalformedURLException{
 		graph = constructGraph(funnelDefinition);

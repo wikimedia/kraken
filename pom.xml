@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.wikimedia.analytics.kraken.jgraph</groupId>
+  <groupId>org.wikimedia.analytics.kraken.funnel</groupId>
   <artifactId>funnel</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -13,6 +13,12 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
+  <parent>
+    <groupId>org.wikimedia.analytics.kraken</groupId>
+    <artifactId>parent-pom</artifactId>
+    <version>1</version>
+  </parent>
 
   <dependencies>
     <dependency>
@@ -39,7 +45,7 @@
                 <archive>
                     <manifest>
                         <addClasspath>true</addClasspath>
-                        <mainClass>org.wikimedia.analytics.kraken.jgraph.Funnel</mainClass>
+                        <mainClass>org.wikimedia.analytics.kraken.funnel.Funnel</mainClass>
                     </manifest>
                 </archive>
             </configuration>

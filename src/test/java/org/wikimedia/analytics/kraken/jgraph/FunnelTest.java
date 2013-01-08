@@ -1,6 +1,7 @@
 package org.wikimedia.analytics.kraken.jgraph;
 
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
+import org.wikimedia.analytics.kraken.funnel.Funnel;
 
 import java.net.MalformedURLException;
 import java.net.URL;
