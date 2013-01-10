@@ -21,23 +21,30 @@ package org.wikimedia.analytics.kraken.funnel;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
+/*
+ * A FunnelNode is a building block for a Funnel. The simplest funnel is:
+ * A -> B where both A and B are instances of the FunnelNode class. To construct
+ * a FunnelNode supply it a list of semi-colon separated edges, the edges are 
+ * separated by a comma.  
+ */
 public class FunnelNode {
 	/** The nodeDefinition. */
-	public HashMap<ComponentType, Pattern> nodeDefinition = new HashMap<ComponentType, Pattern>();
+	public Map<ComponentType, Pattern> nodeDefinition = new HashMap<ComponentType, Pattern>();
 
 	/**
 	 * Instantiates a new node. 
 	 *
-	 * @param nodeDefinition
+	 * @param funnelDefinition
 	 * @throws MalformedFunnelException 
 	 */
-	public FunnelNode(String nodeDefinition) throws MalformedFunnelException, PatternSyntaxException {
-		String[] pairs = nodeDefinition.split(";");
+	public FunnelNode(String funnelDefinition) throws MalformedFunnelException, PatternSyntaxException {
+		String[] pairs = funnelDefinition.split(";");
 		if (pairs.length != ComponentType.values().length) {
 			throw new MalformedFunnelException("Each node should contain the " +
 					"following components (separated by a colon): " + Arrays.toString(ComponentType.values()));
@@ -72,7 +79,7 @@ public class FunnelNode {
 		StringBuilder sb = new StringBuilder(100);
 		int e = 1;
 		for (ComponentType key : ComponentType.values()) {
-			Pattern value = this.nodeDefinition.get(key.toString());
+			Pattern value = this.nodeDefinition.get(key);
 			if (value != null) {
 				sb.append(value.toString());
 			} else {

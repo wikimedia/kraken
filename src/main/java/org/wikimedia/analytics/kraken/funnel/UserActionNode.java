@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -30,7 +31,7 @@ import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
  */
 public class UserActionNode {
 	/** The params. */
-	public HashMap<ComponentType, String> componentValues;
+	public Map<ComponentType, String> componentValues;
 	public Pattern wikis = Pattern.compile(""); //Actually regex is missing
 	public List<Date> visited;
 	public String url;
@@ -66,11 +67,11 @@ public class UserActionNode {
 
 		for (ComponentType key: ComponentType.values()) {
 			for (NameValuePair param : params) {
-				if (key.equals(param.getName())) {
-					if (key.equals("project")) {
+				if (key.toString().equals(param.getName().toString())) {
+					if (key.toString().equals("project")) {
 						splitProject(param.getName());
 					}
-					componentValues.put(key, param.getValue());
+					this.componentValues.put(key, param.getValue());
 				}
 			}
 		}
