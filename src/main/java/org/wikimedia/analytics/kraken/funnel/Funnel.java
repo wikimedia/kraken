@@ -23,13 +23,13 @@ package org.wikimedia.analytics.kraken.funnel;
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Set;
 
 import org.jgrapht.DirectedGraph;
@@ -38,7 +38,8 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.traverse.DepthFirstIterator;
 
-// TODO: Auto-generated Javadoc
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 /**
  * Funnel fun!.
  *
@@ -59,7 +60,7 @@ import org.jgrapht.traverse.DepthFirstIterator;
  * single visitor, ideally during one session.
  */
 public class Funnel {
-	
+
 	/** The funnel. */
 	Funnel funnel;
 	/** The graph. */
@@ -73,6 +74,9 @@ public class Funnel {
 
 	/** The paths. */
 	List<ArrayList<URL>> paths;
+	
+	/** Edge definition */
+	List<String> nodeDefinition = new ArrayList<String>();
 
 	/**
 	 * Constructor for the funnel.
@@ -81,44 +85,40 @@ public class Funnel {
 	 * @throws MalformedURLException the malformed url exception
 	 */
 	public Funnel() throws MalformedFunnelException, MalformedURLException {
-		this("http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
-			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/C\n" +
-			"http://en.wikipedia.org/wiki/D, http://en.wikipedia.org/wiki/B\n" +
-			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/E\n"
-			);
+		this("","http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
+				"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/C\n" +
+				"http://en.wikipedia.org/wiki/D, http://en.wikipedia.org/wiki/B\n" +
+				"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/E\n"
+				);
 	}
 
 	/**
 	 * Constructor for the funnel.
 	 *
 	 * @param funnelDefinition the funnel definition
+	 * @param nodeDefinition a String in the format <key1>:<key2>:<keyn>, these 
+	 * keys *should* map to the keys as defined in the EventLogging schema that 
+	 * is used for this particular funnel and should be present in the URL query
+	 * string.
 	 * @throws MalformedFunnelException the malformed funnel exception
 	 * @throws MalformedURLException the malformed url exception
 	 */
-	public Funnel(String funnelDefinition) throws MalformedFunnelException, MalformedURLException{
+	public Funnel(String nodeDefinition, String funnelDefinition) throws MalformedFunnelException, MalformedURLException{
 		paths = new ArrayList<ArrayList<URL>>();
 		graph = new DefaultDirectedGraph<URL, DefaultEdge>(DefaultEdge.class);
+		this.setnodeDefinition(nodeDefinition);
 		this.createFunnel(funnelDefinition);
 	}
 
-	/**
-	 * The main method.
-	 *
-	 * @param args the args, right now we only handle {@link funnelDefinition}
-	 * @throws MalformedFunnelException the malformed funnel exception
-	 * @throws MalformedURLException the malformed url exception
-	 */
-	public static void main(String[] args) throws MalformedFunnelException, MalformedURLException {
-		Funnel funnel;
-		if (args.length > 0) {
-			funnel = new Funnel(args[0]);
-		} else {
-			System.out.println("No funnel supplied, I will use the example funnel.");
-			funnel = new Funnel();
+	public void setnodeDefinition(String nodeDefinition) throws MalformedFunnelException {
+		for (String component : nodeDefinition.split(":")) {
+			this.nodeDefinition.add(component);
 		}
-		funnel.analysis();
+		if (this.nodeDefinition.size() == 0) {
+			throw new MalformedFunnelException("Your edge definition does not use use the colon as a separator.");
+		}
 	}
-
+	
 	/**
 	 * Construct graph.
 	 *
@@ -141,8 +141,8 @@ public class Funnel {
 			}
 			if (!dg.containsEdge(source,target)) {
 				dg.addEdge(source, target);
-				}
 			}
+		}
 		return dg;
 	}
 
@@ -150,53 +150,55 @@ public class Funnel {
 	 * Simple wrapper script that conducts all the steps to do a funnel
 	 * analysis.
 	 */
-	public final void analysis() {
+	public final void analysis(DirectedGraph<URL, DefaultEdge> history) {
 		this.getStartingVertices();
 		this.getDestinationVertices();
 		//System.out.println("Funnel is a DAG (true/false): " + result);
-		DirectedGraph<URL, DefaultEdge> history = this.createFakeUserHistory(100, 250);
-		System.out.println("Graph summary: " + history.toString());
+		//System.out.println("Graph summary: " + history.toString());
 		this.determineUniquePaths();
 		HashMap<Integer, Integer> results = this.fallOutAnalysisDetailed(history);
 		this.outputFallOutAnalysisResults(results);
 	}
 
 	/**
-	 * Creates a fake browse history for a fake person.
+	 * This function takes as input different fields from the EventLogging 
+	 * extension  and turns it into a single string that is in the form:
+	 * client:languagecode:project:namespace:page:event {@link Node}
 	 *
-	 * @param numberNodes the number nodes
-	 * @param numberEdges the number edges
-	 * @return the directed graph< url, default edge>
-	 */
-	public DirectedGraph<URL, DefaultEdge> createFakeUserHistory(Integer numberNodes, Integer numberEdges){
-		String baseUrl = "http://en.wikipedia.org/wiki/";
-		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		char path;
-		Random rnd = new Random();
-		DirectedGraph<URL, DefaultEdge> dg = new DefaultDirectedGraph<URL, DefaultEdge>(DefaultEdge.class);
+	 * @param fproject the project variable as generated by the EventLogging extension.
+	 * @param fnamespace the namespace variable as generated by the EventLogging extension.
+	 * @param fpage the page variable as generated by the EventLogging extension.
+	 * @param fevent the event variable as generated by the EventLogging extension.
+	 */	
+	public String createEdge(String queryString) {
+		URI url;
+		List<NameValuePair> params = null;
+		try {
+			url = new URI("http://www.wikipedia.org/" + queryString);
+			params = URLEncodedUtils.parse(url, "UTF-8");
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
-		// Create fake URL's and use them to seed as the nodes in a graph
-		for (int i = 0; i < numberNodes; i++) {
-			path = alphabet.charAt(rnd.nextInt(alphabet.length()));
-			try {
-				URL url = new URL(baseUrl + path);
-				if (!dg.containsVertex(url)) {
-					dg.addVertex(url);
+		StringBuilder sb = new StringBuilder();
+		Integer i = 1;
+		for (String key: this.nodeDefinition) {
+			for (NameValuePair param : params) {
+				if (key.equals(param.getName())) {
+					sb.append(param.getValue());
+					break;
 				}
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
+			if (i < this.nodeDefinition.size()) {
+				sb.append(":");
+			}
+			i++;
 			}
 		}
-
-		// Add random edges between the fake URL's to create a fake browsing history
-		List<URL> vertices = new ArrayList<URL>(dg.vertexSet());
-		for (int i = 0; i < numberEdges; i++) {
-			URL source = vertices.get(rnd.nextInt(vertices.size()));
-			URL target = vertices.get(rnd.nextInt(vertices.size()));
-			dg.addEdge(source, target);
-		}
-		return dg;
+		return sb.toString();
 	}
+
 
 	/**
 	 * Determine all the unique paths between all the {@link startVertices}
@@ -214,7 +216,7 @@ public class Funnel {
 				if (endVertices.contains(url)) {
 					break;
 				}
-				
+
 			}
 			System.out.println(path.toString());
 			paths.add(path);
