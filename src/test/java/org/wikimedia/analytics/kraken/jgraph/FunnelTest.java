@@ -1,6 +1,7 @@
 package org.wikimedia.analytics.kraken.jgraph;
 
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
+import org.wikimedia.analytics.kraken.funnel.DemoFunnel;
 import org.wikimedia.analytics.kraken.funnel.Funnel;
 
 import java.net.MalformedURLException;
@@ -10,6 +11,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+
+import org.jgrapht.DirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -23,6 +27,7 @@ public class FunnelTest {
 			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/C\n" +
 			"http://en.wikipedia.org/wiki/D, http://en.wikipedia.org/wiki/B\n" +
 			"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/E\n";
+	public final String nodeDefinition = "page:";
 	private Funnel funnel;
 
 	/**
@@ -35,7 +40,7 @@ public class FunnelTest {
 	 */
 	public FunnelTest() {
 		try {
-			this.funnel = new Funnel(funnelDefinition);
+			this.funnel = new Funnel(nodeDefinition, funnelDefinition);
 		} catch (MalformedFunnelException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -120,7 +125,8 @@ public class FunnelTest {
 	public final void testAnalysis() {
 		//Unfinished test, add code to compare that the results of the two runs
 		//are identical.
-		funnel.analysis();
-		funnel.analysis();
+		DirectedGraph<URL, DefaultEdge> history = DemoFunnel.createFakeUserHistory(100, 250);
+		funnel.analysis(history);
+		funnel.analysis(history);
 	}
 }

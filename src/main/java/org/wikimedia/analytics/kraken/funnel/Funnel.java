@@ -62,21 +62,21 @@ import org.apache.http.client.utils.URLEncodedUtils;
 public class Funnel {
 
 	/** The funnel. */
-	Funnel funnel;
+	public Funnel funnel;
 	/** The graph. */
-	DirectedGraph<URL, DefaultEdge> graph;
+	public DirectedGraph<URL, DefaultEdge> graph;
 
 	/** The start vertices. */
-	List<URL> startVertices;
+	public List<URL> startVertices;
 
 	/** The end vertices. */
-	List<URL> endVertices;
+	public List<URL> endVertices;
 
 	/** The paths. */
-	List<ArrayList<URL>> paths;
+	public List<ArrayList<URL>> paths;
 	
 	/** Edge definition */
-	List<String> nodeDefinition = new ArrayList<String>();
+	public List<String> nodeDefinition = new ArrayList<String>();
 
 	/**
 	 * Constructor for the funnel.
@@ -85,7 +85,7 @@ public class Funnel {
 	 * @throws MalformedURLException the malformed url exception
 	 */
 	public Funnel() throws MalformedFunnelException, MalformedURLException {
-		this("","http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
+		this("page:","http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
 				"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/C\n" +
 				"http://en.wikipedia.org/wiki/D, http://en.wikipedia.org/wiki/B\n" +
 				"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/E\n"
@@ -357,7 +357,7 @@ public class Funnel {
 	 * @return true if the funnel is valid directed acyclical graph (DAG) else
 	 * return false.
 	 */
-	boolean isDag() {
+	public boolean isDag() {
 		CycleDetector<URL, DefaultEdge> cycle = new CycleDetector<URL, DefaultEdge>(this.graph);
 		boolean result = cycle.detectCycles();
 		if (result) {

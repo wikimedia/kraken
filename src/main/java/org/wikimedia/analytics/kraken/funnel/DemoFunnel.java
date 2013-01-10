@@ -44,8 +44,9 @@ public class DemoFunnel {
 	 * @throws MalformedURLException the malformed url exception
 	 */
 	public static void main(String[] args) throws MalformedFunnelException, MalformedURLException {
-		DirectedGraph<URL, DefaultEdge> history = createFakeUserHistory(100, 250);
 		Funnel funnel;
+		DirectedGraph<URL, DefaultEdge> history = createFakeUserHistory(100, 250);
+		
 		if (args.length > 1) {
 			funnel = new Funnel(args[0], args[1]);
 		} else {
@@ -61,7 +62,7 @@ public class DemoFunnel {
 	 * @param numberEdges the number edges
 	 * @return the directed graph< url, default edge>
 	 */
-	public static DirectedGraph<URL, DefaultEdge> createFakeUserHistory(Integer numberNodes, Integer numberEdges){
+	public static DirectedGraph<URL, DefaultEdge> createFakeUserHistory(int numberNodes, int numberEdges){
 		String baseUrl = "http://en.wikipedia.org/wiki/";
 		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		char path;
