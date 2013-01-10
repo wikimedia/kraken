@@ -56,7 +56,7 @@ public class Node {
 		if (this == b) return true;
 		if (!(b instanceof Node)) return false;
 		Node node = (Node)b;
-		if (this.toString() == node.toString()) {
+		if (this.toString().equals(node.toString())) {
 			return true;
 		} else {
 			return false;

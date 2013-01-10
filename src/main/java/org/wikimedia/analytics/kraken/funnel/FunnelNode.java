@@ -9,7 +9,7 @@ import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
 public class FunnelNode extends Node{
 	/** The params. */
-	public HashMap<String, Pattern> params;
+	public HashMap<String, Pattern> params = HashMap<String, Pattern>();
 
 	/**
 	 * Instantiates a new node. This constructor does not require the
@@ -55,7 +55,7 @@ public class FunnelNode extends Node{
 		if (this == b) return true;
 		if (!(b instanceof FunnelNode)) return false;
 		FunnelNode node = (FunnelNode)b;
-		if (this.toString() == node.toString()) {
+		if (this.toString().equals(node.toString())) {
 			return true;
 		} else {
 			return false;
