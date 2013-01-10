@@ -9,21 +9,17 @@ import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
 public class FunnelNode extends Node{
 	/** The params. */
-	public HashMap<String, Pattern> params = new HashMap<String, Pattern>();
+	public HashMap<String, Pattern> nodeDefinition = new HashMap<String, Pattern>();
 
 	/**
 	 * Instantiates a new node. 
 	 *
-	 * @param edge
+	 * @param nodeDefinition
 	 * @throws MalformedFunnelException 
 	 */
-	public FunnelNode(String edge) throws MalformedFunnelException {
-		super(edge);
-		parseEdge(edge);
-	}
-
-	private void parseEdge(String edge) throws MalformedFunnelException {
-		String[] data = edge.split(":");
+	public FunnelNode(String nodeDefinition) throws MalformedFunnelException {
+		super();
+		String[] data = nodeDefinition.split(":");
 		if (data.length != keys.size()) {
 			throw new MalformedFunnelException("Each edge should contain the " +
 		"following components (separated by a colon): " + Arrays.toString(keys.toArray()));
@@ -42,7 +38,7 @@ public class FunnelNode extends Node{
 				// Particular component is undefined so match all
 				value = Pattern.compile("\\.*", Pattern.CASE_INSENSITIVE);
 			}
-			this.params.put(key, value);
+			this.nodeDefinition.put(key, value);
 			i--;
 		}
 	}
@@ -62,13 +58,13 @@ public class FunnelNode extends Node{
 		StringBuilder sb = new StringBuilder(100);
 		int e = 1;
 		for (String key : keys) {
-			Pattern value = this.params.get(key);
+			Pattern value = this.nodeDefinition.get(key);
 			if (value != null) {
 				sb.append(value.toString());
 			} else {
 				sb.append(".");
 			}
-			if (e != params.size()) {
+			if (e != nodeDefinition.size()) {
 				sb.append(":");
 			}
 			e++;

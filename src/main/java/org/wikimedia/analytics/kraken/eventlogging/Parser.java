@@ -34,7 +34,7 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- * The Class Parser.This class parses JSON Schema URI's from 
+ * The Class ParserTest.This class parses JSON Schema URI's from 
  * https://meta.wikimedia.org/wiki/Schema:*
  * 
  * The EventLogging extension stores it's metadata on a Wiki as a JSON schema.
