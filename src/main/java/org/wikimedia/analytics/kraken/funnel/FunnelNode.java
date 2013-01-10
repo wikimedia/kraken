@@ -1,15 +1,34 @@
+/**
+ *Copyright (C) 2012  Wikimedia Foundation
+ *
+ *This program is free software; you can redistribute it and/or
+ *modify it under the terms of the GNU General Public License
+ *as published by the Free Software Foundation; either version 2
+ *of the License, or (at your option) any later version.
+ *
+ *This program is distributed in the hope that it will be useful,
+ *but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *GNU General Public License for more details.
+ *
+ *You should have received a copy of the GNU General Public License
+ *along with this program; if not, write to the Free Software
+ *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * @version $Id: $Id
+ */
 package org.wikimedia.analytics.kraken.funnel;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.ListIterator;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
-public class FunnelNode extends Node{
-	/** The params. */
-	public HashMap<String, Pattern> nodeDefinition = new HashMap<String, Pattern>();
+public class FunnelNode {
+	/** The nodeDefinition. */
+	public HashMap<ComponentType, Pattern> nodeDefinition = new HashMap<ComponentType, Pattern>();
 
 	/**
 	 * Instantiates a new node. 
@@ -17,29 +36,24 @@ public class FunnelNode extends Node{
 	 * @param nodeDefinition
 	 * @throws MalformedFunnelException 
 	 */
-	public FunnelNode(String nodeDefinition) throws MalformedFunnelException {
-		super();
-		String[] data = nodeDefinition.split(":");
-		if (data.length != keys.size()) {
-			throw new MalformedFunnelException("Each edge should contain the " +
-		"following components (separated by a colon): " + Arrays.toString(keys.toArray()));
+	public FunnelNode(String nodeDefinition) throws MalformedFunnelException, PatternSyntaxException {
+		String[] pairs = nodeDefinition.split(";");
+		if (pairs.length != ComponentType.values().length) {
+			throw new MalformedFunnelException("Each node should contain the " +
+					"following components (separated by a colon): " + Arrays.toString(ComponentType.values()));
 		}
-		// We are iterating backwards, as the most significant parts are the funnel definiton come last.
-		// Generate an iterator. Start just after the last element.
-		ListIterator<String> li = keys.listIterator(keys.size());
-		int i = data.length - 1;
-		// Iterate in reverse.
-		while(li.hasPrevious()) {
-			String key = li.previous();
-			Pattern value;
-			if (data[i] != null) {
-				value = Pattern.compile(data[i], Pattern.CASE_INSENSITIVE);
-			} else {
-				// Particular component is undefined so match all
-				value = Pattern.compile("\\.*", Pattern.CASE_INSENSITIVE);
+		ComponentType key;
+		for (String pair : pairs) {
+			String[] kv = pair.split("=");
+			try {
+				key = ComponentType.valueOf(kv[0]);
+			} catch (IllegalArgumentException e) {
+				key = null;
 			}
-			this.nodeDefinition.put(key, value);
-			i--;
+			Pattern value = Pattern.compile(kv[1], Pattern.CASE_INSENSITIVE);
+			if (key != null) {
+				this.nodeDefinition.put(key, value);
+			}
 		}
 	}
 	
@@ -53,12 +67,12 @@ public class FunnelNode extends Node{
 			return false;
 		}
 	}
-	@Override
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder(100);
 		int e = 1;
-		for (String key : keys) {
-			Pattern value = this.nodeDefinition.get(key);
+		for (ComponentType key : ComponentType.values()) {
+			Pattern value = this.nodeDefinition.get(key.toString());
 			if (value != null) {
 				sb.append(value.toString());
 			} else {
