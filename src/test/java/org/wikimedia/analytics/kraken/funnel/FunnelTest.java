@@ -1,4 +1,4 @@
-package org.wikimedia.analytics.kraken.jgraph;
+package org.wikimedia.analytics.kraken.funnel;
 
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 import org.wikimedia.analytics.kraken.funnel.DemoFunnel;
@@ -8,7 +8,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
