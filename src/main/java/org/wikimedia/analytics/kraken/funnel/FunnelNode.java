@@ -9,7 +9,7 @@ import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
 public class FunnelNode extends Node{
 	/** The params. */
-	public HashMap<String, Pattern> params = HashMap<String, Pattern>();
+	public HashMap<String, Pattern> params = new HashMap<String, Pattern>();
 
 	/**
 	 * Instantiates a new node. This constructor does not require the
