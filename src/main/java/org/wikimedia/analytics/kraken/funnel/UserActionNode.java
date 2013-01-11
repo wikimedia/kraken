@@ -27,7 +27,7 @@ import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
  * for Data Analytics at Twitter" 
  * (http://vldb.org/pvldb/vol5/p1771_georgelee_vldb2012.pdf)
  */
-public class UserActionNode {
+public class UserActionNode extends Node{
 	/** The params. */
 	public Map<ComponentType, String> componentValues;
 	public Pattern wikis = Pattern.compile("project:(patternForProject)|||language:(patternForLanguage)"); //TODO: Find actual regex
@@ -62,19 +62,19 @@ public class UserActionNode {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-        assert params != null;
+		assert params != null;
 
-        for (NameValuePair param : params) {
-            String name = param.getName();
-            String value = param.getValue();
-            ComponentType type = ComponentType.valueOf(name);
-            switch (type) {
-                case PROJECT:
-                    componentValues.putAll(splitProject(value));
-                default:
-                    componentValues.put(type, value);
-            }
-        }
+		for (NameValuePair param : params) {
+			String name = param.getName();
+			String value = param.getValue();
+			ComponentType type = ComponentType.valueOf(name);
+			switch (type) {
+				case PROJECT:
+					componentValues.putAll(splitProject(value));
+				default:
+					componentValues.put(type, value);
+				}
+		}
 	}
 
 	/**
@@ -85,10 +85,10 @@ public class UserActionNode {
 	 */
 	protected HashMap<ComponentType, String> splitProject(String project) {
 		MatchResult match = wikis.matcher(project);
-        HashMap<ComponentType, String> ret = new HashMap<ComponentType, String>();
-        ret.put(ComponentType.PROJECT, match.group(0));
-        ret.put(ComponentType.LANGUAGE, match.group(1));
-        return ret;
+		HashMap<ComponentType, String> ret = new HashMap<ComponentType, String>();
+		ret.put(ComponentType.PROJECT, match.group(0));
+		ret.put(ComponentType.LANGUAGE, match.group(1));
+		return ret;
 	}
 
 	/*
@@ -97,14 +97,14 @@ public class UserActionNode {
 	public boolean equals(UserActionNode node) {
 		if (this == node) return true;
 		if (node == null) return false;
-        return this.toString().equals(node.toString());
+		return this.toString().equals(node.toString());
 	}
 
 	public String toString() {
-        List<String> sb = new LinkedList<String>();
+		List<String> sb = new LinkedList<String>();
 		for (ComponentType key : ComponentType.values()) {
 			String value = componentValues.get(key);
-            sb.add(value.isEmpty() ?  "." : value);
+			sb.add(value.isEmpty() ?  "." : value);
 		}
 		return StringUtils.join(sb, ':');
 	}

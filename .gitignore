@@ -1,3 +1,4 @@
+*.gz
 *.class
 target/
 .classpath

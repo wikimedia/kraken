@@ -45,10 +45,10 @@ public class DemoFunnel {
 	 */
 	public static void main(String[] args) throws MalformedFunnelException, MalformedURLException {
 		Funnel funnel;
-		DirectedGraph<URL, DefaultEdge> history = createFakeUserHistory(100, 250);
+		DirectedGraph<Node, DefaultEdge> history = createFakeUserHistory(100, 250);
 		
 		if (args.length > 1) {
-			funnel = new Funnel(args[0], args[1]);
+			funnel = new Funnel(args[0], args[1], "funnel");
 		} else {
 			System.out.println("No funnel supplied, I will use the example funnel.");
 			funnel = new Funnel();
@@ -62,7 +62,7 @@ public class DemoFunnel {
 	 * @param numberEdges the number edges
 	 * @return the directed graph< url, default edge>
 	 */
-	public static DirectedGraph<URL, DefaultEdge> createFakeUserHistory(int numberNodes, int numberEdges){
+	public static DirectedGraph<Node, DefaultEdge> createFakeUserHistory(int numberNodes, int numberEdges){
 		String baseUrl = "http://en.wikipedia.org/wiki/";
 		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		char path;
@@ -73,9 +73,9 @@ public class DemoFunnel {
 		for (int i = 0; i < numberNodes; i++) {
 			path = alphabet.charAt(rnd.nextInt(alphabet.length()));
 			try {
-				URL url = new URL(baseUrl + path);
-				if (!dg.containsVertex(url)) {
-					dg.addVertex(url);
+				Node node = new Node(baseUrl + path);
+				if (!dg.containsVertex(node)) {
+					dg.addVertex(node);
 				}
 			} catch (MalformedURLException e) {
 				e.printStackTrace();

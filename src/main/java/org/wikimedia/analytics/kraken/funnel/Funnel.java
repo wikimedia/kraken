@@ -18,23 +18,31 @@
  * @version $Id: $Id
  */
 
+/*
+ * http://meta.wikimedia.org/wiki/Research:Metrics#Funnel_metrics
+ */
 package org.wikimedia.analytics.kraken.funnel;
 
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.regex.PatternSyntaxException;
 
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.alg.CycleDetector;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.traverse.DepthFirstIterator;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 /**
  * Funnel fun!.
@@ -49,10 +57,10 @@ import org.jgrapht.traverse.DepthFirstIterator;
  * would look like: A -> B -> C
  * You have to provide the different paths that make up a funnel. The {A,B,C}
  * funnel should be provided as "A,B,C;". Make sure that all steps in the funnel
- * are valid URL's.
+ * are valid Node's.
  *
  * Browsing History
- * The browsing history should be a time sorted list of URL's visited by a
+ * The browsing history should be a time sorted list of Node's visited by a
  * single visitor, ideally during one session.
  */
 public class Funnel {
@@ -60,16 +68,16 @@ public class Funnel {
 	/** The funnel. */
 	public Funnel funnel;
 	/** The graph. */
-	public DirectedGraph<URL, DefaultEdge> graph;
+	public DirectedGraph<Node, DefaultEdge> graph;
 
 	/** The start vertices. */
-	public List<URL> startVertices;
+	public List<Node> startVertices;
 
 	/** The end vertices. */
-	public List<URL> endVertices;
+	public List<Node> endVertices;
 
 	/** The paths. */
-	public List<ArrayList<URL>> paths;
+	public List<ArrayList<Node>> paths;
 	
 	/** Edge definition */
 	public List<String> nodeDefinition = new ArrayList<String>();
@@ -78,14 +86,14 @@ public class Funnel {
 	 * Constructor for the funnel.
 	 *
 	 * @throws MalformedFunnelException the malformed funnel exception
-	 * @throws MalformedURLException the malformed url exception
+	 * @throws MalformedNodeException the malformed url exception
 	 */
-	public Funnel() throws MalformedFunnelException, MalformedURLException {
-		this("page:","http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
+	public Funnel() throws MalformedFunnelException {
+		this("page","http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
 				"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/C\n" +
 				"http://en.wikipedia.org/wiki/D, http://en.wikipedia.org/wiki/B\n" +
-				"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/E\n"
-				);
+				"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/E\n",
+				"funnel");
 	}
 
 	/**
@@ -94,48 +102,63 @@ public class Funnel {
 	 * @param funnelDefinition the funnel definition
 	 * @param nodeDefinition a String in the format <key1>:<key2>:<keyn>, these 
 	 * keys *should* map to the keys as defined in the EventLogging schema that 
-	 * is used for this particular funnel and should be present in the URL query
+	 * is used for this particular funnel and should be present in the Node query
 	 * string.
 	 * @throws MalformedFunnelException the malformed funnel exception
-	 * @throws MalformedURLException the malformed url exception
+	 * @throws MalformedNodeException the malformed url exception
 	 */
-	public Funnel(String nodeDefinition, String funnelDefinition) throws MalformedFunnelException, MalformedURLException{
-		paths = new ArrayList<ArrayList<URL>>();
-		graph = new DefaultDirectedGraph<URL, DefaultEdge>(DefaultEdge.class);
-		this.setnodeDefinition(nodeDefinition);
-		this.createFunnel(funnelDefinition);
+	public Funnel(String nodeDefinition, String funnelDefinition, String graphType) throws MalformedFunnelException {
+		this.paths = new ArrayList<ArrayList<Node>>();
+		//this.graph = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
+		this.setNodeDefinition(nodeDefinition);
+		this.graph = this.constructGraph(funnelDefinition, graphType);
+		if (this.graph.edgeSet().size() == 0 || this.graph.vertexSet().size() < 2) {
+			System.out.println(this.graph.toString());
+			throw new MalformedFunnelException("A funnel needs to have two connected nodes at the very minimum.");
+		}
+		if (!isDag()) {
+			throw new MalformedFunnelException("A funnel needs to have two connected nodes at the very minimum.");
+		}
 	}
 
-	public void setnodeDefinition(String nodeDefinition) throws MalformedFunnelException {
+	public void setNodeDefinition(String nodeDefinition) throws MalformedFunnelException {
 		for (String component : nodeDefinition.split(":")) {
 			this.nodeDefinition.add(component);
 		}
 		if (this.nodeDefinition.size() == 0) {
-			throw new MalformedFunnelException("Your edge definition does not use use the colon as a separator.");
+			throw new MalformedFunnelException("Your node definition does not use use the colon as a separator.");
 		}
 	}
-	
+
 	/**
 	 * Construct graph.
 	 *
 	 * @param edges the edges
 	 * @return the directed graph
-	 * @throws MalformedURLException the malformed url exception
+	 * @throws MalformedFunnelException 
+	 * @throws PatternSyntaxException 
 	 */
-	public final DirectedGraph<URL, DefaultEdge> constructGraph(String edges) throws MalformedURLException{
-		String[] edgelist = edges.split("\n");
-		DirectedGraph<URL, DefaultEdge> dg = new DefaultDirectedGraph<URL, DefaultEdge>(DefaultEdge.class);
+	public final DirectedGraph<Node, DefaultEdge> constructGraph(String edges, String graphType) throws PatternSyntaxException, MalformedFunnelException {
+		String[] edgelist = edges.split(";");
+		DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
+		Node source;
+		Node target;
 		for (String  edgeData : edgelist) {
 			String[] edge = edgeData.split(",");
-			URL source = new URL(edge[0]);
-			URL target = new URL(edge[1]);
+			if (graphType.equals("funnel")) {
+				source = new FunnelNode(edge[0]);
+				target = new FunnelNode(edge[1]);
+			} else {
+				source = new UserActionNode(edge[0]);
+				target = new UserActionNode(edge[1]);
+			}
 			if (!dg.containsVertex(source)) {
 				dg.addVertex(source);
 			}
 			if (!dg.containsVertex(target)) {
 				dg.addVertex(target);
 			}
-			if (!dg.containsEdge(source,target)) {
+			if (!dg.containsEdge(source, target)) {
 				dg.addEdge(source, target);
 			}
 		}
@@ -146,7 +169,7 @@ public class Funnel {
 	 * Simple wrapper script that conducts all the steps to do a funnel
 	 * analysis.
 	 */
-	public final void analysis(DirectedGraph<URL, DefaultEdge> history) {
+	public final void analysis(DirectedGraph<Node, DefaultEdge> history) {
 		this.getStartingVertices();
 		this.getDestinationVertices();
 		//System.out.println("Funnel is a DAG (true/false): " + result);
@@ -156,26 +179,22 @@ public class Funnel {
 		this.outputFallOutAnalysisResults(results);
 	}
 
-
-
-
 	/**
 	 * Determine all the unique paths between all the {@link startVertices}
 	 * and {@link endVertices}.
 	 */
 	public final void determineUniquePaths() {
-		for (URL startVertex : startVertices) {
+		for (Node startVertex : startVertices) {
 			System.out.println("Start vertex: " + startVertex.toString());
-			DepthFirstIterator<URL, DefaultEdge> dfi = new DepthFirstIterator<URL, DefaultEdge>(graph, startVertex);
-			ArrayList<URL> path = new ArrayList<URL>();
+			DepthFirstIterator<Node, DefaultEdge> dfi = new DepthFirstIterator<Node, DefaultEdge>(graph, startVertex);
+			ArrayList<Node> path = new ArrayList<Node>();
 			while (dfi.hasNext()) {
-				URL url = dfi.next();
+				Node url = dfi.next();
 				path.add(url);
 				System.out.println("--> " + url.toString());
 				if (endVertices.contains(url)) {
 					break;
 				}
-
 			}
 			System.out.println(path.toString());
 			paths.add(path);
@@ -188,10 +207,10 @@ public class Funnel {
 	 * @return the starting vertices
 	 */
 	public final void getStartingVertices() {
-		startVertices = new ArrayList<URL>();
-		Set<URL> vertices = graph.vertexSet();
+		startVertices = new ArrayList<Node>();
+		Set<Node> vertices = graph.vertexSet();
 		int indegree;
-		for (URL vertex: vertices) {
+		for (Node vertex: vertices) {
 			indegree = graph.inDegreeOf(vertex);
 			if (indegree == 0) {
 				startVertices.add(vertex);
@@ -205,10 +224,10 @@ public class Funnel {
 	 * @return the destination vertices
 	 */
 	public final void getDestinationVertices() {
-		endVertices = new ArrayList<URL>();
-		Set<URL> vertices = graph.vertexSet();
+		endVertices = new ArrayList<Node>();
+		Set<Node> vertices = graph.vertexSet();
 		int outdegree;
-		for (URL vertex : vertices) {
+		for (Node vertex : vertices) {
 			outdegree = graph.outDegreeOf(vertex);
 			if (outdegree == 0) {
 				endVertices.add(vertex);
@@ -222,16 +241,16 @@ public class Funnel {
 	 * @param history the history
 	 * @return the hash map
 	 */
-	public HashMap<Integer, Boolean> fallOutAnalysis(DirectedGraph<URL, DefaultEdge> history) {
+	public HashMap<Integer, Boolean> fallOutAnalysis(DirectedGraph<Node, DefaultEdge> history) {
 		HashMap<Integer, Boolean> results = new HashMap<Integer, Boolean>();
 		int i = 0;
 		int j = 0;
 		int p = 0;
-		for (ArrayList<URL> path : paths) {
+		for (ArrayList<Node> path : paths) {
 			for (i = 0; i < path.size() - 1; i++) {
 				j = i + 1;
-				URL source = path.get(i);
-				URL target = path.get(j);
+				Node source = path.get(i);
+				Node target = path.get(j);
 				DefaultEdge edge = history.getEdge(source, target);
 				if (edge == null) {
 					break;
@@ -255,16 +274,16 @@ public class Funnel {
 	 * @return the hashmap< integer, integer>. The key is the path id and the
 	 * value is the last reached step within a path of the funnel.
 	 */
-	public HashMap<Integer, Integer> fallOutAnalysisDetailed(DirectedGraph<URL, DefaultEdge> history) {
+	public HashMap<Integer, Integer> fallOutAnalysisDetailed(DirectedGraph<Node, DefaultEdge> history) {
 		HashMap<Integer, Integer> results = new HashMap<Integer, Integer>();
 		int i = 0;
 		int j = 0;
 		int p = 0;
-		for (ArrayList<URL> path : paths) {
+		for (ArrayList<Node> path : paths) {
 			for (i = 0; i < path.size() - 1; i++) {
 				j = i + 1;
-				URL source = path.get(i);
-				URL target = path.get(j);
+				Node source = path.get(i);
+				Node target = path.get(j);
 				DefaultEdge edge = history.getEdge(source, target);
 				if (edge == null) {
 					break;
@@ -294,35 +313,49 @@ public class Funnel {
 	}
 
 	/**
-	 * Creates the funnel.
-	 *
-	 * @param funnelDefinition the funnel definition
-	 * @throws MalformedFunnelException the malformed funnel exception
-	 * @throws MalformedURLException the malformed url exception
-	 */
-	public void createFunnel(String funnelDefinition) throws MalformedFunnelException, MalformedURLException{
-		graph = constructGraph(funnelDefinition);
-		if (graph.edgeSet().size() == 0 || graph.vertexSet().size() < 2) {
-			throw new MalformedFunnelException("A funnel needs to have two connected nodes at the very minimum.");
-		}
-		if (!isDag()) {
-			throw new MalformedFunnelException("A funnel needs to have two connected nodes at the very minimum.");
-		}
-	}
-
-	/**
 	 * Checks if funnel is a DAG.
 	 *
 	 * @return true if the funnel is valid directed acyclical graph (DAG) else
 	 * return false.
 	 */
 	public boolean isDag() {
-		CycleDetector<URL, DefaultEdge> cycle = new CycleDetector<URL, DefaultEdge>(this.graph);
+		CycleDetector<Node, DefaultEdge> cycle = new CycleDetector<Node, DefaultEdge>(this.graph);
 		boolean result = cycle.detectCycles();
 		if (result) {
 			return false; //Graph is *not* acyclical
 		} else {
 			return true;
 		}
+	}
+	public static
+	<T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c) {
+	  List<T> list = new ArrayList<T>(c);
+	  java.util.Collections.sort(list);
+	  return list;
+	}
+	
+	public DirectedGraph<Node, DefaultEdge> constructGraph(
+			Map<String, Map<Date, JsonObject>> jsonData, String graphType) {
+		DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
+		JsonElement source;
+		JsonElement target;
+		for (Entry<String, Map<Date, JsonObject>> kv : jsonData.entrySet()) {
+			
+			Set<Date> datesSet = kv.getValue().keySet();
+			List<Date> dates = asSortedList(datesSet);
+			int i;
+			int j;
+			for (i=0; i< dates.size(); i++) {
+				j = i + 1;
+				source = kv.getValue().get(dates.get(i)).getAsJsonObject().get("action");
+				target = kv.getValue().get(dates.get(i)).getAsJsonObject().get("action");
+				if (!source.isJsonNull() && !target.isJsonNull()) {
+					Node a = UserActionNode(source.toString());
+					Node b = UserActionNode(source.toString());
+				}
+			}
+			
+		}
+		return dg;
 	}
 }

@@ -39,11 +39,8 @@ public class FunnelTest {
 	 */
 	public FunnelTest() {
 		try {
-			this.funnel = new Funnel(nodeDefinition, funnelDefinition);
+			this.funnel = new Funnel(nodeDefinition, funnelDefinition, "funnel");
 		} catch (MalformedFunnelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

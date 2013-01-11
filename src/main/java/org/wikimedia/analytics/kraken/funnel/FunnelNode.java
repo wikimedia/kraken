@@ -33,7 +33,7 @@ import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
  * a FunnelNode supply it a list of semi-colon separated edges, the edges are 
  * separated by a comma.  
  */
-public class FunnelNode {
+public class FunnelNode extends Node{
 	/** The nodeDefinition. */
 	public Map<ComponentType, Pattern> nodeDefinition = new HashMap<ComponentType, Pattern>();
 
@@ -43,54 +43,52 @@ public class FunnelNode {
 	 * @param funnelDefinition
 	 * @throws MalformedFunnelException 
 	 */
-	public FunnelNode(String funnelDefinition) throws MalformedFunnelException, PatternSyntaxException {
-		String[] pairs = funnelDefinition.split(";");
-		if (pairs.length != ComponentType.values().length) {
-			throw new MalformedFunnelException("Each node should contain the " +
-					"following components (separated by a colon): " + Arrays.toString(ComponentType.values()));
-		}
+	public FunnelNode(String edge) throws MalformedFunnelException, PatternSyntaxException {
+		String[] nodes = edge.split("=");
+		//		if (pairs.length != ComponentType.values().length) {
+		//			throw new MalformedFunnelException("Each node should contain the " +
+		//					"following components (separated by a colon): " + Arrays.toString(ComponentType.values()));
+		//		}
 		ComponentType key;
-		for (String pair : pairs) {
-			String[] kv = pair.split("=");
-			try {
-				key = ComponentType.valueOf(kv[0]);
-			} catch (IllegalArgumentException e) {
-				key = null;
-			}
-			Pattern value = Pattern.compile(kv[1], Pattern.CASE_INSENSITIVE);
-			if (key != null) {
-				this.nodeDefinition.put(key, value);
-			}
+		System.out.println(Arrays.toString(nodes));
+		try {
+			key = ComponentType.valueOf(nodes[0]);
+		} catch (IllegalArgumentException e) {
+			key = null;
 		}
-	}
-	
-	public boolean equals(FunnelNode b) {
-		if (this == b) return true;
-		if (!(b instanceof FunnelNode)) return false;
-		FunnelNode node = (FunnelNode)b;
-		if (this.toString().equals(node.toString())) {
-			return true;
-		} else {
-			return false;
+		Pattern value = Pattern.compile(nodes[1], Pattern.CASE_INSENSITIVE);
+		if (key != null) {
+			this.nodeDefinition.put(key, value);
 		}
 	}
 
-	public String toString() {
-		StringBuilder sb = new StringBuilder(100);
-		int e = 1;
-		for (ComponentType key : ComponentType.values()) {
-			Pattern value = this.nodeDefinition.get(key);
-			if (value != null) {
-				sb.append(value.toString());
-			} else {
-				sb.append(".");
-			}
-			if (e != nodeDefinition.size()) {
-				sb.append(":");
-			}
-			e++;
-		}
-		return sb.toString();
+public boolean equals(FunnelNode b) {
+	if (this == b) return true;
+	if (!(b instanceof FunnelNode)) return false;
+	FunnelNode node = (FunnelNode)b;
+	if (this.toString().equals(node.toString())) {
+		return true;
+	} else {
+		return false;
 	}
+}
+
+public String toString() {
+	StringBuilder sb = new StringBuilder(100);
+	int e = 1;
+	for (ComponentType key : ComponentType.values()) {
+		Pattern value = this.nodeDefinition.get(key);
+		if (value != null) {
+			sb.append(value.toString());
+		} else {
+			sb.append(".");
+		}
+		if (e != nodeDefinition.size()) {
+			sb.append(":");
+		}
+		e++;
+	}
+	return sb.toString();
+}
 
 }
