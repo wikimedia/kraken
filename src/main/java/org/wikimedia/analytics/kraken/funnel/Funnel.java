@@ -24,9 +24,9 @@
 package org.wikimedia.analytics.kraken.funnel;
 
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
+import org.wikimedia.analytics.kraken.utils.SortUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -78,7 +78,7 @@ public class Funnel {
 
 	/** The paths. */
 	public List<ArrayList<Node>> paths;
-	
+
 	/** Edge definition */
 	public List<String> nodeDefinition = new ArrayList<String>();
 
@@ -89,11 +89,10 @@ public class Funnel {
 	 * @throws MalformedNodeException the malformed url exception
 	 */
 	public Funnel() throws MalformedFunnelException {
-		this("page","http://en.wikipedia.org/wiki/A,http://en.wikipedia.org/wiki/B\n" +
-				"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/C\n" +
-				"http://en.wikipedia.org/wiki/D, http://en.wikipedia.org/wiki/B\n" +
-				"http://en.wikipedia.org/wiki/B, http://en.wikipedia.org/wiki/E\n",
-				"funnel");
+		this("page","A,B\n" +
+				"B, C\n" +
+				"D, B\n" +
+				"B, E\n");
 	}
 
 	/**
@@ -107,11 +106,11 @@ public class Funnel {
 	 * @throws MalformedFunnelException the malformed funnel exception
 	 * @throws MalformedNodeException the malformed url exception
 	 */
-	public Funnel(String nodeDefinition, String funnelDefinition, String graphType) throws MalformedFunnelException {
+	public Funnel(String nodeDefinition, String funnelDefinition) throws MalformedFunnelException {
 		this.paths = new ArrayList<ArrayList<Node>>();
 		//this.graph = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
 		this.setNodeDefinition(nodeDefinition);
-		this.graph = this.constructGraph(funnelDefinition, graphType);
+		this.graph = this.constructFunnelGraph(funnelDefinition);
 		if (this.graph.edgeSet().size() == 0 || this.graph.vertexSet().size() < 2) {
 			System.out.println(this.graph.toString());
 			throw new MalformedFunnelException("A funnel needs to have two connected nodes at the very minimum.");
@@ -133,24 +132,20 @@ public class Funnel {
 	/**
 	 * Construct graph.
 	 *
-	 * @param edges the edges
+	 * @param funnelDefinition the edges
 	 * @return the directed graph
 	 * @throws MalformedFunnelException 
 	 * @throws PatternSyntaxException 
 	 */
-	public final DirectedGraph<Node, DefaultEdge> constructGraph(String edges, String graphType) throws PatternSyntaxException, MalformedFunnelException {
-		String[] edgelist = edges.split(";");
+	public final DirectedGraph<Node, DefaultEdge> constructFunnelGraph(String funnelDefinition) throws PatternSyntaxException, MalformedFunnelException {
+		String[] edgelist = funnelDefinition.split(";");
 		DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
-		Node source;
-		Node target;
+		Node source = null;
+		Node target = null;
 		for (String  edgeData : edgelist) {
 			String[] edge = edgeData.split(",");
-			if (graphType.equals("funnel")) {
 				source = new FunnelNode(edge[0]);
 				target = new FunnelNode(edge[1]);
-			} else {
-				source = new UserActionNode(edge[0]);
-				target = new UserActionNode(edge[1]);
 			}
 			if (!dg.containsVertex(source)) {
 				dg.addVertex(source);
@@ -161,7 +156,6 @@ public class Funnel {
 			if (!dg.containsEdge(source, target)) {
 				dg.addEdge(source, target);
 			}
-		}
 		return dg;
 	}
 
@@ -327,34 +321,41 @@ public class Funnel {
 			return true;
 		}
 	}
-	public static
-	<T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c) {
-	  List<T> list = new ArrayList<T>(c);
-	  java.util.Collections.sort(list);
-	  return list;
-	}
-	
-	public DirectedGraph<Node, DefaultEdge> constructGraph(
-			Map<String, Map<Date, JsonObject>> jsonData, String graphType) {
+
+	public DirectedGraph<Node, DefaultEdge> constructUserGraph(
+			Map<String, HashMap<Date, JsonObject>> jsonData) {
 		DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
-		JsonElement source;
-		JsonElement target;
-		for (Entry<String, Map<Date, JsonObject>> kv : jsonData.entrySet()) {
-			
+		Node source;
+		Node target;
+		for (Entry<String, HashMap<Date, JsonObject>> kv : jsonData.entrySet()) {
+
 			Set<Date> datesSet = kv.getValue().keySet();
-			List<Date> dates = asSortedList(datesSet);
+			List<Date> dates = SortUtils.asSortedList(datesSet);
 			int i;
 			int j;
-			for (i=0; i< dates.size(); i++) {
+			for (i=0; i + 1 < dates.size(); i++) {
 				j = i + 1;
-				source = kv.getValue().get(dates.get(i)).getAsJsonObject().get("action");
-				target = kv.getValue().get(dates.get(i)).getAsJsonObject().get("action");
-				if (!source.isJsonNull() && !target.isJsonNull()) {
-					Node a = UserActionNode(source.toString());
-					Node b = UserActionNode(source.toString());
+				JsonElement sourceJson = kv.getValue().get(dates.get(i)).getAsJsonObject().get("action");
+				JsonElement targetJson = kv.getValue().get(dates.get(j)).getAsJsonObject().get("action");
+				if (!sourceJson.isJsonNull() && !targetJson.isJsonNull()) {
+					try {
+						source = new UserActionNode(sourceJson.toString());
+						target = new UserActionNode(sourceJson.toString());
+						if (!dg.containsVertex(source)) {
+							dg.addVertex(source);
+						}
+						if (!dg.containsVertex(target)) {
+							dg.addVertex(target);
+						}
+						if (!dg.containsEdge(source, target)) {
+							dg.addEdge(source, target);
+						}
+					} catch (MalformedFunnelException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
-			
 		}
 		return dg;
 	}

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
@@ -27,6 +28,7 @@ import org.jgrapht.graph.DefaultEdge;
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 import org.wikimedia.analytics.kraken.funnel.Funnel;
 import org.wikimedia.analytics.kraken.funnel.Node;
+import org.wikimedia.analytics.kraken.utils.DateUtils;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -39,7 +41,7 @@ public class Cli {
 	String rawEventLoggingData;
 	String funnelDefinition;
 	String nodeDefinition;
-	Map<String, Map<Date, JsonObject>> jsonData = new HashMap<String, Map<Date, JsonObject>>();
+	Map<String, HashMap<Date, JsonObject>> jsonData = new HashMap<String, HashMap<Date, JsonObject>>();
 
 	public Cli() {
 
@@ -66,10 +68,12 @@ public class Cli {
 		Option schema = OptionBuilder.withArgName("schema").hasArg()
 				.withDescription("Specify the name of the EventLogging schema")
 				.create("schema");
-		
-		Option funnelDefinition = OptionBuilder.withArgName("funnel").hasArg().withDescription("").create("funnel");
-		Option nodeDefinition = OptionBuilder.withArgName("node").hasArg().withDescription("").create("node");
-		
+
+		Option funnelDefinition = OptionBuilder.withArgName("funnel").hasArg()
+				.withDescription("").create("funnel");
+		Option nodeDefinition = OptionBuilder.withArgName("node").hasArg()
+				.withDescription("").create("node");
+
 		input.setRequired(true);
 		schema.setRequired(true);
 		funnelDefinition.setRequired(true);
@@ -80,7 +84,7 @@ public class Cli {
 		options.addOption(nodeDefinition);
 		options.addOption(funnelDefinition);
 		options.addOption(help);
-		
+
 		// automatically generate the help statement
 		HelpFormatter formatter = new HelpFormatter();
 		CommandLine line;
@@ -91,7 +95,7 @@ public class Cli {
 				System.out.println(line.getOptionValue("input"));
 				cli.input = line.getOptionValue("input");
 			}
-			if (line.hasOption("schema") ) {
+			if (line.hasOption("schema")) {
 				cli.schema = line.getOptionValue("schema");
 			}
 			if (line.hasOption("node")) {
@@ -112,25 +116,32 @@ public class Cli {
 		}
 
 		cli.unCompressGzipFile();
-		cli.readRawEventLoggingData();
-		Funnel funnel = new Funnel(cli.nodeDefinition, cli.funnelDefinition, "funnel");
-		DirectedGraph<Node, DefaultEdge> history = funnel.constructGraph(cli.jsonData, "user");
+		cli.readJsonEventLoggingData();
+		Funnel funnel = new Funnel(cli.nodeDefinition, cli.funnelDefinition);
+		DirectedGraph<Node, DefaultEdge> history = funnel
+				.constructUserGraph(cli.jsonData);
 	}
 
-	public void readRawEventLoggingData() {
+	public void readJsonEventLoggingData() {
 		String[] lines = this.rawEventLoggingData.split("\n");
 		JsonParser parser = new JsonParser();
 		for (String line : lines) {
 			JsonObject json = parser.parse(line).getAsJsonObject();
 			JsonElement key = json.get("token");
-			String schema = json.get("meta").getAsJsonObject().get("schema").getAsString();
+			String schema = json.get("meta").getAsJsonObject().get("schema")
+					.getAsString();
 			if (this.schema.equals(schema.toString())) {
+				Date date = DateUtils.convertToDate(json.get("meta")
+						.getAsJsonObject().get("timestamp").getAsLong());
 				if (!jsonData.containsKey(key)) {
-					jsonData.put(key.toString(), new ArrayList<JsonObject>());
+					// TODO: We don't handle the case when events have the exact
+					// same timestamp
+					HashMap<Date, JsonObject> map = new HashMap<Date, JsonObject>();
+					map.put(date, json);
+					jsonData.put(key.toString(), map);
 				}
-				jsonData.get(key.toString()).add(json);
-//				System.out.println("key: " + key.toString() + "value: "
-//						+ json.toString());
+				// System.out.println("key: " + key.toString() + "value: "
+				// + json.toString());
 			}
 		}
 	}

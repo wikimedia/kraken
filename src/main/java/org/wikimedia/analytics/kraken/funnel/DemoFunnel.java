@@ -47,8 +47,8 @@ public class DemoFunnel {
 		Funnel funnel;
 		DirectedGraph<Node, DefaultEdge> history = createFakeUserHistory(100, 250);
 		
-		if (args.length > 1) {
-			funnel = new Funnel(args[0], args[1], "funnel");
+		if (args.length == 2) {
+			funnel = new Funnel(args[0], args[1]);
 		} else {
 			System.out.println("No funnel supplied, I will use the example funnel.");
 			funnel = new Funnel();
@@ -61,32 +61,28 @@ public class DemoFunnel {
 	 * @param numberNodes the number nodes
 	 * @param numberEdges the number edges
 	 * @return the directed graph< url, default edge>
+	 * @throws MalformedFunnelException 
 	 */
-	public static DirectedGraph<Node, DefaultEdge> createFakeUserHistory(int numberNodes, int numberEdges){
-		String baseUrl = "http://en.wikipedia.org/wiki/";
+	public static DirectedGraph<Node, DefaultEdge> createFakeUserHistory(int numberNodes, int numberEdges) throws MalformedFunnelException{
 		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		char path;
 		Random rnd = new Random();
-		DirectedGraph<URL, DefaultEdge> dg = new DefaultDirectedGraph<URL, DefaultEdge>(DefaultEdge.class);
+		DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
 
 		// Create fake URL's and use them to seed as the nodes in a graph
 		for (int i = 0; i < numberNodes; i++) {
 			path = alphabet.charAt(rnd.nextInt(alphabet.length()));
-			try {
-				Node node = new Node(baseUrl + path);
-				if (!dg.containsVertex(node)) {
-					dg.addVertex(node);
-				}
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
+			Node node = new UserActionNode(Character.toString(path));
+			if (!dg.containsVertex(node)) {
+				dg.addVertex(node);
 			}
 		}
 
 		// Add random edges between the fake URL's to create a fake browsing history
-		List<URL> vertices = new ArrayList<URL>(dg.vertexSet());
+		List<Node> vertices = new ArrayList<Node>(dg.vertexSet());
 		for (int i = 0; i < numberEdges; i++) {
-			URL source = vertices.get(rnd.nextInt(vertices.size()));
-			URL target = vertices.get(rnd.nextInt(vertices.size()));
+			Node source = vertices.get(rnd.nextInt(vertices.size()));
+			Node target = vertices.get(rnd.nextInt(vertices.size()));
 			dg.addEdge(source, target);
 		}
 		return dg;
