@@ -21,7 +21,6 @@
 package org.wikimedia.analytics.kraken.funnel;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,6 +28,7 @@ import java.util.Random;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
+
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
 public class DemoFunnel {
@@ -53,7 +53,7 @@ public class DemoFunnel {
 			System.out.println("No funnel supplied, I will use the example funnel.");
 			funnel = new Funnel();
 		}
-		funnel.analysis(history);
+		funnel.analysis("fake_user_token", history);
 	}
 	/**
 	 * Creates a fake browse history for a fake person.

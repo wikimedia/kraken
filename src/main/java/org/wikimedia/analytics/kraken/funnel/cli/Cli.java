@@ -30,7 +30,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Cli {
-
+	private static final String USAGE = "[-input <absolute path>] [-schema <schema>] [-node <node definition>] [-funnel <funnel definition>]";
+	private static final String HEADER = "Funnel - A simple tool to conduct funnel analyses, Copyright 2012-2013 Wikimedia Foundation licensed under GPL2.\n.";
+	private static final String FOOTER = "This program was written by Diederik van Liere <dvanliere@wikimedia.org> and Dan Andreescu <dandreescu@wikimedia.org>\n";
 	String input;
 	String schema;
 	String rawEventLoggingData;
@@ -50,6 +52,7 @@ public class Cli {
 		CommandLineParser parser = new GnuParser();
 
 		Options options = new Options();
+
 		Option help = new Option("help", "print this message");
 		Option input = OptionBuilder
 				.withArgName("input")
@@ -78,13 +81,11 @@ public class Cli {
 		options.addOption(help);
 
 		// automatically generate the help statement
-		HelpFormatter formatter = new HelpFormatter();
 		CommandLine line;
 		try {
 			// parse the command line arguments
 			line = parser.parse(options, args);
 			if (line.hasOption("input")) {
-				System.out.println(line.getOptionValue("input"));
 				cli.input = line.getOptionValue("input");
 			}
 			if (line.hasOption("schema")) {
@@ -97,31 +98,38 @@ public class Cli {
 				cli.funnelDefinition = line.getOptionValue("funnel");
 			}
 			if (line.hasOption("help")) {
-				formatter.printHelp("funnel", options);
+				printUsage(options);
 				System.exit(-1);
 			}
 		} catch (ParseException exp) {
 			// oops, something went wrong
 			System.err.println("Parsing failed.  Reason: " + exp.getMessage());
-			formatter.printHelp("funnel", options);
+			printUsage(options);
 			System.exit(-1);
 		}
 
-		cli.rawEventLoggingData  = FileUtils.unCompressGzipFile(cli.input);
+		cli.rawEventLoggingData = FileUtils.unCompressGzipFile(cli.input);
 		cli.readEventLoggingJsonData();
 		Funnel funnel = new Funnel(cli.nodeDefinition, cli.funnelDefinition);
-		Map<String,DirectedGraph<Node, DefaultEdge>> histories = funnel
+		Map<String, DirectedGraph<Node, DefaultEdge>> histories = funnel
 				.constructUserGraph(cli.jsonData);
-		//GraphPrinter printer = new GraphPrinter(funnel.graph);
-		for (Entry<String, DirectedGraph<Node, DefaultEdge>> kv : histories.entrySet()) {
+		// GraphPrinter printer = new GraphPrinter(funnel.graph);
+		for (Entry<String, DirectedGraph<Node, DefaultEdge>> kv : histories
+				.entrySet()) {
 			funnel.analysis(kv.getKey(), kv.getValue());
 		}
+	}
+
+	private static void printUsage(Options options) {
+		HelpFormatter helpFormatter = new HelpFormatter();
+		helpFormatter.setWidth(80);
+		helpFormatter.printHelp(USAGE, HEADER, options, FOOTER);
 	}
 
 	public void readEventLoggingKVData() {
 		throw new NotImplementedException();
 	}
-	
+
 	public void readEventLoggingJsonData() {
 		String[] lines = this.rawEventLoggingData.split("\n");
 		JsonParser parser = new JsonParser();
