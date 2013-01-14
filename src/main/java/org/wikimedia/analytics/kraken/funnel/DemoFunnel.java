@@ -60,7 +60,7 @@ public class DemoFunnel {
 	 *
 	 * @param numberNodes the number nodes
 	 * @param numberEdges the number edges
-	 * @return the directed graph< url, default edge>
+	 * @return the directed graph< node, default edge>
 	 * @throws MalformedFunnelException 
 	 */
 	public static DirectedGraph<Node, DefaultEdge> createFakeUserHistory(int numberNodes, int numberEdges) throws MalformedFunnelException{
@@ -69,7 +69,7 @@ public class DemoFunnel {
 		Random rnd = new Random();
 		DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
 
-		// Create fake URL's and use them to seed as the nodes in a graph
+		// Create fake nodes and use them to seed the graph
 		for (int i = 0; i < numberNodes; i++) {
 			path = alphabet.charAt(rnd.nextInt(alphabet.length()));
 			Node node = new UserActionNode(Character.toString(path));
@@ -78,7 +78,7 @@ public class DemoFunnel {
 			}
 		}
 
-		// Add random edges between the fake URL's to create a fake browsing history
+		// Add random edges between the fake nodes to create a fake browsing history
 		List<Node> vertices = new ArrayList<Node>(dg.vertexSet());
 		for (int i = 0; i < numberEdges; i++) {
 			Node source = vertices.get(rnd.nextInt(vertices.size()));

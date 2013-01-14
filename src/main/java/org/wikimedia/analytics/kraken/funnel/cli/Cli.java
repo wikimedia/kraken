@@ -1,19 +1,11 @@
 package org.wikimedia.analytics.kraken.funnel.cli;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.zip.GZIPInputStream;
+import java.util.Map.Entry;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -23,12 +15,15 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.lang.NotImplementedException;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 import org.wikimedia.analytics.kraken.funnel.Funnel;
+import org.wikimedia.analytics.kraken.funnel.GraphPrinter;
 import org.wikimedia.analytics.kraken.funnel.Node;
 import org.wikimedia.analytics.kraken.utils.DateUtils;
+import org.wikimedia.analytics.kraken.utils.FileUtils;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -43,15 +38,12 @@ public class Cli {
 	String nodeDefinition;
 	Map<String, HashMap<Date, JsonObject>> jsonData = new HashMap<String, HashMap<Date, JsonObject>>();
 
-	public Cli() {
-
-	}
-
 	/**
 	 * @param args
 	 * @throws MalformedFunnelException
 	 * @throws MalformedURLException
 	 */
+	@SuppressWarnings("static-access")
 	public static void main(String[] args) throws MalformedURLException,
 			MalformedFunnelException {
 		Cli cli = new Cli();
@@ -115,14 +107,22 @@ public class Cli {
 			System.exit(-1);
 		}
 
-		cli.unCompressGzipFile();
-		cli.readJsonEventLoggingData();
+		cli.rawEventLoggingData  = FileUtils.unCompressGzipFile(cli.input);
+		cli.readEventLoggingJsonData();
 		Funnel funnel = new Funnel(cli.nodeDefinition, cli.funnelDefinition);
-		DirectedGraph<Node, DefaultEdge> history = funnel
+		Map<String,DirectedGraph<Node, DefaultEdge>> histories = funnel
 				.constructUserGraph(cli.jsonData);
+		//GraphPrinter printer = new GraphPrinter(funnel.graph);
+		for (Entry<String, DirectedGraph<Node, DefaultEdge>> kv : histories.entrySet()) {
+			funnel.analysis(kv.getKey(), kv.getValue());
+		}
 	}
 
-	public void readJsonEventLoggingData() {
+	public void readEventLoggingKVData() {
+		throw new NotImplementedException();
+	}
+	
+	public void readEventLoggingJsonData() {
 		String[] lines = this.rawEventLoggingData.split("\n");
 		JsonParser parser = new JsonParser();
 		for (String line : lines) {
@@ -143,35 +143,6 @@ public class Cli {
 				// System.out.println("key: " + key.toString() + "value: "
 				// + json.toString());
 			}
-		}
-	}
-
-	public void unCompressGzipFile() {
-		System.out.println(this.input);
-		File file = new File(this.input);
-		byte[] buffer = new byte[4096];
-		GZIPInputStream gzip;
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try {
-			gzip = new GZIPInputStream(new FileInputStream(file.toString()));
-			int len;
-			while ((len = gzip.read(buffer)) > 0) {
-				baos.write(buffer, 0, len);
-			}
-			gzip.close();
-			baos.close();
-		} catch (FileNotFoundException e) {
-			System.err.println("Input file " + this.input.toString()
-					+ " does not exist.");
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			this.rawEventLoggingData = baos.toString("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// This is always UTF-8 so this should never happen.
-			e.printStackTrace();
 		}
 	}
 }

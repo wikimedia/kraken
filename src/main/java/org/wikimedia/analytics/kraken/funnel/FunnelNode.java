@@ -19,12 +19,16 @@
  */
 package org.wikimedia.analytics.kraken.funnel;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
 /*
@@ -36,6 +40,8 @@ import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 public class FunnelNode extends Node{
 	/** The nodeDefinition. */
 	public Map<ComponentType, Pattern> nodeDefinition = new HashMap<ComponentType, Pattern>();
+	List<Integer> prime = new ArrayList<Integer>();
+	
 
 	/**
 	 * Instantiates a new node. 
@@ -52,7 +58,7 @@ public class FunnelNode extends Node{
 		ComponentType key;
 		System.out.println(Arrays.toString(nodes));
 		try {
-			key = ComponentType.valueOf(nodes[0]);
+			key = ComponentType.valueOf(nodes[0].toUpperCase());
 		} catch (IllegalArgumentException e) {
 			key = null;
 		}
@@ -62,15 +68,18 @@ public class FunnelNode extends Node{
 		}
 	}
 
-public boolean equals(FunnelNode b) {
-	if (this == b) return true;
-	if (!(b instanceof FunnelNode)) return false;
-	FunnelNode node = (FunnelNode)b;
-	if (this.toString().equals(node.toString())) {
-		return true;
-	} else {
-		return false;
-	}
+public boolean equals(Object obj) {
+	if (this == null) return false;
+	if (this == obj) return true;
+	FunnelNode node = (FunnelNode) obj;
+//	System.out.println("COMPARING: " + node.toString() + " " + this.toString());
+	return new EqualsBuilder().
+			append(this.nodeDefinition.toString(), node.nodeDefinition.toString()).
+			isEquals();
+}
+
+public int hashCode() {
+	return new HashCodeBuilder().append(this.toString()).toHashCode();
 }
 
 public String toString() {
@@ -80,10 +89,8 @@ public String toString() {
 		Pattern value = this.nodeDefinition.get(key);
 		if (value != null) {
 			sb.append(value.toString());
-		} else {
-			sb.append(".");
 		}
-		if (e != nodeDefinition.size()) {
+		if (nodeDefinition.size() > 1 && e < nodeDefinition.size()) {
 			sb.append(":");
 		}
 		e++;

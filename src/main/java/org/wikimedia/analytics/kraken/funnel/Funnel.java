@@ -110,6 +110,8 @@ public class Funnel {
 		this.paths = new ArrayList<ArrayList<Node>>();
 		//this.graph = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
 		this.setNodeDefinition(nodeDefinition);
+		System.out.println("Node definition: " + nodeDefinition);
+		System.out.println("Funnel definition: " + funnelDefinition);
 		this.graph = this.constructFunnelGraph(funnelDefinition);
 		if (this.graph.edgeSet().size() == 0 || this.graph.vertexSet().size() < 2) {
 			System.out.println(this.graph.toString());
@@ -118,6 +120,9 @@ public class Funnel {
 		if (!isDag()) {
 			throw new MalformedFunnelException("A funnel needs to have two connected nodes at the very minimum.");
 		}
+		this.getStartingVertices();
+		this.getDestinationVertices();
+		this.determineUniquePaths();
 	}
 
 	public void setNodeDefinition(String nodeDefinition) throws MalformedFunnelException {
@@ -140,37 +145,59 @@ public class Funnel {
 	public final DirectedGraph<Node, DefaultEdge> constructFunnelGraph(String funnelDefinition) throws PatternSyntaxException, MalformedFunnelException {
 		String[] edgelist = funnelDefinition.split(";");
 		DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
+		//TODO: probably faster to replace ArrayList with HashMap<String, Node>
+		ArrayList<Node> nodes = new ArrayList<Node>();
 		Node source = null;
 		Node target = null;
 		for (String  edgeData : edgelist) {
 			String[] edge = edgeData.split(",");
-				source = new FunnelNode(edge[0]);
-				target = new FunnelNode(edge[1]);
-			}
-			if (!dg.containsVertex(source)) {
+			source = new FunnelNode(edge[0]);
+			target = new FunnelNode(edge[1]);
+
+			//			System.out.println("Constructing edge: " + edgeData.toString());
+			//			System.out.println("Graph contains: " + source + " :" + dg.containsVertex(source));
+			//			System.out.println("Graph contains: " + target + " :" + dg.containsVertex(target));
+			//			System.out.println("SOURCE: " + source.toString());
+			//			System.out.println("TARGET: " + target.toString());
+
+			//Curiously enough, there don't seem to be a method in jGraphT to get
+			//a vertex from a graph, hence I keep an ArrayList of nodes that 
+			//already exist. 
+			if (!nodes.contains(source)) {
 				dg.addVertex(source);
+				nodes.add(source);
+			} else {
+				source = nodes.get(nodes.indexOf(source));
 			}
-			if (!dg.containsVertex(target)) {
+
+			if (!nodes.contains(target)) {
 				dg.addVertex(target);
+				nodes.add(target);
+			} else {
+				target = nodes.get(nodes.indexOf(target));
 			}
+			//			System.out.println("SOURCE: " + source.toString());
+			//			System.out.println("TARGET: " + target.toString());
+
 			if (!dg.containsEdge(source, target)) {
 				dg.addEdge(source, target);
 			}
+			System.out.println("Graph Summary: " + dg.toString());
+
+		}
 		return dg;
 	}
 
 	/**
 	 * Simple wrapper script that conducts all the steps to do a funnel
 	 * analysis.
+	 * @param usertoken 
 	 */
-	public final void analysis(DirectedGraph<Node, DefaultEdge> history) {
-		this.getStartingVertices();
-		this.getDestinationVertices();
+	public final void analysis(String usertoken, DirectedGraph<Node, DefaultEdge> history) {
 		//System.out.println("Funnel is a DAG (true/false): " + result);
 		//System.out.println("Graph summary: " + history.toString());
-		this.determineUniquePaths();
 		HashMap<Integer, Integer> results = this.fallOutAnalysisDetailed(history);
-		this.outputFallOutAnalysisResults(results);
+		this.outputFallOutAnalysisResults(usertoken, results);
 	}
 
 	/**
@@ -183,10 +210,10 @@ public class Funnel {
 			DepthFirstIterator<Node, DefaultEdge> dfi = new DepthFirstIterator<Node, DefaultEdge>(graph, startVertex);
 			ArrayList<Node> path = new ArrayList<Node>();
 			while (dfi.hasNext()) {
-				Node url = dfi.next();
-				path.add(url);
-				System.out.println("--> " + url.toString());
-				if (endVertices.contains(url)) {
+				Node node = dfi.next();
+				path.add(node);
+//				System.out.println("--> " + node.toString());
+				if (endVertices.contains(node)) {
 					break;
 				}
 			}
@@ -264,7 +291,7 @@ public class Funnel {
 	/**
 	 * Detailed fallout analysis.
 	 *
-	 * @param history the browser history of a single user
+	 * @param histories the browser history of a single user
 	 * @return the hashmap< integer, integer>. The key is the path id and the
 	 * value is the last reached step within a path of the funnel.
 	 */
@@ -279,9 +306,10 @@ public class Funnel {
 				Node source = path.get(i);
 				Node target = path.get(j);
 				DefaultEdge edge = history.getEdge(source, target);
-				if (edge == null) {
-					break;
-				}
+				//TODO: how to handle dropping in and out of a funnel?
+				//					if (edge == null) {
+				//						break;
+				//					}
 			}
 			if (j == path.size()) {
 				i = j;
@@ -295,21 +323,22 @@ public class Funnel {
 
 	/**
 	 * Output the results of the fallout analysis.
+	 * @param usertoken 
 	 *
 	 * @param results the results
 	 */
-	public void outputFallOutAnalysisResults(HashMap<Integer, Integer> results) {
-		for (Entry<Integer, Integer> result : results.entrySet()) {
-			Integer key = result.getKey();
-			Integer value = result.getValue();
-			System.out.println("Path id: " + key.toString() + "; Destination: " + value.toString());
+	public void outputFallOutAnalysisResults(String usertoken, HashMap<Integer, Integer> results) {
+		for (Entry<Integer, Integer> path : results.entrySet()) {
+			Integer key = path.getKey();
+			Integer value = path.getValue();
+			System.out.println("Usertoken: " + usertoken.toString() + "; path id: " + key.toString() + "; Destination: " + value.toString());
 		}
 	}
 
 	/**
 	 * Checks if funnel is a DAG.
 	 *
-	 * @return true if the funnel is valid directed acyclical graph (DAG) else
+	 * @return true if the funnel is valid directed acyclic graph (DAG) else
 	 * return false.
 	 */
 	public boolean isDag() {
@@ -322,13 +351,13 @@ public class Funnel {
 		}
 	}
 
-	public DirectedGraph<Node, DefaultEdge> constructUserGraph(
+	public Map<String, DirectedGraph<Node, DefaultEdge>> constructUserGraph(
 			Map<String, HashMap<Date, JsonObject>> jsonData) {
-		DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
+		Map<String, DirectedGraph<Node, DefaultEdge>> graphs = new HashMap<String, DirectedGraph<Node, DefaultEdge>>();
 		Node source;
 		Node target;
 		for (Entry<String, HashMap<Date, JsonObject>> kv : jsonData.entrySet()) {
-
+			DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
 			Set<Date> datesSet = kv.getValue().keySet();
 			List<Date> dates = SortUtils.asSortedList(datesSet);
 			int i;
@@ -351,12 +380,26 @@ public class Funnel {
 							dg.addEdge(source, target);
 						}
 					} catch (MalformedFunnelException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 			}
+			graphs.put(kv.getKey(), dg);
 		}
-		return dg;
+		return graphs;
 	}
+
+	private boolean didBounceFromFunnel(DirectedGraph<Node, DefaultEdge> history) {
+		return false;
+	}
+
+	private boolean didBounceFromFunnel(DirectedGraph<Node, DefaultEdge> history, Node node) {
+		return false;
+	}
+
+	private boolean didCompleteFunnel(DirectedGraph<Node, DefaultEdge> history) {
+		return false;
+	}
+
+
 }

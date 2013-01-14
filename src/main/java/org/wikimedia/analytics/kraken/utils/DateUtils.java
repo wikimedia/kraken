@@ -27,10 +27,6 @@ public class DateUtils {
 	public DateUtils() {
 	}
 	
-	public static Date convertToDate(Integer timestamp) {
-		return new Date(timestamp);
-	}
-	
 	public static Date convertToDate(Long timestamp) {
 		return new Date(timestamp);
 	}

@@ -1,3 +1,23 @@
+/**
+ *Copyright (C) 2012  Wikimedia Foundation
+ *
+ *This program is free software; you can redistribute it and/or
+ *modify it under the terms of the GNU General Public License
+ *as published by the Free Software Foundation; either version 2
+ *of the License, or (at your option) any later version.
+ *
+ *This program is distributed in the hope that it will be useful,
+ *but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *GNU General Public License for more details.
+ *
+ *You should have received a copy of the GNU General Public License
+ *along with this program; if not, write to the Free Software
+ *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * @version $Id: $Id
+ */
+
 package org.wikimedia.analytics.kraken.funnel;
 
 import java.net.URI;
@@ -94,9 +114,11 @@ public class UserActionNode extends Node{
 	/*
 	 * Compare two nodes and determine whether they can be considered the same.
 	 */
-	public boolean equals(UserActionNode node) {
-		if (this == node) return true;
-		if (node == null) return false;
+	public boolean equals(Object obj) {
+		//TODO: implementation not yet finished, use Apache Commons EqualsBuilder
+		if (this == obj) return true;
+		if (obj == null) return false;
+		Node node = (Node)obj;
 		return this.toString().equals(node.toString());
 	}
 
