@@ -35,6 +35,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.PatternSyntaxException;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.alg.CycleDetector;
 import org.jgrapht.graph.DefaultDirectedGraph;
@@ -77,7 +78,7 @@ public class Funnel {
 	public List<Node> endVertices;
 
 	/** The paths. */
-	public List<ArrayList<Node>> paths;
+	public List<FunnelPath> paths = new ArrayList<FunnelPath>();
 
 	/** Edge definition */
 	public List<String> nodeDefinition = new ArrayList<String>();
@@ -107,7 +108,6 @@ public class Funnel {
 	 * @throws MalformedNodeException the malformed url exception
 	 */
 	public Funnel(String nodeDefinition, String funnelDefinition) throws MalformedFunnelException {
-		this.paths = new ArrayList<ArrayList<Node>>();
 		//this.graph = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
 		this.setNodeDefinition(nodeDefinition);
 		System.out.println("Node definition: " + nodeDefinition);
@@ -194,10 +194,9 @@ public class Funnel {
 	 * @param usertoken 
 	 */
 	public final void analysis(String usertoken, DirectedGraph<Node, DefaultEdge> history) {
-		//System.out.println("Funnel is a DAG (true/false): " + result);
-		//System.out.println("Graph summary: " + history.toString());
-		HashMap<Integer, Integer> results = this.fallOutAnalysisDetailed(history);
-		this.outputFallOutAnalysisResults(usertoken, results);
+		Analysis analysis = new Analysis();
+		Pair<FunnelPath, Boolean> result = analysis.hasCompletedFunnel(history, funnel);
+		analysis.printResults(usertoken, result);
 	}
 
 	/**
@@ -205,20 +204,21 @@ public class Funnel {
 	 * and {@link endVertices}.
 	 */
 	public final void determineUniquePaths() {
+		int i = 0;
 		for (Node startVertex : startVertices) {
 			System.out.println("Start vertex: " + startVertex.toString());
 			DepthFirstIterator<Node, DefaultEdge> dfi = new DepthFirstIterator<Node, DefaultEdge>(graph, startVertex);
-			ArrayList<Node> path = new ArrayList<Node>();
+			FunnelPath path = new FunnelPath(Integer.toString(i));
 			while (dfi.hasNext()) {
 				Node node = dfi.next();
-				path.add(node);
+				path.nodes.add(node);
 //				System.out.println("--> " + node.toString());
 				if (endVertices.contains(node)) {
 					break;
 				}
 			}
 			System.out.println(path.toString());
-			paths.add(path);
+			i++;
 		}
 	}
 
@@ -256,84 +256,7 @@ public class Funnel {
 		}
 	}
 
-	/**
-	 * Fall out analysis.
-	 *
-	 * @param history the history
-	 * @return the hash map
-	 */
-	public HashMap<Integer, Boolean> fallOutAnalysis(DirectedGraph<Node, DefaultEdge> history) {
-		HashMap<Integer, Boolean> results = new HashMap<Integer, Boolean>();
-		int i = 0;
-		int j = 0;
-		int p = 0;
-		for (ArrayList<Node> path : paths) {
-			for (i = 0; i < path.size() - 1; i++) {
-				j = i + 1;
-				Node source = path.get(i);
-				Node target = path.get(j);
-				DefaultEdge edge = history.getEdge(source, target);
-				if (edge == null) {
-					break;
-				}
-			}
-			if (j == path.size()-1) {
-				results.put(p, true);
-			} else {
-				results.put(p, false);
-			}
-			j = 0;
-			p++;
-		}
-		return results;
-	}
 
-	/**
-	 * Detailed fallout analysis.
-	 *
-	 * @param histories the browser history of a single user
-	 * @return the hashmap< integer, integer>. The key is the path id and the
-	 * value is the last reached step within a path of the funnel.
-	 */
-	public HashMap<Integer, Integer> fallOutAnalysisDetailed(DirectedGraph<Node, DefaultEdge> history) {
-		HashMap<Integer, Integer> results = new HashMap<Integer, Integer>();
-		int i = 0;
-		int j = 0;
-		int p = 0;
-		for (ArrayList<Node> path : paths) {
-			for (i = 0; i < path.size() - 1; i++) {
-				j = i + 1;
-				Node source = path.get(i);
-				Node target = path.get(j);
-				DefaultEdge edge = history.getEdge(source, target);
-				//TODO: how to handle dropping in and out of a funnel?
-				//					if (edge == null) {
-				//						break;
-				//					}
-			}
-			if (j == path.size()) {
-				i = j;
-			}
-			results.put(p, i);
-			j = 0;
-			p++;
-		}
-		return results;
-	}
-
-	/**
-	 * Output the results of the fallout analysis.
-	 * @param usertoken 
-	 *
-	 * @param results the results
-	 */
-	public void outputFallOutAnalysisResults(String usertoken, HashMap<Integer, Integer> results) {
-		for (Entry<Integer, Integer> path : results.entrySet()) {
-			Integer key = path.getKey();
-			Integer value = path.getValue();
-			System.out.println("Usertoken: " + usertoken.toString() + "; path id: " + key.toString() + "; Destination: " + value.toString());
-		}
-	}
 
 	/**
 	 * Checks if funnel is a DAG.
@@ -351,6 +274,19 @@ public class Funnel {
 		}
 	}
 
+	/*
+	 * This function has input a map with as key the usertoken string and as 
+	 * value another map. In this second map, the key is a datetime and the 
+	 * value is the @{link jsonObject} that contains the actual eventLogging 
+	 * data for that token/timestamp combination.
+	 * 
+	 * This function iterates over all usertokens, over all dates and constructs
+	 * for each usertoken a new graph representing the actions of that
+	 * user token.
+	 * 
+	 * @returns a map with as key the usertoken and as value the graph 
+	 * representing their actions.
+	 */
 	public Map<String, DirectedGraph<Node, DefaultEdge>> constructUserGraph(
 			Map<String, HashMap<Date, JsonObject>> jsonData) {
 		Map<String, DirectedGraph<Node, DefaultEdge>> graphs = new HashMap<String, DirectedGraph<Node, DefaultEdge>>();
@@ -388,18 +324,4 @@ public class Funnel {
 		}
 		return graphs;
 	}
-
-	private boolean didBounceFromFunnel(DirectedGraph<Node, DefaultEdge> history) {
-		return false;
-	}
-
-	private boolean didBounceFromFunnel(DirectedGraph<Node, DefaultEdge> history, Node node) {
-		return false;
-	}
-
-	private boolean didCompleteFunnel(DirectedGraph<Node, DefaultEdge> history) {
-		return false;
-	}
-
-
 }

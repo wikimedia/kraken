@@ -109,7 +109,7 @@ public class FunnelTest {
 		// Unfinished test, add code to compare that the results of the two runs
 		// are identical.
 		DirectedGraph<Node, DefaultEdge> history = DemoFunnel.createFakeUserHistory(100, 250);
-		funnel.analysis(history);
-		funnel.analysis(history);
+		funnel.analysis("fake_user_token", history);
+		funnel.analysis("fake_user_token", history);
 	}
 }
