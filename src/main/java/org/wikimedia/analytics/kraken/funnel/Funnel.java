@@ -193,10 +193,10 @@ public class Funnel {
 	 * analysis.
 	 * @param usertoken 
 	 */
-	public final void analysis(String usertoken, DirectedGraph<Node, DefaultEdge> history) {
+	public final void analysis(String userToken, DirectedGraph<Node, DefaultEdge> history) {
 		Analysis analysis = new Analysis();
-		Pair<FunnelPath, Boolean> result = analysis.hasCompletedFunnel(history, funnel);
-		analysis.printResults(usertoken, result);
+		Result result = analysis.run(userToken,history, funnel);
+		analysis.printResults(userToken, result);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class Funnel {
 		for (Node startVertex : startVertices) {
 			System.out.println("Start vertex: " + startVertex.toString());
 			DepthFirstIterator<Node, DefaultEdge> dfi = new DepthFirstIterator<Node, DefaultEdge>(graph, startVertex);
-			FunnelPath path = new FunnelPath(Integer.toString(i));
+			FunnelPath path = new FunnelPath(i);
 			while (dfi.hasNext()) {
 				Node node = dfi.next();
 				path.nodes.add(node);

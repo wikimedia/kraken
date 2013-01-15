@@ -32,31 +32,48 @@ public class Analysis {
 	public boolean hasBouncedFromFunnel(
 			DirectedGraph<Node, DefaultEdge> history, Node sourceVertex,
 			Node targetVertex) {
-		return history.containsEdge(sourceVertex, targetVertex);
+		if (sourceVertex != null) {
+			return !history.containsEdge(sourceVertex, targetVertex);
+		} else {
+			return !history.containsVertex(targetVertex);
+		}
 	}
 
-	public Pair<FunnelPath, Boolean> hasCompletedFunnel(DirectedGraph<Node, DefaultEdge> history,
+	private void incrementImpression(FunnelPath path, Node node) {
+		FunnelNode funnelNode = (FunnelNode) path.nodes.get(0);
+		funnelNode.impression++;
+	}
+
+	public Result run(String userToken, DirectedGraph<Node, DefaultEdge> history,
 			Funnel funnel) {
 		FunnelPath path = null;
+		Boolean bounced;
+		Boolean completedFunnel = false;
 		Iterator<FunnelPath> fp = funnel.paths.listIterator();
 		while (fp.hasNext()) {
-			path = fp.next();
-			Iterator<Pair<Node, Node>> it = path.iterator();
 			Pair<Node, Node> pair;
 			List<Boolean> results = new ArrayList<Boolean>();
+			path = fp.next();
+			Iterator<Pair<Node, Node>> it = path.iterator();
 			while (it.hasNext()) {
 				pair = it.next();
-				results.add(hasBouncedFromFunnel(history, pair.getLeft(),
+				bounced = (hasBouncedFromFunnel(history, pair.getLeft(),
 						pair.getRight()));
-			}
-			if (!results.contains(false)) {
-				return Pair.of(path, true);
+				if (!bounced) {
+					incrementImpression(path, pair.getRight());
+				}
+			results.add(bounced);
+			completedFunnel =hasCompletedFunnel(results); 
 			}
 		}
-		if (path == null) {
-			throw new NullPointerException();
-		}
-		return Pair.of(path, false);
+		return new Result(userToken, path.id, completedFunnel);
+	}
+
+	public boolean hasCompletedFunnel(List<Boolean> results) {
+		if (!results.contains(false)) {
+			return true;
+		} else
+			return false;
 	}
 
 	/**
@@ -67,11 +84,9 @@ public class Analysis {
 	 * @param 
 	 */
 	public void printResults(String usertoken,
-			Pair<FunnelPath, Boolean> result) {
-		FunnelPath path = result.getKey();
-		Boolean value = result.getValue();
-		System.out.println("Usertoken: " + usertoken.toString()
-				+ "; path id: " + path.id 
-				+ "; Finished: " + value.toString());
+			Result result) {
+		System.out.println("Usertoken: " + result.userToken
+				+ "; path id: " + result.funnelPathId 
+				+ "; Finished: " + result.hasFinishedFunnel);
 	}
 }

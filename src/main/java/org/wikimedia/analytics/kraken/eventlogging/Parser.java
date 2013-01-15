@@ -27,11 +27,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * The Class ParserTest.This class parses JSON Schema URI's from 
@@ -74,7 +74,7 @@ public class Parser {
 	 * @param entry a JsonNode object
 	 */
 	public void insertField(String key, Entry<String, JsonNode> entry) {
-		Iterator<Entry<String, JsonNode>> it = entry.getValue().getFields();
+		Iterator<Entry<String, JsonNode>> it = entry.getValue().fields();
 		Entry<String, JsonNode> prop;
 		String type;
 		while (it.hasNext()) {
@@ -105,8 +105,7 @@ public class Parser {
 	 */
 	public String loadEventLoggingJsonSchema(String schemaName)
 			throws IOException {
-		String urlStr = "http://meta.wikimedia.org/w/api.php?format=json&action=query&titles=Schema:"
-				+ schemaName + "&prop=revisions&rvprop=content";
+		String urlStr = "http://meta.wikimedia.org/wiki/Schema:" + schemaName + "?action=raw";
 		URL url = new URL(urlStr);
 		BufferedReader reader = null;
 		StringBuilder buffer = new StringBuilder();
@@ -132,33 +131,17 @@ public class Parser {
 	 */
 	public void parseEventLoggingJsonSchem(String jsonSchema)
 			throws JsonParseException, IOException {
-		// There are definitively ways to do this recursive, but it's not worth
-		// it; this code is not optimal but readable and easily fixable if
-		// the eventLogging schema changes
 		ObjectMapper mapper = new ObjectMapper();
-		JsonFactory jf = mapper.getJsonFactory();
+		JsonFactory jf = mapper.getFactory();
 		JsonParser jp = jf.createJsonParser(jsonSchema);
 		JsonNode rootNode = mapper.readTree(jp);
-
-		JsonNode overallSchema = rootNode.findParent("contentmodel");
-		Iterator<Entry<String, JsonNode>> it = overallSchema.getFields();
+		Iterator<Entry<String, JsonNode>> it = rootNode.fields();
 		Entry<String, JsonNode> entry;
 		String key;
 		while (it.hasNext()) {
 			entry = it.next();
-			if ("*".equals(entry.getKey())) {
-				JsonParser jp2 = jf.createJsonParser(entry.getValue()
-						.getTextValue());
-				JsonNode rootSchemaNode = mapper.readTree(jp2);
-				JsonNode schema = rootSchemaNode.findParent("token");
-				Iterator<Entry<String, JsonNode>> it2 = schema.getFields();
-				while (it2.hasNext()) {
-					entry = it2.next();
-					key = entry.getKey();
-					insertField(key, entry);
-				}
-				break;
-			}
+			key = entry.getKey();
+			insertField(key, entry);
 		}
 	}
 }

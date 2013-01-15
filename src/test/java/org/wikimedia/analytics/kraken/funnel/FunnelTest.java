@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.junit.Test;
@@ -60,10 +61,6 @@ public class FunnelTest {
 				.println("Number of vertices: " + funnel.startVertices.size());
 		startVertices.add(new UserActionNode("A"));
 		startVertices.add(new UserActionNode("D"));
-		// for (URL startVertex : funnel.startVertices) {
-		// System.out.println(startVertex.toString());
-		// }
-		// assert funnel.startVertices.equals()
 		System.out.println("Found starting Vertices: "
 				+ Arrays.toString(funnel.startVertices.toArray()));
 		assertTrue(funnel.startVertices.indexOf("A") > -1);
@@ -86,22 +83,23 @@ public class FunnelTest {
 
 	@Test
 	public final void testFallOutAnalysis() throws MalformedFunnelException {
-		ArrayList<Node> path0 = new ArrayList<Node>();
-		path0.add(new UserActionNode("A"));
-		path0.add(new UserActionNode("B"));
-		path0.add(new UserActionNode("C"));
+		FunnelPath path0 = new FunnelPath(0);
+		path0.nodes.add(new UserActionNode("A"));
+		path0.nodes.add(new UserActionNode("B"));
+		path0.nodes.add(new UserActionNode("C"));
 
-		ArrayList<Node> path1 = new ArrayList<Node>();
-		path1.add(new UserActionNode("D"));
-		path1.add(new UserActionNode("B"));
-		path1.add(new UserActionNode("E"));
+		FunnelPath path1 = new FunnelPath(1);
+		path1.nodes.add(new UserActionNode("D"));
+		path1.nodes.add(new UserActionNode("B"));
+		path1.nodes.add(new UserActionNode("E"));
 
 		funnel.paths.add(0, path0);
 		funnel.paths.add(1, path1);
 
-		HashMap<Integer, Boolean> results = funnel.fallOutAnalysis(funnel.graph);
-		assertTrue(results.size() == 2);
-		assertTrue(!results.values().contains(false));
+		Analysis analysis = new Analysis();
+		DirectedGraph<Node, DefaultEdge> history = null;
+		Result result = analysis.run("fake_user_token", history, funnel);
+		assertTrue(result.hasFinishedFunnel == true);
 	}
 
 	@Test

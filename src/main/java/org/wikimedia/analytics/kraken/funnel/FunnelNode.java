@@ -19,10 +19,8 @@
  */
 package org.wikimedia.analytics.kraken.funnel;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -40,8 +38,8 @@ import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 public class FunnelNode extends Node{
 	/** The nodeDefinition. */
 	public Map<ComponentType, Pattern> nodeDefinition = new HashMap<ComponentType, Pattern>();
-	List<Integer> prime = new ArrayList<Integer>();
-	
+	public Integer impression = 0;
+
 
 	/**
 	 * Instantiates a new node. 
@@ -51,10 +49,6 @@ public class FunnelNode extends Node{
 	 */
 	public FunnelNode(String edge) throws MalformedFunnelException, PatternSyntaxException {
 		String[] nodes = edge.split("=");
-		//		if (pairs.length != ComponentType.values().length) {
-		//			throw new MalformedFunnelException("Each node should contain the " +
-		//					"following components (separated by a colon): " + Arrays.toString(ComponentType.values()));
-		//		}
 		ComponentType key;
 		System.out.println(Arrays.toString(nodes));
 		try {
@@ -68,34 +62,34 @@ public class FunnelNode extends Node{
 		}
 	}
 
-public boolean equals(Object obj) {
-	if (this == null) return false;
-	if (this == obj) return true;
-	FunnelNode node = (FunnelNode) obj;
-//	System.out.println("COMPARING: " + node.toString() + " " + this.toString());
-	return new EqualsBuilder().
-			append(this.nodeDefinition.toString(), node.nodeDefinition.toString()).
-			isEquals();
-}
-
-public int hashCode() {
-	return new HashCodeBuilder().append(this.toString()).toHashCode();
-}
-
-public String toString() {
-	StringBuilder sb = new StringBuilder(100);
-	int e = 1;
-	for (ComponentType key : ComponentType.values()) {
-		Pattern value = this.nodeDefinition.get(key);
-		if (value != null) {
-			sb.append(value.toString());
-		}
-		if (nodeDefinition.size() > 1 && e < nodeDefinition.size()) {
-			sb.append(":");
-		}
-		e++;
+	public boolean equals(Object obj) {
+		if (this == null) return false;
+		if (this == obj) return true;
+		FunnelNode node = (FunnelNode) obj;
+		//	System.out.println("COMPARING: " + node.toString() + " " + this.toString());
+		return new EqualsBuilder().
+				append(this.nodeDefinition.toString(), node.nodeDefinition.toString()).
+				isEquals();
 	}
-	return sb.toString();
-}
+
+	public int hashCode() {
+		return new HashCodeBuilder().append(this.toString()).toHashCode();
+	}
+
+	public String toString() {
+		StringBuilder sb = new StringBuilder(100);
+		int e = 1;
+		for (ComponentType key : ComponentType.values()) {
+			Pattern value = this.nodeDefinition.get(key);
+			if (value != null) {
+				sb.append(value.toString());
+			}
+			if (nodeDefinition.size() > 1 && e < nodeDefinition.size()) {
+				sb.append(":");
+			}
+			e++;
+		}
+		return sb.toString();
+	}
 
 }
