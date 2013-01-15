@@ -99,7 +99,7 @@ public class FunnelTest {
 		Analysis analysis = new Analysis();
 		DirectedGraph<Node, DefaultEdge> history = null;
 		Result result = analysis.run("fake_user_token", history, funnel);
-		assertTrue(result.hasFinishedFunnel == true);
+		assertTrue(result.getHasFinishedFunnel());
 	}
 
 	@Test

@@ -29,64 +29,55 @@ import org.jgrapht.graph.DefaultEdge;
 
 public class Analysis {
 
-	public boolean hasBouncedFromFunnel(
-			DirectedGraph<Node, DefaultEdge> history, Node sourceVertex,
-			Node targetVertex) {
-		if (sourceVertex != null) {
-			return !history.containsEdge(sourceVertex, targetVertex);
-		} else {
-			return !history.containsVertex(targetVertex);
-		}
+	public Result run(String userToken, DirectedGraph<Node, DefaultEdge> history, Funnel funnel) {
+		boolean bounced;
+		ArrayList<FunnelPath> completedFunnelViaPaths = new ArrayList<FunnelPath>();
+        for (FunnelPath path : funnel.paths) {
+            List<Boolean> results = new ArrayList<Boolean>();
+            for (Pair<Node, Node> pair : path) {
+                bounced = (hasBouncedFromFunnel(history, pair.getLeft(), pair.getRight()));
+                if (!bounced) {
+                    incrementImpression(path, pair.getRight());
+                }
+                results.add(bounced);
+                if (hasCompletedFunnel(results)) {
+                    completedFunnelViaPaths.add(path);
+                }
+            }
+        }
+		return new Result(userToken, completedFunnelViaPaths);
 	}
 
-	private void incrementImpression(FunnelPath path, Node node) {
-		FunnelNode funnelNode = (FunnelNode) path.nodes.get(0);
-		funnelNode.impression++;
-	}
+    private boolean hasBouncedFromFunnel(
+            DirectedGraph<Node, DefaultEdge> history,
+            Node sourceVertex,
+            Node targetVertex) {
+        if (sourceVertex != null) {
+            return !history.containsEdge(sourceVertex, targetVertex);
+        } else {
+            return !history.containsVertex(targetVertex);
+        }
+    }
 
-	public Result run(String userToken, DirectedGraph<Node, DefaultEdge> history,
-			Funnel funnel) {
-		FunnelPath path = null;
-		Boolean bounced;
-		Boolean completedFunnel = false;
-		Iterator<FunnelPath> fp = funnel.paths.listIterator();
-		while (fp.hasNext()) {
-			Pair<Node, Node> pair;
-			List<Boolean> results = new ArrayList<Boolean>();
-			path = fp.next();
-			Iterator<Pair<Node, Node>> it = path.iterator();
-			while (it.hasNext()) {
-				pair = it.next();
-				bounced = (hasBouncedFromFunnel(history, pair.getLeft(),
-						pair.getRight()));
-				if (!bounced) {
-					incrementImpression(path, pair.getRight());
-				}
-			results.add(bounced);
-			completedFunnel =hasCompletedFunnel(results); 
-			}
-		}
-		return new Result(userToken, path.id, completedFunnel);
-	}
+    private void incrementImpression(FunnelPath path, Node node) {
+        FunnelNode funnelNode = (FunnelNode) path.nodes.get(0);
+        funnelNode.impression++;
+    }
 
-	public boolean hasCompletedFunnel(List<Boolean> results) {
-		if (!results.contains(false)) {
-			return true;
-		} else
-			return false;
+
+	private boolean hasCompletedFunnel(List<Boolean> results) {
+        return !results.contains(false);
 	}
 
 	/**
 	 * Output the results of an analysis to stdout.
-	 * 
-	 * @param usertoken
-	 * 
-	 * @param 
+	 * @param result
 	 */
-	public void printResults(String usertoken,
-			Result result) {
-		System.out.println("Usertoken: " + result.userToken
-				+ "; path id: " + result.funnelPathId 
-				+ "; Finished: " + result.hasFinishedFunnel);
+	public void printResults(Result result) {
+		System.out.println(
+            "User Token: " + result.userToken
+            + "; Finished: " + result.getHasFinishedFunnel()
+            + "; via " + result.completionPaths.size() + " paths"
+        );
 	}
 }

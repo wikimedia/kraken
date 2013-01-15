@@ -26,13 +26,8 @@ package org.wikimedia.analytics.kraken.funnel;
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 import org.wikimedia.analytics.kraken.utils.SortUtils;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -87,7 +82,6 @@ public class Funnel {
 	 * Constructor for the funnel.
 	 *
 	 * @throws MalformedFunnelException the malformed funnel exception
-	 * @throws MalformedNodeException the malformed url exception
 	 */
 	public Funnel() throws MalformedFunnelException {
 		this("page","A,B\n" +
@@ -105,7 +99,6 @@ public class Funnel {
 	 * is used for this particular funnel and should be present in the Node query
 	 * string.
 	 * @throws MalformedFunnelException the malformed funnel exception
-	 * @throws MalformedNodeException the malformed url exception
 	 */
 	public Funnel(String nodeDefinition, String funnelDefinition) throws MalformedFunnelException {
 		//this.graph = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
@@ -126,9 +119,7 @@ public class Funnel {
 	}
 
 	public void setNodeDefinition(String nodeDefinition) throws MalformedFunnelException {
-		for (String component : nodeDefinition.split(":")) {
-			this.nodeDefinition.add(component);
-		}
+        Collections.addAll(this.nodeDefinition, nodeDefinition.split(":"));
 		if (this.nodeDefinition.size() == 0) {
 			throw new MalformedFunnelException("Your node definition does not use use the colon as a separator.");
 		}
@@ -191,17 +182,16 @@ public class Funnel {
 	/**
 	 * Simple wrapper script that conducts all the steps to do a funnel
 	 * analysis.
-	 * @param usertoken 
+	 * @param userToken
 	 */
 	public final void analysis(String userToken, DirectedGraph<Node, DefaultEdge> history) {
 		Analysis analysis = new Analysis();
 		Result result = analysis.run(userToken,history, funnel);
-		analysis.printResults(userToken, result);
+		analysis.printResults(result);
 	}
 
 	/**
-	 * Determine all the unique paths between all the {@link startVertices}
-	 * and {@link endVertices}.
+	 * Determine all the unique paths between all the {@link this.startVertices} and {@link this.endVertices}.
 	 */
 	public final void determineUniquePaths() {
 		int i = 0;
@@ -224,8 +214,6 @@ public class Funnel {
 
 	/**
 	 * Retrieve all the possible start vertices from the funnel.
-	 *
-	 * @return the starting vertices
 	 */
 	public final void getStartingVertices() {
 		startVertices = new ArrayList<Node>();
@@ -241,8 +229,6 @@ public class Funnel {
 
 	/**
 	 * Retrieve all the possible destination vertices from the funnel.
-	 *
-	 * @return the destination vertices
 	 */
 	public final void getDestinationVertices() {
 		endVertices = new ArrayList<Node>();
@@ -295,7 +281,9 @@ public class Funnel {
 		for (Entry<String, HashMap<Date, JsonObject>> kv : jsonData.entrySet()) {
 			DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
 			Set<Date> datesSet = kv.getValue().keySet();
-			List<Date> dates = SortUtils.asSortedList(datesSet);
+
+            ArrayList dates = new ArrayList<Date>(datesSet);
+            Collections.sort(dates);
 			int i;
 			int j;
 			for (i=0; i + 1 < dates.size(); i++) {

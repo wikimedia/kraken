@@ -44,7 +44,7 @@ public class FunnelNode extends Node{
 	/**
 	 * Instantiates a new node. 
 	 *
-	 * @param funnelDefinition
+	 * @param edge
 	 * @throws MalformedFunnelException 
 	 */
 	public FunnelNode(String edge) throws MalformedFunnelException, PatternSyntaxException {
@@ -62,11 +62,29 @@ public class FunnelNode extends Node{
 		}
 	}
 
+    /**
+     * Whether a UserActionNode matches this FunnelNode
+     *
+     * @param node
+     * @return
+     */
+    public boolean matches(UserActionNode node){
+        boolean match = true;
+        for (ComponentType key : this.nodeDefinition.keySet()){
+            match = match
+                 && node.componentValues.containsKey(key)
+                 && this.nodeDefinition.get(key).matcher(node.componentValues.get(key)).matches();
+        }
+        return match;
+    }
+
 	public boolean equals(Object obj) {
-		if (this == null) return false;
-		if (this == obj) return true;
+		if (obj == null) { return false; }
+        if (this == obj) { return true; }
+        if (obj instanceof UserActionNode) { return this.matches((UserActionNode)obj); }
+        if (!(obj instanceof FunnelNode)) { return false; }
+
 		FunnelNode node = (FunnelNode) obj;
-		//	System.out.println("COMPARING: " + node.toString() + " " + this.toString());
 		return new EqualsBuilder().
 				append(this.nodeDefinition.toString(), node.nodeDefinition.toString()).
 				isEquals();

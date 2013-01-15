@@ -21,7 +21,6 @@ import org.jgrapht.graph.DefaultEdge;
 
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 import org.wikimedia.analytics.kraken.funnel.Funnel;
-import org.wikimedia.analytics.kraken.funnel.GraphPrinter;
 import org.wikimedia.analytics.kraken.funnel.Node;
 import org.wikimedia.analytics.kraken.utils.DateUtils;
 import org.wikimedia.analytics.kraken.utils.FileUtils;
@@ -139,7 +138,7 @@ public class Cli {
 			JsonElement key = json.get("token");
 			String schema = json.get("meta").getAsJsonObject().get("schema")
 					.getAsString();
-			if (this.schema.equals(schema.toString())) {
+			if (this.schema.equals(schema)) {
 				Date date = DateUtils.convertToDate(json.get("meta")
 						.getAsJsonObject().get("timestamp").getAsLong());
 				if (!jsonData.containsKey(key)) {
