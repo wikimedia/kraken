@@ -306,8 +306,8 @@ public class Funnel {
                 JsonObject targetJson = kv.getValue().get(dates.get(j)).getAsJsonObject();
                 if (!sourceJson.isJsonNull() && !targetJson.isJsonNull()) {
 
-                    source = new UserActionNode(this.nodeDefinition, sourceJson);
-                    target = new UserActionNode(this.nodeDefinition, targetJson);
+                    source = new UserActionNode(sourceJson);
+                    target = new UserActionNode(targetJson);
                     if (!dg.containsVertex(source)) {
                         dg.addVertex(source);
                     }

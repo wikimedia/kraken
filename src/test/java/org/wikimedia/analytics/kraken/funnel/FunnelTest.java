@@ -1,14 +1,11 @@
 package org.wikimedia.analytics.kraken.funnel;
 
+import com.google.gson.JsonObject;
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 import org.wikimedia.analytics.kraken.funnel.DemoFunnel;
 import org.wikimedia.analytics.kraken.funnel.Funnel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.jgrapht.DirectedGraph;
@@ -36,7 +33,7 @@ public class FunnelTest {
 	 * There are two unique paths in this funnel: {A,B,C} and {D,B,E}
 	 */
 	public FunnelTest() throws MalformedFunnelException {
-		this.funnel = new Funnel(nodeDefinition, funnelDefinition);
+		//this.funnel = new Funnel(nodeDefinition, funnelDefinition);
 	}
 
 	/**
@@ -54,6 +51,16 @@ public class FunnelTest {
 		endVertices.add(new UserActionNode(nodeDefinition, "E"));
 		assertTrue(funnel.endVertices.containsAll(endVertices));
 	}
+
+    @Test
+    public final void testFunnelNodeEqualsUserActionNode() throws MalformedFunnelException {
+        FunnelNode f = new FunnelNode("LANGUAGE=en");
+        JsonObject json = new JsonObject();
+        json.addProperty("LANGUAGE", "en");
+        UserActionNode u = new UserActionNode(json);
+
+        assertTrue(f.equals(u));
+    }
 
 	@Test
 	public final void testGetStartingVertices() throws MalformedFunnelException {
