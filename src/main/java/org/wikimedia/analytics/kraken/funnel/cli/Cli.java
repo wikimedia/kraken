@@ -38,7 +38,7 @@ public class Cli {
 	private String rawEventLoggingData;
 	private String funnelDefinition;
 	private String nodeDefinition;
-	private final Map<String, HashMap<Date, JsonObject>> jsonData = new HashMap<String, HashMap<Date, JsonObject>>();
+	private final Map<String, Map<Date, JsonObject>> jsonData = new HashMap<String, Map<Date, JsonObject>>();
 
 	/**
 	 * @param args should contain the options to start the funnel analysis.
@@ -131,6 +131,7 @@ public class Cli {
 	public void readEventLoggingJsonData() {
 		String[] lines = this.rawEventLoggingData.split("\n");
 		JsonParser parser = new JsonParser();
+        Map<Date, JsonObject> map;
 		for (String line : lines) {
 			JsonObject json = parser.parse(line).getAsJsonObject();
 			JsonElement key = json.get("token");
@@ -139,16 +140,18 @@ public class Cli {
 			if (this.schema.equals(schema)) {
 				Date date = DateUtils.convertToDate(json.get("meta")
 						.getAsJsonObject().get("timestamp").getAsLong());
-				if (!jsonData.containsKey(key)) {
+				if (!jsonData.containsKey(key.toString())) {
 					// TODO: We don't handle the case when events have the exact
 					// same timestamp
-					HashMap<Date, JsonObject> map = new HashMap<Date, JsonObject>();
-					map.put(date, json);
-					jsonData.put(key.toString(), map);
+					map = new HashMap<Date, JsonObject>();
+                }   else {
+                    map = jsonData.get(key.toString());
+                }
+                map.put(date, json);
+                jsonData.put(key.toString(), map);
 				}
 				// System.out.println("key: " + key.toString() + "value: "
 				// + json.toString());
-			}
 		}
 	}
 }
