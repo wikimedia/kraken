@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
 /*
@@ -37,14 +37,14 @@ import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
  */
 public class FunnelNode extends Node{
 	/** The nodeDefinition. */
-	public Map<ComponentType, Pattern> nodeDefinition = new HashMap<ComponentType, Pattern>();
+	private final Map<ComponentType, Pattern> nodeDefinition = new HashMap<ComponentType, Pattern>();
 	public Integer impression = 0;
 
 
 	/**
 	 * Instantiates a new node. 
 	 *
-	 * @param edge
+	 * @param edge contains a step in a funnel.
 	 * @throws MalformedFunnelException 
 	 */
 	public FunnelNode(String edge) throws MalformedFunnelException, PatternSyntaxException {
@@ -65,8 +65,10 @@ public class FunnelNode extends Node{
     /**
      * Whether a UserActionNode matches this FunnelNode
      *
-     * @param node
-     * @return
+     * @param {@link UserActionNode} instance to determine whether that
+     *         action was taken inside/outside of a funnel.
+     * @return true if the regular expression of {@link FunnelNode} matches
+     * the node definition of {@link UserActionNode} otherwise false.
      */
     public boolean matches(UserActionNode node){
         boolean match = true;

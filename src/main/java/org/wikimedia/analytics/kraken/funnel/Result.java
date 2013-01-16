@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Result {
 	
-	public String userToken;
-	public List<FunnelPath> completionPaths;
+	public final String userToken;
+	public final List<FunnelPath> completionPaths;
     public boolean getHasFinishedFunnel(){
         return this.completionPaths != null && this.completionPaths.size() > 0;
     }

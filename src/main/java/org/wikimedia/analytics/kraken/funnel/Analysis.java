@@ -20,14 +20,13 @@
 package org.wikimedia.analytics.kraken.funnel;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
-public class Analysis {
+class Analysis {
 
 	public Result run(String userToken, DirectedGraph<Node, DefaultEdge> history, Funnel funnel) {
 		boolean bounced;
@@ -60,7 +59,8 @@ public class Analysis {
     }
 
     private void incrementImpression(FunnelPath path, Node node) {
-        FunnelNode funnelNode = (FunnelNode) path.nodes.get(0);
+        //maybe path.nodes should be a hashmap to easy looking up.
+        FunnelNode funnelNode = (FunnelNode) path.nodes.get(path.nodes.indexOf(node));
         funnelNode.impression++;
     }
 
@@ -71,7 +71,7 @@ public class Analysis {
 
 	/**
 	 * Output the results of an analysis to stdout.
-	 * @param result
+	 * @param result instance of the {@link Result} class
 	 */
 	public void printResults(Result result) {
 		System.out.println(

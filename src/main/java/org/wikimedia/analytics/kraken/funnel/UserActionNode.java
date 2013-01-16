@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
@@ -47,23 +47,22 @@ import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
  * for Data Analytics at Twitter" 
  * (http://vldb.org/pvldb/vol5/p1771_georgelee_vldb2012.pdf)
  */
-public class UserActionNode extends Node{
+class UserActionNode extends Node{
 	/** The params. */
 	public Map<ComponentType, String> componentValues;
-	public Pattern wikis = Pattern.compile("project:(patternForProject)|||language:(patternForLanguage)"); //TODO: Find actual regex
+	private final Pattern wikis = Pattern.compile("project:(patternForProject)|||language:(patternForLanguage)"); //TODO: Find actual regex
 	public List<Date> visited;
 	public String url;
 
 	/**
 	 * Instantiates a new node. 
 	 *
-	 * @param eventLoggingQueryString
-	 * @throws MalformedFunnelException 
+	 * @param eventLoggingKVString URI encoded query string that needs to be converted back to JSON.
 	 */
-	public UserActionNode(String eventLoggingQueryString) throws MalformedFunnelException {
+	public UserActionNode(String eventLoggingKVString)  {
 		/**
 		 * // TODO: this gets repeated for every instantiation so it should be 
-		 * factored out, this will be taken care of once we store the EventLoggin
+		 * factored out, this will be taken care of once we store the EventLogging
 		 * data using AVRO.
 		 * 
 		 * This function takes as input different fields from the EventLogging 
@@ -77,7 +76,7 @@ public class UserActionNode extends Node{
 		 */	
 		List<NameValuePair> params = null;
 		try {
-			URI url = new URI("http://www.wikipedia.org/" + eventLoggingQueryString);
+			URI url = new URI("http://www.wikipedia.org/" + eventLoggingKVString);
 			params = URLEncodedUtils.parse(url, "UTF-8");
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -103,7 +102,7 @@ public class UserActionNode extends Node{
 	 *
 	 * @param project the new project
 	 */
-	protected HashMap<ComponentType, String> splitProject(String project) {
+	private HashMap<ComponentType, String> splitProject(String project) {
 		MatchResult match = wikis.matcher(project);
 		HashMap<ComponentType, String> ret = new HashMap<ComponentType, String>();
 		ret.put(ComponentType.PROJECT, match.group(0));

@@ -1,16 +1,35 @@
+/**
+ *Copyright (C) 2012  Wikimedia Foundation
+ *
+ *This program is free software; you can redistribute it and/or
+ *modify it under the terms of the GNU General Public License
+ *as published by the Free Software Foundation; either version 2
+ *of the License, or (at your option) any later version.
+ *
+ *This program is distributed in the hope that it will be useful,
+ *but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *GNU General Public License for more details.
+ *
+ *You should have received a copy of the GNU General Public License
+ *along with this program; if not, write to the Free Software
+ *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * @version $Id: $Id
+ */
+
 package org.wikimedia.analytics.kraken.funnel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class FunnelPath implements Iterable<Pair<Node, Node>> {
 
-	public int id;
+	public final int id;
 	private int currentSize;
-	public ArrayList<Node> nodes = new ArrayList<Node>();
+	public final ArrayList<Node> nodes = new ArrayList<Node>();
 
 	public FunnelPath(int id) {
 		this.id = id;
@@ -28,8 +47,8 @@ public class FunnelPath implements Iterable<Pair<Node, Node>> {
             private int currentIndex = -1;
 
             public boolean hasNext() {
-                return currentIndex < currentSize + 1
-                        && nodes.toArray()[currentIndex] != null;
+                return currentIndex < currentSize -1
+                        && nodes.toArray()[currentIndex + 1] != null;
             }
 
             public Pair<Node, Node> next() {
@@ -54,7 +73,7 @@ public class FunnelPath implements Iterable<Pair<Node, Node>> {
             }
 
             public void remove() {
-                throw new NotImplementedException();
+                //
             }
         };
 	}

@@ -20,15 +20,16 @@
 
 package org.wikimedia.analytics.kraken.eventlogging;
 
+
 import java.util.ArrayList;
 
 public class Field {
 	private enum Type {
-		STRING, INTEGER, BOOLEAN, ARRAYLIST;
+		STRING, INTEGER, BOOLEAN, ARRAYLIST
 	}
 
-	private Type type;
-	private Object value;
+	private final Type type;
+	private final Object value;
 
 	private Field(Object value, Type type) {
 		this.value = value;
@@ -68,7 +69,8 @@ public class Field {
 	}
 	
 	public ArrayList<String> getArrayListString() {
-		return (ArrayList<String>) value;
+        //Not yet implemented
+		return new ArrayList<String>();
 	}
 	// equals, hashCode
 }

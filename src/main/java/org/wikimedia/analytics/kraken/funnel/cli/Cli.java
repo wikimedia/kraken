@@ -14,7 +14,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.lang.NotImplementedException;
+
 
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
@@ -33,15 +33,15 @@ public class Cli {
 	private static final String USAGE = "[-input <absolute path>] [-schema <schema>] [-node <node definition>] [-funnel <funnel definition>]";
 	private static final String HEADER = "Funnel - A simple tool to conduct funnel analyses, Copyright 2012-2013 Wikimedia Foundation licensed under GPL2.\n.";
 	private static final String FOOTER = "This program was written by Diederik van Liere <dvanliere@wikimedia.org> and Dan Andreescu <dandreescu@wikimedia.org>\n";
-	String input;
-	String schema;
-	String rawEventLoggingData;
-	String funnelDefinition;
-	String nodeDefinition;
-	Map<String, HashMap<Date, JsonObject>> jsonData = new HashMap<String, HashMap<Date, JsonObject>>();
+	private String input;
+	public String schema;
+	private String rawEventLoggingData;
+	private String funnelDefinition;
+	private String nodeDefinition;
+	private final Map<String, HashMap<Date, JsonObject>> jsonData = new HashMap<String, HashMap<Date, JsonObject>>();
 
 	/**
-	 * @param args
+	 * @param args should contain the options to start the funnel analysis.
 	 * @throws MalformedFunnelException
 	 * @throws MalformedURLException
 	 */
@@ -127,7 +127,7 @@ public class Cli {
 	}
 
 	public void readEventLoggingKVData() {
-		throw new NotImplementedException();
+		//
 	}
 
 	public void readEventLoggingJsonData() {

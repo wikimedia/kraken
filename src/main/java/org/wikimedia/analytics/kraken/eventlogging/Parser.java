@@ -19,6 +19,13 @@
  */
 package org.wikimedia.analytics.kraken.eventlogging;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,12 +33,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
-
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * The Class ParserTest.This class parses JSON Schema URI's from 
@@ -44,12 +45,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Parser {
 
 	/** The map. */
-	HashMap<String, String> map = new HashMap<String, String>();
+	private final HashMap<String, String> map = new HashMap<String, String>();
 
 	/**
 	 * Instantiates a new parser.
 	 */
-	public Parser() {
+    private Parser() {
 	}
 
 	/**
@@ -73,7 +74,7 @@ public class Parser {
 	 * @param key the key
 	 * @param entry a JsonNode object
 	 */
-	public void insertField(String key, Entry<String, JsonNode> entry) {
+	private void insertField(String key, Entry<String, JsonNode> entry) {
 		Iterator<Entry<String, JsonNode>> it = entry.getValue().fields();
 		Entry<String, JsonNode> prop;
 		String type;

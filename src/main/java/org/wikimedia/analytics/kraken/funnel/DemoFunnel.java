@@ -39,7 +39,7 @@ public class DemoFunnel {
 	/**
 	 * The main method.
 	 *
-	 * @param args the args, right now we only handle {@link funnelDefinition}
+	 * @param args the args, right now we only handle {@link Funnel}
 	 * @throws MalformedFunnelException the malformed funnel exception
 	 * @throws MalformedURLException the malformed url exception
 	 */

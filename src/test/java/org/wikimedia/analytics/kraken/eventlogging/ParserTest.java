@@ -1,7 +1,5 @@
 package org.wikimedia.analytics.kraken.eventlogging;
 
-import static org.junit.Assert.*;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,9 +19,9 @@ public class ParserTest {
 	}
 
 	@Test
-	public void test() throws FileNotFoundException, IOException {
+	public void test() throws IOException {
 		Parser parser = new Parser();
-		Enumeration<URL> urls = null;
+		Enumeration<URL> urls;
 		urls = getClass().getClassLoader().getResources("funnel/src/test/resources/");
 		FileInputStream stream = null;
 		String jsonSchema;
@@ -36,7 +34,7 @@ public class ParserTest {
 			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
 			/* Instead of using default, pass in a decoder. */
 			jsonSchema = Charset.defaultCharset().decode(bb).toString();
-			System.out.println(jsonSchema.toString());
+			System.out.println(jsonSchema);
 			parser.parseEventLoggingJsonSchem(jsonSchema);
 		}
 		if (stream != null) {

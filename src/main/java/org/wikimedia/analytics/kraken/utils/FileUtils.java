@@ -44,7 +44,7 @@ public class FileUtils {
 			gzip.close();
 			baos.close();
 		} catch (FileNotFoundException e) {
-			System.err.println("Input file " + path.toString()
+			System.err.println("Input file " + path
 					+ " does not exist.");
 			e.printStackTrace();
 		} catch (IOException e) {
