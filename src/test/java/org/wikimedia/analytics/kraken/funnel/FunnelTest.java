@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.jgrapht.DirectedGraph;
@@ -44,23 +45,25 @@ public class FunnelTest {
 	 */
 	@Test
 	public final void testGetDestinationVertices() throws MalformedFunnelException {
-		List<Node> endVertices = new ArrayList<Node>();
+        Map<String, String> nodeDefinition = new HashMap<String, String>();
+        List<Node> endVertices = new ArrayList<Node>();
 		funnel.getDestinationVertices();
 		System.out.println("Number of vertices: " + funnel.endVertices.size());
 
-		endVertices.add(new UserActionNode("C"));
-		endVertices.add(new UserActionNode("E"));
+		endVertices.add(new UserActionNode(nodeDefinition, "C"));
+		endVertices.add(new UserActionNode(nodeDefinition, "E"));
 		assertTrue(funnel.endVertices.containsAll(endVertices));
 	}
 
 	@Test
 	public final void testGetStartingVertices() throws MalformedFunnelException {
-		List<Node> startVertices = new ArrayList<Node>();
+        Map<String, String> nodeDefinition = new HashMap<String, String>();
+        List<Node> startVertices = new ArrayList<Node>();
 		funnel.getStartingVertices();
 		System.out
 				.println("Number of vertices: " + funnel.startVertices.size());
-		startVertices.add(new UserActionNode("A"));
-		startVertices.add(new UserActionNode("D"));
+		startVertices.add(new UserActionNode(nodeDefinition, "A"));
+		startVertices.add(new UserActionNode(nodeDefinition, "D"));
 		System.out.println("Found starting Vertices: "
 				+ Arrays.toString(funnel.startVertices.toArray()));
 		assertTrue(funnel.startVertices.indexOf("A") > -1);
@@ -112,7 +115,8 @@ public class FunnelTest {
 	public final void testAnalysis() throws MalformedFunnelException {
 		// Unfinished test, add code to compare that the results of the two runs
 		// are identical.
-		DirectedGraph<Node, DefaultEdge> history = DemoFunnel.createFakeUserHistory(100, 250);
+        DemoFunnel demoFunnel = new DemoFunnel();
+		DirectedGraph<Node, DefaultEdge> history = demoFunnel.createFakeUserHistory(100, 250);
 		funnel.analysis("fake_user_token", history);
 		funnel.analysis("fake_user_token", history);
 	}

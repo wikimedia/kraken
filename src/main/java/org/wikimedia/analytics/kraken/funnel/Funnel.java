@@ -77,7 +77,7 @@ public class Funnel {
     public final List<FunnelPath> paths = new ArrayList<FunnelPath>();
 
     /** Edge definition */
-    private final List<String> nodeDefinition = new ArrayList<String>();
+    private final Map<String, String> nodeDefinition = new HashMap<String, String>();
 
     /**
      * Constructor for the funnel.
@@ -102,7 +102,7 @@ public class Funnel {
      * @throws MalformedFunnelException the malformed funnel exception
      */
     public Funnel(String nodeDefinition, String funnelDefinition) throws MalformedFunnelException {
-        this.setNodeDefinition(nodeDefinition);
+        this.parseNodeDefinition(nodeDefinition);
         System.out.println("Node definition: " + nodeDefinition);
         System.out.println("Funnel definition: " + funnelDefinition);
         this.graph = this.constructFunnelGraph(funnelDefinition);
@@ -119,8 +119,13 @@ public class Funnel {
         System.out.println("Number of unique paths:" + this.paths.size());
     }
 
-    public void setNodeDefinition(String nodeDefinition) throws MalformedFunnelException {
-        Collections.addAll(this.nodeDefinition, nodeDefinition.split(":"));
+    public void parseNodeDefinition(String nodeDefinition) throws MalformedFunnelException {
+        String[] params = nodeDefinition.split("=");
+        int j;
+        for (int i = 0; i +1 < params.length; i++) {
+            j = i + 1;
+            this.nodeDefinition.put(params[i], params[j]);
+        }
         if (this.nodeDefinition.size() == 0) {
             throw new MalformedFunnelException("Your node definition does not use use the colon as a separator.");
         }
@@ -203,12 +208,6 @@ public class Funnel {
             }
         }
     }
-    private String parseNodeDefinition(String nodeDefinition){
-        //This is a very naive implementation that only support the most simple node definitions
-        String[] params = nodeDefinition.split("=");
-        return params[1];
-    }
-
 
     /**
      * Determine all the unique paths between all the {@link this.startVertices} and {@link this.endVertices}.
@@ -289,9 +288,8 @@ public class Funnel {
      * representing their actions.
      */
     public Map<String, DirectedGraph<Node, DefaultEdge>> constructUserGraph(
-            Map<String, Map<Date, JsonObject>> jsonData, String nodeDefinition) {
+            Map<String, Map<Date, JsonObject>> jsonData) {
         Map<String, DirectedGraph<Node, DefaultEdge>> graphs = new HashMap<String, DirectedGraph<Node, DefaultEdge>>();
-        String param = parseNodeDefinition();
         Node source;
         Node target;
         for (Entry<String, Map<Date, JsonObject>> kv : jsonData.entrySet()) {
@@ -304,12 +302,12 @@ public class Funnel {
             int j;
             for (i=0; i + 1 < dates.size(); i++) {
                 j = i + 1;
-                JsonElement sourceJson = kv.getValue().get(dates.get(i)).getAsJsonObject().get(param);
-                JsonElement targetJson = kv.getValue().get(dates.get(j)).getAsJsonObject().get(param);
+                JsonObject sourceJson = kv.getValue().get(dates.get(i)).getAsJsonObject();
+                JsonObject targetJson = kv.getValue().get(dates.get(j)).getAsJsonObject();
                 if (!sourceJson.isJsonNull() && !targetJson.isJsonNull()) {
 
-                    source = new UserActionNode(sourceJson.getAsString());
-                    target = new UserActionNode(sourceJson.getAsString());
+                    source = new UserActionNode(this.nodeDefinition, sourceJson);
+                    target = new UserActionNode(this.nodeDefinition, targetJson);
                     if (!dg.containsVertex(source)) {
                         dg.addVertex(source);
                     }
