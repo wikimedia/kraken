@@ -38,14 +38,16 @@ import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 public class FunnelNode extends Node{
 	/** The nodeDefinition. */
 	private final Map<ComponentType, Pattern> nodeDefinition = new HashMap<ComponentType, Pattern>();
-	public Integer impression = 0;
+	public int impression = 0;
+    public int bounced =  0;
 
 
 	/**
 	 * Instantiates a new node. 
 	 *
 	 * @param edge contains a step in a funnel.
-	 * @throws MalformedFunnelException 
+	 * @throws MalformedFunnelException
+     * @throws PatternSyntaxException
 	 */
 	public FunnelNode(String edge) throws MalformedFunnelException, PatternSyntaxException {
 		String[] nodes = edge.split("=");
@@ -62,6 +64,17 @@ public class FunnelNode extends Node{
 		}
 	}
 
+    protected void incrementImpression() {
+        this.impression++;
+    }
+
+    protected void incrementBounced() {
+        this.bounced++;
+    }
+
+    public double completionRate(){
+        return (double) this.bounced/ this.impression;
+    }
     /**
      * Whether a UserActionNode matches this FunnelNode
      *
@@ -111,5 +124,4 @@ public class FunnelNode extends Node{
 		}
 		return sb.toString();
 	}
-
 }

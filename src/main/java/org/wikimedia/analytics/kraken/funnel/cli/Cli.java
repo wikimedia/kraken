@@ -32,7 +32,7 @@ import com.google.gson.JsonParser;
 public class Cli {
 	private static final String USAGE = "[-input <absolute path>] [-schema <schema>] [-node <node definition>] [-funnel <funnel definition>]";
 	private static final String HEADER = "Funnel - A simple tool to conduct funnel analyses, Copyright 2012-2013 Wikimedia Foundation licensed under GPL2.\n.";
-	private static final String FOOTER = "This program was written by Diederik van Liere <dvanliere@wikimedia.org> and Dan Andreescu <dandreescu@wikimedia.org>\n";
+	private static final String FOOTER = "\nThis program was written by Diederik van Liere <dvanliere@wikimedia.org> and Dan Andreescu <dandreescu@wikimedia.org>\n";
 	private String input;
 	public String schema;
 	private String rawEventLoggingData;
@@ -43,11 +43,9 @@ public class Cli {
 	/**
 	 * @param args should contain the options to start the funnel analysis.
 	 * @throws MalformedFunnelException
-	 * @throws MalformedURLException
 	 */
 	@SuppressWarnings("static-access")
-	public static void main(String[] args) throws MalformedURLException,
-			MalformedFunnelException {
+	public static void main(String[] args) throws MalformedFunnelException {
 		Cli cli = new Cli();
 		CommandLineParser parser = new GnuParser();
 
@@ -113,17 +111,17 @@ public class Cli {
 		Funnel funnel = new Funnel(cli.nodeDefinition, cli.funnelDefinition);
 		Map<String, DirectedGraph<Node, DefaultEdge>> histories = funnel
 				.constructUserGraph(cli.jsonData);
-		// GraphPrinter printer = new GraphPrinter(funnel.graph);
 		for (Entry<String, DirectedGraph<Node, DefaultEdge>> kv : histories
 				.entrySet()) {
 			funnel.analysis(kv.getKey(), kv.getValue());
 		}
+        funnel.aggregateResults();
 	}
 
 	private static void printUsage(Options options) {
 		HelpFormatter helpFormatter = new HelpFormatter();
 		helpFormatter.setWidth(80);
-		helpFormatter.printHelp(USAGE, HEADER, options, FOOTER);
+		helpFormatter.printHelp(HEADER, USAGE, options, FOOTER);
 	}
 
 	public void readEventLoggingKVData() {

@@ -84,14 +84,20 @@ public class FunnelTest {
 	@Test
 	public final void testFallOutAnalysis() throws MalformedFunnelException {
 		FunnelPath path0 = new FunnelPath(0);
-		path0.nodes.add(new UserActionNode("A"));
-		path0.nodes.add(new UserActionNode("B"));
-		path0.nodes.add(new UserActionNode("C"));
+        FunnelNode A = new FunnelNode("A");
+        FunnelNode B = new FunnelNode("B");
+        FunnelNode C = new FunnelNode("C");
+        FunnelNode D = new FunnelNode("D");
+        FunnelNode E = new FunnelNode("E");
+
+		path0.nodes.add(A);
+		path0.nodes.add(B);
+		path0.nodes.add(C);
 
 		FunnelPath path1 = new FunnelPath(1);
-		path1.nodes.add(new UserActionNode("D"));
-		path1.nodes.add(new UserActionNode("B"));
-		path1.nodes.add(new UserActionNode("E"));
+		path1.nodes.add(D);
+		path1.nodes.add(B);
+		path1.nodes.add(E);
 
 		funnel.paths.add(0, path0);
 		funnel.paths.add(1, path1);

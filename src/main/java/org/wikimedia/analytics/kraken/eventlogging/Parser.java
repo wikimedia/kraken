@@ -50,7 +50,7 @@ public class Parser {
 	/**
 	 * Instantiates a new parser.
 	 */
-    private Parser() {
+    public Parser() {
 	}
 
 	/**

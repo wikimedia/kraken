@@ -25,24 +25,26 @@ import java.util.Iterator;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-public class FunnelPath implements Iterable<Pair<Node, Node>> {
+public class FunnelPath implements Iterable<Pair<FunnelNode, FunnelNode>> {
 
 	public final int id;
 	private int currentSize;
-	public final ArrayList<Node> nodes = new ArrayList<Node>();
+	public final ArrayList<FunnelNode> nodes;
 
 	public FunnelPath(int id) {
 		this.id = id;
-		setCurrentSize();
-	}
+        nodes = new ArrayList<FunnelNode>();
+        setCurrentSize();
+
+    }
 
 	private void setCurrentSize() {
-		this.currentSize = nodes.size();
+		this.currentSize = this.nodes.size();
 	}
 
-	public Iterator<Pair<Node, Node>> iterator() {
+	public Iterator<Pair<FunnelNode, FunnelNode>> iterator() {
 		setCurrentSize();
-        return new Iterator<Pair<Node, Node>>() {
+        return new Iterator<Pair<FunnelNode, FunnelNode>>() {
 
             private int currentIndex = -1;
 
@@ -51,7 +53,7 @@ public class FunnelPath implements Iterable<Pair<Node, Node>> {
                         && nodes.toArray()[currentIndex + 1] != null;
             }
 
-            public Pair<Node, Node> next() {
+            public Pair<FunnelNode, FunnelNode> next() {
                 //TODO: this is a counter-intuitive solution so this needs to be
                 //refactored. The problem is this, the potential referral nodes
                 //to the starting point of a funnel are endless and so to make
@@ -63,17 +65,17 @@ public class FunnelPath implements Iterable<Pair<Node, Node>> {
                 //both to determine whether a funnel was started and determine
                 //when/whether a visitor dropped out of the funnel.
                 //Obviously code calling this iterator needs to handle null.
-                Node L = null;
+                FunnelNode L = null;
                 if (currentIndex > -1) {
                     L = nodes.get(currentIndex);
                 }
-                Node R = nodes.get(currentIndex + 1);
+                FunnelNode R = nodes.get(currentIndex + 1);
                 currentIndex++;
                 return Pair.of(L, R);
             }
 
             public void remove() {
-                //
+               //
             }
         };
 	}

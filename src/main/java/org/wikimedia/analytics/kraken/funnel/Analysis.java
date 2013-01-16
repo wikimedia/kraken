@@ -33,10 +33,13 @@ class Analysis {
 		ArrayList<FunnelPath> completedFunnelViaPaths = new ArrayList<FunnelPath>();
         for (FunnelPath path : funnel.paths) {
             List<Boolean> results = new ArrayList<Boolean>();
-            for (Pair<Node, Node> pair : path) {
-                bounced = (hasBouncedFromFunnel(history, pair.getLeft(), pair.getRight()));
-                if (!bounced) {
-                    incrementImpression(path, pair.getRight());
+            for (Pair<FunnelNode, FunnelNode> pair : path) {
+                bounced = hasBouncedFromFunnel(history, pair.getLeft(), pair.getRight());
+                FunnelNode node = pair.getRight();
+                if (bounced) {
+                    node.incrementBounced();
+                }   else {
+                    node.incrementImpression();
                 }
                 results.add(bounced);
                 if (hasCompletedFunnel(results)) {
@@ -58,11 +61,6 @@ class Analysis {
         }
     }
 
-    private void incrementImpression(FunnelPath path, Node node) {
-        //maybe path.nodes should be a hashmap to easy looking up.
-        FunnelNode funnelNode = (FunnelNode) path.nodes.get(path.nodes.indexOf(node));
-        funnelNode.impression++;
-    }
 
 
 	private boolean hasCompletedFunnel(List<Boolean> results) {

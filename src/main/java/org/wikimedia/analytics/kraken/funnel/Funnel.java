@@ -38,6 +38,9 @@ import org.jgrapht.traverse.DepthFirstIterator;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+
+import org.apache.commons.lang3.tuple.Pair;
+
 /**
  * Funnel fun!.
  *
@@ -65,10 +68,10 @@ public class Funnel {
     private DirectedGraph<Node, DefaultEdge> graph;
 
 	/** The start vertices. */
-    private List<Node> startVertices;
+    public List<Node> startVertices;
 
 	/** The end vertices. */
-    private List<Node> endVertices;
+    public List<Node> endVertices;
 
 	/** The paths. */
 	public final List<FunnelPath> paths = new ArrayList<FunnelPath>();
@@ -108,7 +111,7 @@ public class Funnel {
 			throw new MalformedFunnelException("A funnel needs to have two connected nodes at the very minimum.");
 		}
 		if (!isDag()) {
-			throw new MalformedFunnelException("A funnel needs to have two connected nodes at the very minimum.");
+			throw new MalformedFunnelException("A funnel cannot have cycles (A->B->A).");
 		}
 		this.getStartingVertices();
 		this.getDestinationVertices();
@@ -181,7 +184,7 @@ public class Funnel {
 	 * Simple wrapper script that conducts all the steps to do a funnel
 	 * analysis.
 	 * @param userToken unique identifier for a visitor.
-     * @param history the {@link DirectedGraph} describing the {@link UserActionNode} that the vistior took.
+     * @param history the {@link DirectedGraph} describing the {@link UserActionNode} that the visitor took.
 	 */
 	public final void analysis(String userToken, DirectedGraph<Node, DefaultEdge> history) {
 		Analysis analysis = new Analysis();
@@ -189,6 +192,20 @@ public class Funnel {
 		analysis.printResults(result);
 	}
 
+    public final void aggregateResults(){
+        for (FunnelPath path : this.paths){
+            for (FunnelNode node : path.nodes){
+                System.out.println("Path id: " + path.id +
+                        " Node id: " + node.toString() +
+                        " impressions: " + node.impression +
+                        " bounced: " + node.bounced +
+                        " Node completion rate: " + node.completionRate());
+            }
+        }
+
+
+
+        }
 	/**
 	 * Determine all the unique paths between all the {@link this.startVertices} and {@link this.endVertices}.
 	 */
@@ -199,7 +216,8 @@ public class Funnel {
 			DepthFirstIterator<Node, DefaultEdge> dfi = new DepthFirstIterator<Node, DefaultEdge>(graph, startVertex);
 			FunnelPath path = new FunnelPath(i);
 			while (dfi.hasNext()) {
-				Node node = dfi.next();
+                //TODO: refactor to remove cast
+				FunnelNode node = (FunnelNode)dfi.next();
 				path.nodes.add(node);
 //				System.out.println("--> " + node.toString());
 				if (endVertices.contains(node)) {
