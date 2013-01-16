@@ -202,10 +202,14 @@ public class Funnel {
                         " Node completion rate: " + node.completionRate());
             }
         }
-
-
-
     }
+    private String parseNodeDefinition(String nodeDefinition){
+        //This is a very naive implementation that only support the most simple node definitions
+        String[] params = nodeDefinition.split("=");
+        return params[1];
+    }
+
+
     /**
      * Determine all the unique paths between all the {@link this.startVertices} and {@link this.endVertices}.
      */
@@ -285,8 +289,9 @@ public class Funnel {
      * representing their actions.
      */
     public Map<String, DirectedGraph<Node, DefaultEdge>> constructUserGraph(
-            Map<String, Map<Date, JsonObject>> jsonData) {
+            Map<String, Map<Date, JsonObject>> jsonData, String nodeDefinition) {
         Map<String, DirectedGraph<Node, DefaultEdge>> graphs = new HashMap<String, DirectedGraph<Node, DefaultEdge>>();
+        String param = parseNodeDefinition();
         Node source;
         Node target;
         for (Entry<String, Map<Date, JsonObject>> kv : jsonData.entrySet()) {
@@ -299,8 +304,8 @@ public class Funnel {
             int j;
             for (i=0; i + 1 < dates.size(); i++) {
                 j = i + 1;
-                JsonElement sourceJson = kv.getValue().get(dates.get(i)).getAsJsonObject().get("action");
-                JsonElement targetJson = kv.getValue().get(dates.get(j)).getAsJsonObject().get("action");
+                JsonElement sourceJson = kv.getValue().get(dates.get(i)).getAsJsonObject().get(param);
+                JsonElement targetJson = kv.getValue().get(dates.get(j)).getAsJsonObject().get(param);
                 if (!sourceJson.isJsonNull() && !targetJson.isJsonNull()) {
 
                     source = new UserActionNode(sourceJson.getAsString());

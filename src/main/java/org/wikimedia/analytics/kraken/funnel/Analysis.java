@@ -61,8 +61,6 @@ class Analysis {
         }
     }
 
-
-
 	private boolean hasCompletedFunnel(List<Boolean> results) {
         return !results.contains(false);
 	}
