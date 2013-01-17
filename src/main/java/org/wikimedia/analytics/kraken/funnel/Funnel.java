@@ -116,7 +116,6 @@ public class Funnel {
         this.getStartingVertices();
         this.getDestinationVertices();
         this.determineUniquePaths();
-        System.out.println("Number of unique paths:" + this.paths.size());
     }
 
     public void parseNodeDefinition(String nodeDefinition) throws MalformedFunnelException {
@@ -140,13 +139,13 @@ public class Funnel {
      * @throws PatternSyntaxException
      */
     public final DirectedGraph<Node, DefaultEdge> constructFunnelGraph(String funnelDefinition) throws PatternSyntaxException, MalformedFunnelException {
-        String[] edgelist = funnelDefinition.split(";");
+        String[] edgeList = funnelDefinition.split(";");
         DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
         //TODO: probably faster to replace ArrayList with HashMap<String, Node>
         ArrayList<Node> nodes = new ArrayList<Node>();
         Node source;
         Node target;
-        for (String  edgeData : edgelist) {
+        for (String  edgeData : edgeList) {
             String[] edge = edgeData.split(",");
             source = new FunnelNode(edge[0]);
             target = new FunnelNode(edge[1]);
@@ -212,37 +211,32 @@ public class Funnel {
     /**
      * Determine all the unique paths between all the {@link this.startVertices} and {@link this.endVertices}.
      */
-    final void determineUniquePaths() {
+    private void determineUniquePaths() {
+        this.paths.clear();
         int i = 0;
         for (Node startVertex : startVertices) {
-            System.out.println("Start vertex: " + startVertex.toString());
             DepthFirstIterator<Node, DefaultEdge> dfi = new DepthFirstIterator<Node, DefaultEdge>(graph, startVertex);
             FunnelPath path = new FunnelPath(i);
             while (dfi.hasNext()) {
                 //TODO: refactor to remove cast
                 FunnelNode node = (FunnelNode)dfi.next();
                 path.nodes.add(node);
-//				System.out.println("--> " + node.toString());
                 if (endVertices.contains(node)) {
-                    break;
+                    this.paths.add(path);
+                    path = new FunnelPath(i++);
                 }
             }
-            this.paths.add(path);
-            System.out.println(path.toString());
-            i++;
         }
     }
 
     /**
      * Retrieve all the possible start vertices from the funnel.
      */
-    final void getStartingVertices() {
+    private void getStartingVertices() {
         startVertices = new ArrayList<Node>();
         Set<Node> vertices = graph.vertexSet();
-        int indegree;
         for (Node vertex: vertices) {
-            indegree = graph.inDegreeOf(vertex);
-            if (indegree == 0) {
+            if (graph.inDegreeOf(vertex) == 0) {
                 startVertices.add(vertex);
             }
         }
@@ -251,13 +245,10 @@ public class Funnel {
     /**
      * Retrieve all the possible destination vertices from the funnel.
      */
-    public final void getDestinationVertices() {
+    private void getDestinationVertices() {
         endVertices = new ArrayList<Node>();
-        Set<Node> vertices = graph.vertexSet();
-        int outdegree;
-        for (Node vertex : vertices) {
-            outdegree = graph.outDegreeOf(vertex);
-            if (outdegree == 0) {
+        for (Node vertex : graph.vertexSet()) {
+            if (graph.outDegreeOf(vertex) == 0) {
                 endVertices.add(vertex);
             }
         }

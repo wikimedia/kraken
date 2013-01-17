@@ -77,7 +77,7 @@ class UserActionNode extends Node{
          */
         componentValues = new HashMap<ComponentType, String>();
         for (ComponentType type : ComponentType.values()) {
-            JsonElement value = json.get(type.toString().toLowerCase());
+            JsonElement value = json.get(type.toString().toUpperCase());
             if (value != null && value.isJsonPrimitive()){
                 String valueString = value.getAsString();
                 switch (type) {

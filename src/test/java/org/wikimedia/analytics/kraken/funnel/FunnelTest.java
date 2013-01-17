@@ -20,21 +20,19 @@ import static org.junit.Assert.*;
 public class FunnelTest {
 
 	/** Create the test case. */
-	public final String funnelDefinition = "event=A, event=B;" +
-                                           "event=B, event=C;" +
-                                           "event=D, event=B;" +
-			                               "event=B, event=E;";
+	public final String funnelDefinition = "event=A,event=B;" +
+                                           "event=B,event=C;" +
+                                           "event=D,event=B;" +
+			                               "event=B,event=E;";
 	public final String nodeDefinition = "event=page";
 	private Funnel funnel;
 
-
-
 	/**
-	 * The first non-trivial funnel is: 
-	 * A -> 	->C 
-	 * 		B 
-	 * D ->		-> E 
-	 * where {A,B,C,D,E} are abstract names for the steps in the funnel. 
+	 * The first non-trivial funnel is:
+	 * A -> 	->C
+	 * 		B
+	 * D ->		-> E
+	 * where {A,B,C,D,E} are abstract names for the steps in the funnel.
 	 * There are two unique paths in this funnel: {A,B,C} and {D,B,E}
 	 */
 	public FunnelTest() throws MalformedFunnelException {
@@ -43,22 +41,16 @@ public class FunnelTest {
 
 	/**
 	 * Test get destination vertices.
-	 * @throws MalformedFunnelException 
+	 * @throws MalformedFunnelException
 	 */
 	@Test
 	public final void testGetDestinationVertices() throws MalformedFunnelException {
         Map<String, String> nodeDefinition = new HashMap<String, String>();
         List<Node> endVertices = new ArrayList<Node>();
-		funnel.getDestinationVertices();
-		System.out.println("Number of vertices: " + funnel.endVertices.size());
 
-        JsonObject C = new JsonObject();
-        JsonObject E = new JsonObject();
-        C.addProperty("event", "C");
-        E.addProperty("event", "E");
+		endVertices.add(new FunnelNode("event=C"));
+		endVertices.add(new FunnelNode("event=E"));
 
-		endVertices.add(new UserActionNode(C));
-		endVertices.add(new UserActionNode(E));
 		assertTrue(funnel.endVertices.containsAll(endVertices));
 	}
 
@@ -84,15 +76,8 @@ public class FunnelTest {
 
 	@Test
 	public final void testGetStartingVertices() throws MalformedFunnelException {
-        Map<String, String> nodeDefinition = new HashMap<String, String>();
-        List<Node> startVertices = new ArrayList<Node>();
-		funnel.getStartingVertices();
-		System.out
-				.println("Number of vertices: " + funnel.startVertices.size());
-		System.out.println("Found starting Vertices: "
-                + Arrays.toString(funnel.startVertices.toArray()));
-		assertTrue(funnel.startVertices.indexOf("A") > -1);
-		assertTrue(funnel.startVertices.indexOf("D") > -1);
+		assertTrue(funnel.startVertices.contains(new FunnelNode("event=A")));
+        assertTrue(funnel.startVertices.contains(new FunnelNode("event=D")));
 	}
 
 	@Test
@@ -102,47 +87,24 @@ public class FunnelTest {
 
 	@Test
 	public final void testDetermineUniquePaths() {
-		funnel.getStartingVertices();
-		funnel.getDestinationVertices();
-		funnel.determineUniquePaths();
-		System.out.println("Unique paths: " + funnel.paths.size());
-		assertTrue(funnel.paths.size() == 2);
+		assertTrue(funnel.paths.size() == 4);
 	}
 
 	@Test
 	public final void testFallOutAnalysis() throws MalformedFunnelException {
-		FunnelPath path0 = new FunnelPath(0);
-        FunnelNode A = new FunnelNode("event=A");
-        FunnelNode B = new FunnelNode("event=B");
-        FunnelNode C = new FunnelNode("event=C");
-        FunnelNode D = new FunnelNode("event=D");
-        FunnelNode E = new FunnelNode("event=E");
-
-		path0.nodes.add(A);
-		path0.nodes.add(B);
-		path0.nodes.add(C);
-
-		FunnelPath path1 = new FunnelPath(1);
-		path1.nodes.add(D);
-		path1.nodes.add(B);
-		path1.nodes.add(E);
-
-		funnel.paths.add(0, path0);
-		funnel.paths.add(1, path1);
-
 		Analysis analysis = new Analysis();
 		DirectedGraph<Node, DefaultEdge> history = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
 
         JsonObject json = new JsonObject();
-        json.addProperty("event", "A");
+        json.addProperty("page", "A");
         UserActionNode userGoesToA = new UserActionNode(json);
 
         json = new JsonObject();
-        json.addProperty("event", "B");
+        json.addProperty("page", "B");
         UserActionNode userGoesToB = new UserActionNode(json);
 
         json = new JsonObject();
-        json.addProperty("event", "C");
+        json.addProperty("page", "C");
         UserActionNode userGoesToC = new UserActionNode(json);
 
         history.addVertex(userGoesToA);
