@@ -214,17 +214,24 @@ public class Funnel {
      */
     private void determineUniquePaths() {
         this.paths.clear();
-        int i = 0;
+
         for (FunnelNode startVertex : startVertices) {
-            DepthFirstIterator<FunnelNode, DefaultEdge> dfi = new DepthFirstIterator<FunnelNode, DefaultEdge>(graph, startVertex);
-            FunnelPath path = new FunnelPath(i);
-            while (dfi.hasNext()) {
-                FunnelNode node = dfi.next();
-                path.nodes.add(node);
-                if (endVertices.contains(node)) {
-                    this.paths.add(path);
-                    path = new FunnelPath(i++);
-                }
+            ArrayList<FunnelNode> breadcrumbs = new ArrayList<FunnelNode>();
+            findPathToEnd(startVertex, breadcrumbs);
+        }
+    }
+
+    private void findPathToEnd(FunnelNode from, ArrayList<FunnelNode> breadcrumbs) {
+        breadcrumbs.add(from);
+        for (DefaultEdge edge : graph.outgoingEdgesOf(from)){
+            FunnelNode to = graph.getEdgeTarget(edge);
+            if (endVertices.contains(to)){
+                FunnelPath newPath = new FunnelPath(paths.size());
+                newPath.nodes.addAll(breadcrumbs);
+                newPath.nodes.add(to);
+                paths.add(newPath);
+            } else {
+                findPathToEnd(to, breadcrumbs);
             }
         }
     }

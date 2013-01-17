@@ -58,7 +58,7 @@ class UserActionNode extends Node{
     /**
      * Instantiates a new node.
      *
-     * @param json {@link com.google.gson.JsonObject}
+     * @param json {@link com.google.gson.JsonObject} NOTE: keys must be upper-case
      */
     public UserActionNode(JsonObject json)  {
         /**

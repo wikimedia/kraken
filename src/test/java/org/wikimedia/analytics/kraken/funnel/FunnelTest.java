@@ -96,15 +96,15 @@ public class FunnelTest {
 		DirectedGraph<Node, DefaultEdge> history = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
 
         JsonObject json = new JsonObject();
-        json.addProperty("page", "A");
+        json.addProperty("EVENT", "A");
         UserActionNode userGoesToA = new UserActionNode(json);
 
         json = new JsonObject();
-        json.addProperty("page", "B");
+        json.addProperty("EVENT", "B");
         UserActionNode userGoesToB = new UserActionNode(json);
 
         json = new JsonObject();
-        json.addProperty("page", "C");
+        json.addProperty("EVENT", "C");
         UserActionNode userGoesToC = new UserActionNode(json);
 
         history.addVertex(userGoesToA);
