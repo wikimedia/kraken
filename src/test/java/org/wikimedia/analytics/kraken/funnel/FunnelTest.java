@@ -20,12 +20,14 @@ import static org.junit.Assert.*;
 public class FunnelTest {
 
 	/** Create the test case. */
-	public final String funnelDefinition = "event=A, event=B\n" +
-                                           "event=B, event=C\n" +
-                                           "event=D, event=B\n" +
-			                               "event=B, event=E\n";
+	public final String funnelDefinition = "event=A, event=B;" +
+                                           "event=B, event=C;" +
+                                           "event=D, event=B;" +
+			                               "event=B, event=E;";
 	public final String nodeDefinition = "event=page";
 	private Funnel funnel;
+
+
 
 	/**
 	 * The first non-trivial funnel is: 
@@ -50,9 +52,14 @@ public class FunnelTest {
 		funnel.getDestinationVertices();
 		System.out.println("Number of vertices: " + funnel.endVertices.size());
 
-//		endVertices.add(new UserActionNode(nodeDefinition, "C"));
-//		endVertices.add(new UserActionNode(nodeDefinition, "E"));
-//		assertTrue(funnel.endVertices.containsAll(endVertices));
+        JsonObject C = new JsonObject();
+        JsonObject E = new JsonObject();
+        C.addProperty("event", "C");
+        E.addProperty("event", "E");
+
+		endVertices.add(new UserActionNode(C));
+		endVertices.add(new UserActionNode(E));
+		assertTrue(funnel.endVertices.containsAll(endVertices));
 	}
 
     @Test
@@ -82,10 +89,8 @@ public class FunnelTest {
 		funnel.getStartingVertices();
 		System.out
 				.println("Number of vertices: " + funnel.startVertices.size());
-//		startVertices.add(new UserActionNode(nodeDefinition, "A"));
-//		startVertices.add(new UserActionNode(nodeDefinition, "D"));
 		System.out.println("Found starting Vertices: "
-				+ Arrays.toString(funnel.startVertices.toArray()));
+                + Arrays.toString(funnel.startVertices.toArray()));
 		assertTrue(funnel.startVertices.indexOf("A") > -1);
 		assertTrue(funnel.startVertices.indexOf("D") > -1);
 	}
@@ -107,11 +112,11 @@ public class FunnelTest {
 	@Test
 	public final void testFallOutAnalysis() throws MalformedFunnelException {
 		FunnelPath path0 = new FunnelPath(0);
-        FunnelNode A = new FunnelNode("page=A");
-        FunnelNode B = new FunnelNode("page=B");
-        FunnelNode C = new FunnelNode("page=C");
-        FunnelNode D = new FunnelNode("page=D");
-        FunnelNode E = new FunnelNode("page=E");
+        FunnelNode A = new FunnelNode("event=A");
+        FunnelNode B = new FunnelNode("event=B");
+        FunnelNode C = new FunnelNode("event=C");
+        FunnelNode D = new FunnelNode("event=D");
+        FunnelNode E = new FunnelNode("event=E");
 
 		path0.nodes.add(A);
 		path0.nodes.add(B);
@@ -129,15 +134,15 @@ public class FunnelTest {
 		DirectedGraph<Node, DefaultEdge> history = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
 
         JsonObject json = new JsonObject();
-        json.addProperty("page", "A");
+        json.addProperty("event", "A");
         UserActionNode userGoesToA = new UserActionNode(json);
 
         json = new JsonObject();
-        json.addProperty("page", "B");
+        json.addProperty("event", "B");
         UserActionNode userGoesToB = new UserActionNode(json);
 
         json = new JsonObject();
-        json.addProperty("page", "C");
+        json.addProperty("event", "C");
         UserActionNode userGoesToC = new UserActionNode(json);
 
         history.addVertex(userGoesToA);
