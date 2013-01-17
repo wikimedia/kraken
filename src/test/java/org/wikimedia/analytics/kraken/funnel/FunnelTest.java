@@ -58,7 +58,7 @@ public class FunnelTest {
     public final void testFunnelNodeEqualsUserActionNode() throws MalformedFunnelException {
         FunnelNode f = new FunnelNode("LANGUAGE=en");
         JsonObject json = new JsonObject();
-        json.addProperty("LANGUAGE", "en");
+        json.addProperty("language", "en");
         UserActionNode u = new UserActionNode(json);
 
         assertTrue(f.equals(u));
@@ -68,7 +68,7 @@ public class FunnelTest {
     public final void testFunnelNodeDoesNotEqualUserActionNode() throws MalformedFunnelException {
         FunnelNode f = new FunnelNode("LANGUAGE=en");
         JsonObject json = new JsonObject();
-        json.addProperty("LANGUAGE", "de");
+        json.addProperty("language", "de");
         UserActionNode u = new UserActionNode(json);
 
         assertFalse(f.equals(u));
@@ -96,15 +96,15 @@ public class FunnelTest {
 		DirectedGraph<Node, DefaultEdge> history = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
 
         JsonObject json = new JsonObject();
-        json.addProperty("EVENT", "A");
+        json.addProperty("event", "A");
         UserActionNode userGoesToA = new UserActionNode(json);
 
         json = new JsonObject();
-        json.addProperty("EVENT", "B");
+        json.addProperty("event", "B");
         UserActionNode userGoesToB = new UserActionNode(json);
 
         json = new JsonObject();
-        json.addProperty("EVENT", "C");
+        json.addProperty("event", "C");
         UserActionNode userGoesToC = new UserActionNode(json);
 
         history.addVertex(userGoesToA);

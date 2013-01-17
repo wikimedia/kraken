@@ -52,7 +52,6 @@ public class FunnelNode extends Node{
 	public FunnelNode(String edge) throws MalformedFunnelException, PatternSyntaxException {
 		String[] nodes = edge.split("=");
 		ComponentType key;
-		System.out.println(Arrays.toString(nodes));
 		try {
 			key = ComponentType.valueOf(nodes[0].toUpperCase());
 		} catch (IllegalArgumentException e) {
@@ -89,6 +88,9 @@ public class FunnelNode extends Node{
             match = match
                  && node.componentValues.containsKey(key)
                  && this.nodeDefinition.get(key).matcher(node.componentValues.get(key)).matches();
+            if (!match) {
+                break;
+            }
         }
         return match;
     }

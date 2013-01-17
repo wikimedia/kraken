@@ -151,12 +151,6 @@ public class Funnel {
             source = new FunnelNode(edge[0]);
             target = new FunnelNode(edge[1]);
 
-            //			System.out.println("Constructing edge: " + edgeData.toString());
-            //			System.out.println("Graph contains: " + source + " :" + dg.containsVertex(source));
-            //			System.out.println("Graph contains: " + target + " :" + dg.containsVertex(target));
-            //			System.out.println("SOURCE: " + source.toString());
-            //			System.out.println("TARGET: " + target.toString());
-
             //Curiously enough, there don't seem to be a method in jGraphT to get
             //a vertex from a graph, hence I keep an ArrayList of nodes that
             //already exist.
@@ -173,15 +167,13 @@ public class Funnel {
             } else {
                 target = nodes.get(nodes.indexOf(target));
             }
-            //			System.out.println("SOURCE: " + source.toString());
-            //			System.out.println("TARGET: " + target.toString());
 
             if (!dg.containsEdge(source, target)) {
                 dg.addEdge(source, target);
             }
+        }
             System.out.println("Graph Summary: " + dg.toString());
 
-        }
         return dg;
     }
 
@@ -194,7 +186,7 @@ public class Funnel {
     public final void analysis(String userToken, DirectedGraph<Node, DefaultEdge> history) {
         Analysis analysis = new Analysis();
         Result result = analysis.run(userToken,history, this);
-        analysis.printResults(result);
+        //analysis.printResults(result);
     }
 
     public final void aggregateResults(){
@@ -326,7 +318,6 @@ public class Funnel {
         UserActionNode node = null;
         if (json != null && !json.isJsonNull()) {
             node  = new UserActionNode(json);
-            System.out.println(node.toString());
             if (!graph.containsVertex(node)) {
                 graph.addVertex(node);
             }
