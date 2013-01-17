@@ -35,7 +35,6 @@ public class FunnelPath implements Iterable<Pair<FunnelNode, FunnelNode>> {
 		this.id = id;
         nodes = new ArrayList<FunnelNode>();
         setCurrentSize();
-
     }
 
 	private void setCurrentSize() {

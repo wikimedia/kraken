@@ -42,9 +42,9 @@ class Analysis {
                     node.incrementImpression();
                 }
                 results.add(bounced);
-                if (hasCompletedFunnel(results)) {
-                    completedFunnelViaPaths.add(path);
-                }
+            }
+            if (hasCompletedFunnel(results)) {
+                completedFunnelViaPaths.add(path);
             }
         }
 		return new Result(userToken, completedFunnelViaPaths);
@@ -57,12 +57,13 @@ class Analysis {
         if (sourceVertex != null) {
             return !history.containsEdge(sourceVertex, targetVertex);
         } else {
+            //targetVertex.toString();
             return !history.containsVertex(targetVertex);
         }
     }
 
 	private boolean hasCompletedFunnel(List<Boolean> results) {
-        return !results.contains(false);
+        return results.contains(false);
 	}
 
 	/**

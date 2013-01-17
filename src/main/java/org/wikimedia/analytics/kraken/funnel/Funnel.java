@@ -292,36 +292,48 @@ public class Funnel {
         Map<String, DirectedGraph<Node, DefaultEdge>> graphs = new HashMap<String, DirectedGraph<Node, DefaultEdge>>();
         Node source;
         Node target;
+        JsonObject sourceJson;
+        JsonObject targetJson;
         for (Entry<String, Map<Date, JsonObject>> kv : jsonData.entrySet()) {
             DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
             Set<Date> datesSet = kv.getValue().keySet();
-
             ArrayList<Date> dates = new ArrayList<Date>(datesSet);
             Collections.sort(dates);
-            int i;
             int j;
-            for (i=0; i + 1 < dates.size(); i++) {
+            for (int i=0; i + 1 <= dates.size(); i++) {
                 j = i + 1;
-                JsonObject sourceJson = kv.getValue().get(dates.get(i)).getAsJsonObject();
-                JsonObject targetJson = kv.getValue().get(dates.get(j)).getAsJsonObject();
-                if (!sourceJson.isJsonNull() && !targetJson.isJsonNull()) {
 
-                    source = new UserActionNode(sourceJson);
-                    target = new UserActionNode(targetJson);
-                    if (!dg.containsVertex(source)) {
-                        dg.addVertex(source);
-                    }
-                    if (!dg.containsVertex(target)) {
-                        dg.addVertex(target);
-                    }
-                    if (!dg.containsEdge(source, target)) {
-                        dg.addEdge(source, target);
-                    }
+                sourceJson = kv.getValue().get(dates.get(i)).getAsJsonObject();
+                try {
+                    targetJson = kv.getValue().get(dates.get(j)).getAsJsonObject();
+                } catch (IndexOutOfBoundsException e) {
+                    // This exception only happens when there is only a single event for a userToken
+                    // and it means that we only captured one event, so no edges in the usergraph.
+                    targetJson = null;
+                }
 
+                source = addUserActionNodeToGraph(dg, sourceJson);
+                target = addUserActionNodeToGraph(dg, targetJson);
+
+                if (!dg.containsEdge(source, target) && source != null && target != null) {
+                    dg.addEdge(source, target);
                 }
             }
             graphs.put(kv.getKey(), dg);
         }
         return graphs;
+    }
+
+    private UserActionNode addUserActionNodeToGraph(DirectedGraph<Node, DefaultEdge> graph, JsonObject json) {
+        UserActionNode node = null;
+        if (json != null && !json.isJsonNull()) {
+            node  = new UserActionNode(json);
+            System.out.println(node.toString());
+            if (!graph.containsVertex(node)) {
+                graph.addVertex(node);
+            }
+        }
+        return node;
+
     }
 }

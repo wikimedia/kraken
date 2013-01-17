@@ -73,10 +73,10 @@ public class DemoFunnel {
 		// Create fake nodes and use them to seed the graph
 		for (int i = 0; i < numberNodes; i++) {
 			path = alphabet.charAt(rnd.nextInt(alphabet.length()));
-			Node node = new UserActionNode(this.nodeDefinition, Character.toString(path));
-			if (!dg.containsVertex(node)) {
-				dg.addVertex(node);
-			}
+//			Node node = new UserActionNode(Character.toString(path));
+//			if (!dg.containsVertex(node)) {
+//				dg.addVertex(node);
+//			}
 		}
 
 		// Add random edges between the fake nodes to create a fake browsing history

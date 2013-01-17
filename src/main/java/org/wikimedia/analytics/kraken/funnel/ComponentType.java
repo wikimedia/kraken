@@ -24,6 +24,7 @@ public enum ComponentType {
 	    LANGUAGE,
 	    PROJECT,
 	    PAGE,
-	    EVENT
+	    EVENT,
+        ACTION
 	}
 

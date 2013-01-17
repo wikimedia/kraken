@@ -6,6 +6,7 @@ public class Result {
 	
 	public final String userToken;
 	public final List<FunnelPath> completionPaths;
+
     public boolean getHasFinishedFunnel(){
         return this.completionPaths != null && this.completionPaths.size() > 0;
     }

@@ -20,8 +20,6 @@
 
 package org.wikimedia.analytics.kraken.funnel;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.*;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
@@ -30,8 +28,6 @@ import com.google.gson.JsonElement;
 
 import com.google.gson.JsonObject;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.NameValuePair;
-import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
 /**
  * Component	Description					Example
@@ -53,8 +49,8 @@ class UserActionNode extends Node{
 	/** The params. */
 	public Map<ComponentType, String> componentValues;
 	private final Pattern wikis = Pattern.compile("project:(patternForProject)|||language:(patternForLanguage)"); //TODO: Find actual regex
-	public List<Date> visited;
-	public String url;
+	//public List<Date> visited;
+	//public String url;
 
 	/**
 	 * Instantiates a new node. 
@@ -78,7 +74,7 @@ class UserActionNode extends Node{
 		 */
         componentValues = new HashMap<ComponentType, String>();
         for (ComponentType type : ComponentType.values()) {
-            JsonElement value = json.get(type.toString().toUpperCase());
+            JsonElement value = json.get(type.toString().toLowerCase());
             if (value != null && value.isJsonPrimitive()){
                 String valueString = value.getAsString();
                 switch (type) {
@@ -92,9 +88,9 @@ class UserActionNode extends Node{
 	}
 
 
-    public UserActionNode(Map<String, String> nodeDefinition, String UserActionNodeName) {
-        //TODO: implement
-    }
+//    public UserActionNode(Map<String, String> nodeDefinition, String UserActionNodeName) {
+//        //TODO: implement
+//    }
 
     /**
 	 * Split project variable from EventLogging data in language and project 
@@ -103,7 +99,7 @@ class UserActionNode extends Node{
 	 * @param project the new project
 	 */
 	private HashMap<ComponentType, String> splitProject(String project) {
-		MatchResult match = wikis.matcher(project);
+		MatchResult match = this.wikis.matcher(project);
 		HashMap<ComponentType, String> ret = new HashMap<ComponentType, String>();
 		ret.put(ComponentType.PROJECT, match.group(0));
 		ret.put(ComponentType.LANGUAGE, match.group(1));
@@ -117,16 +113,23 @@ class UserActionNode extends Node{
 		//TODO: implementation not yet finished, use Apache Commons EqualsBuilder
 		if (this == obj) return true;
 		if (obj == null) return false;
-		Node node = (Node)obj;
+		UserActionNode node = (UserActionNode)obj;
 		return this.toString().equals(node.toString());
 	}
 
 	public String toString() {
 		List<String> sb = new LinkedList<String>();
 		for (ComponentType key : ComponentType.values()) {
-			String value = componentValues.get(key);
-			sb.add(value.isEmpty() ?  "." : value);
+	        String value = componentValues.get(key);
+            if (value != null) {
+		        sb.add(value.isEmpty() ? "." : value);
+            }
 		}
-		return StringUtils.join(sb, ':');
+        if (!sb.isEmpty()) {
+		    return StringUtils.join(sb, ':');
+        } else {
+            return "ZERO";
+        }
+
 	}
 }
