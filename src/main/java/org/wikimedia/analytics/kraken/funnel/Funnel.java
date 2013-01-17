@@ -65,13 +65,13 @@ public class Funnel {
     /** The funnel. */
     public Funnel funnel;
     /** The graph. */
-    private DirectedGraph<Node, DefaultEdge> graph;
+    private DirectedGraph<FunnelNode, DefaultEdge> graph;
 
     /** The start vertices. */
-    public List<Node> startVertices;
+    public List<FunnelNode> startVertices;
 
     /** The end vertices. */
-    public List<Node> endVertices;
+    public List<FunnelNode> endVertices;
 
     /** The paths. */
     public final List<FunnelPath> paths = new ArrayList<FunnelPath>();
@@ -138,13 +138,14 @@ public class Funnel {
      * @throws MalformedFunnelException
      * @throws PatternSyntaxException
      */
-    public final DirectedGraph<Node, DefaultEdge> constructFunnelGraph(String funnelDefinition) throws PatternSyntaxException, MalformedFunnelException {
+    public final DirectedGraph<FunnelNode, DefaultEdge> constructFunnelGraph(String funnelDefinition)
+            throws PatternSyntaxException, MalformedFunnelException {
         String[] edgeList = funnelDefinition.split(";");
-        DirectedGraph<Node, DefaultEdge> dg = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
+        DirectedGraph<FunnelNode, DefaultEdge> dg = new DefaultDirectedGraph<FunnelNode, DefaultEdge>(DefaultEdge.class);
         //TODO: probably faster to replace ArrayList with HashMap<String, Node>
-        ArrayList<Node> nodes = new ArrayList<Node>();
-        Node source;
-        Node target;
+        ArrayList<FunnelNode> nodes = new ArrayList<FunnelNode>();
+        FunnelNode source;
+        FunnelNode target;
         for (String  edgeData : edgeList) {
             String[] edge = edgeData.split(",");
             source = new FunnelNode(edge[0]);
@@ -214,12 +215,11 @@ public class Funnel {
     private void determineUniquePaths() {
         this.paths.clear();
         int i = 0;
-        for (Node startVertex : startVertices) {
-            DepthFirstIterator<Node, DefaultEdge> dfi = new DepthFirstIterator<Node, DefaultEdge>(graph, startVertex);
+        for (FunnelNode startVertex : startVertices) {
+            DepthFirstIterator<FunnelNode, DefaultEdge> dfi = new DepthFirstIterator<FunnelNode, DefaultEdge>(graph, startVertex);
             FunnelPath path = new FunnelPath(i);
             while (dfi.hasNext()) {
-                //TODO: refactor to remove cast
-                FunnelNode node = (FunnelNode)dfi.next();
+                FunnelNode node = dfi.next();
                 path.nodes.add(node);
                 if (endVertices.contains(node)) {
                     this.paths.add(path);
@@ -233,9 +233,9 @@ public class Funnel {
      * Retrieve all the possible start vertices from the funnel.
      */
     private void getStartingVertices() {
-        startVertices = new ArrayList<Node>();
-        Set<Node> vertices = graph.vertexSet();
-        for (Node vertex: vertices) {
+        startVertices = new ArrayList<FunnelNode>();
+        Set<FunnelNode> vertices = graph.vertexSet();
+        for (FunnelNode vertex: vertices) {
             if (graph.inDegreeOf(vertex) == 0) {
                 startVertices.add(vertex);
             }
@@ -246,8 +246,8 @@ public class Funnel {
      * Retrieve all the possible destination vertices from the funnel.
      */
     private void getDestinationVertices() {
-        endVertices = new ArrayList<Node>();
-        for (Node vertex : graph.vertexSet()) {
+        endVertices = new ArrayList<FunnelNode>();
+        for (FunnelNode vertex : graph.vertexSet()) {
             if (graph.outDegreeOf(vertex) == 0) {
                 endVertices.add(vertex);
             }
@@ -261,7 +261,7 @@ public class Funnel {
      * return false.
      */
     public boolean isDag() {
-        CycleDetector<Node, DefaultEdge> cycle = new CycleDetector<Node, DefaultEdge>(this.graph);
+        CycleDetector<FunnelNode, DefaultEdge> cycle = new CycleDetector<FunnelNode, DefaultEdge>(this.graph);
         return !cycle.detectCycles();
     }
 
