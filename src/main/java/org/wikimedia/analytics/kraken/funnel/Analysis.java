@@ -44,7 +44,11 @@ class Analysis {
                     right.incrementBounced();
                 }
                 if (inFunnel) {
-                    left.incrementImpression();
+                    if (left == null) {
+                        right.incrementImpression();
+                    } else {
+                        left.incrementImpression();
+                    }
                 }
                 results.add(bounced);
             }

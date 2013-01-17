@@ -1,6 +1,7 @@
 package org.wikimedia.analytics.kraken.funnel;
 
 import com.google.gson.JsonObject;
+import org.jgrapht.graph.DefaultDirectedGraph;
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 import org.wikimedia.analytics.kraken.funnel.DemoFunnel;
 import org.wikimedia.analytics.kraken.funnel.Funnel;
@@ -125,7 +126,26 @@ public class FunnelTest {
 		funnel.paths.add(1, path1);
 
 		Analysis analysis = new Analysis();
-		DirectedGraph<Node, DefaultEdge> history = null;
+		DirectedGraph<Node, DefaultEdge> history = new DefaultDirectedGraph<Node, DefaultEdge>(DefaultEdge.class);
+
+        JsonObject json = new JsonObject();
+        json.addProperty("page", "A");
+        UserActionNode userGoesToA = new UserActionNode(json);
+
+        json = new JsonObject();
+        json.addProperty("page", "B");
+        UserActionNode userGoesToB = new UserActionNode(json);
+
+        json = new JsonObject();
+        json.addProperty("page", "C");
+        UserActionNode userGoesToC = new UserActionNode(json);
+
+        history.addVertex(userGoesToA);
+        history.addVertex(userGoesToB);
+        history.addVertex(userGoesToC);
+        history.addEdge(userGoesToA, userGoesToB);
+        history.addEdge(userGoesToB, userGoesToC);
+
 		Result result = analysis.run("fake_user_token", history, funnel);
 		assertTrue(result.getHasFinishedFunnel());
 	}

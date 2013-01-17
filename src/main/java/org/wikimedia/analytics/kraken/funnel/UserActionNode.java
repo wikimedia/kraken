@@ -113,14 +113,13 @@ class UserActionNode extends Node{
      * Compare two nodes and determine whether they can be considered the same.
      */
     public boolean equals(Object obj) {
-        //TODO: implementation not yet finished, use Apache Commons EqualsBuilder
         if (this == obj) return true;
         if (obj == null) return false;
-        UserActionNode node = (UserActionNode)obj;
-        //return this.toString().equals(node.toString());
+        if (obj instanceof FunnelNode) { return ((FunnelNode)obj).matches(this); }
+        if (!(obj instanceof UserActionNode)) { return false; }
 
         return new EqualsBuilder().
-                append(this.toString(), node.toString()).
+                append(this.toString(), obj.toString()).
                 isEquals();
     }
 
