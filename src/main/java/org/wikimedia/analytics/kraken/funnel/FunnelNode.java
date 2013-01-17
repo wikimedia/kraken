@@ -72,7 +72,7 @@ public class FunnelNode extends Node{
     }
 
     public double completionRate(){
-        return (double) this.bounced/ this.impression;
+        return 1.0 - ((double) this.bounced/ this.impression);
     }
     /**
      * Whether a UserActionNode matches this FunnelNode

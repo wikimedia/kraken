@@ -30,30 +30,35 @@ class Analysis {
 
 	public Result run(String userToken, DirectedGraph<Node, DefaultEdge> history, Funnel funnel) {
 		boolean bounced;
-
 		ArrayList<FunnelPath> completedFunnelViaPaths = new ArrayList<FunnelPath>();
         for (FunnelPath path : funnel.paths) {
             List<Boolean> results = new ArrayList<Boolean>();
             boolean inFunnel = true;
+
+            //Do first an iterator to increment the impressions
+
+            for (FunnelNode node : path.nodes){
+                inFunnel = hasArrivedAtNode(history, node) && inFunnel;
+                if (inFunnel){
+                    node.incrementImpression();
+                }
+            }
+            bounced = false;
             for (Pair<FunnelNode, FunnelNode> pair : path) {
                 FunnelNode left = pair.getLeft();
                 FunnelNode right = pair.getRight();
 
-                inFunnel = hasArrivedAtNode(history, right) && inFunnel;
-                bounced = hasBouncedFromFunnel(history, left, right);
+                bounced = hasBouncedFromFunnel(history, left, right) && !bounced;
                 results.add(bounced);
 
-                if (inFunnel && bounced) {
-                    right.incrementBounced();
-                } else if (inFunnel && left == null){
-                    right.incrementImpression();
-                } else if (inFunnel) {
-                    left.incrementImpression();
+
+                if (bounced){
+                    left.incrementBounced();
                 }
 
                 }
 
-            if (hasCompletedFunnel(results)) {
+            if (!hasCompletedFunnel(results)) {
                 completedFunnelViaPaths.add(path);
             }
         }

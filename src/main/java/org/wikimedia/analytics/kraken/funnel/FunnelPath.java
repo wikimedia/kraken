@@ -23,18 +23,23 @@ package org.wikimedia.analytics.kraken.funnel;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.google.gson.JsonObject;
 import org.apache.commons.lang3.tuple.Pair;
+import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
 public class FunnelPath implements Iterable<Pair<FunnelNode, FunnelNode>> {
 
 	public final int id;
 	private int currentSize;
 	public final ArrayList<FunnelNode> nodes;
+    private FunnelNode Left;
+    private FunnelNode Right;
 
 	public FunnelPath(int id) {
 		this.id = id;
         nodes = new ArrayList<FunnelNode>();
         setCurrentSize();
+
     }
 
 	private void setCurrentSize() {
@@ -45,32 +50,18 @@ public class FunnelPath implements Iterable<Pair<FunnelNode, FunnelNode>> {
 		setCurrentSize();
         return new Iterator<Pair<FunnelNode, FunnelNode>>() {
 
-            private int currentIndex = -1;
+            private int currentIndex = 0;
 
             public boolean hasNext() {
                 return currentIndex < currentSize -1
-                        && nodes.toArray()[currentIndex + 1] != null;
+                        && nodes.toArray()[currentIndex] != null;
             }
 
             public Pair<FunnelNode, FunnelNode> next() {
-                //TODO: this is a counter-intuitive solution so this needs to be
-                //refactored. The problem is this, the potential referral nodes
-                //to the starting point of a funnel are endless and so to make
-                //sure that a visitor actually entered the funnel we just want
-                //to check whether the start node has been reached. The purpose
-                //of this iterator is however to determine whether, once inside
-                //a funnel, a visitor goes from A to B. The Node L = null hack
-                //makes it possible to have a single iterator that can be used
-                //both to determine whether a funnel was started and determine
-                //when/whether a visitor dropped out of the funnel.
-                //Obviously code calling this iterator needs to handle null.
-                FunnelNode L = null;
-                if (currentIndex > -1) {
-                    L = nodes.get(currentIndex);
-                }
-                FunnelNode R = nodes.get(currentIndex + 1);
+                Left = nodes.get(currentIndex);
+                Right = nodes.get(currentIndex + 1);
                 currentIndex++;
-                return Pair.of(L, R);
+                return Pair.of(Left, Right);
             }
 
             public void remove() {
