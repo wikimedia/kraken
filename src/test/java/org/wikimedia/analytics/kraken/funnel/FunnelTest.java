@@ -19,9 +19,11 @@ import static org.junit.Assert.*;
 public class FunnelTest {
 
 	/** Create the test case. */
-	public final String funnelDefinition = "A,B\n" + "B, C\n" + "D, B\n"
-			+ "B, E\n";
-	public final String nodeDefinition = "page:";
+	public final String funnelDefinition = "event=A, event=B\n" +
+                                           "event=B, event=C\n" +
+                                           "event=D, event=B\n" +
+			                               "event=B, event=E\n";
+	public final String nodeDefinition = "event=page";
 	private Funnel funnel;
 
 	/**
@@ -33,7 +35,7 @@ public class FunnelTest {
 	 * There are two unique paths in this funnel: {A,B,C} and {D,B,E}
 	 */
 	public FunnelTest() throws MalformedFunnelException {
-		//this.funnel = new Funnel(nodeDefinition, funnelDefinition);
+		this.funnel = new Funnel(nodeDefinition, funnelDefinition);
 	}
 
 	/**
@@ -104,11 +106,11 @@ public class FunnelTest {
 	@Test
 	public final void testFallOutAnalysis() throws MalformedFunnelException {
 		FunnelPath path0 = new FunnelPath(0);
-        FunnelNode A = new FunnelNode("A");
-        FunnelNode B = new FunnelNode("B");
-        FunnelNode C = new FunnelNode("C");
-        FunnelNode D = new FunnelNode("D");
-        FunnelNode E = new FunnelNode("E");
+        FunnelNode A = new FunnelNode("page=A");
+        FunnelNode B = new FunnelNode("page=B");
+        FunnelNode C = new FunnelNode("page=C");
+        FunnelNode D = new FunnelNode("page=D");
+        FunnelNode E = new FunnelNode("page=E");
 
 		path0.nodes.add(A);
 		path0.nodes.add(B);

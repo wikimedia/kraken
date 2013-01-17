@@ -122,7 +122,6 @@ public class FunnelNode extends Node{
 			}
 			e++;
 		}
-        System.out.println("RETURNING as String: " + sb.toString());
 		return sb.toString();
 	}
 }

@@ -30,16 +30,21 @@ class Analysis {
 
 	public Result run(String userToken, DirectedGraph<Node, DefaultEdge> history, Funnel funnel) {
 		boolean bounced;
+        boolean inFunnel;
 		ArrayList<FunnelPath> completedFunnelViaPaths = new ArrayList<FunnelPath>();
         for (FunnelPath path : funnel.paths) {
             List<Boolean> results = new ArrayList<Boolean>();
             for (Pair<FunnelNode, FunnelNode> pair : path) {
-                bounced = hasBouncedFromFunnel(history, pair.getLeft(), pair.getRight());
-                FunnelNode node = pair.getRight();
+                FunnelNode left = pair.getLeft();
+                FunnelNode right = pair.getRight();
+                inFunnel = hasArrivedAtNode(history, right);
+                bounced = hasBouncedFromFunnel(history, left, right);
+
                 if (bounced) {
-                    node.incrementBounced();
-                }   else {
-                    node.incrementImpression();
+                    right.incrementBounced();
+                }
+                if (inFunnel) {
+                    left.incrementImpression();
                 }
                 results.add(bounced);
             }
@@ -50,6 +55,10 @@ class Analysis {
 		return new Result(userToken, completedFunnelViaPaths);
 	}
 
+    private boolean hasArrivedAtNode(DirectedGraph<Node, DefaultEdge> history, FunnelNode targetVertex) {
+        return history.containsVertex(targetVertex);
+    }
+
     private boolean hasBouncedFromFunnel(
             DirectedGraph<Node, DefaultEdge> history,
             Node sourceVertex,
@@ -57,7 +66,6 @@ class Analysis {
         if (sourceVertex != null) {
             return !history.containsEdge(sourceVertex, targetVertex);
         } else {
-            //targetVertex.toString();
             return !history.containsVertex(targetVertex);
         }
     }

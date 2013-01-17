@@ -27,6 +27,7 @@ import java.util.Random;
 import java.util.Map;
 import java.util.HashMap;
 
+import com.google.gson.JsonObject;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
@@ -73,10 +74,12 @@ public class DemoFunnel {
 		// Create fake nodes and use them to seed the graph
 		for (int i = 0; i < numberNodes; i++) {
 			path = alphabet.charAt(rnd.nextInt(alphabet.length()));
-//			Node node = new UserActionNode(Character.toString(path));
-//			if (!dg.containsVertex(node)) {
-//				dg.addVertex(node);
-//			}
+            JsonObject json = new JsonObject();
+            json.addProperty("page", Character.toString(path));
+			Node node = new UserActionNode(json);
+			if (!dg.containsVertex(node)) {
+				dg.addVertex(node);
+			}
 		}
 
 		// Add random edges between the fake nodes to create a fake browsing history
