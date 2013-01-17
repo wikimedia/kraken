@@ -1,3 +1,4 @@
+*.gz
 *.class
 target/
 .classpath
@@ -5,3 +6,5 @@ target/
 .settings/
 *.iml
 .idea
+pom.xml.releaseBackup
+release.properties
