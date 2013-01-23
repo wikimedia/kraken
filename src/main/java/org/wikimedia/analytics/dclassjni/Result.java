@@ -1,4 +1,4 @@
-package org.wikimedia.analytics.dclass_jni;
+package org.wikimedia.analytics.dclassjni;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -283,10 +283,10 @@ public class Result {
     DclassWrapper dw = new DclassWrapper();
 
     /**
-     * Instantiates a new dClassParsedResult.
+     * Initiates UA JNI internal data
      */
     public Result() {
-        //dw.initUA();
+        dw.initUA();
     }
 
     public void classifyUseragent(String userAgent) {
@@ -312,7 +312,7 @@ public class Result {
 //        isDesktop =  null;
 
     /**
-     * Prints the properties of a @link dClassParsedResult to stdout.
+     * Prints the properties of to stdout.
      */
     public final void print() {
         System.out.println("vendor                  = " + getVendor());

@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.wikimedia.analytics.dclass_jni;
+package org.wikimedia.analytics.dclassjni;
 
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class DclassWrapper {
     /**
      *  allocate and load up dtrees in memory.
      */
-    public native void _Java_DClassWrapper_initUA();
+    public native void initUA();
 
     /**
      *  deallocate dtrees(sort-of a destructor).
@@ -36,7 +36,7 @@ public class DclassWrapper {
      * the good stuff (what we actually want to do, classify UAs).
      *
      * @param ua the useragent device strings
-     * @return the @dClassParsedResult
+     * @return the @Map<String, String>
      */
     public native Map<String, String> classifyUA(String ua);
 
@@ -70,6 +70,24 @@ public class DclassWrapper {
 
     static {
         try {
+            loadDclassSharedObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        };
+    };
+
+    public static void main(String[] args){
+
+//        // load libdclasswrapper.so
+        Result result = new Result();
+        result.classifyUseragent(UserAgentSample);
+    }
+
+
+    public static void loadDclassSharedObject() throws IOException {
+        System.out.print("loadDclassSharedObject()\n");
+        try {
             if (os.contains("mac")) {
                 System.load("/usr/local/lib/libdclass.dylib");
                 System.load("/usr/local/lib/libdclassjni.0.dylib");
@@ -77,7 +95,7 @@ public class DclassWrapper {
             } else if (os.contains("nix") ||
                     os.contains("nux") ||
                     os.contains("aix")) {
-                System.load("/usr/lib/libdclass.so");
+                //System.load("/usr/lib/libdclass.so");
                 System.load("/usr/lib/libdclassjni.so");
             } else {
                 System.out.println("OS not supported.");
@@ -87,36 +105,5 @@ public class DclassWrapper {
             System.err.println("Native code library failed to load.\n" + e);
             System.exit(1);
         }
-    }
-    public static void main(String[] args){
-
-//        // load libdclasswrapper.so
-//        try {
-//            loadDclassSharedObject();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            System.exit(-1);
-//        }
-        Result result = new Result();
-        result.classifyUseragent(UserAgentSample);
-    }
-
-
-    public static void loadDclassSharedObject() throws IOException {
-        if (os.contains("mac")) {
-            //System.load("/usr/local/lib/libdclass.dylib");
-            System.load("/usr/local/lib/libdclassjni.0.dylib");
-
-        } else if (os.contains("nix") ||
-                   os.contains("nux") ||
-                   os.contains("aix")) {
-            System.load("/usr/lib/libdclass.so");
-            System.load("/usr/lib/libdclassjni.so");
-        } else {
-            System.out.println("OS not supported.");
-            System.exit(-1);
-        }
-
-
     }
 }
