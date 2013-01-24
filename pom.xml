@@ -10,6 +10,12 @@
     <description>Wikimedia Analytics team's utility library for Kraken including UDF's for Pig, Hive, etc.</description>
     <url>https://github.com/wmf-analytics/kraken</url>
 
+    <parent>
+        <groupId>org.wikimedia.analytics.kraken</groupId>
+        <artifactId>parent-pom</artifactId>
+        <version>1</version>
+    </parent>
+
     <organization>
         <name>Wikimedia Foundation</name>
         <url>http://www.wikimediafoundation.org</url>
