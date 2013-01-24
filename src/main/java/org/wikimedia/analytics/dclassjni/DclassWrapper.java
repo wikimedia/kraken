@@ -89,7 +89,7 @@ public class DclassWrapper {
         System.out.print("loadDclassSharedObject()\n");
         try {
             if (os.contains("mac")) {
-                System.load("/usr/local/lib/libdclass.dylib");
+                //System.load("/usr/local/lib/libdclass.dylib");
                 System.load("/usr/local/lib/libdclassjni.0.dylib");
 
             } else if (os.contains("nix") ||
