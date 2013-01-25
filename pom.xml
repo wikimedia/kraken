@@ -179,6 +179,13 @@
             <artifactId>guava</artifactId>
             <version>13.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>3.4</version>
+        </dependency>
+
     </dependencies>
 
 </project>
