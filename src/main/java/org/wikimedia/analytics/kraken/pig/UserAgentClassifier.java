@@ -77,8 +77,7 @@ public class UserAgentClassifier  extends EvalFunc<Tuple> {
     }
 
     public void finalize() {
-
-        this.dw.destroyUA();
-
+      System.out.println("[DBG] freed dtree\n");
+      this.dw.destroyUA();
     }
 }
