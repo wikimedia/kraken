@@ -3,7 +3,7 @@
 
     <groupId>org.wikimedia.analytics.kraken.funnel</groupId>
     <artifactId>funnel</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>funnel</name>
@@ -79,7 +79,7 @@
                 <version>2.4</version>
                 <executions>
                     <execution>
-                        <id>create-standalone-funnel</id>
+                        <id>create-my-bundle</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
