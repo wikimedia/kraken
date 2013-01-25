@@ -23,14 +23,30 @@ import org.apache.pig.data.TupleFactory;
 import org.wikimedia.analytics.dclassjni.DclassWrapper;
 
 
+
 import java.io.IOException;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UserAgentClassifier  extends EvalFunc<Tuple> {
-        DclassWrapper dw = new DclassWrapper();
-    public UserAgentClassifier() {
+        DclassWrapper dw = null;
+        private String useragent = null;
+        private Map result = new HashMap<String, String>();
+        private List args = new ArrayList<String>();
+        private final List knownArgs = new ArrayList<String>();
 
-        dw.initUA();
+    public UserAgentClassifier() {
+        if (this.dw == null) {
+            this.dw = new DclassWrapper();
+        }
+        knownArgs.add(0,);
+        this.dw.initUA();
+    }
+
+    public UserAgentClassifier(String[] args) {
+        this();
     }
 
     @Override
@@ -41,13 +57,15 @@ public class UserAgentClassifier  extends EvalFunc<Tuple> {
      * 1) A tuple containing a useragent string
      */
     public Tuple exec(Tuple input) throws IOException {
-        if (input == null || input.size() != 1) {
+        if (input == null || input.size() != 1 || input.get(0) == null) {
             return null;
         }
 
-        //Create the output tuple
-        Map result = dw.classifyUA(input.get(0).toString());
 
+        this.useragent = input.get(0).toString();
+        result = this.dw.classifyUA(this.useragent);
+
+        //Create the output tuple
         Tuple output = TupleFactory.getInstance().newTuple(5);
         output.set(0, result.get("device_os"));
         output.set(1, result.get("vendor"));

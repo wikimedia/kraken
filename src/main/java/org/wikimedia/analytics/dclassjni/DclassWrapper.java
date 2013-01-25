@@ -20,6 +20,7 @@ package org.wikimedia.analytics.dclassjni;
 
 import java.io.IOException;
 import java.util.Map;
+import java.io.File;
 
 public class DclassWrapper {
     /**
@@ -73,20 +74,17 @@ public class DclassWrapper {
             loadDclassSharedObject();
         } catch (IOException e) {
             e.printStackTrace();
-            System.exit(-1);
         };
     };
 
     public static void main(String[] args){
 
-//        // load libdclasswrapper.so
         Result result = new Result();
         result.classifyUseragent(UserAgentSample);
     }
 
 
     public static void loadDclassSharedObject() throws IOException {
-        System.out.print("loadDclassSharedObject()\n");
         try {
             if (os.contains("mac")) {
                 //System.load("/usr/local/lib/libdclass.dylib");
@@ -102,8 +100,12 @@ public class DclassWrapper {
                 System.exit(-1);
             }
         } catch (UnsatisfiedLinkError e) {
+            File f = new File("/usr/lib/libdclassjni.so");
+            System.err.println("/usr/lib/libdclassjni.so exists: " + f.exists());
+            System.err.println("/usr/lib/libdclassjni.so is readable: " + f.canRead());
             System.err.println("Native code library failed to load.\n" + e);
-            System.exit(1);
+            e.printStackTrace();
+            }
         }
     }
-}
+
