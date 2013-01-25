@@ -75,4 +75,8 @@ public class UserAgentClassifier  extends EvalFunc<Tuple> {
 
         return output;
     }
+
+    public void finalize() {
+      this.dw.destroyUA();
+    }
 }
