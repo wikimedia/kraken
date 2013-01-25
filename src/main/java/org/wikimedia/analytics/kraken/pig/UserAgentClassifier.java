@@ -41,7 +41,7 @@ public class UserAgentClassifier  extends EvalFunc<Tuple> {
         if (this.dw == null) {
             this.dw = new DclassWrapper();
         }
-        knownArgs.add(0,);
+        //knownArgs.add(0,);
         this.dw.initUA();
     }
 
@@ -74,5 +74,9 @@ public class UserAgentClassifier  extends EvalFunc<Tuple> {
         output.set(4, result.get("is_tablet"));
 
         return output;
+    }
+
+    public void finalize() {
+        this.dw.destroyUA();
     }
 }
