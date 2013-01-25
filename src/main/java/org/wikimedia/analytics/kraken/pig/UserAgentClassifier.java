@@ -27,11 +27,10 @@ import java.io.IOException;
 import java.util.Map;
 
 public class UserAgentClassifier  extends EvalFunc<Tuple> {
-    DclassWrapper dw = new DclassWrapper();
-
+        DclassWrapper dw = new DclassWrapper();
     public UserAgentClassifier() {
-        dw.initUA();
 
+        dw.initUA();
     }
 
     @Override
