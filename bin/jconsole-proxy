@@ -1,0 +1,83 @@
+#!/bin/bash
+ 
+#/ jc -- jconsole via ssh proxy
+#/ 
+#/ Usage:     jc [options] HOST JMX_PORT [PROXY_PORT=JMX_PORT] [JMX_HOST=HOST]
+#/ 
+#/ Starts a SOCKS proxy via ssh to connect to a
+#/ JVM running on a remote and protected machine.
+#/ 
+#/ Arguments:
+#/      HOST                Host running the VM. This is a ssh host-string, so you can
+#/                           specify anything that will pick out a host in ssh: [user@]host[:port]
+#/      JMX_PORT            Port used by JMX on the remote JMX_HOST.
+#/      PROXY_PORT=JMX_PORT      Local port to use for the SOCKs proxy. Defaults to JMX_PORT.
+#/      JMX_HOST=HOST       JMX hostname, set by java.rmi.server.hostname, or defaulting
+#/                           to the machine hostname.
+#/ 
+#/ Options:
+#/      -h --help       Displays this help.
+#/      -v              Verbose logging.
+#/ 
+ 
+VERBOSE=''
+ 
+ 
+# The most important line in any shell program. (Terminate on subcommand errors)
+set -e
+ 
+# Utilities
+log   () { [ "$VERBOSE" ] && echo -e "$*" >&2; :; }
+logs  () { [ "$VERBOSE" ] && printf "%s" "$*"; :; }
+fail  () { echo >&2; echo "[ERROR] $*" >&2; exit 1; }
+count () { echo $#; }
+nth   () { local n="$1"; shift; [ -z "$n" ] && return 1; [[ "$n" < 0 ]] && n=$(( 1 + $# + $n )); echo "${!n}"; }
+join  () { local sep="$1" old="$IFS"; export IFS=\n; read -t1 out; while read -t1 line; do out="$out$sep$line"; done; echo "$out"; export IFS=$old; }
+sjoin () { local sep="$1"; shift; [ -z "$*" ] && return 1; printf "$1"; shift; for a in $*; do printf "$sep$a"; done; echo; }
+ 
+# Print Help
+SELF="$0"
+halp () { grep '^#/' <"$SELF" | cut -c4-; :; }
+for opt in $*; do echo $opt | egrep -xq -e '--?h(e(lp?)?)?' && { halp; exit 0; }; done
+ 
+# Parse Args
+SHIFT=0
+incshift () { SHIFT=$(( $SHIFT + ${1:-1} )); }
+while getopts "v" opt; do
+    case $opt in
+        v ) VERBOSE="-v";         incshift ;;
+        * ) fail "Unknown option: $OPTARG" ;;
+    esac
+done
+shift $SHIFT
+ 
+ 
+host=$1
+jmx_port=$2
+proxy_port=${3:-$jmx_port}
+jmx_host=${4:-$host}
+ 
+if [ -z "$host" -o -z "$jmx_port" ]; then
+    printf "[ERROR] HOST and JMX_PORT are required!\n\n" >&2
+    halp
+    exit 1
+fi
+ 
+# start up a background ssh tunnel on the desired port
+ssh -N -f -D$proxy_port $host
+ 
+# if the tunnel failed to come up, fail gracefully.
+[ $? -ne 0 ] && fail "ssh tunnel failed!"
+ 
+ssh_pid=`ps awwwx | grep "[s]sh -N -f -D$proxy_port" | awk '{print $1}'`
+log "ssh pid: $ssh_pid"
+ 
+# if we can't find the ssh pid, presume something has gone wrong
+[ -z "$ssh_pid" ] && fail "unable to determine ssh tunnel pid!"
+ 
+# Fire up jconsole to your remote host
+jconsole -J-DsocksProxyHost=localhost -J-DsocksProxyPort=$proxy_port \
+    service:jmx:rmi:///jndi/rmi://${jmx_host}:${jmx_port}/jmxrmi
+ 
+# tear down the tunnel
+kill $ssh_pid
