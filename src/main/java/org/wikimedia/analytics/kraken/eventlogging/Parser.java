@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -60,10 +61,10 @@ public class Parser {
 	 * @throws JsonParseException the json parse exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public static void main(String args[]) throws JsonParseException, IOException {
+	public static void main(String args[]) throws JsonParseException, MalformedURLException, IOException {
 		// This is an example
 		Parser parser = new Parser();
-		String jsonSchema = parser.loadEventLoggingJsonSchema("GettingStarted");
+		String jsonSchema = parser.loadEventLoggingJsonSchema("GettingStarted", "0");
 		System.out.println(jsonSchema);
 		parser.parseEventLoggingJsonSchem(jsonSchema);
 	}
@@ -97,6 +98,11 @@ public class Parser {
 		}
 	}
 
+    public URL generateSchemaUrl(String schema, String revisionId) throws MalformedURLException {
+        URL url = new URL("http://meta.wikimedia.org/w/index.php?action=raw&title=Schema:" + schema +"&oldid=" + revisionId);
+        return url;
+    }
+
 	/**
 	 * Load event logging json schema.
 	 *
@@ -104,10 +110,9 @@ public class Parser {
 	 * @return a string containing the retrieved json schema.
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public String loadEventLoggingJsonSchema(String schemaName)
-			throws IOException {
-		String urlStr = "http://meta.wikimedia.org/wiki/Schema:" + schemaName + "?action=raw";
-		URL url = new URL(urlStr);
+	public String loadEventLoggingJsonSchema(String schemaName, String revisionId)
+			throws MalformedURLException, IOException {
+		URL url = generateSchemaUrl(schemaName, revisionId);
 		BufferedReader reader = null;
 		StringBuilder buffer = new StringBuilder();
 		try {
