@@ -1,158 +1,266 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.wikimedia.analytics.kraken</groupId>
-  <artifactId>parent-pom</artifactId>
-  <version>1</version>
-  <packaging>pom</packaging>
-  <name>Wikimedia Analytics OSS Parent</name>
-  
-  <url>
-    <!-- This URL does not work yet-->
-    http://nexus.wmflabs.org/oss-repository-hosting.html
-  </url>
-  
-  <description>
-    Sonatype helps Wikimedia Analytics projects to set up Maven repositories on https://nexus.sonatype.org/
-  </description>
-  
-  <scm>
-    <connection>
-      scm:git:git@github.com/wmf-analytics/kraken.git
-    </connection>
-    <developerConnection>
-      scm:git:git@github.com/wmf-analytics/kraken.git
-    </developerConnection>
-    <url>scm:git:git@github.com/wmf-analytics/kraken.git</url>
-  </scm>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.wikimedia.analytics.kraken</groupId>
+    <artifactId>parent-pom</artifactId>
+    <version>1</version>
+    <packaging>pom</packaging>
+    <name>Wikimedia Analytics OSS Parent</name>
 
-  <repositories>
-    <repository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>
-       https://nexus.wmflabs.org/content/repositories/snapshots
-     </url>
-     <releases>
-      <enabled>false</enabled>
-    </releases>
-    <snapshots>
-      <enabled>true</enabled>
-    </snapshots>
-  </repository>
-</repositories>
 
-<distributionManagement>
-  <snapshotRepository>
-    <id>sonatype-nexus-snapshots</id>
-    <name>Sonatype Nexus Snapshots</name>
-    <url>http://nexus.wmflabs.org/nexus/content/repositories/snapshots</url>
-  </snapshotRepository>
-  <repository>
-    <id>sonatype-nexus-staging</id>
-    <name>Nexus Release Repository</name>
-    <url>
-      http://nexus.wmflabs.org/nexus/content/repositories/releases
-    </url>
-  </repository>
-</distributionManagement>
+    <organization>
+        <name>Wikimedia Foundation</name>
+        <url>http://www.wikimediafoundation.org</url>
+    </organization>
 
-<build>
-  <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-enforcer-plugin</artifactId>
-      <version>1.0</version>
-      <executions>
-        <execution>
-          <id>enforce-maven</id>
-          <goals>
-            <goal>enforce</goal>
-          </goals>
-          <configuration>
-            <rules>
-              <requireMavenVersion>
-                <version>(,2.1.0),(2.1.0,2.2.0),(2.2.0,)</version>
-                <message>
-                  Maven 2.1.0 and 2.2.0 produce incorrect GPG signatures and checksums respectively.
-                </message>
-              </requireMavenVersion>
-            </rules>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
-  </plugins>
-  
-  <pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.1</version>
-        <configuration>
-          <mavenExecutorId>forked-path</mavenExecutorId>
-          <useReleaseProfile>false</useReleaseProfile>
-          <arguments>-Psonatype-oss-release</arguments>
-        </configuration>
-      </plugin>
-    </plugins>
-  </pluginManagement>
-</build>
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
 
-<properties>
-  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  <sonatypeOssDistMgmtSnapshotsUrl>
-    https://nexus.wmflabs.org/content/repositories/snapshots/
-  </sonatypeOssDistMgmtSnapshotsUrl>
-</properties>
+    <mailingLists>
+        <mailingList>
+            <name>Analytics Mailinglist</name>
+            <subscribe>https://lists.wikimedia.org/mailman/listinfo/analytics</subscribe>
+            <unsubscribe>https://lists.wikimedia.org/mailman/listinfo/analytics</unsubscribe>
+            <post>analytics@lists.wikimedia.org</post>
+            <archive>http://lists.wikimedia.org/pipermail/analytics/</archive>
+        </mailingList>
+    </mailingLists>
 
-<profiles>
-  <profile>
-    <id>sonatype-oss-release</id>
+    <issueManagement>
+        <system>Github Issues</system>
+        <url>https://github.com/wikimedia/kraken/issues</url>
+    </issueManagement>
+
+    <description>
+        Sonatype helps Wikimedia Analytics projects to set up Maven repositories on https://nexus.sonatype.org/
+    </description>
+
+    <scm>
+        <connection>
+            scm:git:git@github.com/wmf-analytics/kraken.git
+        </connection>
+        <developerConnection>
+            scm:git:git@github.com/wmf-analytics/kraken.git
+        </developerConnection>
+        <url>scm:git:git@github.com/wmf-analytics/kraken.git</url>
+    </scm>
+
+    <repositories>
+        <repository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>
+                https://nexus.wmflabs.org/content/repositories/snapshots
+            </url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>http://nexus.wmflabs.org/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Nexus Release Repository</name>
+            <url>
+                http://nexus.wmflabs.org/nexus/content/repositories/releases
+            </url>
+        </repository>
+    </distributionManagement>
+
     <build>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>2.1.2</version>
-          <executions>
-            <execution>
-              <id>attach-sources</id>
-              <goals>
-                <goal>jar-no-fork</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.7</version>
-          <executions>
-            <execution>
-              <id>attach-javadocs</id>
-              <goals>
-                <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.1</version>
-          <executions>
-            <execution>
-              <id>sign-artifacts</id>
-              <phase>verify</phase>
-              <goals>
-                <goal>sign</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <compilerArgument></compilerArgument>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <linksource>true</linksource>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.wagon</groupId>
+                        <artifactId>wagon-ssh-external</artifactId>
+                        <version>2.2</version>
+                    </dependency>
+                </dependencies>
+
+                <configuration>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>findbugs-maven-plugin</artifactId>
+                            <version>2.5.2</version>
+                            <!--
+                            <threshold>Normal</threshold> High|Normal|Low|Exp|Ignore <effort>Default</effort>Min|Default|Max
+                            <debug>true</debug>
+                            <failOnError>false</failOnError>
+                            -->
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>(,2.1.0),(2.1.0,2.2.0),(2.2.0,)</version>
+                                    <message>
+                                        Maven 2.1.0 and 2.2.0 produce incorrect GPG signatures and checksums respectively.
+                                    </message>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.1</version>
+                    <configuration>
+                        <mavenExecutorId>forked-path</mavenExecutorId>
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <arguments>-Psonatype-oss-release</arguments>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
-  </profile>
-</profiles>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonatypeOssDistMgmtSnapshotsUrl>
+            https://nexus.wmflabs.org/content/repositories/snapshots/
+        </sonatypeOssDistMgmtSnapshotsUrl>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/java/</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <finalName>kraken</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
+
+
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <linksource>true</linksource>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+
+    <profiles>
+        <profile>
+            <id>sonatype-oss-release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.1.2</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.7</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.1</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

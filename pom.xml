@@ -5,16 +5,10 @@
     <groupId>org.wikimedia.analytics</groupId>
     <artifactId>kraken</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <name>kraken</name>
     <description>Wikimedia Analytics team's utility library for Kraken including UDF's for Pig, Hive, etc.</description>
-    <url>https://github.com/wmf-analytics/kraken</url>
-
-    <parent>
-        <groupId>org.wikimedia.analytics.kraken</groupId>
-        <artifactId>parent-pom</artifactId>
-        <version>1</version>
-    </parent>
+    <url>https://github.com/wikimedia/kraken</url>
 
     <organization>
         <name>Wikimedia Foundation</name>
@@ -28,11 +22,6 @@
         </license>
     </licenses>
 
-    <scm>
-        <connection>scm:git:git@github.com:wmf-analytics/kraken.git</connection>
-        <url>git@github.com:wmf-analytics/kraken.git</url>
-    </scm>
-
     <mailingLists>
         <mailingList>
             <name>Analytics Mailinglist</name>
@@ -45,38 +34,57 @@
 
     <issueManagement>
         <system>Github Issues</system>
-        <url>https://github.com/wmf-analytics/kraken/issues</url>
+        <url>https://github.com/wikimedia/kraken/issues</url>
     </issueManagement>
 
+    <scm>
+        <connection>
+            scm:git:git@github.com/wikimedia/kraken.git
+        </connection>
+        <developerConnection>
+            scm:git:git@github.com/wikimedia/kraken.git
+        </developerConnection>
+        <url>scm:git:git@github.com/wikimedia/kraken.git</url>
+    </scm>
+
+    <repositories>
+        <repository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>
+                https://nexus.wmflabs.org/content/repositories/snapshots
+            </url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <distributionManagement>
+
         <site>
             <id>stats</id>
             <url>scpexe://stat1001.wikimedia.org/srv/stats.wikimedia.org/htdocs/kraken</url>
         </site>
+
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>http://nexus.wmflabs.org/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Nexus Release Repository</name>
+            <url>
+                http://nexus.wmflabs.org/nexus/content/repositories/releases
+            </url>
+        </repository>
     </distributionManagement>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <linksource>true</linksource>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
-
     <build>
-        <sourceDirectory>src/main/java/</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <finalName>kraken</finalName>
-
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
 
         <plugins>
             <plugin>
@@ -125,22 +133,56 @@
                     </reportPlugins>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>(,2.1.0),(2.1.0,2.2.0),(2.2.0,)</version>
+                                    <message>
+                                        Maven 2.1.0 and 2.2.0 produce incorrect GPG signatures and checksums respectively.
+                                    </message>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.1</version>
+                    <configuration>
+                        <mavenExecutorId>forked-path</mavenExecutorId>
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <arguments>-Psonatype-oss-release</arguments>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
-    <repositories>
-        <repository>
-            <id>cloudera-2</id>
-            <name>Cloudera Repository</name>
-            <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
-        </repository>
-    </repositories>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <skip.tests>false</skip.tests>
-    </properties>
+    <modules>
+        <module>kraken-generic</module>
+        <module>kraken-dclass</module>
+        <module>kraken-eventlogging</module>
+        <module>kraken-pig</module>
+        <module>kraken-funnel</module>
+        <module>kraken-etl</module>
+    </modules>
 
     <dependencies>
         <dependency>
@@ -149,84 +191,115 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>2.0.0-cdh4.1.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.pig</groupId>
-            <artifactId>pig</artifactId>
-            <version>0.10.0-cdh4.1.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kohsuke</groupId>
-            <artifactId>geoip</artifactId>
-            <version>1.2.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.pig</groupId>
-            <artifactId>pigunit</artifactId>
-            <version>0.10.0-cdh4.1.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>13.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr</artifactId>
-            <version>3.4</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.jgrapht</groupId>
-            <artifactId>jgrapht</artifactId>
-            <version>0.8.3</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.2.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.2.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-cli</groupId>
-            <artifactId>commons-cli</artifactId>
-            <version>1.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
-        </dependency>
     </dependencies>
 
+    <reporting>
+        <plugins>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <linksource>true</linksource>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+
+    <!--
+     <repositories>
+         <repository>
+             <id>cloudera-2</id>
+             <name>Cloudera Repository</name>
+             <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
+         </repository>
+     </repositories>
+
+
+     <properties>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+         <skip.tests>false</skip.tests>
+     </properties>
+
+
+
+         <dependency>
+             <groupId>org.apache.hadoop</groupId>
+             <artifactId>hadoop-client</artifactId>
+             <version>2.0.0-cdh4.1.2</version>
+         </dependency>
+
+         <dependency>
+             <groupId>org.apache.pig</groupId>
+             <artifactId>pig</artifactId>
+             <version>0.10.0-cdh4.1.2</version>
+         </dependency>
+
+         <dependency>
+             <groupId>org.kohsuke</groupId>
+             <artifactId>geoip</artifactId>
+             <version>1.2.5</version>
+         </dependency>
+
+         <dependency>
+             <groupId>org.apache.pig</groupId>
+             <artifactId>pigunit</artifactId>
+             <version>0.10.0-cdh4.1.2</version>
+         </dependency>
+
+         <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>13.0</version>
+         </dependency>
+
+         <dependency>
+             <groupId>org.antlr</groupId>
+             <artifactId>antlr</artifactId>
+             <version>3.4</version>
+         </dependency>
+         <dependency>
+             <groupId>net.sf.jgrapht</groupId>
+             <artifactId>jgrapht</artifactId>
+             <version>0.8.3</version>
+             <scope>compile</scope>
+         </dependency>
+
+         <dependency>
+             <groupId>com.fasterxml.jackson.core</groupId>
+             <artifactId>jackson-core</artifactId>
+             <version>2.1.1</version>
+         </dependency>
+
+         <dependency>
+             <groupId>com.google.code.gson</groupId>
+             <artifactId>gson</artifactId>
+             <version>2.2.2</version>
+         </dependency>
+
+         <dependency>
+             <groupId>com.fasterxml.jackson.core</groupId>
+             <artifactId>jackson-databind</artifactId>
+             <version>2.1.1</version>
+         </dependency>
+
+         <dependency>
+             <groupId>org.apache.httpcomponents</groupId>
+             <artifactId>httpclient</artifactId>
+             <version>4.2.2</version>
+         </dependency>
+
+         <dependency>
+             <groupId>commons-cli</groupId>
+             <artifactId>commons-cli</artifactId>
+             <version>1.2</version>
+         </dependency>
+
+         <dependency>
+             <groupId>org.apache.commons</groupId>
+             <artifactId>commons-lang3</artifactId>
+             <version>3.1</version>
+         </dependency>
+     </dependencies>
+ -->
 </project>
