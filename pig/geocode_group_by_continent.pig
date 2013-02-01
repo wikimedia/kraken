@@ -19,21 +19,22 @@ DEFINE TO_HOUR org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\
 -- The default is to match all hour timestamps.
 %default hour_regex '.*';
 
-LOG_FIELDS     = LOAD '$input' USING PigStorage(' ') AS (
-  byteoffset_hostname,
+LOG_FIELDS     = LOAD '$input' AS (
+  byteoffset,
+  hostname:chararray,
   udplog_sequence,
   timestamp:chararray,
   request_time,
   remote_addr:chararray,
-  http_status,
+  http_status:chararray,
   bytes_sent,
   request_method:chararray,
   uri:chararray,
-  proxy_host,
+  proxy_host:chararray,
   content_type:chararray,
-  referer,
+  referer:chararray,
   x_forwarded_for,
-  user_agent );
+  user_agent:chararray );
  
 -- Filter out unwanted requests
 LOG_FIELDS     = FILTER LOG_FIELDS BY (request_method MATCHES '(GET|get)');
