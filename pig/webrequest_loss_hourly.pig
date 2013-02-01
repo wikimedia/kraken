@@ -40,7 +40,7 @@ LOG_LOSS = FOREACH LOG_LOSS GENERATE
   -- max - min + 1 == number of lines there should be in this period.
   (sequence_max - sequence_min + 1) as sequence_count_should_be:long,
   -- (should be - actual) / should_be * 100.0 == loss % 
-  (((sequence_max - sequence_min + 1 - sequence_count_actual) / (sequence_max - sequence_min + 1)) * 100.0) as percent_loss:float;
+  ((((float)sequence_max - (float)sequence_min + 1.0 - (float)sequence_count_actual) / ((float)sequence_max - (float)sequence_min + 1.0)) * 100.0) as percent_loss:float;
 
 -- order LOG_LOSS by time
 LOG_LOSS = ORDER LOG_LOSS BY day_hour, hostname;
