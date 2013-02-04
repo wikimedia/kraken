@@ -10,6 +10,27 @@
     <description>Wikimedia Analytics team's utility library for Kraken including UDF's for Pig, Hive, etc.</description>
     <url>https://github.com/wikimedia/kraken</url>
 
+
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+
+
+    <modules>
+        <module>kraken-generic</module>
+        <module>kraken-dclass</module>
+        <module>kraken-eventlogging</module>
+        <module>kraken-pig</module>
+        <module>kraken-funnel</module>
+        <module>kraken-etl</module>
+    </modules>
+
+
     <organization>
         <name>Wikimedia Foundation</name>
         <url>http://www.wikimediafoundation.org</url>
@@ -62,6 +83,7 @@
             </snapshots>
         </repository>
     </repositories>
+
 
     <distributionManagement>
 
@@ -175,23 +197,6 @@
         </pluginManagement>
     </build>
 
-    <modules>
-        <module>kraken-generic</module>
-        <module>kraken-dclass</module>
-        <module>kraken-eventlogging</module>
-        <module>kraken-pig</module>
-        <module>kraken-funnel</module>
-        <module>kraken-etl</module>
-    </modules>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <reporting>
         <plugins>

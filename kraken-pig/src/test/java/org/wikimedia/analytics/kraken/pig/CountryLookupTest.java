@@ -33,7 +33,7 @@ class CountryLookupTest {
 	    // String dir = System.getProperty("user.dir"); 
 
 	    // Uncomment for Linux
-	    String dir = "src/test/java/resources";
+        String dir = "/usr/share/GeoIP";
 
 	    String dbfile = dir + sep + "GeoIP.dat"; 
 	    // You should only call LookupService once, especially if you use

@@ -15,16 +15,11 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.wikimedia.analytics.kraken.pig;
-
-import org.wikimedia.analytics.dclassjni.DclassWrapper;
+package org.wikimedia.analytics.dclassjni;
 
 import org.junit.Test;
-import static org.junit.Assert.assertNotNull;
 
-import java.util.Map;
-import java.io.File;
-import java.io.IOException;
+import static org.junit.Assert.assertNotNull;
 
 
 public class DclassLoaderTest {

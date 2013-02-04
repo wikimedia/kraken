@@ -29,34 +29,34 @@ import java.io.UnsupportedEncodingException;
 import java.util.zip.GZIPInputStream;
 
 public class FileUtils {
-	public static String unCompressGzipFile(String path) {
-		System.out.println(path);
-		File file = new File(path);
-		byte[] buffer = new byte[4096];
-		GZIPInputStream gzip;
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try {
-			gzip = new GZIPInputStream(new FileInputStream(file.toString()));
-			int len;
-			while ((len = gzip.read(buffer)) > 0) {
-				baos.write(buffer, 0, len);
-			}
-			gzip.close();
-			baos.close();
-		} catch (FileNotFoundException e) {
-			System.err.println("Input file " + path
-					+ " does not exist.");
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String data = "";
-		try {
-			 data = baos.toString("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// This is always UTF-8 so this should never happen.
-			e.printStackTrace();
-		}
-		return data;
-	}
+    public static String unCompressGzipFile(String path) {
+        System.out.println(path);
+        File file = new File(path);
+        byte[] buffer = new byte[4096];
+        GZIPInputStream gzip;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            gzip = new GZIPInputStream(new FileInputStream(file.toString()));
+            int len;
+            while ((len = gzip.read(buffer)) > 0) {
+                baos.write(buffer, 0, len);
+            }
+            gzip.close();
+            baos.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("Input file " + path
+                    + " does not exist.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String data = "";
+        try {
+            data = baos.toString("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // This is always UTF-8 so this should never happen.
+            e.printStackTrace();
+        }
+        return data;
+    }
 }
