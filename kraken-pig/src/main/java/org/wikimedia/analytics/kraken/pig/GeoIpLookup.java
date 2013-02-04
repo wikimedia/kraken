@@ -1,424 +1,250 @@
 /**
- * Copyright 2012 Mozilla Foundation
+ *Copyright (C) 2012  Wikimedia Foundation
  *
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ *This program is free software; you can redistribute it and/or
+ *modify it under the terms of the GNU General Public License
+ *as published by the Free Software Foundation; either version 2
+ *of the License, or (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *This program is distributed in the hope that it will be useful,
+ *but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
- * Modified for Kraken to initialize GeoIp database file in back-end.
+ *You should have received a copy of the GNU General Public License
+ *along with this program; if not, write to the Free Software
+ *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * @version $Id: $Id
  */
+
 package org.wikimedia.analytics.kraken.pig;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-
-import org.apache.pig.EvalFunc;
-import org.apache.pig.PigWarning;
-import org.apache.pig.data.Tuple;
-import org.apache.pig.data.TupleFactory;
 import com.maxmind.geoip.Location;
 import com.maxmind.geoip.LookupService;
+import org.apache.pig.EvalFunc;
+import org.apache.pig.PigWarning;
+import org.apache.pig.backend.executionengine.ExecException;
+import org.apache.pig.data.Tuple;
+import org.apache.pig.data.TupleFactory;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.File;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class GeoIpLookup extends EvalFunc<Tuple> {
 
-	private static final String EMPTY_STRING = "";
+    private static final String EMPTY_STRING = "";
+    private File dbFullPath;
+    private File dbFullip6Path;
+    private String db;
 
-	private String ip4dat;
-	private String ip6dat;
+    private LookupService ip4Lookup;
+    private LookupService ip6Lookup;
+    private TupleFactory tupleFactory = TupleFactory.getInstance();
 
-	private LookupService ip4lookup;
-	private LookupService ip6lookup;
-	private TupleFactory tupleFactory = TupleFactory.getInstance();
+    private String dbPath = "/usr/share/GeoIP";
 
-	
-	private static final Map<String, String> countryCodeToContinentCode = new HashMap<String, String>() {
-		private static final long serialVersionUID = 1L;
+    private HashMap<String, Country> countries = new HashMap<String, Country>();
+    private HashMap<String, String> databases =  new HashMap<String, String>();
 
-		/**
-		 * HashMap that maps ISO_3166-1 country codes onto continent codes
-		 */
-		{
-			put("AF", "AS");
-			put("AX", "EU");
-			put("AL", "EU");
-			put("DZ", "AF");
-			put("AS", "OC");
-			put("AD", "EU");
-			put("AO", "AF");
-			put("AI", "NA");
-			put("AQ", "AN");
-			put("AG", "NA");
-			put("AR", "SA");
-			put("AM", "AS");
-			put("AW", "NA");
-			put("AU", "OC");
-			put("AT", "EU");
-			put("AZ", "AS");
-			put("BS", "NA");
-			put("BH", "AS");
-			put("BD", "AS");
-			put("BB", "NA");
-			put("BY", "EU");
-			put("BE", "EU");
-			put("BZ", "NA");
-			put("BJ", "AF");
-			put("BM", "NA");
-			put("BT", "AS");
-			put("BO", "SA");
-			put("BA", "EU");
-			put("BW", "AF");
-			put("BV", "AN");
-			put("BR", "SA");
-			put("IO", "AS");
-			put("BN", "AS");
-			put("BG", "EU");
-			put("BF", "AF");
-			put("BI", "AF");
-			put("KH", "AS");
-			put("CM", "AF");
-			put("CA", "NA");
-			put("CV", "AF");
-			put("KY", "NA");
-			put("CF", "AF");
-			put("TD", "AF");
-			put("CL", "SA");
-			put("CN", "AS");
-			put("CX", "AS");
-			put("CC", "AS");
-			put("CO", "SA");
-			put("KM", "AF");
-			put("CD", "AF");
-			put("CG", "AF");
-			put("CK", "OC");
-			put("CR", "NA");
-			put("CI", "AF");
-			put("HR", "EU");
-			put("CU", "NA");
-			put("CY", "AS");
-			put("CZ", "EU");
-			put("DK", "EU");
-			put("DJ", "AF");
-			put("DM", "NA");
-			put("DO", "NA");
-			put("EC", "SA");
-			put("EG", "AF");
-			put("SV", "NA");
-			put("GQ", "AF");
-			put("ER", "AF");
-			put("EE", "EU");
-			put("ET", "AF");
-			put("FO", "EU");
-			put("FK", "SA");
-			put("FJ", "OC");
-			put("FI", "EU");
-			put("FR", "EU");
-			put("GF", "SA");
-			put("PF", "OC");
-			put("TF", "AN");
-			put("GA", "AF");
-			put("GM", "AF");
-			put("GE", "AS");
-			put("DE", "EU");
-			put("GH", "AF");
-			put("GI", "EU");
-			put("GR", "EU");
-			put("GL", "NA");
-			put("GD", "NA");
-			put("GP", "NA");
-			put("GU", "OC");
-			put("GT", "NA");
-			put("GG", "EU");
-			put("GN", "AF");
-			put("GW", "AF");
-			put("GY", "SA");
-			put("HT", "NA");
-			put("HM", "AN");
-			put("VA", "EU");
-			put("HN", "NA");
-			put("HK", "AS");
-			put("HU", "EU");
-			put("IS", "EU");
-			put("IN", "AS");
-			put("ID", "AS");
-			put("IR", "AS");
-			put("IQ", "AS");
-			put("IE", "EU");
-			put("IM", "EU");
-			put("IL", "AS");
-			put("IT", "EU");
-			put("JM", "NA");
-			put("JP", "AS");
-			put("JE", "EU");
-			put("JO", "AS");
-			put("KZ", "AS");
-			put("KE", "AF");
-			put("KI", "OC");
-			put("KP", "AS");
-			put("KR", "AS");
-			put("KW", "AS");
-			put("KG", "AS");
-			put("LA", "AS");
-			put("LV", "EU");
-			put("LB", "AS");
-			put("LS", "AF");
-			put("LR", "AF");
-			put("LY", "AF");
-			put("LI", "EU");
-			put("LT", "EU");
-			put("LU", "EU");
-			put("MO", "AS");
-			put("MK", "EU");
-			put("MG", "AF");
-			put("MW", "AF");
-			put("MY", "AS");
-			put("MV", "AS");
-			put("ML", "AF");
-			put("MT", "EU");
-			put("MH", "OC");
-			put("MQ", "NA");
-			put("MR", "AF");
-			put("MU", "AF");
-			put("YT", "AF");
-			put("MX", "NA");
-			put("FM", "OC");
-			put("MD", "EU");
-			put("MC", "EU");
-			put("MN", "AS");
-			put("ME", "EU");
-			put("MS", "NA");
-			put("MA", "AF");
-			put("MZ", "AF");
-			put("MM", "AS");
-			put("NA", "AF");
-			put("NR", "OC");
-			put("NP", "AS");
-			put("AN", "NA");
-			put("NL", "EU");
-			put("NC", "OC");
-			put("NZ", "OC");
-			put("NI", "NA");
-			put("NE", "AF");
-			put("NG", "AF");
-			put("NU", "OC");
-			put("NF", "OC");
-			put("MP", "OC");
-			put("NO", "EU");
-			put("OM", "AS");
-			put("PK", "AS");
-			put("PW", "OC");
-			put("PS", "AS");
-			put("PA", "NA");
-			put("PG", "OC");
-			put("PY", "SA");
-			put("PE", "SA");
-			put("PH", "AS");
-			put("PN", "OC");
-			put("PL", "EU");
-			put("PT", "EU");
-			put("PR", "NA");
-			put("QA", "AS");
-			put("RE", "AF");
-			put("RO", "EU");
-			put("RU", "EU");
-			put("RW", "AF");
-			put("SH", "AF");
-			put("KN", "NA");
-			put("LC", "NA");
-			put("PM", "NA");
-			put("VC", "NA");
-			put("WS", "OC");
-			put("SM", "EU");
-			put("ST", "AF");
-			put("SA", "AS");
-			put("SN", "AF");
-			put("RS", "EU");
-			put("SC", "AF");
-			put("SL", "AF");
-			put("SG", "AS");
-			put("SK", "EU");
-			put("SI", "EU");
-			put("SB", "OC");
-			put("SO", "AF");
-			put("ZA", "AF");
-			put("GS", "AN");
-			put("ES", "EU");
-			put("LK", "AS");
-			put("SD", "AF");
-			put("SR", "SA");
-			put("SJ", "EU");
-			put("SZ", "AF");
-			put("SE", "EU");
-			put("CH", "EU");
-			put("SY", "AS");
-			put("TW", "AS");
-			put("TJ", "AS");
-			put("TZ", "AF");
-			put("TH", "AS");
-			put("TL", "AS");
-			put("TG", "AF");
-			put("TK", "OC");
-			put("TO", "OC");
-			put("TT", "NA");
-			put("TN", "AF");
-			put("TR", "AS");
-			put("TM", "AS");
-			put("TC", "NA");
-			put("TV", "OC");
-			put("UG", "AF");
-			put("UA", "EU");
-			put("AE", "AS");
-			put("GB", "EU");
-			put("UM", "OC");
-			put("US", "NA");
-			put("UY", "SA");
-			put("UZ", "AS");
-			put("VU", "OC");
-			put("VE", "SA");
-			put("VN", "AS");
-			put("VG", "NA");
-			put("VI", "NA");
-			put("WF", "OC");
-			put("EH", "AF");
-			put("YE", "AS");
-			put("ZM", "AF");
-			put("ZW", "AF");
+    private final List<String> neededGeoFieldNames = new ArrayList<String>();
+    private final HashMap<String, String> continentFixes  = new HashMap<String, String>();
+    private final HashMap<String, String> continentNameFixes  = new HashMap<String, String>();
 
-			// Sometimes Maxmind returns these as Country Codes.
-			// This addtion maps those Country Codes to proper
-			// Continent Codes.
-			put("EU", "EU");   // Europe
-			put("AP", "AS");   // Asia/Pacific (These addresses often map to Chinese lat/lon, so we choose Asia as the continent.)
-			put("A1", "--");   // Anonymous Proxy
-			put("A2", "--");   // Satellite Proxy
-			put("O1", "--");   // Other Country
-		}};
-
-		// HashMap that maps ISO_3166-1 continent codes to Continent Names
-		private static final Map<String, String> continentCodeToContinentName = new HashMap<String, String>() {/**
-		 * 
-		 */
-			private static final long serialVersionUID = 1L;
-
-			{
-				put("AS", "Asia");
-				put("AN", "Antarctica");
-				put("AF", "Africa");
-				put("SA", "South America");
-				put("EU", "Europe");
-				put("OC", "Oceania");
-				put("NA", "North America");
-
-				// map these Maxmind defined Countries to unknown continents.
-				put("--", "Unknown");
-				put(null, "Unknown");
-				put(EMPTY_STRING, "Unknown");
-			}};
+    private final static Pattern ip4Pattern = Pattern.compile("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$");
+    private final static Pattern ip6Pattern = Pattern.compile("^(?:[0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}(?::(?:[0-9]{1,3}\\.){3}[0-9]{1,3})*$");
 
 
-			/**
-			 * Create a IP -> Location mapper.
-			 * Pig example:
-			 *   DEFINE GeoIpLookup com.mozilla.pig.eval.geoip.GeoIpLookup('GeoIPCity.dat');
-			 *   foo = LOAD ...
-			 *   bar = foreach foo generate GeoIpLookup(ip_address) AS
-			 *           location:tuple(country:chararray, country_code:chararray,
-			 *             region:chararray, city:chararray,
-			 *             postal_code:chararray, metro_code:int);
-			 *
-			 * This will expect a file in hdfs in /user/you/GeoIPCity.dat
-			 *
-			 * Using the getCacheFiles approach, you no longer need to specify the
-			 *  -Dmapred.cache.archives
-			 *  -Dmapred.create.symlink
-			 * options to pig.
-			 *
-			 * @param ip4dat Basename of the GeoIPCity Database file.  Should be located in your home dir in HDFS
-			 * @throws IOException if any.
-			 */
-			public GeoIpLookup(String ip4dat) {
-				this(ip4dat, null);
-			}
+    public GeoIpLookup(String inputFields, String db) throws IOException{
+        init(inputFields, db);
+    }
 
-			/**
-			 * <p>Constructor for GeoIpLookup.</p>
-			 *
-			 * @param ip4dat a {@link java.lang.String} object.
-			 * @param ip6dat a {@link java.lang.String} object.
-			 */
-			public GeoIpLookup(String ip4dat, String ip6dat) {
-				this.ip4dat=ip4dat;
-				this.ip6dat=ip6dat;
-			}
+    public GeoIpLookup(String inputFields, String db, String geoDbPath) throws IOException {
+        this.dbPath = geoDbPath;
+        init(inputFields, db);
+    }
 
-			/** {@inheritDoc} */
-			@Override
-			public List<String> getCacheFiles() {
-				List<String> cacheFiles = new ArrayList<String>(1);
-				// Note that this forces us to use basenames only.  If we need
-				// to support other paths, we either need two arguments in the
-				// constructor, or to parse the filename to extract the basename.
-				cacheFiles.add(ip4dat + "#" + ip4dat);
-				if (ip6dat != null) {
-					cacheFiles.add(ip6dat + "#" + ip6dat);
-				}
-				return cacheFiles;
-			}
+    private void init(String inputFields, String db) throws IOException {
+        this.db = db;
+        this.countries = CountryMetaData.constructGeoMetaData();
 
-			/** {@inheritDoc} */
-			@Override
-			public Tuple exec(Tuple input) throws IOException {
-				if (input == null || input.size() == 0) {
-					return null;
-				}
+        continentFixes.put("EU", "EU");   // Europe
+        continentFixes.put("AP", "AS");   // Asia/Pacific (These addresses often map to Chinese lat/lon, so we choose Asia as the continent.)
+        continentFixes.put("A1", "--");   // Anonymous Proxy
+        continentFixes.put("A2", "--");   // Satellite Proxy
+        continentFixes.put("O1", "--");   // Other Country
 
-				if (ip4lookup == null) {
-					ip4lookup = new LookupService(ip4dat);
-				}
+        continentNameFixes.put("--", "Unknown");
+        continentNameFixes.put(null, "Unknown");
+        continentNameFixes.put(EMPTY_STRING, "Unknown");
+        continentNameFixes.put("AS", "Asia");
+        continentNameFixes.put("EU", "Europe");
 
-				if (ip6dat != null && ip6lookup == null) {
-					ip6lookup = new LookupService(ip6dat);
-				}
+        this.databases.put("GeoIPCity", "GeoIPCity.dat");
+        this.databases.put("GeoIP", "GeoIP.dat");
+        this.databases.put("GeoIPRegion", "GeoIPRegion.dat");
+        this.databases.put("GeoIPv6", "GeoIPv6.dat");
 
-				String ip = (String)input.get(0);
-				Location location = ip4lookup.getLocation(ip);
-				if (location != null) {
-					// get the continent code and name from the
-					// static mappings defined at the top of this class.
-					String continentCode = location.countryCode != null ? countryCodeToContinentCode.get(location.countryCode) : EMPTY_STRING;
-					String continentName = continentCodeToContinentName.get(continentCode);
+        if (!validateGeoFieldNames(inputFields) || (!validateDatabaseName(db))) {
+            System.out.println("Valid field names are: continentCode, continentName, " + Arrays.toString(Location.class.getFields()));
+            throw new RuntimeException("Invalid arguments for GeoIpLookup constructor");
+        }
 
-					Tuple output = tupleFactory.newTuple(8);
-					output.set(0, location.countryName != null ? location.countryName : EMPTY_STRING);
-					output.set(1, location.countryCode != null ? location.countryCode : EMPTY_STRING);
-					output.set(2, location.region != null ? location.region : EMPTY_STRING);
-					output.set(3, location.city != null ? location.city : EMPTY_STRING);
-					output.set(4, location.postalCode != null ? location.postalCode : EMPTY_STRING);
-					output.set(5, location.metro_code);
-					output.set(6, continentCode);
-					output.set(7, continentName);
-					return output;
-				}
+        if (ip4Lookup == null) {
+            this.dbFullPath = new File(this.dbPath, this.databases.get(db));
+            ip4Lookup = new LookupService(this.dbFullPath.getPath());
+        }
 
-				warn("getLocation() returned null on input: " + ip, PigWarning.UDF_WARNING_1);
-				return null;
-			}
+        if (ip6Lookup == null) {
+            this.dbFullip6Path = new File(this.dbPath, this.databases.get("GeoIPv6"));
+            ip6Lookup = new LookupService(this.dbFullip6Path.getPath());
+        }
+    }
+
+
+    private boolean validateDatabaseName(String db) {
+        if (!this.databases.containsKey(db)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean validateGeoFieldNames(String inputFields) {
+        Field[] validGeoFields = Location.class.getFields();
+        String[] fields = inputFields.split(",");
+        for (String field : fields) {
+            if (field.trim().contains("continent")) {
+                this.neededGeoFieldNames.add(field.trim());
+            }
+            for (Field validField : validGeoFields) {
+                if (validField.getName().equals(field.trim().toString())){
+                    this.neededGeoFieldNames.add(field.trim());
+                    break;
+                }
+            }
+        }
+        if (this.neededGeoFieldNames.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    private Tuple getContinentName(String countryCode, Tuple output, int i) throws ExecException{
+        if (countryCode != null) {
+            Country country = this.countries.get(countryCode);
+            String continentCode = continentFixes.containsKey(countryCode) == true ? continentFixes.get(countryCode) : country.getContinentCode();
+            String continentName = continentNameFixes.containsKey(continentCode) == true ? continentNameFixes.get(continentCode) : country.getContinentName();
+            output.set(i, continentName);
+        } else {
+            output.set(i, "Unknown");
+
+        }
+        return output;
+    }
+
+    private Tuple getContinentCode(String countryCode, Tuple output, int i) throws ExecException{
+        if (countryCode != null) {
+            Country country = this.countries.get(countryCode);
+            String continentCode = continentFixes.containsKey(countryCode) == true ? continentFixes.get(countryCode) : country.getContinentCode();
+            output.set(i,continentCode);
+        } else {
+            output.set(i, "Unknown");
+        }
+        return output;
+    }
+
+    private Integer determineIpAddressType(String ip) {
+        Matcher ip4 = ip4Pattern.matcher(ip);
+        if (ip4.matches()) {
+            return 4;
+        }
+        Matcher ip6 = ip6Pattern.matcher(ip);
+        if (ip6.matches()) {
+            return 6;
+        } else {
+            return 0;
+        }
+    }
+
+    private Tuple doGeoLookup(String ip) throws ExecException {
+        Location location = null;
+        Integer ipAddressType = determineIpAddressType(ip);
+        Tuple output = tupleFactory.newTuple(this.neededGeoFieldNames.size());
+        switch (ipAddressType){
+            case 4:
+                location = ip4Lookup.getLocation(ip);
+                break;
+            case 6:
+                location = ip6Lookup.getLocation(ip);
+                break;
+            case 0:
+                //Not an IP4 or IP6 address
+                warn("Supplied variable does not seem to be a valid IP4 or IP6 address.", PigWarning.UDF_WARNING_1);
+                return output;
+        }
+
+
+        if (location != null) {
+            int i = 0;
+            String value;
+            for (String field : this.neededGeoFieldNames) {
+                try {
+                    if (!field.contains("continent")) {
+                        value = location.getClass().getField(field).get(location) != null ? location.getClass().getField(field).get(location).toString() : EMPTY_STRING;
+                        output.set(i, value);
+
+                    } else if (field.toString().equals("continentCode")) {
+                        output = getContinentCode(location.countryCode, output, i);
+
+                    } else if (field.toString().equals("continentName")) {
+                        output = getContinentName(location.countryCode, output, i);
+                    }
+                } catch (NoSuchFieldException e) {
+                    warn("Location class does not contain the requested field.", PigWarning.UDF_WARNING_2);
+                } catch (IllegalAccessException e) {
+
+                }
+                i++;
+            }
+        } else {
+            warn("MaxMind Geo database " + this.dbPath.toString() + " does not have location information for the supplied IP address.", PigWarning.UDF_WARNING_3);
+            return null;
+        }
+        return output;
+    }
+
+
+    /** {@inheritDoc} */
+    @Override
+    public Tuple exec(Tuple input) throws IOException {
+        if (input == null || input.size() == 0) {
+            return null;
+        }
+        String ip = (String) input.get(0);
+        Tuple output = doGeoLookup(ip);
+        return output;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public List<String> getCacheFiles() {
+        List<String> cacheFiles = new ArrayList<String>(1);
+        // Note that this forces us to use basenames only.  If we need
+        // to support other paths, we either need two arguments in the
+        // constructor, or to parse the filename to extract the basename.
+        cacheFiles.add(this.databases.get(this.db) + "#" + this.databases.get(this.db));
+        cacheFiles.add(this.databases.get("GeoIPv6") + "#" + this.databases.get("GeoIPv6"));
+        return cacheFiles;
+    }
 
 }
