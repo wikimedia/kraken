@@ -12,3 +12,4 @@ doc/
 .settings/
 pom.xml.releaseBackup
 release.properties
+*.tag
