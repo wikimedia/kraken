@@ -1,9 +1,8 @@
 REGISTER 'kraken.jar'
-REGISTER 'piggybank.jar'
 
 SET default_parallel 20;
 
-DEFINE TO_HOUR      org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd HH');
+DEFINE TO_HOUR      org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd_HH');
 DEFINE EXTRACT      org.apache.pig.builtin.REGEX_EXTRACT_ALL();
 
 -- Set this as a regular expression to filter for desired timestamps.
