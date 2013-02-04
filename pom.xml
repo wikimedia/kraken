@@ -6,7 +6,7 @@
     <artifactId>kraken</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>kraken</name>
+    <name>Kraken ${project.version}</name>
     <description>Wikimedia Analytics team's utility library for Kraken including UDF's for Pig, Hive, etc.</description>
     <url>https://github.com/wikimedia/kraken</url>
 
@@ -219,6 +219,7 @@
      <properties>
          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
          <skip.tests>false</skip.tests>
+         <main.version>0.0.1</main.version>
      </properties>
 
 
