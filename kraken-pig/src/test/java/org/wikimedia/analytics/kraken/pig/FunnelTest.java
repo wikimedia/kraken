@@ -17,9 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.wikimedia.analytics.kraken.pig;
 
-import static org.junit.Assert.*;
-import java.io.IOException;
-
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.BagFactory;
 import org.apache.pig.data.DataBag;
@@ -29,6 +26,10 @@ import org.apache.pig.pigunit.Cluster;
 import org.apache.pig.pigunit.PigTest;
 import org.apache.pig.tools.parameters.ParseException;
 import org.junit.Test;
+
+import java.io.IOException;
+
+import static org.junit.Assert.*;
 
 public class FunnelTest {
 	private Funnel funnel = new Funnel();
@@ -69,7 +70,7 @@ public class FunnelTest {
 	
 	@Test
 	public void testPig() throws IOException, ParseException {
-		pigTest = new PigTest("src/test/java/resources/funnel.pig");
+		pigTest = new PigTest("src/test/resources/funnel.pig");
 	}
 
 	private Tuple defaultInput() throws ExecException {
