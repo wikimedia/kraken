@@ -1,6 +1,6 @@
 REGISTER 'kraken.jar'
 
-SET default_parallel 20;
+SET default_parallel 4;
 
 DEFINE TO_HOUR      org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd_HH');
 DEFINE EXTRACT      org.apache.pig.builtin.REGEX_EXTRACT_ALL();
@@ -40,6 +40,12 @@ LOG_LOSS = FOREACH LOG_LOSS GENERATE
   (sequence_max - sequence_min + 1) as sequence_count_should_be:long,
   -- (should be - actual) / should_be * 100.0 == loss % 
   ((((float)sequence_max - (float)sequence_min + 1.0 - (float)sequence_count_actual) / ((float)sequence_max - (float)sequence_min + 1.0)) * 100.0) as percent_loss:float;
+
+-- This doesn't work!  Grr!
+--LOG_LOSS = FOREACH LOG_LOSS GENERATE
+--  day_hour, hostname, sequence_min, sequence_max, sequence_count_actual, sequence_count_should_be,
+--  (percent_loss < 0.01 ? 0.00 : percent_loss);
+
 
 -- order LOG_LOSS by time
 LOG_LOSS = ORDER LOG_LOSS BY day_hour, hostname;
