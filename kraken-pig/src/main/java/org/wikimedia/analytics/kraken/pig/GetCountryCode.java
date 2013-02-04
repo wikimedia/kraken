@@ -31,6 +31,7 @@ import org.apache.pig.data.TupleFactory;
 
 import com.maxmind.geoip.Country;
 import com.maxmind.geoip.LookupService;
+
 public class GetCountryCode extends EvalFunc<Tuple> {
 	/** Wrapper class for getCountry and getCountryIpV6 */
 
