@@ -1,3 +1,6 @@
+-- Usage:
+-- pig -p input=/path/to/data/files -p dest='/path/to/concat/file.tsv' -f concat_sort.pig
+
 -- concat_sort.pig reeds in all data, sorts it by *, and then outputs it into
 -- a single file.  This is useful for bringing together previously processed
 -- and reduced data into a single file.
