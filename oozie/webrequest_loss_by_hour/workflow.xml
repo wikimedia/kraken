@@ -1,0 +1,37 @@
+
+<workflow-app name="webrequest_loss_by_hour_workflow" xmlns="uri:oozie:workflow:0.4">
+    <start to="webrequest_loss_by_hour_action"/>
+    <action name="webrequest_loss_by_hour_action">
+        <pig>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <script>/user/otto/kraken/pig/webrequest_loss_hourly.pig</script>
+            <argument>-p</argument>
+            <argument>input=${INPUT}</argument>
+            <argument>-p</argument>
+            <argument>output=${OUTPUT}</argument>
+            <argument>-p</argument>
+            <argument>hour_regex=${HOUR_REGEX}</argument>
+            <archive>/user/otto/lib/kraken.jar</archive>
+        </pig>
+        <ok to="concat"/>
+        <error to="kill"/>
+    </action>
+    <action name="concat">
+        <pig>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <script>/user/otto/kraken/pig/concat_sort.pig</script>
+            <argument>-p</argument>
+            <argument>input=${INPUT}</argument>
+            <argument>-p</argument>
+            <argument>dest=${DEST}</argument>
+        </pig>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

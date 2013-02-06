@@ -1,0 +1,27 @@
+
+<workflow-app name="webrequest_hourly_continent_limn_A" xmlns="uri:oozie:workflow:0.4">
+    <start to="webrequest_count_by_hour_by_continent"/>
+    <action name="webrequest_count_by_hour_by_continent">
+        <pig>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <script>/user/otto/kraken/pig/geocode_group_by_continent.pig</script>
+              <argument>-p</argument>
+              <argument>input=${INPUT}</argument>
+              <argument>-p</argument>
+              <argument>output=${OUTPUT}</argument>
+              <argument>-p</argument>
+              <argument>hour_regex=${HOUR_REGEX}</argument>
+            <file>/user/otto/lib/GeoIPCity.dat#GeoIPCity.dat</file>
+            <archive>/user/otto/lib/geoip-1.2.5.jar</archive>
+            <archive>/user/otto/lib/piggybank.jar</archive>
+            <archive>/user/otto/lib/kraken.jar</archive>
+        </pig>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
