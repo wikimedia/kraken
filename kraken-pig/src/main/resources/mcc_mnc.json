@@ -35,8 +35,8 @@
     "Country": "Afghanistan", 
     "MCC": "412", 
     "ISO": "AF", 
-    "MCC_MNC": "412-1", 
-    "MNC": "1", 
+    "MCC_MNC": "412-01", 
+    "MNC": "01", 
     "Name": "afghan-wireless/awcc-afghanistan"
   }, 
   {
@@ -45,8 +45,8 @@
     "Country": "Albania", 
     "MCC": "276", 
     "ISO": "AL", 
-    "MCC_MNC": "276-1", 
-    "MNC": "1", 
+    "MCC_MNC": "276-01", 
+    "MNC": "01", 
     "Name": "amc-mobil-albania"
   }, 
   {
@@ -55,8 +55,8 @@
     "Country": "Albania", 
     "MCC": "276", 
     "ISO": "AL", 
-    "MCC_MNC": "276-3", 
-    "MNC": "3", 
+    "MCC_MNC": "276-03", 
+    "MNC": "03", 
     "Name": "eagle-mobile-albania"
   }, 
   {
@@ -65,8 +65,8 @@
     "Country": "Albania", 
     "MCC": "276", 
     "ISO": "AL", 
-    "MCC_MNC": "276-2", 
-    "MNC": "2", 
+    "MCC_MNC": "276-02", 
+    "MNC": "02", 
     "Name": "vodafone-albania"
   }, 
   {
@@ -75,8 +75,8 @@
     "Country": "Algeria", 
     "MCC": "603", 
     "ISO": "DZ", 
-    "MCC_MNC": "603-1", 
-    "MNC": "1", 
+    "MCC_MNC": "603-01", 
+    "MNC": "01", 
     "Name": "atm-mobils-algeria"
   }, 
   {
@@ -85,8 +85,8 @@
     "Country": "Algeria", 
     "MCC": "603", 
     "ISO": "DZ", 
-    "MCC_MNC": "603-2", 
-    "MNC": "2", 
+    "MCC_MNC": "603-02", 
+    "MNC": "02", 
     "Name": "orascom-/-djezzy-algeria"
   }, 
   {
@@ -95,8 +95,8 @@
     "Country": "Algeria", 
     "MCC": "603", 
     "ISO": "DZ", 
-    "MCC_MNC": "603-3", 
-    "MNC": "3", 
+    "MCC_MNC": "603-03", 
+    "MNC": "03", 
     "Name": "wataniya-/-nedjma-algeria"
   }, 
   {
@@ -115,8 +115,8 @@
     "Country": "Andorra", 
     "MCC": "213", 
     "ISO": "AD", 
-    "MCC_MNC": "213-3", 
-    "MNC": "3", 
+    "MCC_MNC": "213-03", 
+    "MNC": "03", 
     "Name": "mobiland-andorra"
   }, 
   {
@@ -125,8 +125,8 @@
     "Country": "Angola", 
     "MCC": "631", 
     "ISO": "AO", 
-    "MCC_MNC": "631-2", 
-    "MNC": "2", 
+    "MCC_MNC": "631-02", 
+    "MNC": "02", 
     "Name": "unitel-angola"
   }, 
   {
@@ -165,8 +165,8 @@
     "Country": "Antigua and Barbuda", 
     "MCC": "344", 
     "ISO": "AG", 
-    "MCC_MNC": "344-3", 
-    "MNC": "3", 
+    "MCC_MNC": "344-03", 
+    "MNC": "03", 
     "Name": "apua-pcs-antigua-and-barbuda"
   }, 
   {
@@ -235,8 +235,8 @@
     "Country": "Argentina Republic", 
     "MCC": "722", 
     "ISO": "AR", 
-    "MCC_MNC": "722-2", 
-    "MNC": "2", 
+    "MCC_MNC": "722-02", 
+    "MNC": "02", 
     "Name": "nextel-argentina-republic"
   }, 
   {
@@ -285,8 +285,8 @@
     "Country": "Argentina Republic", 
     "MCC": "722", 
     "ISO": "AR", 
-    "MCC_MNC": "722-1", 
-    "MNC": "1", 
+    "MCC_MNC": "722-01", 
+    "MNC": "01", 
     "Name": "movistar/telefonica-argentina-republic"
   }, 
   {
@@ -295,8 +295,8 @@
     "Country": "Argentina Republic", 
     "MCC": "722", 
     "ISO": "AR", 
-    "MCC_MNC": "722-7", 
-    "MNC": "7", 
+    "MCC_MNC": "722-07", 
+    "MNC": "07", 
     "Name": "movistar/telefonica-argentina-republic"
   }, 
   {
@@ -305,8 +305,8 @@
     "Country": "Armenia", 
     "MCC": "283", 
     "ISO": "AM", 
-    "MCC_MNC": "283-1", 
-    "MNC": "1", 
+    "MCC_MNC": "283-01", 
+    "MNC": "01", 
     "Name": "armentel-armenia"
   }, 
   {
@@ -315,8 +315,8 @@
     "Country": "Armenia", 
     "MCC": "283", 
     "ISO": "AM", 
-    "MCC_MNC": "283-4", 
-    "MNC": "4", 
+    "MCC_MNC": "283-04", 
+    "MNC": "04", 
     "Name": "karabakh-telecom-armenia"
   }, 
   {
@@ -335,8 +335,8 @@
     "Country": "Armenia", 
     "MCC": "283", 
     "ISO": "AM", 
-    "MCC_MNC": "283-5", 
-    "MNC": "5", 
+    "MCC_MNC": "283-05", 
+    "MNC": "05", 
     "Name": "vivacell-armenia"
   }, 
   {
@@ -355,8 +355,8 @@
     "Country": "Aruba", 
     "MCC": "363", 
     "ISO": "AW", 
-    "MCC_MNC": "363-1", 
-    "MNC": "1", 
+    "MCC_MNC": "363-01", 
+    "MNC": "01", 
     "Name": "setar-gsm-aruba"
   }, 
   {
@@ -375,8 +375,8 @@
     "Country": "Australia", 
     "MCC": "505", 
     "ISO": "AU", 
-    "MCC_MNC": "505-6", 
-    "MNC": "6", 
+    "MCC_MNC": "505-06", 
+    "MNC": "06", 
     "Name": "h3g-ltd-australia"
   }, 
   {
@@ -395,8 +395,8 @@
     "Country": "Australia", 
     "MCC": "505", 
     "ISO": "AU", 
-    "MCC_MNC": "505-7", 
-    "MNC": "7", 
+    "MCC_MNC": "505-07", 
+    "MNC": "07", 
     "Name": "vodafone-australia"
   }, 
   {
@@ -405,8 +405,8 @@
     "Country": "Australia", 
     "MCC": "505", 
     "ISO": "AU", 
-    "MCC_MNC": "505-2", 
-    "MNC": "2", 
+    "MCC_MNC": "505-02", 
+    "MNC": "02", 
     "Name": "singtel-optus-australia"
   }, 
   {
@@ -425,8 +425,8 @@
     "Country": "Australia", 
     "MCC": "505", 
     "ISO": "AU", 
-    "MCC_MNC": "505-1", 
-    "MNC": "1", 
+    "MCC_MNC": "505-01", 
+    "MNC": "01", 
     "Name": "telstra-corp-ltd-australia"
   }, 
   {
@@ -455,8 +455,8 @@
     "Country": "Australia", 
     "MCC": "505", 
     "ISO": "AU", 
-    "MCC_MNC": "505-3", 
-    "MNC": "3", 
+    "MCC_MNC": "505-03", 
+    "MNC": "03", 
     "Name": "vodafone-australia"
   }, 
   {
@@ -485,8 +485,8 @@
     "Country": "Austria", 
     "MCC": "232", 
     "ISO": "AT", 
-    "MCC_MNC": "232-5", 
-    "MNC": "5", 
+    "MCC_MNC": "232-05", 
+    "MNC": "05", 
     "Name": "orange/one-connect-austria"
   }, 
   {
@@ -495,8 +495,8 @@
     "Country": "Austria", 
     "MCC": "232", 
     "ISO": "AT", 
-    "MCC_MNC": "232-0", 
-    "MNC": "0", 
+    "MCC_MNC": "232-00", 
+    "MNC": "00", 
     "Name": "fix-line-austria"
   }, 
   {
@@ -515,8 +515,8 @@
     "Country": "Austria", 
     "MCC": "232", 
     "ISO": "AT", 
-    "MCC_MNC": "232-1", 
-    "MNC": "1", 
+    "MCC_MNC": "232-01", 
+    "MNC": "01", 
     "Name": "a1-mobilkom-austria"
   }, 
   {
@@ -525,8 +525,8 @@
     "Country": "Austria", 
     "MCC": "232", 
     "ISO": "AT", 
-    "MCC_MNC": "232-3", 
-    "MNC": "3", 
+    "MCC_MNC": "232-03", 
+    "MNC": "03", 
     "Name": "t-mobile/telering-austria"
   }, 
   {
@@ -535,8 +535,8 @@
     "Country": "Austria", 
     "MCC": "232", 
     "ISO": "AT", 
-    "MCC_MNC": "232-9", 
-    "MNC": "9", 
+    "MCC_MNC": "232-09", 
+    "MNC": "09", 
     "Name": "orange/one-connect-austria"
   }, 
   {
@@ -545,8 +545,8 @@
     "Country": "Austria", 
     "MCC": "232", 
     "ISO": "AT", 
-    "MCC_MNC": "232-8", 
-    "MNC": "8", 
+    "MCC_MNC": "232-08", 
+    "MNC": "08", 
     "Name": "telefonica-austria"
   }, 
   {
@@ -555,8 +555,8 @@
     "Country": "Austria", 
     "MCC": "232", 
     "ISO": "AT", 
-    "MCC_MNC": "232-7", 
-    "MNC": "7", 
+    "MCC_MNC": "232-07", 
+    "MNC": "07", 
     "Name": "t-mobile/telering-austria"
   }, 
   {
@@ -575,8 +575,8 @@
     "Country": "Azerbaijan", 
     "MCC": "400", 
     "ISO": "AZ", 
-    "MCC_MNC": "400-1", 
-    "MNC": "1", 
+    "MCC_MNC": "400-01", 
+    "MNC": "01", 
     "Name": "azercell-telekom-bm-azerbaijan"
   }, 
   {
@@ -585,8 +585,8 @@
     "Country": "Azerbaijan", 
     "MCC": "400", 
     "ISO": "AZ", 
-    "MCC_MNC": "400-4", 
-    "MNC": "4", 
+    "MCC_MNC": "400-04", 
+    "MNC": "04", 
     "Name": "azerfon-azerbaijan"
   }, 
   {
@@ -595,8 +595,8 @@
     "Country": "Azerbaijan", 
     "MCC": "400", 
     "ISO": "AZ", 
-    "MCC_MNC": "400-2", 
-    "MNC": "2", 
+    "MCC_MNC": "400-02", 
+    "MNC": "02", 
     "Name": "jv-bakcell-gsm-2000-azerbaijan"
   }, 
   {
@@ -605,8 +605,8 @@
     "Country": "Bahamas", 
     "MCC": "364", 
     "ISO": "BS", 
-    "MCC_MNC": "364-3", 
-    "MNC": "3", 
+    "MCC_MNC": "364-03", 
+    "MNC": "03", 
     "Name": "smart-communications-bahamas"
   }, 
   {
@@ -625,8 +625,8 @@
     "Country": "Bahrain", 
     "MCC": "426", 
     "ISO": "BH", 
-    "MCC_MNC": "426-1", 
-    "MNC": "1", 
+    "MCC_MNC": "426-01", 
+    "MNC": "01", 
     "Name": "batelco-bahrain"
   }, 
   {
@@ -635,8 +635,8 @@
     "Country": "Bahrain", 
     "MCC": "426", 
     "ISO": "BH", 
-    "MCC_MNC": "426-2", 
-    "MNC": "2", 
+    "MCC_MNC": "426-02", 
+    "MNC": "02", 
     "Name": "mtc-vodafone-bahrain"
   }, 
   {
@@ -645,8 +645,8 @@
     "Country": "Bahrain", 
     "MCC": "426", 
     "ISO": "BH", 
-    "MCC_MNC": "426-4", 
-    "MNC": "4", 
+    "MCC_MNC": "426-04", 
+    "MNC": "04", 
     "Name": "viva-bahrain"
   }, 
   {
@@ -655,8 +655,8 @@
     "Country": "Bangladesh", 
     "MCC": "470", 
     "ISO": "BD", 
-    "MCC_MNC": "470-2", 
-    "MNC": "2", 
+    "MCC_MNC": "470-02", 
+    "MNC": "02", 
     "Name": "aktel-bangladesh"
   }, 
   {
@@ -665,8 +665,8 @@
     "Country": "Bangladesh", 
     "MCC": "470", 
     "ISO": "BD", 
-    "MCC_MNC": "470-1", 
-    "MNC": "1", 
+    "MCC_MNC": "470-01", 
+    "MNC": "01", 
     "Name": "grameenphone-bangladesh"
   }, 
   {
@@ -675,8 +675,8 @@
     "Country": "Bangladesh", 
     "MCC": "470", 
     "ISO": "BD", 
-    "MCC_MNC": "470-3", 
-    "MNC": "3", 
+    "MCC_MNC": "470-03", 
+    "MNC": "03", 
     "Name": "orascom-bangladesh"
   }, 
   {
@@ -685,8 +685,8 @@
     "Country": "Bangladesh", 
     "MCC": "470", 
     "ISO": "BD", 
-    "MCC_MNC": "470-4", 
-    "MNC": "4", 
+    "MCC_MNC": "470-04", 
+    "MNC": "04", 
     "Name": "teletalk-bangladesh"
   }, 
   {
@@ -695,8 +695,8 @@
     "Country": "Bangladesh", 
     "MCC": "470", 
     "ISO": "BD", 
-    "MCC_MNC": "470-7", 
-    "MNC": "7", 
+    "MCC_MNC": "470-07", 
+    "MNC": "07", 
     "Name": "warid-telecom-bangladesh"
   }, 
   {
@@ -745,8 +745,8 @@
     "Country": "Belarus", 
     "MCC": "257", 
     "ISO": "BY", 
-    "MCC_MNC": "257-4", 
-    "MNC": "4", 
+    "MCC_MNC": "257-04", 
+    "MNC": "04", 
     "Name": "best-belarus"
   }, 
   {
@@ -755,8 +755,8 @@
     "Country": "Belarus", 
     "MCC": "257", 
     "ISO": "BY", 
-    "MCC_MNC": "257-1", 
-    "MNC": "1", 
+    "MCC_MNC": "257-01", 
+    "MNC": "01", 
     "Name": "mobile-digital-communications-belarus"
   }, 
   {
@@ -765,8 +765,8 @@
     "Country": "Belarus", 
     "MCC": "257", 
     "ISO": "BY", 
-    "MCC_MNC": "257-2", 
-    "MNC": "2", 
+    "MCC_MNC": "257-02", 
+    "MNC": "02", 
     "Name": "mts-belarus"
   }, 
   {
@@ -785,8 +785,8 @@
     "Country": "Belgium", 
     "MCC": "206", 
     "ISO": "BE", 
-    "MCC_MNC": "206-1", 
-    "MNC": "1", 
+    "MCC_MNC": "206-01", 
+    "MNC": "01", 
     "Name": "belgacom/proximus-belgium"
   }, 
   {
@@ -825,8 +825,8 @@
     "Country": "Benin", 
     "MCC": "616", 
     "ISO": "BJ", 
-    "MCC_MNC": "616-4", 
-    "MNC": "4", 
+    "MCC_MNC": "616-04", 
+    "MNC": "04", 
     "Name": "bell-benin/bbcom-benin"
   }, 
   {
@@ -835,8 +835,8 @@
     "Country": "Benin", 
     "MCC": "616", 
     "ISO": "BJ", 
-    "MCC_MNC": "616-5", 
-    "MNC": "5", 
+    "MCC_MNC": "616-05", 
+    "MNC": "05", 
     "Name": "glomobile-benin"
   }, 
   {
@@ -845,8 +845,8 @@
     "Country": "Benin", 
     "MCC": "616", 
     "ISO": "BJ", 
-    "MCC_MNC": "616-1", 
-    "MNC": "1", 
+    "MCC_MNC": "616-01", 
+    "MNC": "01", 
     "Name": "libercom-benin"
   }, 
   {
@@ -855,8 +855,8 @@
     "Country": "Benin", 
     "MCC": "616", 
     "ISO": "BJ", 
-    "MCC_MNC": "616-2", 
-    "MNC": "2", 
+    "MCC_MNC": "616-02", 
+    "MNC": "02", 
     "Name": "moov/telecel-benin"
   }, 
   {
@@ -865,8 +865,8 @@
     "Country": "Benin", 
     "MCC": "616", 
     "ISO": "BJ", 
-    "MCC_MNC": "616-3", 
-    "MNC": "3", 
+    "MCC_MNC": "616-03", 
+    "MNC": "03", 
     "Name": "mtn/spacetel-benin"
   }, 
   {
@@ -875,8 +875,8 @@
     "Country": "Bermuda", 
     "MCC": "350", 
     "ISO": "BM", 
-    "MCC_MNC": "350-1", 
-    "MNC": "1", 
+    "MCC_MNC": "350-01", 
+    "MNC": "01", 
     "Name": "cingular-bermuda"
   }, 
   {
@@ -895,8 +895,8 @@
     "Country": "Bermuda", 
     "MCC": "350", 
     "ISO": "BM", 
-    "MCC_MNC": "350-2", 
-    "MNC": "2", 
+    "MCC_MNC": "350-02", 
+    "MNC": "02", 
     "Name": "mobility-limited---gsm-1900-bermuda"
   }, 
   {
@@ -925,8 +925,8 @@
     "Country": "Bolivia", 
     "MCC": "736", 
     "ISO": "BO", 
-    "MCC_MNC": "736-2", 
-    "MNC": "2", 
+    "MCC_MNC": "736-02", 
+    "MNC": "02", 
     "Name": "entel-pcs-bolivia"
   }, 
   {
@@ -935,8 +935,8 @@
     "Country": "Bolivia", 
     "MCC": "736", 
     "ISO": "BO", 
-    "MCC_MNC": "736-1", 
-    "MNC": "1", 
+    "MCC_MNC": "736-01", 
+    "MNC": "01", 
     "Name": "nuevatel-bolivia"
   }, 
   {
@@ -945,8 +945,8 @@
     "Country": "Bolivia", 
     "MCC": "736", 
     "ISO": "BO", 
-    "MCC_MNC": "736-3", 
-    "MNC": "3", 
+    "MCC_MNC": "736-03", 
+    "MNC": "03", 
     "Name": "telecel-bolivia-bolivia"
   }, 
   {
@@ -955,8 +955,8 @@
     "Country": "Bosnia &amp; Herzegov.", 
     "MCC": "218", 
     "ISO": "BA", 
-    "MCC_MNC": "218-3", 
-    "MNC": "3", 
+    "MCC_MNC": "218-03", 
+    "MNC": "03", 
     "Name": "eronet-mobile-bosnia-&amp;-herzegov"
   }, 
   {
@@ -965,8 +965,8 @@
     "Country": "Bosnia &amp; Herzegov.", 
     "MCC": "218", 
     "ISO": "BA", 
-    "MCC_MNC": "218-5", 
-    "MNC": "5", 
+    "MCC_MNC": "218-05", 
+    "MNC": "05", 
     "Name": "m-tel-bosnia-&amp;-herzegov"
   }, 
   {
@@ -985,8 +985,8 @@
     "Country": "Botswana", 
     "MCC": "652", 
     "ISO": "BW", 
-    "MCC_MNC": "652-1", 
-    "MNC": "1", 
+    "MCC_MNC": "652-01", 
+    "MNC": "01", 
     "Name": "mascom-wireless-(pty)-ltd-botswana"
   }, 
   {
@@ -995,8 +995,8 @@
     "Country": "Botswana", 
     "MCC": "652", 
     "ISO": "BW", 
-    "MCC_MNC": "652-2", 
-    "MNC": "2", 
+    "MCC_MNC": "652-02", 
+    "MNC": "02", 
     "Name": "orange-botswana"
   }, 
   {
@@ -1045,8 +1045,8 @@
     "Country": "Brazil", 
     "MCC": "724", 
     "ISO": "BR", 
-    "MCC_MNC": "724-1", 
-    "MNC": "1", 
+    "MCC_MNC": "724-01", 
+    "MNC": "01", 
     "Name": "vivo-sa/telemig-brazil"
   }, 
   {
@@ -1065,8 +1065,8 @@
     "Country": "Brazil", 
     "MCC": "724", 
     "ISO": "BR", 
-    "MCC_MNC": "724-8", 
-    "MNC": "8", 
+    "MCC_MNC": "724-08", 
+    "MNC": "08", 
     "Name": "tim-brazil"
   }, 
   {
@@ -1075,8 +1075,8 @@
     "Country": "Brazil", 
     "MCC": "724", 
     "ISO": "BR", 
-    "MCC_MNC": "724-0", 
-    "MNC": "0", 
+    "MCC_MNC": "724-00", 
+    "MNC": "00", 
     "Name": "nextel-(telet)-brazil"
   }, 
   {
@@ -1085,8 +1085,8 @@
     "Country": "Brazil", 
     "MCC": "724", 
     "ISO": "BR", 
-    "MCC_MNC": "724-7", 
-    "MNC": "7", 
+    "MCC_MNC": "724-07", 
+    "MNC": "07", 
     "Name": "ctbc/triangulo-brazil"
   }, 
   {
@@ -1145,8 +1145,8 @@
     "Country": "Brazil", 
     "MCC": "724", 
     "ISO": "BR", 
-    "MCC_MNC": "724-5", 
-    "MNC": "5", 
+    "MCC_MNC": "724-05", 
+    "MNC": "05", 
     "Name": "claro/albra/america-movil-brazil"
   }, 
   {
@@ -1165,8 +1165,8 @@
     "Country": "Brazil", 
     "MCC": "724", 
     "ISO": "BR", 
-    "MCC_MNC": "724-6", 
-    "MNC": "6", 
+    "MCC_MNC": "724-06", 
+    "MNC": "06", 
     "Name": "vivo-sa/telemig-brazil"
   }, 
   {
@@ -1175,8 +1175,8 @@
     "Country": "Brazil", 
     "MCC": "724", 
     "ISO": "BR", 
-    "MCC_MNC": "724-3", 
-    "MNC": "3", 
+    "MCC_MNC": "724-03", 
+    "MNC": "03", 
     "Name": "tim-brazil"
   }, 
   {
@@ -1185,8 +1185,8 @@
     "Country": "Brazil", 
     "MCC": "724", 
     "ISO": "BR", 
-    "MCC_MNC": "724-2", 
-    "MNC": "2", 
+    "MCC_MNC": "724-02", 
+    "MNC": "02", 
     "Name": "tim-brazil"
   }, 
   {
@@ -1195,8 +1195,8 @@
     "Country": "Brazil", 
     "MCC": "724", 
     "ISO": "BR", 
-    "MCC_MNC": "724-4", 
-    "MNC": "4", 
+    "MCC_MNC": "724-04", 
+    "MNC": "04", 
     "Name": "tim-brazil"
   }, 
   {
@@ -1215,8 +1215,8 @@
     "Country": "Brunei Darussalam", 
     "MCC": "528", 
     "ISO": "BN", 
-    "MCC_MNC": "528-2", 
-    "MNC": "2", 
+    "MCC_MNC": "528-02", 
+    "MNC": "02", 
     "Name": "b-mobile-brunei-darussalam"
   }, 
   {
@@ -1235,8 +1235,8 @@
     "Country": "Bulgaria", 
     "MCC": "284", 
     "ISO": "BG", 
-    "MCC_MNC": "284-6", 
-    "MNC": "6", 
+    "MCC_MNC": "284-06", 
+    "MNC": "06", 
     "Name": "btc-mobile-eood-(vivatel)-bulgaria"
   }, 
   {
@@ -1245,8 +1245,8 @@
     "Country": "Bulgaria", 
     "MCC": "284", 
     "ISO": "BG", 
-    "MCC_MNC": "284-5", 
-    "MNC": "5", 
+    "MCC_MNC": "284-05", 
+    "MNC": "05", 
     "Name": "cosmo-mobile-ead-bulgaria"
   }, 
   {
@@ -1255,8 +1255,8 @@
     "Country": "Bulgaria", 
     "MCC": "284", 
     "ISO": "BG", 
-    "MCC_MNC": "284-1", 
-    "MNC": "1", 
+    "MCC_MNC": "284-01", 
+    "MNC": "01", 
     "Name": "mobiltel-ad-bulgaria"
   }, 
   {
@@ -1265,8 +1265,8 @@
     "Country": "Bulgaria", 
     "MCC": "284", 
     "ISO": "BG", 
-    "MCC_MNC": "284-3", 
-    "MNC": "3", 
+    "MCC_MNC": "284-03", 
+    "MNC": "03", 
     "Name": "btc-mobile-eood-(vivatel)-bulgaria"
   }, 
   {
@@ -1275,8 +1275,8 @@
     "Country": "Burkina Faso", 
     "MCC": "613", 
     "ISO": "BF", 
-    "MCC_MNC": "613-2", 
-    "MNC": "2", 
+    "MCC_MNC": "613-02", 
+    "MNC": "02", 
     "Name": "zain---celtel-burkina-faso"
   }, 
   {
@@ -1285,8 +1285,8 @@
     "Country": "Burkina Faso", 
     "MCC": "613", 
     "ISO": "BF", 
-    "MCC_MNC": "613-3", 
-    "MNC": "3", 
+    "MCC_MNC": "613-03", 
+    "MNC": "03", 
     "Name": "telecel-burkina-faso"
   }, 
   {
@@ -1295,8 +1295,8 @@
     "Country": "Burkina Faso", 
     "MCC": "613", 
     "ISO": "BF", 
-    "MCC_MNC": "613-1", 
-    "MNC": "1", 
+    "MCC_MNC": "613-01", 
+    "MNC": "01", 
     "Name": "telemob-onatel-burkina-faso"
   }, 
   {
@@ -1305,8 +1305,8 @@
     "Country": "Burma", 
     "MCC": "414", 
     "ISO": "MM", 
-    "MCC_MNC": "414-1", 
-    "MNC": "1", 
+    "MCC_MNC": "414-01", 
+    "MNC": "01", 
     "Name": "myanmar-post-and-telecommunication-burma"
   }, 
   {
@@ -1315,8 +1315,8 @@
     "Country": "Burundi", 
     "MCC": "642", 
     "ISO": "BI", 
-    "MCC_MNC": "642-2", 
-    "MNC": "2", 
+    "MCC_MNC": "642-02", 
+    "MNC": "02", 
     "Name": "africel-/-safaris-burundi"
   }, 
   {
@@ -1325,8 +1325,8 @@
     "Country": "Burundi", 
     "MCC": "642", 
     "ISO": "BI", 
-    "MCC_MNC": "642-8", 
-    "MNC": "8", 
+    "MCC_MNC": "642-08", 
+    "MNC": "08", 
     "Name": "hits-telecom-burundi"
   }, 
   {
@@ -1335,8 +1335,8 @@
     "Country": "Burundi", 
     "MCC": "642", 
     "ISO": "BI", 
-    "MCC_MNC": "642-3", 
-    "MNC": "3", 
+    "MCC_MNC": "642-03", 
+    "MNC": "03", 
     "Name": "onatel-/-telecel-burundi"
   }, 
   {
@@ -1345,8 +1345,8 @@
     "Country": "Burundi", 
     "MCC": "642", 
     "ISO": "BI", 
-    "MCC_MNC": "642-7", 
-    "MNC": "7", 
+    "MCC_MNC": "642-07", 
+    "MNC": "07", 
     "Name": "smart-mobile-/-lacell-burundi"
   }, 
   {
@@ -1355,8 +1355,8 @@
     "Country": "Burundi", 
     "MCC": "642", 
     "ISO": "BI", 
-    "MCC_MNC": "642-1", 
-    "MNC": "1", 
+    "MCC_MNC": "642-01", 
+    "MNC": "01", 
     "Name": "spacetel-/-econet-burundi"
   }, 
   {
@@ -1385,8 +1385,8 @@
     "Country": "Cambodia", 
     "MCC": "456", 
     "ISO": "KH", 
-    "MCC_MNC": "456-2", 
-    "MNC": "2", 
+    "MCC_MNC": "456-02", 
+    "MNC": "02", 
     "Name": "hello/malaysia-telcom-cambodia"
   }, 
   {
@@ -1395,8 +1395,8 @@
     "Country": "Cambodia", 
     "MCC": "456", 
     "ISO": "KH", 
-    "MCC_MNC": "456-1", 
-    "MNC": "1", 
+    "MCC_MNC": "456-01", 
+    "MNC": "01", 
     "Name": "mobitel/cam-gsm-cambodia"
   }, 
   {
@@ -1405,8 +1405,8 @@
     "Country": "Cambodia", 
     "MCC": "456", 
     "ISO": "KH", 
-    "MCC_MNC": "456-4", 
-    "MNC": "4", 
+    "MCC_MNC": "456-04", 
+    "MNC": "04", 
     "Name": "qb/cambodia-adv-comms-cambodia"
   }, 
   {
@@ -1415,8 +1415,8 @@
     "Country": "Cambodia", 
     "MCC": "456", 
     "ISO": "KH", 
-    "MCC_MNC": "456-3", 
-    "MNC": "3", 
+    "MCC_MNC": "456-03", 
+    "MNC": "03", 
     "Name": "qb/cambodia-adv-comms-cambodia"
   }, 
   {
@@ -1425,8 +1425,8 @@
     "Country": "Cambodia", 
     "MCC": "456", 
     "ISO": "KH", 
-    "MCC_MNC": "456-6", 
-    "MNC": "6", 
+    "MCC_MNC": "456-06", 
+    "MNC": "06", 
     "Name": "smart-mobile-cambodia"
   }, 
   {
@@ -1435,8 +1435,8 @@
     "Country": "Cameroon", 
     "MCC": "624", 
     "ISO": "CM", 
-    "MCC_MNC": "624-1", 
-    "MNC": "1", 
+    "MCC_MNC": "624-01", 
+    "MNC": "01", 
     "Name": "mtn-cameroon"
   }, 
   {
@@ -1445,8 +1445,8 @@
     "Country": "Cameroon", 
     "MCC": "624", 
     "ISO": "CM", 
-    "MCC_MNC": "624-2", 
-    "MNC": "2", 
+    "MCC_MNC": "624-02", 
+    "MNC": "02", 
     "Name": "orange-cameroon"
   }, 
   {
@@ -1625,8 +1625,8 @@
     "Country": "Cape Verde", 
     "MCC": "625", 
     "ISO": "CV", 
-    "MCC_MNC": "625-1", 
-    "MNC": "1", 
+    "MCC_MNC": "625-01", 
+    "MNC": "01", 
     "Name": "cv-movel-cape-verde"
   }, 
   {
@@ -1635,8 +1635,8 @@
     "Country": "Cape Verde", 
     "MCC": "625", 
     "ISO": "CV", 
-    "MCC_MNC": "625-2", 
-    "MNC": "2", 
+    "MCC_MNC": "625-02", 
+    "MNC": "02", 
     "Name": "t+-telecom-cape-verde"
   }, 
   {
@@ -1655,8 +1655,8 @@
     "Country": "Cayman Islands", 
     "MCC": "346", 
     "ISO": "KY", 
-    "MCC_MNC": "346-0", 
-    "MNC": "0", 
+    "MCC_MNC": "346-00", 
+    "MNC": "00", 
     "Name": "cingular-cayman-islands"
   }, 
   {
@@ -1675,8 +1675,8 @@
     "Country": "Central African Rep.", 
     "MCC": "623", 
     "ISO": "CF", 
-    "MCC_MNC": "623-1", 
-    "MNC": "1", 
+    "MCC_MNC": "623-01", 
+    "MNC": "01", 
     "Name": "centrafr-telec/a+-central-african-rep"
   }, 
   {
@@ -1685,8 +1685,8 @@
     "Country": "Central African Rep.", 
     "MCC": "623", 
     "ISO": "CF", 
-    "MCC_MNC": "623-3", 
-    "MNC": "3", 
+    "MCC_MNC": "623-03", 
+    "MNC": "03", 
     "Name": "orange/celca-central-african-rep"
   }, 
   {
@@ -1695,8 +1695,8 @@
     "Country": "Central African Rep.", 
     "MCC": "623", 
     "ISO": "CF", 
-    "MCC_MNC": "623-2", 
-    "MNC": "2", 
+    "MCC_MNC": "623-02", 
+    "MNC": "02", 
     "Name": "telecel-centraf-central-african-rep"
   }, 
   {
@@ -1705,8 +1705,8 @@
     "Country": "Chad", 
     "MCC": "622", 
     "ISO": "TD", 
-    "MCC_MNC": "622-4", 
-    "MNC": "4", 
+    "MCC_MNC": "622-04", 
+    "MNC": "04", 
     "Name": "salam/sotel-chad"
   }, 
   {
@@ -1715,8 +1715,8 @@
     "Country": "Chad", 
     "MCC": "622", 
     "ISO": "TD", 
-    "MCC_MNC": "622-2", 
-    "MNC": "2", 
+    "MCC_MNC": "622-02", 
+    "MNC": "02", 
     "Name": "tchad-mobile-chad"
   }, 
   {
@@ -1725,8 +1725,8 @@
     "Country": "Chad", 
     "MCC": "622", 
     "ISO": "TD", 
-    "MCC_MNC": "622-3", 
-    "MNC": "3", 
+    "MCC_MNC": "622-03", 
+    "MNC": "03", 
     "Name": "tigo/milicom-chad"
   }, 
   {
@@ -1735,8 +1735,8 @@
     "Country": "Chad", 
     "MCC": "622", 
     "ISO": "TD", 
-    "MCC_MNC": "622-1", 
-    "MNC": "1", 
+    "MCC_MNC": "622-01", 
+    "MNC": "01", 
     "Name": "zain/airtel/celtel-chad"
   }, 
   {
@@ -1755,8 +1755,8 @@
     "Country": "Chile", 
     "MCC": "730", 
     "ISO": "CL", 
-    "MCC_MNC": "730-1", 
-    "MNC": "1", 
+    "MCC_MNC": "730-01", 
+    "MNC": "01", 
     "Name": "entel-telefonia-mov-chile"
   }, 
   {
@@ -1765,8 +1765,8 @@
     "Country": "Chile", 
     "MCC": "730", 
     "ISO": "CL", 
-    "MCC_MNC": "730-3", 
-    "MNC": "3", 
+    "MCC_MNC": "730-03", 
+    "MNC": "03", 
     "Name": "claro-chile"
   }, 
   {
@@ -1775,8 +1775,8 @@
     "Country": "Chile", 
     "MCC": "730", 
     "ISO": "CL", 
-    "MCC_MNC": "730-2", 
-    "MNC": "2", 
+    "MCC_MNC": "730-02", 
+    "MNC": "02", 
     "Name": "telefonica-chile"
   }, 
   {
@@ -1785,8 +1785,8 @@
     "Country": "China", 
     "MCC": "460", 
     "ISO": "CN", 
-    "MCC_MNC": "460-3", 
-    "MNC": "3", 
+    "MCC_MNC": "460-03", 
+    "MNC": "03", 
     "Name": "china-telecom-china"
   }, 
   {
@@ -1795,8 +1795,8 @@
     "Country": "China", 
     "MCC": "460", 
     "ISO": "CN", 
-    "MCC_MNC": "460-7", 
-    "MNC": "7", 
+    "MCC_MNC": "460-07", 
+    "MNC": "07", 
     "Name": "china-mobile-gsm-china"
   }, 
   {
@@ -1805,8 +1805,8 @@
     "Country": "China", 
     "MCC": "460", 
     "ISO": "CN", 
-    "MCC_MNC": "460-0", 
-    "MNC": "0", 
+    "MCC_MNC": "460-00", 
+    "MNC": "00", 
     "Name": "china-mobile-gsm-china"
   }, 
   {
@@ -1815,8 +1815,8 @@
     "Country": "China", 
     "MCC": "460", 
     "ISO": "CN", 
-    "MCC_MNC": "460-4", 
-    "MNC": "4", 
+    "MCC_MNC": "460-04", 
+    "MNC": "04", 
     "Name": "china-satellite-global-star-network-china"
   }, 
   {
@@ -1825,8 +1825,8 @@
     "Country": "China", 
     "MCC": "460", 
     "ISO": "CN", 
-    "MCC_MNC": "460-5", 
-    "MNC": "5", 
+    "MCC_MNC": "460-05", 
+    "MNC": "05", 
     "Name": "china-telecom-china"
   }, 
   {
@@ -1835,8 +1835,8 @@
     "Country": "China", 
     "MCC": "460", 
     "ISO": "CN", 
-    "MCC_MNC": "460-1", 
-    "MNC": "1", 
+    "MCC_MNC": "460-01", 
+    "MNC": "01", 
     "Name": "china-unicom-china"
   }, 
   {
@@ -1845,8 +1845,8 @@
     "Country": "China", 
     "MCC": "460", 
     "ISO": "CN", 
-    "MCC_MNC": "460-6", 
-    "MNC": "6", 
+    "MCC_MNC": "460-06", 
+    "MNC": "06", 
     "Name": "china-unicom-china"
   }, 
   {
@@ -1855,8 +1855,8 @@
     "Country": "China", 
     "MCC": "460", 
     "ISO": "CN", 
-    "MCC_MNC": "460-2", 
-    "MNC": "2", 
+    "MCC_MNC": "460-02", 
+    "MNC": "02", 
     "Name": "china-mobile-gsm-china"
   }, 
   {
@@ -1905,8 +1905,8 @@
     "Country": "Colombia", 
     "MCC": "732", 
     "ISO": "CO", 
-    "MCC_MNC": "732-1", 
-    "MNC": "1", 
+    "MCC_MNC": "732-01", 
+    "MNC": "01", 
     "Name": "tigo/colombia-movil-colombia"
   }, 
   {
@@ -1925,8 +1925,8 @@
     "Country": "Colombia", 
     "MCC": "732", 
     "ISO": "CO", 
-    "MCC_MNC": "732-2", 
-    "MNC": "2", 
+    "MCC_MNC": "732-02", 
+    "MNC": "02", 
     "Name": "edatel-sa-colombia"
   }, 
   {
@@ -1945,8 +1945,8 @@
     "Country": "Comoros", 
     "MCC": "654", 
     "ISO": "KM", 
-    "MCC_MNC": "654-1", 
-    "MNC": "1", 
+    "MCC_MNC": "654-01", 
+    "MNC": "01", 
     "Name": "huri---snpt-comoros"
   }, 
   {
@@ -1975,8 +1975,8 @@
     "Country": "Congo, Dem. Rep.", 
     "MCC": "630", 
     "ISO": "CD", 
-    "MCC_MNC": "630-5", 
-    "MNC": "5", 
+    "MCC_MNC": "630-05", 
+    "MNC": "05", 
     "Name": "supercell-congo,-dem-rep"
   }, 
   {
@@ -1985,8 +1985,8 @@
     "Country": "Congo, Dem. Rep.", 
     "MCC": "630", 
     "ISO": "CD", 
-    "MCC_MNC": "630-1", 
-    "MNC": "1", 
+    "MCC_MNC": "630-01", 
+    "MNC": "01", 
     "Name": "vodacom-congo,-dem-rep"
   }, 
   {
@@ -1995,8 +1995,8 @@
     "Country": "Congo, Dem. Rep.", 
     "MCC": "630", 
     "ISO": "CD", 
-    "MCC_MNC": "630-2", 
-    "MNC": "2", 
+    "MCC_MNC": "630-02", 
+    "MNC": "02", 
     "Name": "zain-celtel-congo,-dem-rep"
   }, 
   {
@@ -2005,8 +2005,8 @@
     "Country": "Congo, Republic", 
     "MCC": "629", 
     "ISO": "CG", 
-    "MCC_MNC": "629-1", 
-    "MNC": "1", 
+    "MCC_MNC": "629-01", 
+    "MNC": "01", 
     "Name": "zain/celtel-congo,-republic"
   }, 
   {
@@ -2015,8 +2015,8 @@
     "Country": "Congo, Republic", 
     "MCC": "629", 
     "ISO": "CG", 
-    "MCC_MNC": "629-2", 
-    "MNC": "2", 
+    "MCC_MNC": "629-02", 
+    "MNC": "02", 
     "Name": "zain/celtel-congo,-republic"
   }, 
   {
@@ -2035,8 +2035,8 @@
     "Country": "Congo, Republic", 
     "MCC": "629", 
     "ISO": "CG", 
-    "MCC_MNC": "629-7", 
-    "MNC": "7", 
+    "MCC_MNC": "629-07", 
+    "MNC": "07", 
     "Name": "warid-congo,-republic"
   }, 
   {
@@ -2045,8 +2045,8 @@
     "Country": "Cook Islands", 
     "MCC": "548", 
     "ISO": "CK", 
-    "MCC_MNC": "548-1", 
-    "MNC": "1", 
+    "MCC_MNC": "548-01", 
+    "MNC": "01", 
     "Name": "telecom-cook-islands-cook-islands"
   }, 
   {
@@ -2055,8 +2055,8 @@
     "Country": "Costa Rica", 
     "MCC": "712", 
     "ISO": "CR", 
-    "MCC_MNC": "712-2", 
-    "MNC": "2", 
+    "MCC_MNC": "712-02", 
+    "MNC": "02", 
     "Name": "ice-costa-rica"
   }, 
   {
@@ -2065,8 +2065,8 @@
     "Country": "Costa Rica", 
     "MCC": "712", 
     "ISO": "CR", 
-    "MCC_MNC": "712-1", 
-    "MNC": "1", 
+    "MCC_MNC": "712-01", 
+    "MNC": "01", 
     "Name": "ice-costa-rica"
   }, 
   {
@@ -2075,8 +2075,8 @@
     "Country": "Croatia", 
     "MCC": "219", 
     "ISO": "HR", 
-    "MCC_MNC": "219-1", 
-    "MNC": "1", 
+    "MCC_MNC": "219-01", 
+    "MNC": "01", 
     "Name": "t-mobile/cronet-croatia"
   }, 
   {
@@ -2085,8 +2085,8 @@
     "Country": "Croatia", 
     "MCC": "219", 
     "ISO": "HR", 
-    "MCC_MNC": "219-2", 
-    "MNC": "2", 
+    "MCC_MNC": "219-02", 
+    "MNC": "02", 
     "Name": "tele2-croatia"
   }, 
   {
@@ -2105,8 +2105,8 @@
     "Country": "Cuba", 
     "MCC": "368", 
     "ISO": "CU", 
-    "MCC_MNC": "368-1", 
-    "MNC": "1", 
+    "MCC_MNC": "368-01", 
+    "MNC": "01", 
     "Name": "c-com-cuba"
   }, 
   {
@@ -2125,8 +2125,8 @@
     "Country": "Cyprus", 
     "MCC": "280", 
     "ISO": "CY", 
-    "MCC_MNC": "280-1", 
-    "MNC": "1", 
+    "MCC_MNC": "280-01", 
+    "MNC": "01", 
     "Name": "vodafone/cyta-cyprus"
   }, 
   {
@@ -2135,8 +2135,8 @@
     "Country": "Czech Rep.", 
     "MCC": "230", 
     "ISO": "CZ", 
-    "MCC_MNC": "230-2", 
-    "MNC": "2", 
+    "MCC_MNC": "230-02", 
+    "MNC": "02", 
     "Name": "o2-czech-rep"
   }, 
   {
@@ -2145,8 +2145,8 @@
     "Country": "Czech Rep.", 
     "MCC": "230", 
     "ISO": "CZ", 
-    "MCC_MNC": "230-1", 
-    "MNC": "1", 
+    "MCC_MNC": "230-01", 
+    "MNC": "01", 
     "Name": "t-mobile-/-radiomobil-czech-rep"
   }, 
   {
@@ -2155,8 +2155,8 @@
     "Country": "Czech Rep.", 
     "MCC": "230", 
     "ISO": "CZ", 
-    "MCC_MNC": "230-4", 
-    "MNC": "4", 
+    "MCC_MNC": "230-04", 
+    "MNC": "04", 
     "Name": "ufone-czech-rep"
   }, 
   {
@@ -2175,8 +2175,8 @@
     "Country": "Czech Rep.", 
     "MCC": "230", 
     "ISO": "CZ", 
-    "MCC_MNC": "230-3", 
-    "MNC": "3", 
+    "MCC_MNC": "230-03", 
+    "MNC": "03", 
     "Name": "vodafone-czech-rep"
   }, 
   {
@@ -2185,8 +2185,8 @@
     "Country": "Denmark", 
     "MCC": "238", 
     "ISO": "DK", 
-    "MCC_MNC": "238-5", 
-    "MNC": "5", 
+    "MCC_MNC": "238-05", 
+    "MNC": "05", 
     "Name": "aps-kbus-denmark"
   }, 
   {
@@ -2195,8 +2195,8 @@
     "Country": "Denmark", 
     "MCC": "238", 
     "ISO": "DK", 
-    "MCC_MNC": "238-6", 
-    "MNC": "6", 
+    "MCC_MNC": "238-06", 
+    "MNC": "06", 
     "Name": "hi3g-denmark"
   }, 
   {
@@ -2205,8 +2205,8 @@
     "Country": "Denmark", 
     "MCC": "238", 
     "ISO": "DK", 
-    "MCC_MNC": "238-3", 
-    "MNC": "3", 
+    "MCC_MNC": "238-03", 
+    "MNC": "03", 
     "Name": "migway-a/s-denmark"
   }, 
   {
@@ -2215,8 +2215,8 @@
     "Country": "Denmark", 
     "MCC": "238", 
     "ISO": "DK", 
-    "MCC_MNC": "238-2", 
-    "MNC": "2", 
+    "MCC_MNC": "238-02", 
+    "MNC": "02", 
     "Name": "sonofon-denmark"
   }, 
   {
@@ -2225,8 +2225,8 @@
     "Country": "Denmark", 
     "MCC": "238", 
     "ISO": "DK", 
-    "MCC_MNC": "238-1", 
-    "MNC": "1", 
+    "MCC_MNC": "238-01", 
+    "MNC": "01", 
     "Name": "tdc-denmark-denmark"
   }, 
   {
@@ -2275,8 +2275,8 @@
     "Country": "Denmark", 
     "MCC": "238", 
     "ISO": "DK", 
-    "MCC_MNC": "238-4", 
-    "MNC": "4", 
+    "MCC_MNC": "238-04", 
+    "MNC": "04", 
     "Name": "tetrastar-denmark"
   }, 
   {
@@ -2285,8 +2285,8 @@
     "Country": "Djibouti", 
     "MCC": "638", 
     "ISO": "DJ", 
-    "MCC_MNC": "638-1", 
-    "MNC": "1", 
+    "MCC_MNC": "638-01", 
+    "MNC": "01", 
     "Name": "djibouti-telecom-sa-(evatis)-djibouti"
   }, 
   {
@@ -2315,8 +2315,8 @@
     "Country": "Dominican Republic", 
     "MCC": "370", 
     "ISO": "DO", 
-    "MCC_MNC": "370-2", 
-    "MNC": "2", 
+    "MCC_MNC": "370-02", 
+    "MNC": "02", 
     "Name": "claro-dominican-republic"
   }, 
   {
@@ -2325,8 +2325,8 @@
     "Country": "Dominican Republic", 
     "MCC": "370", 
     "ISO": "DO", 
-    "MCC_MNC": "370-1", 
-    "MNC": "1", 
+    "MCC_MNC": "370-01", 
+    "MNC": "01", 
     "Name": "orange-dominican-republic"
   }, 
   {
@@ -2335,8 +2335,8 @@
     "Country": "Dominican Republic", 
     "MCC": "370", 
     "ISO": "DO", 
-    "MCC_MNC": "370-3", 
-    "MNC": "3", 
+    "MCC_MNC": "370-03", 
+    "MNC": "03", 
     "Name": "tricom-dominican-republic"
   }, 
   {
@@ -2345,8 +2345,8 @@
     "Country": "Dominican Republic", 
     "MCC": "370", 
     "ISO": "DO", 
-    "MCC_MNC": "370-4", 
-    "MNC": "4", 
+    "MCC_MNC": "370-04", 
+    "MNC": "04", 
     "Name": "trilogy-dominicana-s-a-dominican-republic"
   }, 
   {
@@ -2355,8 +2355,8 @@
     "Country": "Ecuador", 
     "MCC": "740", 
     "ISO": "EC", 
-    "MCC_MNC": "740-2", 
-    "MNC": "2", 
+    "MCC_MNC": "740-02", 
+    "MNC": "02", 
     "Name": "alegro/telcsa-ecuador"
   }, 
   {
@@ -2365,8 +2365,8 @@
     "Country": "Ecuador", 
     "MCC": "740", 
     "ISO": "EC", 
-    "MCC_MNC": "740-0", 
-    "MNC": "0", 
+    "MCC_MNC": "740-00", 
+    "MNC": "00", 
     "Name": "movistar/otecel-ecuador"
   }, 
   {
@@ -2375,8 +2375,8 @@
     "Country": "Ecuador", 
     "MCC": "740", 
     "ISO": "EC", 
-    "MCC_MNC": "740-1", 
-    "MNC": "1", 
+    "MCC_MNC": "740-01", 
+    "MNC": "01", 
     "Name": "porta/conecel-ecuador"
   }, 
   {
@@ -2385,8 +2385,8 @@
     "Country": "Egypt", 
     "MCC": "602", 
     "ISO": "EG", 
-    "MCC_MNC": "602-1", 
-    "MNC": "1", 
+    "MCC_MNC": "602-01", 
+    "MNC": "01", 
     "Name": "ems---mobinil-egypt"
   }, 
   {
@@ -2395,8 +2395,8 @@
     "Country": "Egypt", 
     "MCC": "602", 
     "ISO": "EG", 
-    "MCC_MNC": "602-3", 
-    "MNC": "3", 
+    "MCC_MNC": "602-03", 
+    "MNC": "03", 
     "Name": "etisalat-egypt"
   }, 
   {
@@ -2405,8 +2405,8 @@
     "Country": "Egypt", 
     "MCC": "602", 
     "ISO": "EG", 
-    "MCC_MNC": "602-2", 
-    "MNC": "2", 
+    "MCC_MNC": "602-02", 
+    "MNC": "02", 
     "Name": "vodafone-(misrfone-telecom)-egypt"
   }, 
   {
@@ -2415,8 +2415,8 @@
     "Country": "El Salvador", 
     "MCC": "706", 
     "ISO": "SV", 
-    "MCC_MNC": "706-1", 
-    "MNC": "1", 
+    "MCC_MNC": "706-01", 
+    "MNC": "01", 
     "Name": "claro/cte-el-salvador"
   }, 
   {
@@ -2425,8 +2425,8 @@
     "Country": "El Salvador", 
     "MCC": "706", 
     "ISO": "SV", 
-    "MCC_MNC": "706-2", 
-    "MNC": "2", 
+    "MCC_MNC": "706-02", 
+    "MNC": "02", 
     "Name": "digicel-el-salvador"
   }, 
   {
@@ -2435,8 +2435,8 @@
     "Country": "El Salvador", 
     "MCC": "706", 
     "ISO": "SV", 
-    "MCC_MNC": "706-4", 
-    "MNC": "4", 
+    "MCC_MNC": "706-04", 
+    "MNC": "04", 
     "Name": "telefonica-el-salvador"
   }, 
   {
@@ -2445,8 +2445,8 @@
     "Country": "El Salvador", 
     "MCC": "706", 
     "ISO": "SV", 
-    "MCC_MNC": "706-3", 
-    "MNC": "3", 
+    "MCC_MNC": "706-03", 
+    "MNC": "03", 
     "Name": "telemovil-el-salvador"
   }, 
   {
@@ -2455,8 +2455,8 @@
     "Country": "Equatorial Guinea", 
     "MCC": "627", 
     "ISO": "GQ", 
-    "MCC_MNC": "627-1", 
-    "MNC": "1", 
+    "MCC_MNC": "627-01", 
+    "MNC": "01", 
     "Name": "orange/getesa-equatorial-guinea"
   }, 
   {
@@ -2465,8 +2465,8 @@
     "Country": "Eritrea", 
     "MCC": "657", 
     "ISO": "ER", 
-    "MCC_MNC": "657-0", 
-    "MNC": "0", 
+    "MCC_MNC": "657-00", 
+    "MNC": "00", 
     "Name": "eritel-eritrea"
   }, 
   {
@@ -2475,8 +2475,8 @@
     "Country": "Estonia", 
     "MCC": "248", 
     "ISO": "EE", 
-    "MCC_MNC": "248-1", 
-    "MNC": "1", 
+    "MCC_MNC": "248-01", 
+    "MNC": "01", 
     "Name": "emt-gsm-estonia"
   }, 
   {
@@ -2485,8 +2485,8 @@
     "Country": "Estonia", 
     "MCC": "248", 
     "ISO": "EE", 
-    "MCC_MNC": "248-2", 
-    "MNC": "2", 
+    "MCC_MNC": "248-02", 
+    "MNC": "02", 
     "Name": "radiolinja-eesti-estonia"
   }, 
   {
@@ -2495,8 +2495,8 @@
     "Country": "Estonia", 
     "MCC": "248", 
     "ISO": "EE", 
-    "MCC_MNC": "248-3", 
-    "MNC": "3", 
+    "MCC_MNC": "248-03", 
+    "MNC": "03", 
     "Name": "tele2-eesti-as-estonia"
   }, 
   {
@@ -2505,8 +2505,8 @@
     "Country": "Ethiopia", 
     "MCC": "636", 
     "ISO": "ET", 
-    "MCC_MNC": "636-1", 
-    "MNC": "1", 
+    "MCC_MNC": "636-01", 
+    "MNC": "01", 
     "Name": "eth/mtn-ethiopia"
   }, 
   {
@@ -2515,8 +2515,8 @@
     "Country": "Faroe Islands", 
     "MCC": "288", 
     "ISO": "FO", 
-    "MCC_MNC": "288-1", 
-    "MNC": "1", 
+    "MCC_MNC": "288-01", 
+    "MNC": "01", 
     "Name": "faroese-telecom-faroe-islands"
   }, 
   {
@@ -2525,8 +2525,8 @@
     "Country": "Faroe Islands", 
     "MCC": "288", 
     "ISO": "FO", 
-    "MCC_MNC": "288-2", 
-    "MNC": "2", 
+    "MCC_MNC": "288-02", 
+    "MNC": "02", 
     "Name": "kall-gsm-faroe-islands"
   }, 
   {
@@ -2535,8 +2535,8 @@
     "Country": "Fiji", 
     "MCC": "542", 
     "ISO": "FJ", 
-    "MCC_MNC": "542-2", 
-    "MNC": "2", 
+    "MCC_MNC": "542-02", 
+    "MNC": "02", 
     "Name": "digicell-fiji"
   }, 
   {
@@ -2545,8 +2545,8 @@
     "Country": "Fiji", 
     "MCC": "542", 
     "ISO": "FJ", 
-    "MCC_MNC": "542-1", 
-    "MNC": "1", 
+    "MCC_MNC": "542-01", 
+    "MNC": "01", 
     "Name": "vodafone-fiji"
   }, 
   {
@@ -2565,8 +2565,8 @@
     "Country": "Finland", 
     "MCC": "244", 
     "ISO": "FI", 
-    "MCC_MNC": "244-3", 
-    "MNC": "3", 
+    "MCC_MNC": "244-03", 
+    "MNC": "03", 
     "Name": "dna/finnet-finland"
   }, 
   {
@@ -2595,8 +2595,8 @@
     "Country": "Finland", 
     "MCC": "244", 
     "ISO": "FI", 
-    "MCC_MNC": "244-5", 
-    "MNC": "5", 
+    "MCC_MNC": "244-05", 
+    "MNC": "05", 
     "Name": "elisa/saunalahti-finland"
   }, 
   {
@@ -2605,8 +2605,8 @@
     "Country": "Finland", 
     "MCC": "244", 
     "ISO": "FI", 
-    "MCC_MNC": "244-9", 
-    "MNC": "9", 
+    "MCC_MNC": "244-09", 
+    "MNC": "09", 
     "Name": "dna/finnet-finland"
   }, 
   {
@@ -2645,8 +2645,8 @@
     "Country": "France", 
     "MCC": "208", 
     "ISO": "FR", 
-    "MCC_MNC": "208-2", 
-    "MNC": "2", 
+    "MCC_MNC": "208-02", 
+    "MNC": "02", 
     "Name": "orange-france"
   }, 
   {
@@ -2655,8 +2655,8 @@
     "Country": "France", 
     "MCC": "208", 
     "ISO": "FR", 
-    "MCC_MNC": "208-1", 
-    "MNC": "1", 
+    "MCC_MNC": "208-01", 
+    "MNC": "01", 
     "Name": "orange-france"
   }, 
   {
@@ -2685,8 +2685,8 @@
     "Country": "French Guiana", 
     "MCC": "340", 
     "ISO": "FG", 
-    "MCC_MNC": "340-8", 
-    "MNC": "8", 
+    "MCC_MNC": "340-08", 
+    "MNC": "08", 
     "Name": "amigo/dauphin-french-guiana"
   }, 
   {
@@ -2705,8 +2705,8 @@
     "Country": "French Guiana", 
     "MCC": "340", 
     "ISO": "FG", 
-    "MCC_MNC": "340-1", 
-    "MNC": "1", 
+    "MCC_MNC": "340-01", 
+    "MNC": "01", 
     "Name": "orange-caribe-french-guiana"
   }, 
   {
@@ -2715,8 +2715,8 @@
     "Country": "French Guiana", 
     "MCC": "340", 
     "ISO": "FG", 
-    "MCC_MNC": "340-2", 
-    "MNC": "2", 
+    "MCC_MNC": "340-02", 
+    "MNC": "02", 
     "Name": "outremer-telecom-french-guiana"
   }, 
   {
@@ -2725,8 +2725,8 @@
     "Country": "French Guiana", 
     "MCC": "340", 
     "ISO": "FG", 
-    "MCC_MNC": "340-3", 
-    "MNC": "3", 
+    "MCC_MNC": "340-03", 
+    "MNC": "03", 
     "Name": "-french-guiana"
   }, 
   {
@@ -2745,8 +2745,8 @@
     "Country": "Gabon", 
     "MCC": "628", 
     "ISO": "GA", 
-    "MCC_MNC": "628-4", 
-    "MNC": "4", 
+    "MCC_MNC": "628-04", 
+    "MNC": "04", 
     "Name": "azur/usan-sa-gabon"
   }, 
   {
@@ -2755,8 +2755,8 @@
     "Country": "Gabon", 
     "MCC": "628", 
     "ISO": "GA", 
-    "MCC_MNC": "628-3", 
-    "MNC": "3", 
+    "MCC_MNC": "628-03", 
+    "MNC": "03", 
     "Name": "zain/celtel-gabon-sa-gabon"
   }, 
   {
@@ -2765,8 +2765,8 @@
     "Country": "Gabon", 
     "MCC": "628", 
     "ISO": "GA", 
-    "MCC_MNC": "628-1", 
-    "MNC": "1", 
+    "MCC_MNC": "628-01", 
+    "MNC": "01", 
     "Name": "libertis-sa-gabon"
   }, 
   {
@@ -2775,8 +2775,8 @@
     "Country": "Gabon", 
     "MCC": "628", 
     "ISO": "GA", 
-    "MCC_MNC": "628-2", 
-    "MNC": "2", 
+    "MCC_MNC": "628-02", 
+    "MNC": "02", 
     "Name": "moov/telecel-gabon"
   }, 
   {
@@ -2785,8 +2785,8 @@
     "Country": "Gambia", 
     "MCC": "607", 
     "ISO": "GM", 
-    "MCC_MNC": "607-2", 
-    "MNC": "2", 
+    "MCC_MNC": "607-02", 
+    "MNC": "02", 
     "Name": "africel-gambia"
   }, 
   {
@@ -2795,8 +2795,8 @@
     "Country": "Gambia", 
     "MCC": "607", 
     "ISO": "GM", 
-    "MCC_MNC": "607-3", 
-    "MNC": "3", 
+    "MCC_MNC": "607-03", 
+    "MNC": "03", 
     "Name": "comium-gambia"
   }, 
   {
@@ -2805,8 +2805,8 @@
     "Country": "Gambia", 
     "MCC": "607", 
     "ISO": "GM", 
-    "MCC_MNC": "607-1", 
-    "MNC": "1", 
+    "MCC_MNC": "607-01", 
+    "MNC": "01", 
     "Name": "gamcel-gambia"
   }, 
   {
@@ -2815,8 +2815,8 @@
     "Country": "Gambia", 
     "MCC": "607", 
     "ISO": "GM", 
-    "MCC_MNC": "607-4", 
-    "MNC": "4", 
+    "MCC_MNC": "607-04", 
+    "MNC": "04", 
     "Name": "q-cell-gambia"
   }, 
   {
@@ -2825,8 +2825,8 @@
     "Country": "Georgia", 
     "MCC": "282", 
     "ISO": "GE", 
-    "MCC_MNC": "282-1", 
-    "MNC": "1", 
+    "MCC_MNC": "282-01", 
+    "MNC": "01", 
     "Name": "geocell-ltd-georgia"
   }, 
   {
@@ -2835,8 +2835,8 @@
     "Country": "Georgia", 
     "MCC": "282", 
     "ISO": "GE", 
-    "MCC_MNC": "282-3", 
-    "MNC": "3", 
+    "MCC_MNC": "282-03", 
+    "MNC": "03", 
     "Name": "iberiatel-ltd-georgia"
   }, 
   {
@@ -2845,8 +2845,8 @@
     "Country": "Georgia", 
     "MCC": "282", 
     "ISO": "GE", 
-    "MCC_MNC": "282-2", 
-    "MNC": "2", 
+    "MCC_MNC": "282-02", 
+    "MNC": "02", 
     "Name": "magti-gsm-ltd-georgia"
   }, 
   {
@@ -2855,8 +2855,8 @@
     "Country": "Georgia", 
     "MCC": "282", 
     "ISO": "GE", 
-    "MCC_MNC": "282-4", 
-    "MNC": "4", 
+    "MCC_MNC": "282-04", 
+    "MNC": "04", 
     "Name": "mobitel/beeline-georgia"
   }, 
   {
@@ -2885,8 +2885,8 @@
     "Country": "Germany", 
     "MCC": "262", 
     "ISO": "DE", 
-    "MCC_MNC": "262-3", 
-    "MNC": "3", 
+    "MCC_MNC": "262-03", 
+    "MNC": "03", 
     "Name": "e-plus-germany"
   }, 
   {
@@ -2895,8 +2895,8 @@
     "Country": "Germany", 
     "MCC": "262", 
     "ISO": "DE", 
-    "MCC_MNC": "262-6", 
-    "MNC": "6", 
+    "MCC_MNC": "262-06", 
+    "MNC": "06", 
     "Name": "e-plus-germany"
   }, 
   {
@@ -2905,8 +2905,8 @@
     "Country": "Germany", 
     "MCC": "262", 
     "ISO": "DE", 
-    "MCC_MNC": "262-5", 
-    "MNC": "5", 
+    "MCC_MNC": "262-05", 
+    "MNC": "05", 
     "Name": "e-plus-germany"
   }, 
   {
@@ -2955,8 +2955,8 @@
     "Country": "Germany", 
     "MCC": "262", 
     "ISO": "DE", 
-    "MCC_MNC": "262-8", 
-    "MNC": "8", 
+    "MCC_MNC": "262-08", 
+    "MNC": "08", 
     "Name": "o2-germany"
   }, 
   {
@@ -2975,8 +2975,8 @@
     "Country": "Germany", 
     "MCC": "262", 
     "ISO": "DE", 
-    "MCC_MNC": "262-7", 
-    "MNC": "7", 
+    "MCC_MNC": "262-07", 
+    "MNC": "07", 
     "Name": "o2-germany"
   }, 
   {
@@ -2995,8 +2995,8 @@
     "Country": "Germany", 
     "MCC": "262", 
     "ISO": "DE", 
-    "MCC_MNC": "262-1", 
-    "MNC": "1", 
+    "MCC_MNC": "262-01", 
+    "MNC": "01", 
     "Name": "telekom/t-mobile-germany"
   }, 
   {
@@ -3025,8 +3025,8 @@
     "Country": "Germany", 
     "MCC": "262", 
     "ISO": "DE", 
-    "MCC_MNC": "262-9", 
-    "MNC": "9", 
+    "MCC_MNC": "262-09", 
+    "MNC": "09", 
     "Name": "vodafone-d2-germany"
   }, 
   {
@@ -3035,8 +3035,8 @@
     "Country": "Germany", 
     "MCC": "262", 
     "ISO": "DE", 
-    "MCC_MNC": "262-2", 
-    "MNC": "2", 
+    "MCC_MNC": "262-02", 
+    "MNC": "02", 
     "Name": "vodafone-d2-germany"
   }, 
   {
@@ -3045,8 +3045,8 @@
     "Country": "Germany", 
     "MCC": "262", 
     "ISO": "DE", 
-    "MCC_MNC": "262-4", 
-    "MNC": "4", 
+    "MCC_MNC": "262-04", 
+    "MNC": "04", 
     "Name": "vodafone-d2-germany"
   }, 
   {
@@ -3055,8 +3055,8 @@
     "Country": "Ghana", 
     "MCC": "620", 
     "ISO": "GH", 
-    "MCC_MNC": "620-2", 
-    "MNC": "2", 
+    "MCC_MNC": "620-02", 
+    "MNC": "02", 
     "Name": "vodafone-ghana"
   }, 
   {
@@ -3065,8 +3065,8 @@
     "Country": "Ghana", 
     "MCC": "620", 
     "ISO": "GH", 
-    "MCC_MNC": "620-0", 
-    "MNC": "0", 
+    "MCC_MNC": "620-00", 
+    "MNC": "00", 
     "Name": "glomobile-ghana"
   }, 
   {
@@ -3075,8 +3075,8 @@
     "Country": "Ghana", 
     "MCC": "620", 
     "ISO": "GH", 
-    "MCC_MNC": "620-3", 
-    "MNC": "3", 
+    "MCC_MNC": "620-03", 
+    "MNC": "03", 
     "Name": "milicom-ghana"
   }, 
   {
@@ -3085,8 +3085,8 @@
     "Country": "Ghana", 
     "MCC": "620", 
     "ISO": "GH", 
-    "MCC_MNC": "620-1", 
-    "MNC": "1", 
+    "MCC_MNC": "620-01", 
+    "MNC": "01", 
     "Name": "mtn-ghana"
   }, 
   {
@@ -3095,8 +3095,8 @@
     "Country": "Ghana", 
     "MCC": "620", 
     "ISO": "GH", 
-    "MCC_MNC": "620-6", 
-    "MNC": "6", 
+    "MCC_MNC": "620-06", 
+    "MNC": "06", 
     "Name": "zain-ghana"
   }, 
   {
@@ -3105,8 +3105,8 @@
     "Country": "Gibraltar", 
     "MCC": "266", 
     "ISO": "GI", 
-    "MCC_MNC": "266-1", 
-    "MNC": "1", 
+    "MCC_MNC": "266-01", 
+    "MNC": "01", 
     "Name": "gibtel-gsm-gibraltar"
   }, 
   {
@@ -3115,8 +3115,8 @@
     "Country": "Greece", 
     "MCC": "202", 
     "ISO": "GR", 
-    "MCC_MNC": "202-1", 
-    "MNC": "1", 
+    "MCC_MNC": "202-01", 
+    "MNC": "01", 
     "Name": "cosmote-greece"
   }, 
   {
@@ -3125,8 +3125,8 @@
     "Country": "Greece", 
     "MCC": "202", 
     "ISO": "GR", 
-    "MCC_MNC": "202-9", 
-    "MNC": "9", 
+    "MCC_MNC": "202-09", 
+    "MNC": "09", 
     "Name": "tim/wind-greece"
   }, 
   {
@@ -3135,8 +3135,8 @@
     "Country": "Greece", 
     "MCC": "202", 
     "ISO": "GR", 
-    "MCC_MNC": "202-5", 
-    "MNC": "5", 
+    "MCC_MNC": "202-05", 
+    "MNC": "05", 
     "Name": "vodafone-greece"
   }, 
   {
@@ -3155,8 +3155,8 @@
     "Country": "Greenland", 
     "MCC": "290", 
     "ISO": "GL", 
-    "MCC_MNC": "290-1", 
-    "MNC": "1", 
+    "MCC_MNC": "290-01", 
+    "MNC": "01", 
     "Name": "tele-greenland-greenland"
   }, 
   {
@@ -3235,8 +3235,8 @@
     "Country": "Guatemala", 
     "MCC": "704", 
     "ISO": "GT", 
-    "MCC_MNC": "704-2", 
-    "MNC": "2", 
+    "MCC_MNC": "704-02", 
+    "MNC": "02", 
     "Name": "tigo/comcel-guatemala"
   }, 
   {
@@ -3245,8 +3245,8 @@
     "Country": "Guatemala", 
     "MCC": "704", 
     "ISO": "GT", 
-    "MCC_MNC": "704-1", 
-    "MNC": "1", 
+    "MCC_MNC": "704-01", 
+    "MNC": "01", 
     "Name": "sercom-guatemala"
   }, 
   {
@@ -3255,8 +3255,8 @@
     "Country": "Guatemala", 
     "MCC": "704", 
     "ISO": "GT", 
-    "MCC_MNC": "704-3", 
-    "MNC": "3", 
+    "MCC_MNC": "704-03", 
+    "MNC": "03", 
     "Name": "telefonica-guatemala"
   }, 
   {
@@ -3265,8 +3265,8 @@
     "Country": "Guinea", 
     "MCC": "611", 
     "ISO": "GN", 
-    "MCC_MNC": "611-4", 
-    "MNC": "4", 
+    "MCC_MNC": "611-04", 
+    "MNC": "04", 
     "Name": "areeba---mtn-guinea"
   }, 
   {
@@ -3275,8 +3275,8 @@
     "Country": "Guinea", 
     "MCC": "611", 
     "ISO": "GN", 
-    "MCC_MNC": "611-5", 
-    "MNC": "5", 
+    "MCC_MNC": "611-05", 
+    "MNC": "05", 
     "Name": "celcom-guinea"
   }, 
   {
@@ -3285,8 +3285,8 @@
     "Country": "Guinea", 
     "MCC": "611", 
     "ISO": "GN", 
-    "MCC_MNC": "611-3", 
-    "MNC": "3", 
+    "MCC_MNC": "611-03", 
+    "MNC": "03", 
     "Name": "intercel-guinea"
   }, 
   {
@@ -3295,8 +3295,8 @@
     "Country": "Guinea", 
     "MCC": "611", 
     "ISO": "GN", 
-    "MCC_MNC": "611-2", 
-    "MNC": "2", 
+    "MCC_MNC": "611-02", 
+    "MNC": "02", 
     "Name": "sotelgui-guinea"
   }, 
   {
@@ -3305,8 +3305,8 @@
     "Country": "Guinea", 
     "MCC": "611", 
     "ISO": "GN", 
-    "MCC_MNC": "611-1", 
-    "MNC": "1", 
+    "MCC_MNC": "611-01", 
+    "MNC": "01", 
     "Name": "orange/spacetel-guinea"
   }, 
   {
@@ -3315,8 +3315,8 @@
     "Country": "Guinea-Bissau", 
     "MCC": "632", 
     "ISO": "GW", 
-    "MCC_MNC": "632-2", 
-    "MNC": "2", 
+    "MCC_MNC": "632-02", 
+    "MNC": "02", 
     "Name": "spacetel-guinea-bissau"
   }, 
   {
@@ -3325,8 +3325,8 @@
     "Country": "Guinea-Bissau", 
     "MCC": "632", 
     "ISO": "GW", 
-    "MCC_MNC": "632-0", 
-    "MNC": "0", 
+    "MCC_MNC": "632-00", 
+    "MNC": "00", 
     "Name": "guinetel-guinea-bissau"
   }, 
   {
@@ -3335,8 +3335,8 @@
     "Country": "Guinea-Bissau", 
     "MCC": "632", 
     "ISO": "GW", 
-    "MCC_MNC": "632-3", 
-    "MNC": "3", 
+    "MCC_MNC": "632-03", 
+    "MNC": "03", 
     "Name": "orange-guinea-bissau"
   }, 
   {
@@ -3345,8 +3345,8 @@
     "Country": "Guyana", 
     "MCC": "738", 
     "ISO": "GY", 
-    "MCC_MNC": "738-1", 
-    "MNC": "1", 
+    "MCC_MNC": "738-01", 
+    "MNC": "01", 
     "Name": "digicel-guyana"
   }, 
   {
@@ -3355,8 +3355,8 @@
     "Country": "Guyana", 
     "MCC": "738", 
     "ISO": "GY", 
-    "MCC_MNC": "738-2", 
-    "MNC": "2", 
+    "MCC_MNC": "738-02", 
+    "MNC": "02", 
     "Name": "cellink-plus-guyana"
   }, 
   {
@@ -3365,8 +3365,8 @@
     "Country": "Haiti", 
     "MCC": "372", 
     "ISO": "HT", 
-    "MCC_MNC": "372-1", 
-    "MNC": "1", 
+    "MCC_MNC": "372-01", 
+    "MNC": "01", 
     "Name": "comcel-haiti"
   }, 
   {
@@ -3375,8 +3375,8 @@
     "Country": "Honduras", 
     "MCC": "708", 
     "ISO": "HN", 
-    "MCC_MNC": "708-2", 
-    "MNC": "2", 
+    "MCC_MNC": "708-02", 
+    "MNC": "02", 
     "Name": "telefonica/celtel-honduras"
   }, 
   {
@@ -3385,8 +3385,8 @@
     "Country": "Honduras", 
     "MCC": "708", 
     "ISO": "HN", 
-    "MCC_MNC": "708-1", 
-    "MNC": "1", 
+    "MCC_MNC": "708-01", 
+    "MNC": "01", 
     "Name": "sercom/claro-honduras"
   }, 
   {
@@ -3425,8 +3425,8 @@
     "Country": "Hongkong, China", 
     "MCC": "454", 
     "ISO": "HK", 
-    "MCC_MNC": "454-9", 
-    "MNC": "9", 
+    "MCC_MNC": "454-09", 
+    "MNC": "09", 
     "Name": "csl-ltd-hongkong,-china"
   }, 
   {
@@ -3435,8 +3435,8 @@
     "Country": "Hongkong, China", 
     "MCC": "454", 
     "ISO": "HK", 
-    "MCC_MNC": "454-7", 
-    "MNC": "7", 
+    "MCC_MNC": "454-07", 
+    "MNC": "07", 
     "Name": "h3g/hutchinson-hongkong,-china"
   }, 
   {
@@ -3485,8 +3485,8 @@
     "Country": "Hongkong, China", 
     "MCC": "454", 
     "ISO": "HK", 
-    "MCC_MNC": "454-0", 
-    "MNC": "0", 
+    "MCC_MNC": "454-00", 
+    "MNC": "00", 
     "Name": "csl-ltd-hongkong,-china"
   }, 
   {
@@ -3495,8 +3495,8 @@
     "Country": "Hongkong, China", 
     "MCC": "454", 
     "ISO": "HK", 
-    "MCC_MNC": "454-3", 
-    "MNC": "3", 
+    "MCC_MNC": "454-03", 
+    "MNC": "03", 
     "Name": "h3g/hutchinson-hongkong,-china"
   }, 
   {
@@ -3505,8 +3505,8 @@
     "Country": "Hongkong, China", 
     "MCC": "454", 
     "ISO": "HK", 
-    "MCC_MNC": "454-5", 
-    "MNC": "5", 
+    "MCC_MNC": "454-05", 
+    "MNC": "05", 
     "Name": "h3g/hutchinson-hongkong,-china"
   }, 
   {
@@ -3515,8 +3515,8 @@
     "Country": "Hongkong, China", 
     "MCC": "454", 
     "ISO": "HK", 
-    "MCC_MNC": "454-4", 
-    "MNC": "4", 
+    "MCC_MNC": "454-04", 
+    "MNC": "04", 
     "Name": "h3g/hutchinson-hongkong,-china"
   }, 
   {
@@ -3545,8 +3545,8 @@
     "Country": "Hongkong, China", 
     "MCC": "454", 
     "ISO": "HK", 
-    "MCC_MNC": "454-6", 
-    "MNC": "6", 
+    "MCC_MNC": "454-06", 
+    "MNC": "06", 
     "Name": "vodafone/smartone-hongkong,-china"
   }, 
   {
@@ -3565,8 +3565,8 @@
     "Country": "Hongkong, China", 
     "MCC": "454", 
     "ISO": "HK", 
-    "MCC_MNC": "454-8", 
-    "MNC": "8", 
+    "MCC_MNC": "454-08", 
+    "MNC": "08", 
     "Name": "trident-telecom-ventures-ltd-hongkong,-china"
   }, 
   {
@@ -3575,8 +3575,8 @@
     "Country": "Hungary", 
     "MCC": "216", 
     "ISO": "HU", 
-    "MCC_MNC": "216-1", 
-    "MNC": "1", 
+    "MCC_MNC": "216-01", 
+    "MNC": "01", 
     "Name": "pannon-hungary"
   }, 
   {
@@ -3605,8 +3605,8 @@
     "Country": "Iceland", 
     "MCC": "274", 
     "ISO": "IS", 
-    "MCC_MNC": "274-4", 
-    "MNC": "4", 
+    "MCC_MNC": "274-04", 
+    "MNC": "04", 
     "Name": "imc-islande-ehf-iceland"
   }, 
   {
@@ -3615,8 +3615,8 @@
     "Country": "Iceland", 
     "MCC": "274", 
     "ISO": "IS", 
-    "MCC_MNC": "274-3", 
-    "MNC": "3", 
+    "MCC_MNC": "274-03", 
+    "MNC": "03", 
     "Name": "vodafone/tal-hf-iceland"
   }, 
   {
@@ -3625,8 +3625,8 @@
     "Country": "Iceland", 
     "MCC": "274", 
     "ISO": "IS", 
-    "MCC_MNC": "274-1", 
-    "MNC": "1", 
+    "MCC_MNC": "274-01", 
+    "MNC": "01", 
     "Name": "landssiminn-iceland"
   }, 
   {
@@ -3635,8 +3635,8 @@
     "Country": "Iceland", 
     "MCC": "274", 
     "ISO": "IS", 
-    "MCC_MNC": "274-2", 
-    "MNC": "2", 
+    "MCC_MNC": "274-02", 
+    "MNC": "02", 
     "Name": "vodafone/tal-hf-iceland"
   }, 
   {
@@ -3715,8 +3715,8 @@
     "Country": "India", 
     "MCC": "404", 
     "ISO": "IN", 
-    "MCC_MNC": "404-1", 
-    "MNC": "1", 
+    "MCC_MNC": "404-01", 
+    "MNC": "01", 
     "Name": "aircel-digilink-india-india"
   }, 
   {
@@ -4095,8 +4095,8 @@
     "Country": "India", 
     "MCC": "405", 
     "ISO": "IN", 
-    "MCC_MNC": "405-5", 
-    "MNC": "5", 
+    "MCC_MNC": "405-05", 
+    "MNC": "05", 
     "Name": "fascel-limited-india"
   }, 
   {
@@ -4105,8 +4105,8 @@
     "Country": "India", 
     "MCC": "404", 
     "ISO": "IN", 
-    "MCC_MNC": "404-5", 
-    "MNC": "5", 
+    "MCC_MNC": "404-05", 
+    "MNC": "05", 
     "Name": "fascel-india"
   }, 
   {
@@ -4135,8 +4135,8 @@
     "Country": "India", 
     "MCC": "404", 
     "ISO": "IN", 
-    "MCC_MNC": "404-4", 
-    "MNC": "4", 
+    "MCC_MNC": "404-04", 
+    "MNC": "04", 
     "Name": "idea-cellular-ltd-india"
   }, 
   {
@@ -4175,8 +4175,8 @@
     "Country": "India", 
     "MCC": "404", 
     "ISO": "IN", 
-    "MCC_MNC": "404-7", 
-    "MNC": "7", 
+    "MCC_MNC": "404-07", 
+    "MNC": "07", 
     "Name": "idea-cellular-ltd-india"
   }, 
   {
@@ -4215,8 +4215,8 @@
     "Country": "India", 
     "MCC": "405", 
     "ISO": "IN", 
-    "MCC_MNC": "405-9", 
-    "MNC": "9", 
+    "MCC_MNC": "405-09", 
+    "MNC": "09", 
     "Name": "reliance-telecom-india"
   }, 
   {
@@ -4285,8 +4285,8 @@
     "Country": "India", 
     "MCC": "404", 
     "ISO": "IN", 
-    "MCC_MNC": "404-9", 
-    "MNC": "9", 
+    "MCC_MNC": "404-09", 
+    "MNC": "09", 
     "Name": "reliance-telecom-private-india"
   }, 
   {
@@ -4345,8 +4345,8 @@
     "Country": "Indonesia", 
     "MCC": "510", 
     "ISO": "ID", 
-    "MCC_MNC": "510-8", 
-    "MNC": "8", 
+    "MCC_MNC": "510-08", 
+    "MNC": "08", 
     "Name": "axis/natrindo-indonesia"
   }, 
   {
@@ -4385,8 +4385,8 @@
     "Country": "Indonesia", 
     "MCC": "510", 
     "ISO": "ID", 
-    "MCC_MNC": "510-0", 
-    "MNC": "0", 
+    "MCC_MNC": "510-00", 
+    "MNC": "00", 
     "Name": "-indonesia"
   }, 
   {
@@ -4405,8 +4405,8 @@
     "Country": "Indonesia", 
     "MCC": "510", 
     "ISO": "ID", 
-    "MCC_MNC": "510-1", 
-    "MNC": "1", 
+    "MCC_MNC": "510-01", 
+    "MNC": "01", 
     "Name": "indosat/satelindo/m3-indonesia"
   }, 
   {
@@ -4485,8 +4485,8 @@
     "Country": "Iraq", 
     "MCC": "418", 
     "ISO": "IQ", 
-    "MCC_MNC": "418-5", 
-    "MNC": "5", 
+    "MCC_MNC": "418-05", 
+    "MNC": "05", 
     "Name": "asia-cell-iraq"
   }, 
   {
@@ -4545,8 +4545,8 @@
     "Country": "Iraq", 
     "MCC": "418", 
     "ISO": "IQ", 
-    "MCC_MNC": "418-8", 
-    "MNC": "8", 
+    "MCC_MNC": "418-08", 
+    "MNC": "08", 
     "Name": "sanatel-iraq"
   }, 
   {
@@ -4555,8 +4555,8 @@
     "Country": "Ireland", 
     "MCC": "272", 
     "ISO": "IE", 
-    "MCC_MNC": "272-4", 
-    "MNC": "4", 
+    "MCC_MNC": "272-04", 
+    "MNC": "04", 
     "Name": "access-telecom-ltd-ireland"
   }, 
   {
@@ -4565,8 +4565,8 @@
     "Country": "Ireland", 
     "MCC": "272", 
     "ISO": "IE", 
-    "MCC_MNC": "272-5", 
-    "MNC": "5", 
+    "MCC_MNC": "272-05", 
+    "MNC": "05", 
     "Name": "h3g-ireland"
   }, 
   {
@@ -4575,8 +4575,8 @@
     "Country": "Ireland", 
     "MCC": "272", 
     "ISO": "IE", 
-    "MCC_MNC": "272-3", 
-    "MNC": "3", 
+    "MCC_MNC": "272-03", 
+    "MNC": "03", 
     "Name": "meteor-mobile-ltd-ireland"
   }, 
   {
@@ -4585,8 +4585,8 @@
     "Country": "Ireland", 
     "MCC": "272", 
     "ISO": "IE", 
-    "MCC_MNC": "272-2", 
-    "MNC": "2", 
+    "MCC_MNC": "272-02", 
+    "MNC": "02", 
     "Name": "o2/digifone-ireland"
   }, 
   {
@@ -4595,8 +4595,8 @@
     "Country": "Ireland", 
     "MCC": "272", 
     "ISO": "IE", 
-    "MCC_MNC": "272-1", 
-    "MNC": "1", 
+    "MCC_MNC": "272-01", 
+    "MNC": "01", 
     "Name": "vodafone-eircell-ireland"
   }, 
   {
@@ -4605,8 +4605,8 @@
     "Country": "Israel", 
     "MCC": "425", 
     "ISO": "IL", 
-    "MCC_MNC": "425-2", 
-    "MNC": "2", 
+    "MCC_MNC": "425-02", 
+    "MNC": "02", 
     "Name": "cellcom-ltd-israel"
   }, 
   {
@@ -4625,8 +4625,8 @@
     "Country": "Israel", 
     "MCC": "425", 
     "ISO": "IL", 
-    "MCC_MNC": "425-1", 
-    "MNC": "1", 
+    "MCC_MNC": "425-01", 
+    "MNC": "01", 
     "Name": "orange/partner-co-ltd-israel"
   }, 
   {
@@ -4635,8 +4635,8 @@
     "Country": "Israel", 
     "MCC": "425", 
     "ISO": "IL", 
-    "MCC_MNC": "425-3", 
-    "MNC": "3", 
+    "MCC_MNC": "425-03", 
+    "MNC": "03", 
     "Name": "pelephone-israel"
   }, 
   {
@@ -4645,8 +4645,8 @@
     "Country": "Israel", 
     "MCC": "425", 
     "ISO": "IL", 
-    "MCC_MNC": "425-6", 
-    "MNC": "6", 
+    "MCC_MNC": "425-06", 
+    "MNC": "06", 
     "Name": "wataniya-mobile-israel"
   }, 
   {
@@ -4665,8 +4665,8 @@
     "Country": "Italy", 
     "MCC": "222", 
     "ISO": "IT", 
-    "MCC_MNC": "222-1", 
-    "MNC": "1", 
+    "MCC_MNC": "222-01", 
+    "MNC": "01", 
     "Name": "tim-italy"
   }, 
   {
@@ -4695,8 +4695,8 @@
     "Country": "Ivory Coast", 
     "MCC": "612", 
     "ISO": "CI", 
-    "MCC_MNC": "612-2", 
-    "MNC": "2", 
+    "MCC_MNC": "612-02", 
+    "MNC": "02", 
     "Name": "atlantik-telecom-ivory-coast"
   }, 
   {
@@ -4705,8 +4705,8 @@
     "Country": "Ivory Coast", 
     "MCC": "612", 
     "ISO": "CI", 
-    "MCC_MNC": "612-4", 
-    "MNC": "4", 
+    "MCC_MNC": "612-04", 
+    "MNC": "04", 
     "Name": "comium-ivory-coast"
   }, 
   {
@@ -4715,8 +4715,8 @@
     "Country": "Ivory Coast", 
     "MCC": "612", 
     "ISO": "CI", 
-    "MCC_MNC": "612-1", 
-    "MNC": "1", 
+    "MCC_MNC": "612-01", 
+    "MNC": "01", 
     "Name": "comstar-ivory-coast"
   }, 
   {
@@ -4725,8 +4725,8 @@
     "Country": "Ivory Coast", 
     "MCC": "612", 
     "ISO": "CI", 
-    "MCC_MNC": "612-5", 
-    "MNC": "5", 
+    "MCC_MNC": "612-05", 
+    "MNC": "05", 
     "Name": "mtn-ivory-coast"
   }, 
   {
@@ -4735,8 +4735,8 @@
     "Country": "Ivory Coast", 
     "MCC": "612", 
     "ISO": "CI", 
-    "MCC_MNC": "612-3", 
-    "MNC": "3", 
+    "MCC_MNC": "612-03", 
+    "MNC": "03", 
     "Name": "orange-ivory-coast"
   }, 
   {
@@ -4745,8 +4745,8 @@
     "Country": "Ivory Coast", 
     "MCC": "612", 
     "ISO": "CI", 
-    "MCC_MNC": "612-6", 
-    "MNC": "6", 
+    "MCC_MNC": "612-06", 
+    "MNC": "06", 
     "Name": "oricell-ivory-coast"
   }, 
   {
@@ -4755,8 +4755,8 @@
     "Country": "Ivory Coast", 
     "MCC": "612", 
     "ISO": "CI", 
-    "MCC_MNC": "612-0", 
-    "MNC": "0", 
+    "MCC_MNC": "612-00", 
+    "MNC": "00", 
     "Name": "warid-ivory-coast"
   }, 
   {
@@ -4795,8 +4795,8 @@
     "Country": "Jamaica", 
     "MCC": "338", 
     "ISO": "JM", 
-    "MCC_MNC": "338-5", 
-    "MNC": "5", 
+    "MCC_MNC": "338-05", 
+    "MNC": "05", 
     "Name": "digicel/mossel-jamaica"
   }, 
   {
@@ -4805,8 +4805,8 @@
     "Country": "Japan", 
     "MCC": "440", 
     "ISO": "JP", 
-    "MCC_MNC": "440-0", 
-    "MNC": "0", 
+    "MCC_MNC": "440-00", 
+    "MNC": "00", 
     "Name": "emobile-japan"
   }, 
   {
@@ -4915,8 +4915,8 @@
     "Country": "Japan", 
     "MCC": "440", 
     "ISO": "JP", 
-    "MCC_MNC": "440-8", 
-    "MNC": "8", 
+    "MCC_MNC": "440-08", 
+    "MNC": "08", 
     "Name": "kddi-corporation-japan"
   }, 
   {
@@ -4975,8 +4975,8 @@
     "Country": "Japan", 
     "MCC": "440", 
     "ISO": "JP", 
-    "MCC_MNC": "440-7", 
-    "MNC": "7", 
+    "MCC_MNC": "440-07", 
+    "MNC": "07", 
     "Name": "kddi-corporation-japan"
   }, 
   {
@@ -5095,8 +5095,8 @@
     "Country": "Japan", 
     "MCC": "440", 
     "ISO": "JP", 
-    "MCC_MNC": "440-3", 
-    "MNC": "3", 
+    "MCC_MNC": "440-03", 
+    "MNC": "03", 
     "Name": "ntt-docomo-japan"
   }, 
   {
@@ -5235,8 +5235,8 @@
     "Country": "Japan", 
     "MCC": "440", 
     "ISO": "JP", 
-    "MCC_MNC": "440-1", 
-    "MNC": "1", 
+    "MCC_MNC": "440-01", 
+    "MNC": "01", 
     "Name": "ntt-docomo-japan"
   }, 
   {
@@ -5375,8 +5375,8 @@
     "Country": "Japan", 
     "MCC": "440", 
     "ISO": "JP", 
-    "MCC_MNC": "440-2", 
-    "MNC": "2", 
+    "MCC_MNC": "440-02", 
+    "MNC": "02", 
     "Name": "ntt-docomo-japan"
   }, 
   {
@@ -5455,8 +5455,8 @@
     "Country": "Japan", 
     "MCC": "440", 
     "ISO": "JP", 
-    "MCC_MNC": "440-9", 
-    "MNC": "9", 
+    "MCC_MNC": "440-09", 
+    "MNC": "09", 
     "Name": "ntt-docomo-japan"
   }, 
   {
@@ -5705,8 +5705,8 @@
     "Country": "Japan", 
     "MCC": "440", 
     "ISO": "JP", 
-    "MCC_MNC": "440-4", 
-    "MNC": "4", 
+    "MCC_MNC": "440-04", 
+    "MNC": "04", 
     "Name": "softbank-mobile-corp-japan"
   }, 
   {
@@ -5855,8 +5855,8 @@
     "Country": "Japan", 
     "MCC": "440", 
     "ISO": "JP", 
-    "MCC_MNC": "440-6", 
-    "MNC": "6", 
+    "MCC_MNC": "440-06", 
+    "MNC": "06", 
     "Name": "softbank-mobile-corp-japan"
   }, 
   {
@@ -5955,8 +5955,8 @@
     "Country": "Jordan", 
     "MCC": "416", 
     "ISO": "JO", 
-    "MCC_MNC": "416-1", 
-    "MNC": "1", 
+    "MCC_MNC": "416-01", 
+    "MNC": "01", 
     "Name": "zain-/jmts-jordan"
   }, 
   {
@@ -5975,8 +5975,8 @@
     "Country": "Jordan", 
     "MCC": "416", 
     "ISO": "JO", 
-    "MCC_MNC": "416-3", 
-    "MNC": "3", 
+    "MCC_MNC": "416-03", 
+    "MNC": "03", 
     "Name": "umniah-mobile-co-jordan"
   }, 
   {
@@ -5985,8 +5985,8 @@
     "Country": "Jordan", 
     "MCC": "416", 
     "ISO": "JO", 
-    "MCC_MNC": "416-2", 
-    "MNC": "2", 
+    "MCC_MNC": "416-02", 
+    "MNC": "02", 
     "Name": "xpress-jordan"
   }, 
   {
@@ -5995,8 +5995,8 @@
     "Country": "Kazakhstan", 
     "MCC": "401", 
     "ISO": "KZ", 
-    "MCC_MNC": "401-7", 
-    "MNC": "7", 
+    "MCC_MNC": "401-07", 
+    "MNC": "07", 
     "Name": "altel-kazakhstan"
   }, 
   {
@@ -6005,8 +6005,8 @@
     "Country": "Kazakhstan", 
     "MCC": "401", 
     "ISO": "KZ", 
-    "MCC_MNC": "401-2", 
-    "MNC": "2", 
+    "MCC_MNC": "401-02", 
+    "MNC": "02", 
     "Name": "k-cell-kazakhstan"
   }, 
   {
@@ -6015,8 +6015,8 @@
     "Country": "Kazakhstan", 
     "MCC": "401", 
     "ISO": "KZ", 
-    "MCC_MNC": "401-1", 
-    "MNC": "1", 
+    "MCC_MNC": "401-01", 
+    "MNC": "01", 
     "Name": "beeline/kar-tel-llp-kazakhstan"
   }, 
   {
@@ -6035,8 +6035,8 @@
     "Country": "Kenya", 
     "MCC": "639", 
     "ISO": "KE", 
-    "MCC_MNC": "639-3", 
-    "MNC": "3", 
+    "MCC_MNC": "639-03", 
+    "MNC": "03", 
     "Name": "zain/celtel-ltd-kenya"
   }, 
   {
@@ -6045,8 +6045,8 @@
     "Country": "Kenya", 
     "MCC": "639", 
     "ISO": "KE", 
-    "MCC_MNC": "639-5", 
-    "MNC": "5", 
+    "MCC_MNC": "639-05", 
+    "MNC": "05", 
     "Name": "econet-wireless-kenya"
   }, 
   {
@@ -6055,8 +6055,8 @@
     "Country": "Kenya", 
     "MCC": "639", 
     "ISO": "KE", 
-    "MCC_MNC": "639-7", 
-    "MNC": "7", 
+    "MCC_MNC": "639-07", 
+    "MNC": "07", 
     "Name": "orange-kenya"
   }, 
   {
@@ -6065,8 +6065,8 @@
     "Country": "Kenya", 
     "MCC": "639", 
     "ISO": "KE", 
-    "MCC_MNC": "639-2", 
-    "MNC": "2", 
+    "MCC_MNC": "639-02", 
+    "MNC": "02", 
     "Name": "safaricom-ltd-kenya"
   }, 
   {
@@ -6075,8 +6075,8 @@
     "Country": "Kiribati", 
     "MCC": "545", 
     "ISO": "KI", 
-    "MCC_MNC": "545-9", 
-    "MNC": "9", 
+    "MCC_MNC": "545-09", 
+    "MNC": "09", 
     "Name": "kiribati-frigate-kiribati"
   }, 
   {
@@ -6095,8 +6095,8 @@
     "Country": "Korea N., Dem. People's Rep.", 
     "MCC": "467", 
     "ISO": "KP", 
-    "MCC_MNC": "467-3", 
-    "MNC": "3", 
+    "MCC_MNC": "467-03", 
+    "MNC": "03", 
     "Name": "sun-net-korea-n,-dem-people's-rep"
   }, 
   {
@@ -6105,8 +6105,8 @@
     "Country": "Korea S, Republic of", 
     "MCC": "450", 
     "ISO": "KR", 
-    "MCC_MNC": "450-4", 
-    "MNC": "4", 
+    "MCC_MNC": "450-04", 
+    "MNC": "04", 
     "Name": "kt-freetel-co-ltd-korea-s,-republic-of"
   }, 
   {
@@ -6115,8 +6115,8 @@
     "Country": "Korea S, Republic of", 
     "MCC": "450", 
     "ISO": "KR", 
-    "MCC_MNC": "450-2", 
-    "MNC": "2", 
+    "MCC_MNC": "450-02", 
+    "MNC": "02", 
     "Name": "kt-freetel-co-ltd-korea-s,-republic-of"
   }, 
   {
@@ -6125,8 +6125,8 @@
     "Country": "Korea S, Republic of", 
     "MCC": "450", 
     "ISO": "KR", 
-    "MCC_MNC": "450-8", 
-    "MNC": "8", 
+    "MCC_MNC": "450-08", 
+    "MNC": "08", 
     "Name": "kt-freetel-co-ltd-korea-s,-republic-of"
   }, 
   {
@@ -6135,8 +6135,8 @@
     "Country": "Korea S, Republic of", 
     "MCC": "450", 
     "ISO": "KR", 
-    "MCC_MNC": "450-6", 
-    "MNC": "6", 
+    "MCC_MNC": "450-06", 
+    "MNC": "06", 
     "Name": "lg-telecom-korea-s,-republic-of"
   }, 
   {
@@ -6145,8 +6145,8 @@
     "Country": "Korea S, Republic of", 
     "MCC": "450", 
     "ISO": "KR", 
-    "MCC_MNC": "450-3", 
-    "MNC": "3", 
+    "MCC_MNC": "450-03", 
+    "MNC": "03", 
     "Name": "sk-telecom-korea-s,-republic-of"
   }, 
   {
@@ -6155,8 +6155,8 @@
     "Country": "Korea S, Republic of", 
     "MCC": "450", 
     "ISO": "KR", 
-    "MCC_MNC": "450-5", 
-    "MNC": "5", 
+    "MCC_MNC": "450-05", 
+    "MNC": "05", 
     "Name": "sk-telecom-korea-s,-republic-of"
   }, 
   {
@@ -6165,8 +6165,8 @@
     "Country": "Kuwait", 
     "MCC": "419", 
     "ISO": "KW", 
-    "MCC_MNC": "419-2", 
-    "MNC": "2", 
+    "MCC_MNC": "419-02", 
+    "MNC": "02", 
     "Name": "zain-kuwait"
   }, 
   {
@@ -6175,8 +6175,8 @@
     "Country": "Kuwait", 
     "MCC": "419", 
     "ISO": "KW", 
-    "MCC_MNC": "419-3", 
-    "MNC": "3", 
+    "MCC_MNC": "419-03", 
+    "MNC": "03", 
     "Name": "wantaniya-kuwait"
   }, 
   {
@@ -6185,8 +6185,8 @@
     "Country": "Kuwait", 
     "MCC": "419", 
     "ISO": "KW", 
-    "MCC_MNC": "419-4", 
-    "MNC": "4", 
+    "MCC_MNC": "419-04", 
+    "MNC": "04", 
     "Name": "viva-kuwait"
   }, 
   {
@@ -6195,8 +6195,8 @@
     "Country": "Kyrgyzstan", 
     "MCC": "437", 
     "ISO": "KG", 
-    "MCC_MNC": "437-1", 
-    "MNC": "1", 
+    "MCC_MNC": "437-01", 
+    "MNC": "01", 
     "Name": "beeline/bitel-kyrgyzstan"
   }, 
   {
@@ -6205,8 +6205,8 @@
     "Country": "Kyrgyzstan", 
     "MCC": "437", 
     "ISO": "KG", 
-    "MCC_MNC": "437-5", 
-    "MNC": "5", 
+    "MCC_MNC": "437-05", 
+    "MNC": "05", 
     "Name": "megacom-kyrgyzstan"
   }, 
   {
@@ -6215,8 +6215,8 @@
     "Country": "Kyrgyzstan", 
     "MCC": "437", 
     "ISO": "KG", 
-    "MCC_MNC": "437-9", 
-    "MNC": "9", 
+    "MCC_MNC": "437-09", 
+    "MNC": "09", 
     "Name": "o!/nur-telecom-kyrgyzstan"
   }, 
   {
@@ -6225,8 +6225,8 @@
     "Country": "Laos P.D.R.", 
     "MCC": "457", 
     "ISO": "LA", 
-    "MCC_MNC": "457-2", 
-    "MNC": "2", 
+    "MCC_MNC": "457-02", 
+    "MNC": "02", 
     "Name": "etl-mobile-laos-pdr"
   }, 
   {
@@ -6235,8 +6235,8 @@
     "Country": "Laos P.D.R.", 
     "MCC": "457", 
     "ISO": "LA", 
-    "MCC_MNC": "457-1", 
-    "MNC": "1", 
+    "MCC_MNC": "457-01", 
+    "MNC": "01", 
     "Name": "lao-tel-laos-pdr"
   }, 
   {
@@ -6245,8 +6245,8 @@
     "Country": "Laos P.D.R.", 
     "MCC": "457", 
     "ISO": "LA", 
-    "MCC_MNC": "457-8", 
-    "MNC": "8", 
+    "MCC_MNC": "457-08", 
+    "MNC": "08", 
     "Name": "tigo/millicom-laos-pdr"
   }, 
   {
@@ -6255,8 +6255,8 @@
     "Country": "Laos P.D.R.", 
     "MCC": "457", 
     "ISO": "LA", 
-    "MCC_MNC": "457-3", 
-    "MNC": "3", 
+    "MCC_MNC": "457-03", 
+    "MNC": "03", 
     "Name": "unitel/lat-laos-pdr"
   }, 
   {
@@ -6265,8 +6265,8 @@
     "Country": "Latvia", 
     "MCC": "247", 
     "ISO": "LV", 
-    "MCC_MNC": "247-5", 
-    "MNC": "5", 
+    "MCC_MNC": "247-05", 
+    "MNC": "05", 
     "Name": "bite-latvija-latvia"
   }, 
   {
@@ -6275,8 +6275,8 @@
     "Country": "Latvia", 
     "MCC": "247", 
     "ISO": "LV", 
-    "MCC_MNC": "247-8", 
-    "MNC": "8", 
+    "MCC_MNC": "247-08", 
+    "MNC": "08", 
     "Name": "bite-latvija-latvia"
   }, 
   {
@@ -6285,8 +6285,8 @@
     "Country": "Latvia", 
     "MCC": "247", 
     "ISO": "LV", 
-    "MCC_MNC": "247-1", 
-    "MNC": "1", 
+    "MCC_MNC": "247-01", 
+    "MNC": "01", 
     "Name": "latvian-mobile-phone-latvia"
   }, 
   {
@@ -6295,8 +6295,8 @@
     "Country": "Latvia", 
     "MCC": "247", 
     "ISO": "LV", 
-    "MCC_MNC": "247-7", 
-    "MNC": "7", 
+    "MCC_MNC": "247-07", 
+    "MNC": "07", 
     "Name": "bite-latvija-latvia"
   }, 
   {
@@ -6305,8 +6305,8 @@
     "Country": "Latvia", 
     "MCC": "247", 
     "ISO": "LV", 
-    "MCC_MNC": "247-2", 
-    "MNC": "2", 
+    "MCC_MNC": "247-02", 
+    "MNC": "02", 
     "Name": "tele2-latvia"
   }, 
   {
@@ -6315,8 +6315,8 @@
     "Country": "Latvia", 
     "MCC": "247", 
     "ISO": "LV", 
-    "MCC_MNC": "247-3", 
-    "MNC": "3", 
+    "MCC_MNC": "247-03", 
+    "MNC": "03", 
     "Name": "triatel/telekom-baltija-latvia"
   }, 
   {
@@ -6395,8 +6395,8 @@
     "Country": "Lebanon", 
     "MCC": "415", 
     "ISO": "LB", 
-    "MCC_MNC": "415-1", 
-    "MNC": "1", 
+    "MCC_MNC": "415-01", 
+    "MNC": "01", 
     "Name": "mic1-(alfa)-lebanon"
   }, 
   {
@@ -6405,8 +6405,8 @@
     "Country": "Lebanon", 
     "MCC": "415", 
     "ISO": "LB", 
-    "MCC_MNC": "415-3", 
-    "MNC": "3", 
+    "MCC_MNC": "415-03", 
+    "MNC": "03", 
     "Name": "mic2/libancell-lebanon"
   }, 
   {
@@ -6425,8 +6425,8 @@
     "Country": "Lesotho", 
     "MCC": "651", 
     "ISO": "LS", 
-    "MCC_MNC": "651-2", 
-    "MNC": "2", 
+    "MCC_MNC": "651-02", 
+    "MNC": "02", 
     "Name": "econet/ezi-cel-lesotho"
   }, 
   {
@@ -6435,8 +6435,8 @@
     "Country": "Lesotho", 
     "MCC": "651", 
     "ISO": "LS", 
-    "MCC_MNC": "651-1", 
-    "MNC": "1", 
+    "MCC_MNC": "651-01", 
+    "MNC": "01", 
     "Name": "vodacom-lesotho-lesotho"
   }, 
   {
@@ -6445,8 +6445,8 @@
     "Country": "Liberia", 
     "MCC": "618", 
     "ISO": "LR", 
-    "MCC_MNC": "618-3", 
-    "MNC": "3", 
+    "MCC_MNC": "618-03", 
+    "MNC": "03", 
     "Name": "celcom-liberia"
   }, 
   {
@@ -6455,8 +6455,8 @@
     "Country": "Liberia", 
     "MCC": "618", 
     "ISO": "LR", 
-    "MCC_MNC": "618-7", 
-    "MNC": "7", 
+    "MCC_MNC": "618-07", 
+    "MNC": "07", 
     "Name": "celcom-liberia"
   }, 
   {
@@ -6465,8 +6465,8 @@
     "Country": "Liberia", 
     "MCC": "618", 
     "ISO": "LR", 
-    "MCC_MNC": "618-4", 
-    "MNC": "4", 
+    "MCC_MNC": "618-04", 
+    "MNC": "04", 
     "Name": "comium-bvi-liberia"
   }, 
   {
@@ -6475,8 +6475,8 @@
     "Country": "Liberia", 
     "MCC": "618", 
     "ISO": "LR", 
-    "MCC_MNC": "618-2", 
-    "MNC": "2", 
+    "MCC_MNC": "618-02", 
+    "MNC": "02", 
     "Name": "libercell-liberia"
   }, 
   {
@@ -6485,8 +6485,8 @@
     "Country": "Liberia", 
     "MCC": "618", 
     "ISO": "LR", 
-    "MCC_MNC": "618-1", 
-    "MNC": "1", 
+    "MCC_MNC": "618-01", 
+    "MNC": "01", 
     "Name": "lonestar-liberia"
   }, 
   {
@@ -6495,8 +6495,8 @@
     "Country": "Libya", 
     "MCC": "606", 
     "ISO": "LY", 
-    "MCC_MNC": "606-2", 
-    "MNC": "2", 
+    "MCC_MNC": "606-02", 
+    "MNC": "02", 
     "Name": "al-madar-libya"
   }, 
   {
@@ -6505,8 +6505,8 @@
     "Country": "Libya", 
     "MCC": "606", 
     "ISO": "LY", 
-    "MCC_MNC": "606-1", 
-    "MNC": "1", 
+    "MCC_MNC": "606-01", 
+    "MNC": "01", 
     "Name": "al-madar-libya"
   }, 
   {
@@ -6515,8 +6515,8 @@
     "Country": "Libya", 
     "MCC": "606", 
     "ISO": "LY", 
-    "MCC_MNC": "606-6", 
-    "MNC": "6", 
+    "MCC_MNC": "606-06", 
+    "MNC": "06", 
     "Name": "hatef-libya"
   }, 
   {
@@ -6525,8 +6525,8 @@
     "Country": "Libya", 
     "MCC": "606", 
     "ISO": "LY", 
-    "MCC_MNC": "606-3", 
-    "MNC": "3", 
+    "MCC_MNC": "606-03", 
+    "MNC": "03", 
     "Name": "libyana-libya"
   }, 
   {
@@ -6535,8 +6535,8 @@
     "Country": "Libya", 
     "MCC": "606", 
     "ISO": "LY", 
-    "MCC_MNC": "606-0", 
-    "MNC": "0", 
+    "MCC_MNC": "606-00", 
+    "MNC": "00", 
     "Name": "libyana-libya"
   }, 
   {
@@ -6545,8 +6545,8 @@
     "Country": "Liechtenstein", 
     "MCC": "295", 
     "ISO": "LI", 
-    "MCC_MNC": "295-5", 
-    "MNC": "5", 
+    "MCC_MNC": "295-05", 
+    "MNC": "05", 
     "Name": "mobilkom-ag-liechtenstein"
   }, 
   {
@@ -6555,8 +6555,8 @@
     "Country": "Liechtenstein", 
     "MCC": "295", 
     "ISO": "LI", 
-    "MCC_MNC": "295-2", 
-    "MNC": "2", 
+    "MCC_MNC": "295-02", 
+    "MNC": "02", 
     "Name": "orange-liechtenstein"
   }, 
   {
@@ -6565,8 +6565,8 @@
     "Country": "Liechtenstein", 
     "MCC": "295", 
     "ISO": "LI", 
-    "MCC_MNC": "295-1", 
-    "MNC": "1", 
+    "MCC_MNC": "295-01", 
+    "MNC": "01", 
     "Name": "swisscom-fl-ag-liechtenstein"
   }, 
   {
@@ -6585,8 +6585,8 @@
     "Country": "Lithuania", 
     "MCC": "246", 
     "ISO": "LT", 
-    "MCC_MNC": "246-2", 
-    "MNC": "2", 
+    "MCC_MNC": "246-02", 
+    "MNC": "02", 
     "Name": "bite-lithuania"
   }, 
   {
@@ -6595,8 +6595,8 @@
     "Country": "Lithuania", 
     "MCC": "246", 
     "ISO": "LT", 
-    "MCC_MNC": "246-1", 
-    "MNC": "1", 
+    "MCC_MNC": "246-01", 
+    "MNC": "01", 
     "Name": "omnitel-lithuania"
   }, 
   {
@@ -6605,8 +6605,8 @@
     "Country": "Lithuania", 
     "MCC": "246", 
     "ISO": "LT", 
-    "MCC_MNC": "246-3", 
-    "MNC": "3", 
+    "MCC_MNC": "246-03", 
+    "MNC": "03", 
     "Name": "tele2-lithuania"
   }, 
   {
@@ -6625,8 +6625,8 @@
     "Country": "Luxembourg", 
     "MCC": "270", 
     "ISO": "LU", 
-    "MCC_MNC": "270-1", 
-    "MNC": "1", 
+    "MCC_MNC": "270-01", 
+    "MNC": "01", 
     "Name": "p+t-luxgsm-luxembourg"
   }, 
   {
@@ -6645,8 +6645,8 @@
     "Country": "Macao, China", 
     "MCC": "455", 
     "ISO": "MO", 
-    "MCC_MNC": "455-1", 
-    "MNC": "1", 
+    "MCC_MNC": "455-01", 
+    "MNC": "01", 
     "Name": "ctm-telemovel+-macao,-china"
   }, 
   {
@@ -6655,8 +6655,8 @@
     "Country": "Macao, China", 
     "MCC": "455", 
     "ISO": "MO", 
-    "MCC_MNC": "455-3", 
-    "MNC": "3", 
+    "MCC_MNC": "455-03", 
+    "MNC": "03", 
     "Name": "h3g-hutchison-macao,-china"
   }, 
   {
@@ -6665,8 +6665,8 @@
     "Country": "Macao, China", 
     "MCC": "455", 
     "ISO": "MO", 
-    "MCC_MNC": "455-0", 
-    "MNC": "0", 
+    "MCC_MNC": "455-00", 
+    "MNC": "00", 
     "Name": "smartone-mobile-macao,-china"
   }, 
   {
@@ -6685,8 +6685,8 @@
     "Country": "Macedonia", 
     "MCC": "294", 
     "ISO": "MK", 
-    "MCC_MNC": "294-2", 
-    "MNC": "2", 
+    "MCC_MNC": "294-02", 
+    "MNC": "02", 
     "Name": "mts/cosmofone-macedonia"
   }, 
   {
@@ -6695,8 +6695,8 @@
     "Country": "Macedonia", 
     "MCC": "294", 
     "ISO": "MK", 
-    "MCC_MNC": "294-1", 
-    "MNC": "1", 
+    "MCC_MNC": "294-01", 
+    "MNC": "01", 
     "Name": "t-mobile/mobimak-macedonia"
   }, 
   {
@@ -6705,8 +6705,8 @@
     "Country": "Macedonia", 
     "MCC": "294", 
     "ISO": "MK", 
-    "MCC_MNC": "294-3", 
-    "MNC": "3", 
+    "MCC_MNC": "294-03", 
+    "MNC": "03", 
     "Name": "vip-mobile-macedonia"
   }, 
   {
@@ -6715,8 +6715,8 @@
     "Country": "Madagascar", 
     "MCC": "646", 
     "ISO": "MG", 
-    "MCC_MNC": "646-1", 
-    "MNC": "1", 
+    "MCC_MNC": "646-01", 
+    "MNC": "01", 
     "Name": "madacom-madagascar"
   }, 
   {
@@ -6725,8 +6725,8 @@
     "Country": "Madagascar", 
     "MCC": "646", 
     "ISO": "MG", 
-    "MCC_MNC": "646-2", 
-    "MNC": "2", 
+    "MCC_MNC": "646-02", 
+    "MNC": "02", 
     "Name": "soci-madagascar"
   }, 
   {
@@ -6735,8 +6735,8 @@
     "Country": "Madagascar", 
     "MCC": "646", 
     "ISO": "MG", 
-    "MCC_MNC": "646-4", 
-    "MNC": "4", 
+    "MCC_MNC": "646-04", 
+    "MNC": "04", 
     "Name": "telma-madagascar"
   }, 
   {
@@ -6755,8 +6755,8 @@
     "Country": "Malawi", 
     "MCC": "650", 
     "ISO": "MW", 
-    "MCC_MNC": "650-1", 
-    "MNC": "1", 
+    "MCC_MNC": "650-01", 
+    "MNC": "01", 
     "Name": "tnm/telekom-network-ltd-malawi"
   }, 
   {
@@ -6765,8 +6765,8 @@
     "Country": "Malaysia", 
     "MCC": "502", 
     "ISO": "MY", 
-    "MCC_MNC": "502-0", 
-    "MNC": "0", 
+    "MCC_MNC": "502-00", 
+    "MNC": "00", 
     "Name": "art900-malaysia"
   }, 
   {
@@ -6845,8 +6845,8 @@
     "Country": "Maldives", 
     "MCC": "472", 
     "ISO": "MV", 
-    "MCC_MNC": "472-1", 
-    "MNC": "1", 
+    "MCC_MNC": "472-01", 
+    "MNC": "01", 
     "Name": "dhiraagu/c&w;-maldives"
   }, 
   {
@@ -6855,8 +6855,8 @@
     "Country": "Maldives", 
     "MCC": "472", 
     "ISO": "MV", 
-    "MCC_MNC": "472-2", 
-    "MNC": "2", 
+    "MCC_MNC": "472-02", 
+    "MNC": "02", 
     "Name": "wataniya/wmobile-maldives"
   }, 
   {
@@ -6865,8 +6865,8 @@
     "Country": "Mali", 
     "MCC": "610", 
     "ISO": "ML", 
-    "MCC_MNC": "610-1", 
-    "MNC": "1", 
+    "MCC_MNC": "610-01", 
+    "MNC": "01", 
     "Name": "malitel-mali"
   }, 
   {
@@ -6875,8 +6875,8 @@
     "Country": "Mali", 
     "MCC": "610", 
     "ISO": "ML", 
-    "MCC_MNC": "610-2", 
-    "MNC": "2", 
+    "MCC_MNC": "610-02", 
+    "MNC": "02", 
     "Name": "orange/ikatel-mali"
   }, 
   {
@@ -6905,8 +6905,8 @@
     "Country": "Malta", 
     "MCC": "278", 
     "ISO": "MT", 
-    "MCC_MNC": "278-1", 
-    "MNC": "1", 
+    "MCC_MNC": "278-01", 
+    "MNC": "01", 
     "Name": "vodafone-malta"
   }, 
   {
@@ -6915,8 +6915,8 @@
     "Country": "Mauritania", 
     "MCC": "609", 
     "ISO": "MR", 
-    "MCC_MNC": "609-1", 
-    "MNC": "1", 
+    "MCC_MNC": "609-01", 
+    "MNC": "01", 
     "Name": "mattel-mauritania"
   }, 
   {
@@ -6935,8 +6935,8 @@
     "Country": "Mauritius", 
     "MCC": "617", 
     "ISO": "MU", 
-    "MCC_MNC": "617-1", 
-    "MNC": "1", 
+    "MCC_MNC": "617-01", 
+    "MNC": "01", 
     "Name": "orange/cellplus-mauritius"
   }, 
   {
@@ -6955,8 +6955,8 @@
     "Country": "Mauritius", 
     "MCC": "617", 
     "ISO": "MU", 
-    "MCC_MNC": "617-2", 
-    "MNC": "2", 
+    "MCC_MNC": "617-02", 
+    "MNC": "02", 
     "Name": "emtel-ltd-mauritius"
   }, 
   {
@@ -6965,8 +6965,8 @@
     "Country": "Mexico", 
     "MCC": "334", 
     "ISO": "MX", 
-    "MCC_MNC": "334-3", 
-    "MNC": "3", 
+    "MCC_MNC": "334-03", 
+    "MNC": "03", 
     "Name": "movistar/pegaso-mexico"
   }, 
   {
@@ -6995,8 +6995,8 @@
     "Country": "Micronesia", 
     "MCC": "550", 
     "ISO": "FM", 
-    "MCC_MNC": "550-1", 
-    "MNC": "1", 
+    "MCC_MNC": "550-01", 
+    "MNC": "01", 
     "Name": "fsm-telecom-micronesia"
   }, 
   {
@@ -7005,8 +7005,8 @@
     "Country": "Moldova", 
     "MCC": "259", 
     "ISO": "MD", 
-    "MCC_MNC": "259-4", 
-    "MNC": "4", 
+    "MCC_MNC": "259-04", 
+    "MNC": "04", 
     "Name": "eventis-mobile-moldova"
   }, 
   {
@@ -7015,8 +7015,8 @@
     "Country": "Moldova", 
     "MCC": "259", 
     "ISO": "MD", 
-    "MCC_MNC": "259-3", 
-    "MNC": "3", 
+    "MCC_MNC": "259-03", 
+    "MNC": "03", 
     "Name": "unite-moldova"
   }, 
   {
@@ -7025,8 +7025,8 @@
     "Country": "Moldova", 
     "MCC": "259", 
     "ISO": "MD", 
-    "MCC_MNC": "259-2", 
-    "MNC": "2", 
+    "MCC_MNC": "259-02", 
+    "MNC": "02", 
     "Name": "moldcell-moldova"
   }, 
   {
@@ -7035,8 +7035,8 @@
     "Country": "Moldova", 
     "MCC": "259", 
     "ISO": "MD", 
-    "MCC_MNC": "259-1", 
-    "MNC": "1", 
+    "MCC_MNC": "259-01", 
+    "MNC": "01", 
     "Name": "orange/voxtel-moldova"
   }, 
   {
@@ -7045,8 +7045,8 @@
     "Country": "Moldova", 
     "MCC": "259", 
     "ISO": "MD", 
-    "MCC_MNC": "259-5", 
-    "MNC": "5", 
+    "MCC_MNC": "259-05", 
+    "MNC": "05", 
     "Name": "unite-moldova"
   }, 
   {
@@ -7055,8 +7055,8 @@
     "Country": "Monaco", 
     "MCC": "212", 
     "ISO": "MC", 
-    "MCC_MNC": "212-1", 
-    "MNC": "1", 
+    "MCC_MNC": "212-01", 
+    "MNC": "01", 
     "Name": "monaco-telecom-monaco"
   }, 
   {
@@ -7135,8 +7135,8 @@
     "Country": "Morocco", 
     "MCC": "604", 
     "ISO": "MA", 
-    "MCC_MNC": "604-2", 
-    "MNC": "2", 
+    "MCC_MNC": "604-02", 
+    "MNC": "02", 
     "Name": "inwi/wana-morocco"
   }, 
   {
@@ -7145,8 +7145,8 @@
     "Country": "Morocco", 
     "MCC": "604", 
     "ISO": "MA", 
-    "MCC_MNC": "604-1", 
-    "MNC": "1", 
+    "MCC_MNC": "604-01", 
+    "MNC": "01", 
     "Name": "iam/itissallat-morocco"
   }, 
   {
@@ -7155,8 +7155,8 @@
     "Country": "Morocco", 
     "MCC": "604", 
     "ISO": "MA", 
-    "MCC_MNC": "604-0", 
-    "MNC": "0", 
+    "MCC_MNC": "604-00", 
+    "MNC": "00", 
     "Name": "medi-telecom-morocco"
   }, 
   {
@@ -7165,8 +7165,8 @@
     "Country": "Mozambique", 
     "MCC": "643", 
     "ISO": "MZ", 
-    "MCC_MNC": "643-1", 
-    "MNC": "1", 
+    "MCC_MNC": "643-01", 
+    "MNC": "01", 
     "Name": "mcel-mozambique"
   }, 
   {
@@ -7175,8 +7175,8 @@
     "Country": "Mozambique", 
     "MCC": "643", 
     "ISO": "MZ", 
-    "MCC_MNC": "643-4", 
-    "MNC": "4", 
+    "MCC_MNC": "643-04", 
+    "MNC": "04", 
     "Name": "vodacom-sarl-mozambique"
   }, 
   {
@@ -7185,8 +7185,8 @@
     "Country": "Namibia", 
     "MCC": "649", 
     "ISO": "NA", 
-    "MCC_MNC": "649-3", 
-    "MNC": "3", 
+    "MCC_MNC": "649-03", 
+    "MNC": "03", 
     "Name": "leo-/-orascom-namibia"
   }, 
   {
@@ -7195,8 +7195,8 @@
     "Country": "Namibia", 
     "MCC": "649", 
     "ISO": "NA", 
-    "MCC_MNC": "649-1", 
-    "MNC": "1", 
+    "MCC_MNC": "649-01", 
+    "MNC": "01", 
     "Name": "mtc-namibia"
   }, 
   {
@@ -7205,8 +7205,8 @@
     "Country": "Namibia", 
     "MCC": "649", 
     "ISO": "NA", 
-    "MCC_MNC": "649-2", 
-    "MNC": "2", 
+    "MCC_MNC": "649-02", 
+    "MNC": "02", 
     "Name": "switch/nam-telec-namibia"
   }, 
   {
@@ -7215,8 +7215,8 @@
     "Country": "Nepal", 
     "MCC": "429", 
     "ISO": "NP", 
-    "MCC_MNC": "429-2", 
-    "MNC": "2", 
+    "MCC_MNC": "429-02", 
+    "MNC": "02", 
     "Name": "ncell-nepal"
   }, 
   {
@@ -7225,8 +7225,8 @@
     "Country": "Nepal", 
     "MCC": "429", 
     "ISO": "NP", 
-    "MCC_MNC": "429-1", 
-    "MNC": "1", 
+    "MCC_MNC": "429-01", 
+    "MNC": "01", 
     "Name": "nt-mobile-/-namaste-nepal"
   }, 
   {
@@ -7235,8 +7235,8 @@
     "Country": "Netherlands", 
     "MCC": "204", 
     "ISO": "NL", 
-    "MCC_MNC": "204-8", 
-    "MNC": "8", 
+    "MCC_MNC": "204-08", 
+    "MNC": "08", 
     "Name": "kpn-telecom-bv-netherlands"
   }, 
   {
@@ -7285,8 +7285,8 @@
     "Country": "Netherlands", 
     "MCC": "204", 
     "ISO": "NL", 
-    "MCC_MNC": "204-2", 
-    "MNC": "2", 
+    "MCC_MNC": "204-02", 
+    "MNC": "02", 
     "Name": "tele2-netherlands"
   }, 
   {
@@ -7305,8 +7305,8 @@
     "Country": "Netherlands", 
     "MCC": "204", 
     "ISO": "NL", 
-    "MCC_MNC": "204-4", 
-    "MNC": "4", 
+    "MCC_MNC": "204-04", 
+    "MNC": "04", 
     "Name": "vodafone-libertel-netherlands"
   }, 
   {
@@ -7365,8 +7365,8 @@
     "Country": "New Caledonia", 
     "MCC": "546", 
     "ISO": "NC", 
-    "MCC_MNC": "546-1", 
-    "MNC": "1", 
+    "MCC_MNC": "546-01", 
+    "MNC": "01", 
     "Name": "opt-mobilis-new-caledonia"
   }, 
   {
@@ -7395,8 +7395,8 @@
     "Country": "New Zealand", 
     "MCC": "530", 
     "ISO": "NZ", 
-    "MCC_MNC": "530-2", 
-    "MNC": "2", 
+    "MCC_MNC": "530-02", 
+    "MNC": "02", 
     "Name": "nz-telecom-cdma-new-zealand"
   }, 
   {
@@ -7405,8 +7405,8 @@
     "Country": "New Zealand", 
     "MCC": "530", 
     "ISO": "NZ", 
-    "MCC_MNC": "530-4", 
-    "MNC": "4", 
+    "MCC_MNC": "530-04", 
+    "MNC": "04", 
     "Name": "telstra-new-zealand"
   }, 
   {
@@ -7415,8 +7415,8 @@
     "Country": "New Zealand", 
     "MCC": "530", 
     "ISO": "NZ", 
-    "MCC_MNC": "530-1", 
-    "MNC": "1", 
+    "MCC_MNC": "530-01", 
+    "MNC": "01", 
     "Name": "vodafone-new-zealand"
   }, 
   {
@@ -7425,8 +7425,8 @@
     "Country": "New Zealand", 
     "MCC": "530", 
     "ISO": "NZ", 
-    "MCC_MNC": "530-3", 
-    "MNC": "3", 
+    "MCC_MNC": "530-03", 
+    "MNC": "03", 
     "Name": "walker-wireless-ltd-new-zealand"
   }, 
   {
@@ -7465,8 +7465,8 @@
     "Country": "Niger", 
     "MCC": "614", 
     "ISO": "NE", 
-    "MCC_MNC": "614-2", 
-    "MNC": "2", 
+    "MCC_MNC": "614-02", 
+    "MNC": "02", 
     "Name": "zain/celtel-niger"
   }, 
   {
@@ -7475,8 +7475,8 @@
     "Country": "Niger", 
     "MCC": "614", 
     "ISO": "NE", 
-    "MCC_MNC": "614-4", 
-    "MNC": "4", 
+    "MCC_MNC": "614-04", 
+    "MNC": "04", 
     "Name": "orange-sahelc-niger"
   }, 
   {
@@ -7485,8 +7485,8 @@
     "Country": "Niger", 
     "MCC": "614", 
     "ISO": "NE", 
-    "MCC_MNC": "614-1", 
-    "MNC": "1", 
+    "MCC_MNC": "614-01", 
+    "MNC": "01", 
     "Name": "orange-sahelc-niger"
   }, 
   {
@@ -7495,8 +7495,8 @@
     "Country": "Niger", 
     "MCC": "614", 
     "ISO": "NE", 
-    "MCC_MNC": "614-3", 
-    "MNC": "3", 
+    "MCC_MNC": "614-03", 
+    "MNC": "03", 
     "Name": "telecel-niger"
   }, 
   {
@@ -7545,8 +7545,8 @@
     "Country": "Nigeria", 
     "MCC": "621", 
     "ISO": "NG", 
-    "MCC_MNC": "621-0", 
-    "MNC": "0", 
+    "MCC_MNC": "621-00", 
+    "MNC": "00", 
     "Name": "multilinks-nigeria"
   }, 
   {
@@ -7575,8 +7575,8 @@
     "Country": "Nigeria", 
     "MCC": "621", 
     "ISO": "NG", 
-    "MCC_MNC": "621-1", 
-    "MNC": "1", 
+    "MCC_MNC": "621-01", 
+    "MNC": "01", 
     "Name": "visafone-nigeria"
   }, 
   {
@@ -7595,8 +7595,8 @@
     "Country": "Norway", 
     "MCC": "242", 
     "ISO": "NO", 
-    "MCC_MNC": "242-2", 
-    "MNC": "2", 
+    "MCC_MNC": "242-02", 
+    "MNC": "02", 
     "Name": "netcom-norway"
   }, 
   {
@@ -7605,8 +7605,8 @@
     "Country": "Norway", 
     "MCC": "242", 
     "ISO": "NO", 
-    "MCC_MNC": "242-5", 
-    "MNC": "5", 
+    "MCC_MNC": "242-05", 
+    "MNC": "05", 
     "Name": "network-norway-norway"
   }, 
   {
@@ -7615,8 +7615,8 @@
     "Country": "Norway", 
     "MCC": "242", 
     "ISO": "NO", 
-    "MCC_MNC": "242-6", 
-    "MNC": "6", 
+    "MCC_MNC": "242-06", 
+    "MNC": "06", 
     "Name": "ice-nordisk-mobiltelefon-as-norway"
   }, 
   {
@@ -7625,8 +7625,8 @@
     "Country": "Norway", 
     "MCC": "242", 
     "ISO": "NO", 
-    "MCC_MNC": "242-8", 
-    "MNC": "8", 
+    "MCC_MNC": "242-08", 
+    "MNC": "08", 
     "Name": "tdc-mobil-a/s-norway"
   }, 
   {
@@ -7635,8 +7635,8 @@
     "Country": "Norway", 
     "MCC": "242", 
     "ISO": "NO", 
-    "MCC_MNC": "242-4", 
-    "MNC": "4", 
+    "MCC_MNC": "242-04", 
+    "MNC": "04", 
     "Name": "tele2-norway"
   }, 
   {
@@ -7645,8 +7645,8 @@
     "Country": "Norway", 
     "MCC": "242", 
     "ISO": "NO", 
-    "MCC_MNC": "242-1", 
-    "MNC": "1", 
+    "MCC_MNC": "242-01", 
+    "MNC": "01", 
     "Name": "telenor-norway"
   }, 
   {
@@ -7655,8 +7655,8 @@
     "Country": "Norway", 
     "MCC": "242", 
     "ISO": "NO", 
-    "MCC_MNC": "242-3", 
-    "MNC": "3", 
+    "MCC_MNC": "242-03", 
+    "MNC": "03", 
     "Name": "teletopia-norway"
   }, 
   {
@@ -7665,8 +7665,8 @@
     "Country": "Norway", 
     "MCC": "242", 
     "ISO": "NO", 
-    "MCC_MNC": "242-7", 
-    "MNC": "7", 
+    "MCC_MNC": "242-07", 
+    "MNC": "07", 
     "Name": "ventelo-norge-as-norway"
   }, 
   {
@@ -7675,8 +7675,8 @@
     "Country": "Oman", 
     "MCC": "422", 
     "ISO": "OM", 
-    "MCC_MNC": "422-3", 
-    "MNC": "3", 
+    "MCC_MNC": "422-03", 
+    "MNC": "03", 
     "Name": "nawras-oman"
   }, 
   {
@@ -7685,8 +7685,8 @@
     "Country": "Oman", 
     "MCC": "422", 
     "ISO": "OM", 
-    "MCC_MNC": "422-2", 
-    "MNC": "2", 
+    "MCC_MNC": "422-02", 
+    "MNC": "02", 
     "Name": "oman-mobile/gto-oman"
   }, 
   {
@@ -7695,8 +7695,8 @@
     "Country": "Pakistan", 
     "MCC": "410", 
     "ISO": "PK", 
-    "MCC_MNC": "410-1", 
-    "MNC": "1", 
+    "MCC_MNC": "410-01", 
+    "MNC": "01", 
     "Name": "mobilink-pakistan"
   }, 
   {
@@ -7705,8 +7705,8 @@
     "Country": "Pakistan", 
     "MCC": "410", 
     "ISO": "PK", 
-    "MCC_MNC": "410-3", 
-    "MNC": "3", 
+    "MCC_MNC": "410-03", 
+    "MNC": "03", 
     "Name": "ufone/paktel-pakistan"
   }, 
   {
@@ -7715,8 +7715,8 @@
     "Country": "Pakistan", 
     "MCC": "410", 
     "ISO": "PK", 
-    "MCC_MNC": "410-6", 
-    "MNC": "6", 
+    "MCC_MNC": "410-06", 
+    "MNC": "06", 
     "Name": "telenor-pakistan"
   }, 
   {
@@ -7725,8 +7725,8 @@
     "Country": "Pakistan", 
     "MCC": "410", 
     "ISO": "PK", 
-    "MCC_MNC": "410-7", 
-    "MNC": "7", 
+    "MCC_MNC": "410-07", 
+    "MNC": "07", 
     "Name": "warid-telecom-pakistan"
   }, 
   {
@@ -7735,8 +7735,8 @@
     "Country": "Pakistan", 
     "MCC": "410", 
     "ISO": "PK", 
-    "MCC_MNC": "410-4", 
-    "MNC": "4", 
+    "MCC_MNC": "410-04", 
+    "MNC": "04", 
     "Name": "zong/cmpak-pakistan"
   }, 
   {
@@ -7745,8 +7745,8 @@
     "Country": "Palestinian Territory", 
     "MCC": "425", 
     "ISO": "PS", 
-    "MCC_MNC": "425-5", 
-    "MNC": "5", 
+    "MCC_MNC": "425-05", 
+    "MNC": "05", 
     "Name": "jawwal-palestinian-territory"
   }, 
   {
@@ -7755,8 +7755,8 @@
     "Country": "Panama", 
     "MCC": "714", 
     "ISO": "PA", 
-    "MCC_MNC": "714-2", 
-    "MNC": "2", 
+    "MCC_MNC": "714-02", 
+    "MNC": "02", 
     "Name": "movistar-panama"
   }, 
   {
@@ -7765,8 +7765,8 @@
     "Country": "Panama", 
     "MCC": "714", 
     "ISO": "PA", 
-    "MCC_MNC": "714-1", 
-    "MNC": "1", 
+    "MCC_MNC": "714-01", 
+    "MNC": "01", 
     "Name": "cable-&amp;-wireless-sa-panama"
   }, 
   {
@@ -7775,8 +7775,8 @@
     "Country": "Panama", 
     "MCC": "714", 
     "ISO": "PA", 
-    "MCC_MNC": "714-3", 
-    "MNC": "3", 
+    "MCC_MNC": "714-03", 
+    "MNC": "03", 
     "Name": "claro-panama"
   }, 
   {
@@ -7785,8 +7785,8 @@
     "Country": "Panama", 
     "MCC": "714", 
     "ISO": "PA", 
-    "MCC_MNC": "714-4", 
-    "MNC": "4", 
+    "MCC_MNC": "714-04", 
+    "MNC": "04", 
     "Name": "digicel-panama"
   }, 
   {
@@ -7805,8 +7805,8 @@
     "Country": "Papua New Guinea", 
     "MCC": "537", 
     "ISO": "PG", 
-    "MCC_MNC": "537-3", 
-    "MNC": "3", 
+    "MCC_MNC": "537-03", 
+    "MNC": "03", 
     "Name": "digicel-papua-new-guinea"
   }, 
   {
@@ -7815,8 +7815,8 @@
     "Country": "Papua New Guinea", 
     "MCC": "537", 
     "ISO": "PG", 
-    "MCC_MNC": "537-1", 
-    "MNC": "1", 
+    "MCC_MNC": "537-01", 
+    "MNC": "01", 
     "Name": "pacific-mobile-papua-new-guinea"
   }, 
   {
@@ -7825,8 +7825,8 @@
     "Country": "Paraguay", 
     "MCC": "744", 
     "ISO": "PY", 
-    "MCC_MNC": "744-3", 
-    "MNC": "3", 
+    "MCC_MNC": "744-03", 
+    "MNC": "03", 
     "Name": "compa-paraguay"
   }, 
   {
@@ -7835,8 +7835,8 @@
     "Country": "Paraguay", 
     "MCC": "744", 
     "ISO": "PY", 
-    "MCC_MNC": "744-1", 
-    "MNC": "1", 
+    "MCC_MNC": "744-01", 
+    "MNC": "01", 
     "Name": "hola/vox-paraguay"
   }, 
   {
@@ -7845,8 +7845,8 @@
     "Country": "Paraguay", 
     "MCC": "744", 
     "ISO": "PY", 
-    "MCC_MNC": "744-2", 
-    "MNC": "2", 
+    "MCC_MNC": "744-02", 
+    "MNC": "02", 
     "Name": "claro/hutchison-paraguay"
   }, 
   {
@@ -7855,8 +7855,8 @@
     "Country": "Paraguay", 
     "MCC": "744", 
     "ISO": "PY", 
-    "MCC_MNC": "744-5", 
-    "MNC": "5", 
+    "MCC_MNC": "744-05", 
+    "MNC": "05", 
     "Name": "tim/nucleo/personal-paraguay"
   }, 
   {
@@ -7865,8 +7865,8 @@
     "Country": "Paraguay", 
     "MCC": "744", 
     "ISO": "PY", 
-    "MCC_MNC": "744-4", 
-    "MNC": "4", 
+    "MCC_MNC": "744-04", 
+    "MNC": "04", 
     "Name": "tigo/telecel-paraguay"
   }, 
   {
@@ -7885,8 +7885,8 @@
     "Country": "Peru", 
     "MCC": "716", 
     "ISO": "PE", 
-    "MCC_MNC": "716-6", 
-    "MNC": "6", 
+    "MCC_MNC": "716-06", 
+    "MNC": "06", 
     "Name": "movistar-peru"
   }, 
   {
@@ -7895,8 +7895,8 @@
     "Country": "Peru", 
     "MCC": "716", 
     "ISO": "PE", 
-    "MCC_MNC": "716-7", 
-    "MNC": "7", 
+    "MCC_MNC": "716-07", 
+    "MNC": "07", 
     "Name": "nextel-peru"
   }, 
   {
@@ -7905,8 +7905,8 @@
     "Country": "Philippines", 
     "MCC": "515", 
     "ISO": "PH", 
-    "MCC_MNC": "515-5", 
-    "MNC": "5", 
+    "MCC_MNC": "515-05", 
+    "MNC": "05", 
     "Name": "sun/digitel-philippines"
   }, 
   {
@@ -7915,8 +7915,8 @@
     "Country": "Philippines", 
     "MCC": "515", 
     "ISO": "PH", 
-    "MCC_MNC": "515-0", 
-    "MNC": "0", 
+    "MCC_MNC": "515-00", 
+    "MNC": "00", 
     "Name": "fix-line-philippines"
   }, 
   {
@@ -7925,8 +7925,8 @@
     "Country": "Philippines", 
     "MCC": "515", 
     "ISO": "PH", 
-    "MCC_MNC": "515-2", 
-    "MNC": "2", 
+    "MCC_MNC": "515-02", 
+    "MNC": "02", 
     "Name": "globe-telecom-philippines"
   }, 
   {
@@ -7935,8 +7935,8 @@
     "Country": "Philippines", 
     "MCC": "515", 
     "ISO": "PH", 
-    "MCC_MNC": "515-1", 
-    "MNC": "1", 
+    "MCC_MNC": "515-01", 
+    "MNC": "01", 
     "Name": "islacom-philippines"
   }, 
   {
@@ -7965,8 +7965,8 @@
     "Country": "Philippines", 
     "MCC": "515", 
     "ISO": "PH", 
-    "MCC_MNC": "515-3", 
-    "MNC": "3", 
+    "MCC_MNC": "515-03", 
+    "MNC": "03", 
     "Name": "smart-philippines"
   }, 
   {
@@ -7975,8 +7975,8 @@
     "Country": "Poland", 
     "MCC": "260", 
     "ISO": "PL", 
-    "MCC_MNC": "260-2", 
-    "MNC": "2", 
+    "MCC_MNC": "260-02", 
+    "MNC": "02", 
     "Name": "era-gsm-poland"
   }, 
   {
@@ -7985,8 +7985,8 @@
     "Country": "Poland", 
     "MCC": "260", 
     "ISO": "PL", 
-    "MCC_MNC": "260-3", 
-    "MNC": "3", 
+    "MCC_MNC": "260-03", 
+    "MNC": "03", 
     "Name": "orange/idea/centertel-poland"
   }, 
   {
@@ -7995,8 +7995,8 @@
     "Country": "Poland", 
     "MCC": "260", 
     "ISO": "PL", 
-    "MCC_MNC": "260-7", 
-    "MNC": "7", 
+    "MCC_MNC": "260-07", 
+    "MNC": "07", 
     "Name": "play/p4-poland"
   }, 
   {
@@ -8005,8 +8005,8 @@
     "Country": "Poland", 
     "MCC": "260", 
     "ISO": "PL", 
-    "MCC_MNC": "260-6", 
-    "MNC": "6", 
+    "MCC_MNC": "260-06", 
+    "MNC": "06", 
     "Name": "play/p4-poland"
   }, 
   {
@@ -8015,8 +8015,8 @@
     "Country": "Poland", 
     "MCC": "260", 
     "ISO": "PL", 
-    "MCC_MNC": "260-1", 
-    "MNC": "1", 
+    "MCC_MNC": "260-01", 
+    "MNC": "01", 
     "Name": "polkomtel/plus-poland"
   }, 
   {
@@ -8025,8 +8025,8 @@
     "Country": "Poland", 
     "MCC": "260", 
     "ISO": "PL", 
-    "MCC_MNC": "260-4", 
-    "MNC": "4", 
+    "MCC_MNC": "260-04", 
+    "MNC": "04", 
     "Name": "tele2-poland"
   }, 
   {
@@ -8035,8 +8035,8 @@
     "Country": "Portugal", 
     "MCC": "268", 
     "ISO": "PT", 
-    "MCC_MNC": "268-3", 
-    "MNC": "3", 
+    "MCC_MNC": "268-03", 
+    "MNC": "03", 
     "Name": "optimus-portugal"
   }, 
   {
@@ -8045,8 +8045,8 @@
     "Country": "Portugal", 
     "MCC": "268", 
     "ISO": "PT", 
-    "MCC_MNC": "268-6", 
-    "MNC": "6", 
+    "MCC_MNC": "268-06", 
+    "MNC": "06", 
     "Name": "tmn-portugal"
   }, 
   {
@@ -8055,8 +8055,8 @@
     "Country": "Portugal", 
     "MCC": "268", 
     "ISO": "PT", 
-    "MCC_MNC": "268-1", 
-    "MNC": "1", 
+    "MCC_MNC": "268-01", 
+    "MNC": "01", 
     "Name": "vodafone-portugal"
   }, 
   {
@@ -8065,8 +8065,8 @@
     "Country": "Qatar", 
     "MCC": "427", 
     "ISO": "QA", 
-    "MCC_MNC": "427-1", 
-    "MNC": "1", 
+    "MCC_MNC": "427-01", 
+    "MNC": "01", 
     "Name": "qtel-qatar"
   }, 
   {
@@ -8075,8 +8075,8 @@
     "Country": "Qatar", 
     "MCC": "427", 
     "ISO": "QA", 
-    "MCC_MNC": "427-2", 
-    "MNC": "2", 
+    "MCC_MNC": "427-02", 
+    "MNC": "02", 
     "Name": "vodafone-qatar"
   }, 
   {
@@ -8085,8 +8085,8 @@
     "Country": "Reunion", 
     "MCC": "647", 
     "ISO": "RE", 
-    "MCC_MNC": "647-0", 
-    "MNC": "0", 
+    "MCC_MNC": "647-00", 
+    "MNC": "00", 
     "Name": "orange-reunion"
   }, 
   {
@@ -8095,8 +8095,8 @@
     "Country": "Reunion", 
     "MCC": "647", 
     "ISO": "RE", 
-    "MCC_MNC": "647-2", 
-    "MNC": "2", 
+    "MCC_MNC": "647-02", 
+    "MNC": "02", 
     "Name": "outremer-telecom-reunion"
   }, 
   {
@@ -8115,8 +8115,8 @@
     "Country": "Romania", 
     "MCC": "226", 
     "ISO": "RO", 
-    "MCC_MNC": "226-3", 
-    "MNC": "3", 
+    "MCC_MNC": "226-03", 
+    "MNC": "03", 
     "Name": "cosmote-romania"
   }, 
   {
@@ -8125,8 +8125,8 @@
     "Country": "Romania", 
     "MCC": "226", 
     "ISO": "RO", 
-    "MCC_MNC": "226-1", 
-    "MNC": "1", 
+    "MCC_MNC": "226-01", 
+    "MNC": "01", 
     "Name": "vodafone-romania"
   }, 
   {
@@ -8145,8 +8145,8 @@
     "Country": "Romania", 
     "MCC": "226", 
     "ISO": "RO", 
-    "MCC_MNC": "226-5", 
-    "MNC": "5", 
+    "MCC_MNC": "226-05", 
+    "MNC": "05", 
     "Name": "rcs&rds;-digi-mobile-romania"
   }, 
   {
@@ -8155,8 +8155,8 @@
     "Country": "Romania", 
     "MCC": "226", 
     "ISO": "RO", 
-    "MCC_MNC": "226-4", 
-    "MNC": "4", 
+    "MCC_MNC": "226-04", 
+    "MNC": "04", 
     "Name": "zapp-mobile-romania"
   }, 
   {
@@ -8465,8 +8465,8 @@
     "Country": "Samoa", 
     "MCC": "549", 
     "ISO": "WS", 
-    "MCC_MNC": "549-1", 
-    "MNC": "1", 
+    "MCC_MNC": "549-01", 
+    "MNC": "01", 
     "Name": "telecom-samoa-cellular-ltd-samoa"
   }, 
   {
@@ -8475,8 +8475,8 @@
     "Country": "Sao Tome &amp; Principe", 
     "MCC": "626", 
     "ISO": "ST", 
-    "MCC_MNC": "626-1", 
-    "MNC": "1", 
+    "MCC_MNC": "626-01", 
+    "MNC": "01", 
     "Name": "cstmovel-sao-tome-&amp;-principe"
   }, 
   {
@@ -8505,8 +8505,8 @@
     "Country": "Satellite Networks", 
     "MCC": "901", 
     "ISO": "", 
-    "MCC_MNC": "901-5", 
-    "MNC": "5", 
+    "MCC_MNC": "901-05", 
+    "MNC": "05", 
     "Name": "thuraya-satellite-satellite-networks"
   }, 
   {
@@ -8515,8 +8515,8 @@
     "Country": "Saudi Arabia", 
     "MCC": "420", 
     "ISO": "SA", 
-    "MCC_MNC": "420-7", 
-    "MNC": "7", 
+    "MCC_MNC": "420-07", 
+    "MNC": "07", 
     "Name": "zain-saudi-arabia"
   }, 
   {
@@ -8525,8 +8525,8 @@
     "Country": "Saudi Arabia", 
     "MCC": "420", 
     "ISO": "SA", 
-    "MCC_MNC": "420-3", 
-    "MNC": "3", 
+    "MCC_MNC": "420-03", 
+    "MNC": "03", 
     "Name": "etihad/etisalat/mobily-saudi-arabia"
   }, 
   {
@@ -8535,8 +8535,8 @@
     "Country": "Saudi Arabia", 
     "MCC": "420", 
     "ISO": "SA", 
-    "MCC_MNC": "420-1", 
-    "MNC": "1", 
+    "MCC_MNC": "420-01", 
+    "MNC": "01", 
     "Name": "stc/al-jawal-saudi-arabia"
   }, 
   {
@@ -8545,8 +8545,8 @@
     "Country": "Saudi Arabia", 
     "MCC": "420", 
     "ISO": "SA", 
-    "MCC_MNC": "420-4", 
-    "MNC": "4", 
+    "MCC_MNC": "420-04", 
+    "MNC": "04", 
     "Name": "zain-saudi-arabia"
   }, 
   {
@@ -8555,8 +8555,8 @@
     "Country": "Senegal", 
     "MCC": "608", 
     "ISO": "SN", 
-    "MCC_MNC": "608-3", 
-    "MNC": "3", 
+    "MCC_MNC": "608-03", 
+    "MNC": "03", 
     "Name": "expresso/sudatel-senegal"
   }, 
   {
@@ -8565,8 +8565,8 @@
     "Country": "Senegal", 
     "MCC": "608", 
     "ISO": "SN", 
-    "MCC_MNC": "608-2", 
-    "MNC": "2", 
+    "MCC_MNC": "608-02", 
+    "MNC": "02", 
     "Name": "sentel-gsm-senegal"
   }, 
   {
@@ -8575,8 +8575,8 @@
     "Country": "Senegal", 
     "MCC": "608", 
     "ISO": "SN", 
-    "MCC_MNC": "608-1", 
-    "MNC": "1", 
+    "MCC_MNC": "608-01", 
+    "MNC": "01", 
     "Name": "sonatel-senegal"
   }, 
   {
@@ -8585,8 +8585,8 @@
     "Country": "Serbia ", 
     "MCC": "220", 
     "ISO": "RS", 
-    "MCC_MNC": "220-3", 
-    "MNC": "3", 
+    "MCC_MNC": "220-03", 
+    "MNC": "03", 
     "Name": "mts/telekom-srbija-serbia"
   }, 
   {
@@ -8595,8 +8595,8 @@
     "Country": "Serbia ", 
     "MCC": "220", 
     "ISO": "RS", 
-    "MCC_MNC": "220-1", 
-    "MNC": "1", 
+    "MCC_MNC": "220-01", 
+    "MNC": "01", 
     "Name": "telenor/mobtel-serbia"
   }, 
   {
@@ -8605,8 +8605,8 @@
     "Country": "Serbia ", 
     "MCC": "220", 
     "ISO": "RS", 
-    "MCC_MNC": "220-5", 
-    "MNC": "5", 
+    "MCC_MNC": "220-05", 
+    "MNC": "05", 
     "Name": "vip-mobile-serbia"
   }, 
   {
@@ -8625,8 +8625,8 @@
     "Country": "Seychelles", 
     "MCC": "633", 
     "ISO": "SC", 
-    "MCC_MNC": "633-1", 
-    "MNC": "1", 
+    "MCC_MNC": "633-01", 
+    "MNC": "01", 
     "Name": "c&w;-seychelles"
   }, 
   {
@@ -8635,8 +8635,8 @@
     "Country": "Sierra Leone", 
     "MCC": "619", 
     "ISO": "SL", 
-    "MCC_MNC": "619-5", 
-    "MNC": "5", 
+    "MCC_MNC": "619-05", 
+    "MNC": "05", 
     "Name": "africel-sierra-leone"
   }, 
   {
@@ -8645,8 +8645,8 @@
     "Country": "Sierra Leone", 
     "MCC": "619", 
     "ISO": "SL", 
-    "MCC_MNC": "619-3", 
-    "MNC": "3", 
+    "MCC_MNC": "619-03", 
+    "MNC": "03", 
     "Name": "africel-sierra-leone"
   }, 
   {
@@ -8655,8 +8655,8 @@
     "Country": "Sierra Leone", 
     "MCC": "619", 
     "ISO": "SL", 
-    "MCC_MNC": "619-1", 
-    "MNC": "1", 
+    "MCC_MNC": "619-01", 
+    "MNC": "01", 
     "Name": "zain/celtel-sierra-leone"
   }, 
   {
@@ -8665,8 +8665,8 @@
     "Country": "Sierra Leone", 
     "MCC": "619", 
     "ISO": "SL", 
-    "MCC_MNC": "619-4", 
-    "MNC": "4", 
+    "MCC_MNC": "619-04", 
+    "MNC": "04", 
     "Name": "comium-sierra-leone"
   }, 
   {
@@ -8675,8 +8675,8 @@
     "Country": "Sierra Leone", 
     "MCC": "619", 
     "ISO": "SL", 
-    "MCC_MNC": "619-2", 
-    "MNC": "2", 
+    "MCC_MNC": "619-02", 
+    "MNC": "02", 
     "Name": "tigo/millicom-sierra-leone"
   }, 
   {
@@ -8705,8 +8705,8 @@
     "Country": "Singapore", 
     "MCC": "525", 
     "ISO": "SG", 
-    "MCC_MNC": "525-3", 
-    "MNC": "3", 
+    "MCC_MNC": "525-03", 
+    "MNC": "03", 
     "Name": "mobileone-ltd-singapore"
   }, 
   {
@@ -8715,8 +8715,8 @@
     "Country": "Singapore", 
     "MCC": "525", 
     "ISO": "SG", 
-    "MCC_MNC": "525-2", 
-    "MNC": "2", 
+    "MCC_MNC": "525-02", 
+    "MNC": "02", 
     "Name": "singtel-singapore"
   }, 
   {
@@ -8725,8 +8725,8 @@
     "Country": "Singapore", 
     "MCC": "525", 
     "ISO": "SG", 
-    "MCC_MNC": "525-1", 
-    "MNC": "1", 
+    "MCC_MNC": "525-01", 
+    "MNC": "01", 
     "Name": "singtel-singapore"
   }, 
   {
@@ -8735,8 +8735,8 @@
     "Country": "Singapore", 
     "MCC": "525", 
     "ISO": "SG", 
-    "MCC_MNC": "525-5", 
-    "MNC": "5", 
+    "MCC_MNC": "525-05", 
+    "MNC": "05", 
     "Name": "starhub-singapore"
   }, 
   {
@@ -8745,8 +8745,8 @@
     "Country": "Slovakia", 
     "MCC": "231", 
     "ISO": "SK", 
-    "MCC_MNC": "231-2", 
-    "MNC": "2", 
+    "MCC_MNC": "231-02", 
+    "MNC": "02", 
     "Name": "t-mobile-slovakia"
   }, 
   {
@@ -8755,8 +8755,8 @@
     "Country": "Slovakia", 
     "MCC": "231", 
     "ISO": "SK", 
-    "MCC_MNC": "231-4", 
-    "MNC": "4", 
+    "MCC_MNC": "231-04", 
+    "MNC": "04", 
     "Name": "t-mobile-slovakia"
   }, 
   {
@@ -8765,8 +8765,8 @@
     "Country": "Slovakia", 
     "MCC": "231", 
     "ISO": "SK", 
-    "MCC_MNC": "231-6", 
-    "MNC": "6", 
+    "MCC_MNC": "231-06", 
+    "MNC": "06", 
     "Name": "o2-slovakia"
   }, 
   {
@@ -8775,8 +8775,8 @@
     "Country": "Slovakia", 
     "MCC": "231", 
     "ISO": "SK", 
-    "MCC_MNC": "231-5", 
-    "MNC": "5", 
+    "MCC_MNC": "231-05", 
+    "MNC": "05", 
     "Name": "orange-slovakia"
   }, 
   {
@@ -8795,8 +8795,8 @@
     "Country": "Slovakia", 
     "MCC": "231", 
     "ISO": "SK", 
-    "MCC_MNC": "231-1", 
-    "MNC": "1", 
+    "MCC_MNC": "231-01", 
+    "MNC": "01", 
     "Name": "orange-slovakia"
   }, 
   {
@@ -8855,8 +8855,8 @@
     "Country": "Solomon Islands", 
     "MCC": "540", 
     "ISO": "SB", 
-    "MCC_MNC": "540-1", 
-    "MNC": "1", 
+    "MCC_MNC": "540-01", 
+    "MNC": "01", 
     "Name": "breeze-solomon-islands"
   }, 
   {
@@ -8865,8 +8865,8 @@
     "Country": "Somalia", 
     "MCC": "637", 
     "ISO": "SO", 
-    "MCC_MNC": "637-4", 
-    "MNC": "4", 
+    "MCC_MNC": "637-04", 
+    "MNC": "04", 
     "Name": "somafone-somalia"
   }, 
   {
@@ -8885,8 +8885,8 @@
     "Country": "Somalia", 
     "MCC": "637", 
     "ISO": "SO", 
-    "MCC_MNC": "637-1", 
-    "MNC": "1", 
+    "MCC_MNC": "637-01", 
+    "MNC": "01", 
     "Name": "telesom-somalia"
   }, 
   {
@@ -8905,8 +8905,8 @@
     "Country": "South Africa", 
     "MCC": "655", 
     "ISO": "ZA", 
-    "MCC_MNC": "655-7", 
-    "MNC": "7", 
+    "MCC_MNC": "655-07", 
+    "MNC": "07", 
     "Name": "cell-c-south-africa"
   }, 
   {
@@ -8925,8 +8925,8 @@
     "Country": "South Africa", 
     "MCC": "655", 
     "ISO": "ZA", 
-    "MCC_MNC": "655-6", 
-    "MNC": "6", 
+    "MCC_MNC": "655-06", 
+    "MNC": "06", 
     "Name": "sentech-south-africa"
   }, 
   {
@@ -8935,8 +8935,8 @@
     "Country": "South Africa", 
     "MCC": "655", 
     "ISO": "ZA", 
-    "MCC_MNC": "655-1", 
-    "MNC": "1", 
+    "MCC_MNC": "655-01", 
+    "MNC": "01", 
     "Name": "vodacom-south-africa"
   }, 
   {
@@ -8975,8 +8975,8 @@
     "Country": "Spain", 
     "MCC": "214", 
     "ISO": "ES", 
-    "MCC_MNC": "214-8", 
-    "MNC": "8", 
+    "MCC_MNC": "214-08", 
+    "MNC": "08", 
     "Name": "euskaltel-spain"
   }, 
   {
@@ -8985,8 +8985,8 @@
     "Country": "Spain", 
     "MCC": "214", 
     "ISO": "ES", 
-    "MCC_MNC": "214-7", 
-    "MNC": "7", 
+    "MCC_MNC": "214-07", 
+    "MNC": "07", 
     "Name": "movistar-spain"
   }, 
   {
@@ -8995,8 +8995,8 @@
     "Country": "Spain", 
     "MCC": "214", 
     "ISO": "ES", 
-    "MCC_MNC": "214-3", 
-    "MNC": "3", 
+    "MCC_MNC": "214-03", 
+    "MNC": "03", 
     "Name": "orange-spain"
   }, 
   {
@@ -9005,8 +9005,8 @@
     "Country": "Spain", 
     "MCC": "214", 
     "ISO": "ES", 
-    "MCC_MNC": "214-5", 
-    "MNC": "5", 
+    "MCC_MNC": "214-05", 
+    "MNC": "05", 
     "Name": "movistar-spain"
   }, 
   {
@@ -9015,8 +9015,8 @@
     "Country": "Spain", 
     "MCC": "214", 
     "ISO": "ES", 
-    "MCC_MNC": "214-6", 
-    "MNC": "6", 
+    "MCC_MNC": "214-06", 
+    "MNC": "06", 
     "Name": "vodafone-spain"
   }, 
   {
@@ -9025,8 +9025,8 @@
     "Country": "Spain", 
     "MCC": "214", 
     "ISO": "ES", 
-    "MCC_MNC": "214-1", 
-    "MNC": "1", 
+    "MCC_MNC": "214-01", 
+    "MNC": "01", 
     "Name": "vodafone-spain"
   }, 
   {
@@ -9035,8 +9035,8 @@
     "Country": "Spain", 
     "MCC": "214", 
     "ISO": "ES", 
-    "MCC_MNC": "214-4", 
-    "MNC": "4", 
+    "MCC_MNC": "214-04", 
+    "MNC": "04", 
     "Name": "yoigo-spain"
   }, 
   {
@@ -9045,8 +9045,8 @@
     "Country": "Sri Lanka", 
     "MCC": "413", 
     "ISO": "LK", 
-    "MCC_MNC": "413-5", 
-    "MNC": "5", 
+    "MCC_MNC": "413-05", 
+    "MNC": "05", 
     "Name": "bharti-airtel-sri-lanka"
   }, 
   {
@@ -9055,8 +9055,8 @@
     "Country": "Sri Lanka", 
     "MCC": "413", 
     "ISO": "LK", 
-    "MCC_MNC": "413-3", 
-    "MNC": "3", 
+    "MCC_MNC": "413-03", 
+    "MNC": "03", 
     "Name": "etisalat/tigo-sri-lanka"
   }, 
   {
@@ -9065,8 +9065,8 @@
     "Country": "Sri Lanka", 
     "MCC": "413", 
     "ISO": "LK", 
-    "MCC_MNC": "413-8", 
-    "MNC": "8", 
+    "MCC_MNC": "413-08", 
+    "MNC": "08", 
     "Name": "h3g-hutchison-sri-lanka"
   }, 
   {
@@ -9075,8 +9075,8 @@
     "Country": "Sri Lanka", 
     "MCC": "413", 
     "ISO": "LK", 
-    "MCC_MNC": "413-1", 
-    "MNC": "1", 
+    "MCC_MNC": "413-01", 
+    "MNC": "01", 
     "Name": "mobitel-ltd-sri-lanka"
   }, 
   {
@@ -9085,8 +9085,8 @@
     "Country": "Sri Lanka", 
     "MCC": "413", 
     "ISO": "LK", 
-    "MCC_MNC": "413-2", 
-    "MNC": "2", 
+    "MCC_MNC": "413-02", 
+    "MNC": "02", 
     "Name": "mtn/dialog-sri-lanka"
   }, 
   {
@@ -9095,8 +9095,8 @@
     "Country": "St. Pierre &amp; Miquelon", 
     "MCC": "308", 
     "ISO": "PM", 
-    "MCC_MNC": "308-1", 
-    "MNC": "1", 
+    "MCC_MNC": "308-01", 
+    "MNC": "01", 
     "Name": "ameris-st-pierre-&amp;-miquelon"
   }, 
   {
@@ -9135,8 +9135,8 @@
     "Country": "Sudan", 
     "MCC": "634", 
     "ISO": "SD", 
-    "MCC_MNC": "634-0", 
-    "MNC": "0", 
+    "MCC_MNC": "634-00", 
+    "MNC": "00", 
     "Name": "canar-telecom-sudan"
   }, 
   {
@@ -9145,8 +9145,8 @@
     "Country": "Sudan", 
     "MCC": "634", 
     "ISO": "SD", 
-    "MCC_MNC": "634-2", 
-    "MNC": "2", 
+    "MCC_MNC": "634-02", 
+    "MNC": "02", 
     "Name": "mtn-sudan"
   }, 
   {
@@ -9155,8 +9155,8 @@
     "Country": "Sudan", 
     "MCC": "634", 
     "ISO": "SD", 
-    "MCC_MNC": "634-7", 
-    "MNC": "7", 
+    "MCC_MNC": "634-07", 
+    "MNC": "07", 
     "Name": "sudani-one-sudan"
   }, 
   {
@@ -9165,8 +9165,8 @@
     "Country": "Sudan", 
     "MCC": "634", 
     "ISO": "SD", 
-    "MCC_MNC": "634-5", 
-    "MNC": "5", 
+    "MCC_MNC": "634-05", 
+    "MNC": "05", 
     "Name": "vivacell-sudan"
   }, 
   {
@@ -9175,8 +9175,8 @@
     "Country": "Sudan", 
     "MCC": "634", 
     "ISO": "SD", 
-    "MCC_MNC": "634-1", 
-    "MNC": "1", 
+    "MCC_MNC": "634-01", 
+    "MNC": "01", 
     "Name": "zain-sudan"
   }, 
   {
@@ -9185,8 +9185,8 @@
     "Country": "Suriname", 
     "MCC": "746", 
     "ISO": "SR", 
-    "MCC_MNC": "746-2", 
-    "MNC": "2", 
+    "MCC_MNC": "746-02", 
+    "MNC": "02", 
     "Name": "telesur-suriname"
   }, 
   {
@@ -9195,8 +9195,8 @@
     "Country": "Suriname", 
     "MCC": "746", 
     "ISO": "SR", 
-    "MCC_MNC": "746-1", 
-    "MNC": "1", 
+    "MCC_MNC": "746-01", 
+    "MNC": "01", 
     "Name": "telesur-suriname"
   }, 
   {
@@ -9215,8 +9215,8 @@
     "Country": "Sweden", 
     "MCC": "240", 
     "ISO": "SE", 
-    "MCC_MNC": "240-2", 
-    "MNC": "2", 
+    "MCC_MNC": "240-02", 
+    "MNC": "02", 
     "Name": "h3g-access-ab-sweden"
   }, 
   {
@@ -9225,8 +9225,8 @@
     "Country": "Sweden", 
     "MCC": "240", 
     "ISO": "SE", 
-    "MCC_MNC": "240-7", 
-    "MNC": "7", 
+    "MCC_MNC": "240-07", 
+    "MNC": "07", 
     "Name": "tele2-sverige-ab-sweden"
   }, 
   {
@@ -9235,8 +9235,8 @@
     "Country": "Sweden", 
     "MCC": "240", 
     "ISO": "SE", 
-    "MCC_MNC": "240-8", 
-    "MNC": "8", 
+    "MCC_MNC": "240-08", 
+    "MNC": "08", 
     "Name": "telenor-(vodafone)-sweden"
   }, 
   {
@@ -9245,8 +9245,8 @@
     "Country": "Sweden", 
     "MCC": "240", 
     "ISO": "SE", 
-    "MCC_MNC": "240-1", 
-    "MNC": "1", 
+    "MCC_MNC": "240-01", 
+    "MNC": "01", 
     "Name": "telia-mobile-sweden"
   }, 
   {
@@ -9255,8 +9255,8 @@
     "Country": "Sweden", 
     "MCC": "240", 
     "ISO": "SE", 
-    "MCC_MNC": "240-6", 
-    "MNC": "6", 
+    "MCC_MNC": "240-06", 
+    "MNC": "06", 
     "Name": "telenor-(vodafone)-sweden"
   }, 
   {
@@ -9265,8 +9265,8 @@
     "Country": "Switzerland", 
     "MCC": "228", 
     "ISO": "CH", 
-    "MCC_MNC": "228-7", 
-    "MNC": "7", 
+    "MCC_MNC": "228-07", 
+    "MNC": "07", 
     "Name": "in-&amp;-phone-/sunrise-switzerland"
   }, 
   {
@@ -9275,8 +9275,8 @@
     "Country": "Switzerland", 
     "MCC": "228", 
     "ISO": "CH", 
-    "MCC_MNC": "228-3", 
-    "MNC": "3", 
+    "MCC_MNC": "228-03", 
+    "MNC": "03", 
     "Name": "orange-switzerland"
   }, 
   {
@@ -9285,8 +9285,8 @@
     "Country": "Switzerland", 
     "MCC": "228", 
     "ISO": "CH", 
-    "MCC_MNC": "228-1", 
-    "MNC": "1", 
+    "MCC_MNC": "228-01", 
+    "MNC": "01", 
     "Name": "swisscom-switzerland"
   }, 
   {
@@ -9295,8 +9295,8 @@
     "Country": "Switzerland", 
     "MCC": "228", 
     "ISO": "CH", 
-    "MCC_MNC": "228-2", 
-    "MNC": "2", 
+    "MCC_MNC": "228-02", 
+    "MNC": "02", 
     "Name": "tdc-sunrise-switzerland"
   }, 
   {
@@ -9305,8 +9305,8 @@
     "Country": "Switzerland", 
     "MCC": "228", 
     "ISO": "CH", 
-    "MCC_MNC": "228-8", 
-    "MNC": "8", 
+    "MCC_MNC": "228-08", 
+    "MNC": "08", 
     "Name": "tele2-/-sunrise-switzerland"
   }, 
   {
@@ -9315,8 +9315,8 @@
     "Country": "Syrian Arab Republic", 
     "MCC": "417", 
     "ISO": "SY", 
-    "MCC_MNC": "417-2", 
-    "MNC": "2", 
+    "MCC_MNC": "417-02", 
+    "MNC": "02", 
     "Name": "mtn/spacetel-syrian-arab-republic"
   }, 
   {
@@ -9325,8 +9325,8 @@
     "Country": "Syrian Arab Republic", 
     "MCC": "417", 
     "ISO": "SY", 
-    "MCC_MNC": "417-9", 
-    "MNC": "9", 
+    "MCC_MNC": "417-09", 
+    "MNC": "09", 
     "Name": "syriatel-holdings-syrian-arab-republic"
   }, 
   {
@@ -9335,8 +9335,8 @@
     "Country": "Syrian Arab Republic", 
     "MCC": "417", 
     "ISO": "SY", 
-    "MCC_MNC": "417-1", 
-    "MNC": "1", 
+    "MCC_MNC": "417-01", 
+    "MNC": "01", 
     "Name": "syriatel-holdings-syrian-arab-republic"
   }, 
   {
@@ -9375,8 +9375,8 @@
     "Country": "Taiwan", 
     "MCC": "466", 
     "ISO": "TW", 
-    "MCC_MNC": "466-1", 
-    "MNC": "1", 
+    "MCC_MNC": "466-01", 
+    "MNC": "01", 
     "Name": "far-eastone-taiwan"
   }, 
   {
@@ -9435,8 +9435,8 @@
     "Country": "Tajikistan", 
     "MCC": "436", 
     "ISO": "TK", 
-    "MCC_MNC": "436-2", 
-    "MNC": "2", 
+    "MCC_MNC": "436-02", 
+    "MNC": "02", 
     "Name": "tcell/jc-somoncom-tajikistan"
   }, 
   {
@@ -9445,8 +9445,8 @@
     "Country": "Tajikistan", 
     "MCC": "436", 
     "ISO": "TK", 
-    "MCC_MNC": "436-5", 
-    "MNC": "5", 
+    "MCC_MNC": "436-05", 
+    "MNC": "05", 
     "Name": "bee-line-tajikistan"
   }, 
   {
@@ -9465,8 +9465,8 @@
     "Country": "Tajikistan", 
     "MCC": "436", 
     "ISO": "TK", 
-    "MCC_MNC": "436-1", 
-    "MNC": "1", 
+    "MCC_MNC": "436-01", 
+    "MNC": "01", 
     "Name": "tcell/jc-somoncom-tajikistan"
   }, 
   {
@@ -9475,8 +9475,8 @@
     "Country": "Tajikistan", 
     "MCC": "436", 
     "ISO": "TK", 
-    "MCC_MNC": "436-4", 
-    "MNC": "4", 
+    "MCC_MNC": "436-04", 
+    "MNC": "04", 
     "Name": "babilon-m-tajikistan"
   }, 
   {
@@ -9485,8 +9485,8 @@
     "Country": "Tajikistan", 
     "MCC": "436", 
     "ISO": "TK", 
-    "MCC_MNC": "436-3", 
-    "MNC": "3", 
+    "MCC_MNC": "436-03", 
+    "MNC": "03", 
     "Name": "mlt/tt-mobile-tajikistan"
   }, 
   {
@@ -9495,8 +9495,8 @@
     "Country": "Tanzania", 
     "MCC": "640", 
     "ISO": "TZ", 
-    "MCC_MNC": "640-5", 
-    "MNC": "5", 
+    "MCC_MNC": "640-05", 
+    "MNC": "05", 
     "Name": "zain/celtel-tanzania"
   }, 
   {
@@ -9505,8 +9505,8 @@
     "Country": "Tanzania", 
     "MCC": "640", 
     "ISO": "TZ", 
-    "MCC_MNC": "640-2", 
-    "MNC": "2", 
+    "MCC_MNC": "640-02", 
+    "MNC": "02", 
     "Name": "tigo/mic-tanzania"
   }, 
   {
@@ -9515,8 +9515,8 @@
     "Country": "Tanzania", 
     "MCC": "640", 
     "ISO": "TZ", 
-    "MCC_MNC": "640-4", 
-    "MNC": "4", 
+    "MCC_MNC": "640-04", 
+    "MNC": "04", 
     "Name": "vodacom-ltd-tanzania"
   }, 
   {
@@ -9525,8 +9525,8 @@
     "Country": "Tanzania", 
     "MCC": "640", 
     "ISO": "TZ", 
-    "MCC_MNC": "640-3", 
-    "MNC": "3", 
+    "MCC_MNC": "640-03", 
+    "MNC": "03", 
     "Name": "zantel/zanzibar-telecom-tanzania"
   }, 
   {
@@ -9555,8 +9555,8 @@
     "Country": "Thailand", 
     "MCC": "520", 
     "ISO": "TH", 
-    "MCC_MNC": "520-1", 
-    "MNC": "1", 
+    "MCC_MNC": "520-01", 
+    "MNC": "01", 
     "Name": "ais/advanced-info-service-thailand"
   }, 
   {
@@ -9565,8 +9565,8 @@
     "Country": "Thailand", 
     "MCC": "520", 
     "ISO": "TH", 
-    "MCC_MNC": "520-0", 
-    "MNC": "0", 
+    "MCC_MNC": "520-00", 
+    "MNC": "00", 
     "Name": "hutch/cat-cdma-thailand"
   }, 
   {
@@ -9605,8 +9605,8 @@
     "Country": "Timor-Leste", 
     "MCC": "514", 
     "ISO": "TP", 
-    "MCC_MNC": "514-2", 
-    "MNC": "2", 
+    "MCC_MNC": "514-02", 
+    "MNC": "02", 
     "Name": "timor-telecom-timor-leste"
   }, 
   {
@@ -9615,8 +9615,8 @@
     "Country": "Togo", 
     "MCC": "615", 
     "ISO": "TG", 
-    "MCC_MNC": "615-2", 
-    "MNC": "2", 
+    "MCC_MNC": "615-02", 
+    "MNC": "02", 
     "Name": "telecel/moov-togo"
   }, 
   {
@@ -9625,8 +9625,8 @@
     "Country": "Togo", 
     "MCC": "615", 
     "ISO": "TG", 
-    "MCC_MNC": "615-1", 
-    "MNC": "1", 
+    "MCC_MNC": "615-01", 
+    "MNC": "01", 
     "Name": "togo-telecom/togocell-togo"
   }, 
   {
@@ -9645,8 +9645,8 @@
     "Country": "Tonga", 
     "MCC": "539", 
     "ISO": "TO", 
-    "MCC_MNC": "539-1", 
-    "MNC": "1", 
+    "MCC_MNC": "539-01", 
+    "MNC": "01", 
     "Name": "tonga-communications-tonga"
   }, 
   {
@@ -9675,8 +9675,8 @@
     "Country": "Tunisia", 
     "MCC": "605", 
     "ISO": "TN", 
-    "MCC_MNC": "605-1", 
-    "MNC": "1", 
+    "MCC_MNC": "605-01", 
+    "MNC": "01", 
     "Name": "orange-tunisia"
   }, 
   {
@@ -9685,8 +9685,8 @@
     "Country": "Tunisia", 
     "MCC": "605", 
     "ISO": "TN", 
-    "MCC_MNC": "605-3", 
-    "MNC": "3", 
+    "MCC_MNC": "605-03", 
+    "MNC": "03", 
     "Name": "orascom-telecom-tunisia"
   }, 
   {
@@ -9695,8 +9695,8 @@
     "Country": "Tunisia", 
     "MCC": "605", 
     "ISO": "TN", 
-    "MCC_MNC": "605-2", 
-    "MNC": "2", 
+    "MCC_MNC": "605-02", 
+    "MNC": "02", 
     "Name": "tunisie-telecom-tunisia"
   }, 
   {
@@ -9705,8 +9705,8 @@
     "Country": "Turkey", 
     "MCC": "286", 
     "ISO": "TR", 
-    "MCC_MNC": "286-3", 
-    "MNC": "3", 
+    "MCC_MNC": "286-03", 
+    "MNC": "03", 
     "Name": "avea/aria-turkey"
   }, 
   {
@@ -9715,8 +9715,8 @@
     "Country": "Turkey", 
     "MCC": "286", 
     "ISO": "TR", 
-    "MCC_MNC": "286-4", 
-    "MNC": "4", 
+    "MCC_MNC": "286-04", 
+    "MNC": "04", 
     "Name": "avea/aria-turkey"
   }, 
   {
@@ -9725,8 +9725,8 @@
     "Country": "Turkey", 
     "MCC": "286", 
     "ISO": "TR", 
-    "MCC_MNC": "286-2", 
-    "MNC": "2", 
+    "MCC_MNC": "286-02", 
+    "MNC": "02", 
     "Name": "vodafone-telsim-turkey"
   }, 
   {
@@ -9735,8 +9735,8 @@
     "Country": "Turkey", 
     "MCC": "286", 
     "ISO": "TR", 
-    "MCC_MNC": "286-1", 
-    "MNC": "1", 
+    "MCC_MNC": "286-01", 
+    "MNC": "01", 
     "Name": "turkcell-turkey"
   }, 
   {
@@ -9745,8 +9745,8 @@
     "Country": "Turkmenistan", 
     "MCC": "438", 
     "ISO": "TM", 
-    "MCC_MNC": "438-1", 
-    "MNC": "1", 
+    "MCC_MNC": "438-01", 
+    "MNC": "01", 
     "Name": "barash-communication-turkmenistan"
   }, 
   {
@@ -9755,8 +9755,8 @@
     "Country": "Uganda", 
     "MCC": "641", 
     "ISO": "UG", 
-    "MCC_MNC": "641-1", 
-    "MNC": "1", 
+    "MCC_MNC": "641-01", 
+    "MNC": "01", 
     "Name": "celtel-uganda"
   }, 
   {
@@ -9805,8 +9805,8 @@
     "Country": "Ukraine", 
     "MCC": "255", 
     "ISO": "UA", 
-    "MCC_MNC": "255-6", 
-    "MNC": "6", 
+    "MCC_MNC": "255-06", 
+    "MNC": "06", 
     "Name": "astelit/life-ukraine"
   }, 
   {
@@ -9815,8 +9815,8 @@
     "Country": "Ukraine", 
     "MCC": "255", 
     "ISO": "UA", 
-    "MCC_MNC": "255-5", 
-    "MNC": "5", 
+    "MCC_MNC": "255-05", 
+    "MNC": "05", 
     "Name": "golden-telecom-ukraine"
   }, 
   {
@@ -9835,8 +9835,8 @@
     "Country": "Ukraine", 
     "MCC": "255", 
     "ISO": "UA", 
-    "MCC_MNC": "255-3", 
-    "MNC": "3", 
+    "MCC_MNC": "255-03", 
+    "MNC": "03", 
     "Name": "kyivstar-ukraine"
   }, 
   {
@@ -9865,8 +9865,8 @@
     "Country": "Ukraine", 
     "MCC": "255", 
     "ISO": "UA", 
-    "MCC_MNC": "255-2", 
-    "MNC": "2", 
+    "MCC_MNC": "255-02", 
+    "MNC": "02", 
     "Name": "beeline-ukraine"
   }, 
   {
@@ -9875,8 +9875,8 @@
     "Country": "Ukraine", 
     "MCC": "255", 
     "ISO": "UA", 
-    "MCC_MNC": "255-1", 
-    "MNC": "1", 
+    "MCC_MNC": "255-01", 
+    "MNC": "01", 
     "Name": "umc/mts-ukraine"
   }, 
   {
@@ -9885,8 +9885,8 @@
     "Country": "Ukraine", 
     "MCC": "255", 
     "ISO": "UA", 
-    "MCC_MNC": "255-7", 
-    "MNC": "7", 
+    "MCC_MNC": "255-07", 
+    "MNC": "07", 
     "Name": "utel-ukraine"
   }, 
   {
@@ -9905,8 +9905,8 @@
     "Country": "United Arab Emirates", 
     "MCC": "424", 
     "ISO": "AE", 
-    "MCC_MNC": "424-3", 
-    "MNC": "3", 
+    "MCC_MNC": "424-03", 
+    "MNC": "03", 
     "Name": "du-united-arab-emirates"
   }, 
   {
@@ -9915,8 +9915,8 @@
     "Country": "United Arab Emirates", 
     "MCC": "424", 
     "ISO": "AE", 
-    "MCC_MNC": "424-2", 
-    "MNC": "2", 
+    "MCC_MNC": "424-02", 
+    "MNC": "02", 
     "Name": "etisalat-united-arab-emirates"
   }, 
   {
@@ -9925,8 +9925,8 @@
     "Country": "United Kingdom", 
     "MCC": "234", 
     "ISO": "UK", 
-    "MCC_MNC": "234-3", 
-    "MNC": "3", 
+    "MCC_MNC": "234-03", 
+    "MNC": "03", 
     "Name": "airtel/vodafone-united-kingdom"
   }, 
   {
@@ -10005,8 +10005,8 @@
     "Country": "United Kingdom", 
     "MCC": "234", 
     "ISO": "UK", 
-    "MCC_MNC": "234-1", 
-    "MNC": "1", 
+    "MCC_MNC": "234-01", 
+    "MNC": "01", 
     "Name": "mapesbury-c-ltd-united-kingdom"
   }, 
   {
@@ -10035,8 +10035,8 @@
     "Country": "United Kingdom", 
     "MCC": "234", 
     "ISO": "UK", 
-    "MCC_MNC": "234-2", 
-    "MNC": "2", 
+    "MCC_MNC": "234-02", 
+    "MNC": "02", 
     "Name": "o2-ltd-united-kingdom"
   }, 
   {
@@ -10425,8 +10425,8 @@
     "Country": "United States", 
     "MCC": "310", 
     "ISO": "US", 
-    "MCC_MNC": "310-6", 
-    "MNC": "6", 
+    "MCC_MNC": "310-06", 
+    "MNC": "06", 
     "Name": "consolidated-telcom-united-states"
   }, 
   {
@@ -10445,8 +10445,8 @@
     "Country": "United States", 
     "MCC": "310", 
     "ISO": "US", 
-    "MCC_MNC": "310-8", 
-    "MNC": "8", 
+    "MCC_MNC": "310-08", 
+    "MNC": "08", 
     "Name": "unknown-united-states"
   }, 
   {
@@ -10505,8 +10505,8 @@
     "Country": "United States", 
     "MCC": "310", 
     "ISO": "US", 
-    "MCC_MNC": "310-9", 
-    "MNC": "9", 
+    "MCC_MNC": "310-09", 
+    "MNC": "09", 
     "Name": "edge-wireless-llc-united-states"
   }, 
   {
@@ -10565,8 +10565,8 @@
     "Country": "United States", 
     "MCC": "310", 
     "ISO": "US", 
-    "MCC_MNC": "310-7", 
-    "MNC": "7", 
+    "MCC_MNC": "310-07", 
+    "MNC": "07", 
     "Name": "unknown-united-states"
   }, 
   {
@@ -10685,8 +10685,8 @@
     "Country": "United States", 
     "MCC": "311", 
     "ISO": "US", 
-    "MCC_MNC": "311-0", 
-    "MNC": "0", 
+    "MCC_MNC": "311-00", 
+    "MNC": "00", 
     "Name": "mid-tex-cellular-ltd-united-states"
   }, 
   {
@@ -10925,8 +10925,8 @@
     "Country": "United States", 
     "MCC": "310", 
     "ISO": "US", 
-    "MCC_MNC": "310-5", 
-    "MNC": "5", 
+    "MCC_MNC": "310-05", 
+    "MNC": "05", 
     "Name": "sprint-united-states"
   }, 
   {
@@ -10935,8 +10935,8 @@
     "Country": "United States", 
     "MCC": "310", 
     "ISO": "US", 
-    "MCC_MNC": "310-2", 
-    "MNC": "2", 
+    "MCC_MNC": "310-02", 
+    "MNC": "02", 
     "Name": "sprint-spectrum-united-states"
   }, 
   {
@@ -10945,8 +10945,8 @@
     "Country": "United States", 
     "MCC": "310", 
     "ISO": "US", 
-    "MCC_MNC": "310-4", 
-    "MNC": "4", 
+    "MCC_MNC": "310-04", 
+    "MNC": "04", 
     "Name": "t-mobile-united-states"
   }, 
   {
@@ -11225,8 +11225,8 @@
     "Country": "United States", 
     "MCC": "310", 
     "ISO": "US", 
-    "MCC_MNC": "310-3", 
-    "MNC": "3", 
+    "MCC_MNC": "310-03", 
+    "MNC": "03", 
     "Name": "unknown-united-states"
   }, 
   {
@@ -11315,8 +11315,8 @@
     "Country": "Unknown Country", 
     "MCC": "0", 
     "ISO": "", 
-    "MCC_MNC": "0-0", 
-    "MNC": "0", 
+    "MCC_MNC": "0-00", 
+    "MNC": "00", 
     "Name": "-unknown-country"
   }, 
   {
@@ -11335,8 +11335,8 @@
     "Country": "Uruguay", 
     "MCC": "748", 
     "ISO": "UY", 
-    "MCC_MNC": "748-1", 
-    "MNC": "1", 
+    "MCC_MNC": "748-01", 
+    "MNC": "01", 
     "Name": "ancel/antel-uruguay"
   }, 
   {
@@ -11345,8 +11345,8 @@
     "Country": "Uruguay", 
     "MCC": "748", 
     "ISO": "UY", 
-    "MCC_MNC": "748-7", 
-    "MNC": "7", 
+    "MCC_MNC": "748-07", 
+    "MNC": "07", 
     "Name": "movistar-uruguay"
   }, 
   {
@@ -11355,8 +11355,8 @@
     "Country": "Uzbekistan", 
     "MCC": "434", 
     "ISO": "ZU", 
-    "MCC_MNC": "434-4", 
-    "MNC": "4", 
+    "MCC_MNC": "434-04", 
+    "MNC": "04", 
     "Name": "bee-line/unitel-uzbekistan"
   }, 
   {
@@ -11365,8 +11365,8 @@
     "Country": "Uzbekistan", 
     "MCC": "434", 
     "ISO": "ZU", 
-    "MCC_MNC": "434-1", 
-    "MNC": "1", 
+    "MCC_MNC": "434-01", 
+    "MNC": "01", 
     "Name": "buztel-uzbekistan"
   }, 
   {
@@ -11375,8 +11375,8 @@
     "Country": "Uzbekistan", 
     "MCC": "434", 
     "ISO": "ZU", 
-    "MCC_MNC": "434-5", 
-    "MNC": "5", 
+    "MCC_MNC": "434-05", 
+    "MNC": "05", 
     "Name": "ucell/coscom-uzbekistan"
   }, 
   {
@@ -11385,8 +11385,8 @@
     "Country": "Uzbekistan", 
     "MCC": "434", 
     "ISO": "ZU", 
-    "MCC_MNC": "434-7", 
-    "MNC": "7", 
+    "MCC_MNC": "434-07", 
+    "MNC": "07", 
     "Name": "mts/uzdunrobita-uzbekistan"
   }, 
   {
@@ -11395,8 +11395,8 @@
     "Country": "Uzbekistan", 
     "MCC": "434", 
     "ISO": "ZU", 
-    "MCC_MNC": "434-2", 
-    "MNC": "2", 
+    "MCC_MNC": "434-02", 
+    "MNC": "02", 
     "Name": "uzmacom-uzbekistan"
   }, 
   {
@@ -11405,8 +11405,8 @@
     "Country": "Vanuatu", 
     "MCC": "541", 
     "ISO": "VU", 
-    "MCC_MNC": "541-0", 
-    "MNC": "0", 
+    "MCC_MNC": "541-00", 
+    "MNC": "00", 
     "Name": "digicel-vanuatu"
   }, 
   {
@@ -11415,8 +11415,8 @@
     "Country": "Vanuatu", 
     "MCC": "541", 
     "ISO": "VU", 
-    "MCC_MNC": "541-1", 
-    "MNC": "1", 
+    "MCC_MNC": "541-01", 
+    "MNC": "01", 
     "Name": "smile-vanuatu"
   }, 
   {
@@ -11425,8 +11425,8 @@
     "Country": "Venezuela", 
     "MCC": "734", 
     "ISO": "VE", 
-    "MCC_MNC": "734-2", 
-    "MNC": "2", 
+    "MCC_MNC": "734-02", 
+    "MNC": "02", 
     "Name": "digitel-ca-venezuela"
   }, 
   {
@@ -11435,8 +11435,8 @@
     "Country": "Venezuela", 
     "MCC": "734", 
     "ISO": "VE", 
-    "MCC_MNC": "734-3", 
-    "MNC": "3", 
+    "MCC_MNC": "734-03", 
+    "MNC": "03", 
     "Name": "digitel-ca-venezuela"
   }, 
   {
@@ -11445,8 +11445,8 @@
     "Country": "Venezuela", 
     "MCC": "734", 
     "ISO": "VE", 
-    "MCC_MNC": "734-1", 
-    "MNC": "1", 
+    "MCC_MNC": "734-01", 
+    "MNC": "01", 
     "Name": "digitel-ca-venezuela"
   }, 
   {
@@ -11455,8 +11455,8 @@
     "Country": "Venezuela", 
     "MCC": "734", 
     "ISO": "VE", 
-    "MCC_MNC": "734-6", 
-    "MNC": "6", 
+    "MCC_MNC": "734-06", 
+    "MNC": "06", 
     "Name": "movilnet-ca-venezuela"
   }, 
   {
@@ -11465,8 +11465,8 @@
     "Country": "Venezuela", 
     "MCC": "734", 
     "ISO": "VE", 
-    "MCC_MNC": "734-4", 
-    "MNC": "4", 
+    "MCC_MNC": "734-04", 
+    "MNC": "04", 
     "Name": "movistar/telcel-venezuela"
   }, 
   {
@@ -11475,8 +11475,8 @@
     "Country": "Viet Nam", 
     "MCC": "452", 
     "ISO": "VN", 
-    "MCC_MNC": "452-7", 
-    "MNC": "7", 
+    "MCC_MNC": "452-07", 
+    "MNC": "07", 
     "Name": "beeline-viet-nam"
   }, 
   {
@@ -11485,8 +11485,8 @@
     "Country": "Viet Nam", 
     "MCC": "452", 
     "ISO": "VN", 
-    "MCC_MNC": "452-8", 
-    "MNC": "8", 
+    "MCC_MNC": "452-08", 
+    "MNC": "08", 
     "Name": "evn-telecom-viet-nam"
   }, 
   {
@@ -11495,8 +11495,8 @@
     "Country": "Viet Nam", 
     "MCC": "452", 
     "ISO": "VN", 
-    "MCC_MNC": "452-1", 
-    "MNC": "1", 
+    "MCC_MNC": "452-01", 
+    "MNC": "01", 
     "Name": "mobifone-viet-nam"
   }, 
   {
@@ -11505,8 +11505,8 @@
     "Country": "Viet Nam", 
     "MCC": "452", 
     "ISO": "VN", 
-    "MCC_MNC": "452-4", 
-    "MNC": "4", 
+    "MCC_MNC": "452-04", 
+    "MNC": "04", 
     "Name": "viettel-mobile-viet-nam"
   }, 
   {
@@ -11515,8 +11515,8 @@
     "Country": "Viet Nam", 
     "MCC": "452", 
     "ISO": "VN", 
-    "MCC_MNC": "452-5", 
-    "MNC": "5", 
+    "MCC_MNC": "452-05", 
+    "MNC": "05", 
     "Name": "vietnamobile-viet-nam"
   }, 
   {
@@ -11525,8 +11525,8 @@
     "Country": "Viet Nam", 
     "MCC": "452", 
     "ISO": "VN", 
-    "MCC_MNC": "452-2", 
-    "MNC": "2", 
+    "MCC_MNC": "452-02", 
+    "MNC": "02", 
     "Name": "vinaphone-viet-nam"
   }, 
   {
@@ -11545,8 +11545,8 @@
     "Country": "Yemen", 
     "MCC": "421", 
     "ISO": "YE", 
-    "MCC_MNC": "421-1", 
-    "MNC": "1", 
+    "MCC_MNC": "421-01", 
+    "MNC": "01", 
     "Name": "sabaph/yemen-mobile-yemen"
   }, 
   {
@@ -11555,8 +11555,8 @@
     "Country": "Yemen", 
     "MCC": "421", 
     "ISO": "YE", 
-    "MCC_MNC": "421-2", 
-    "MNC": "2", 
+    "MCC_MNC": "421-02", 
+    "MNC": "02", 
     "Name": "mtn/spacetel-yemen"
   }, 
   {
@@ -11565,8 +11565,8 @@
     "Country": "Yemen", 
     "MCC": "421", 
     "ISO": "YE", 
-    "MCC_MNC": "421-4", 
-    "MNC": "4", 
+    "MCC_MNC": "421-04", 
+    "MNC": "04", 
     "Name": "hits/y-unitel-yemen"
   }, 
   {
@@ -11575,8 +11575,8 @@
     "Country": "Yemen", 
     "MCC": "421", 
     "ISO": "YE", 
-    "MCC_MNC": "421-3", 
-    "MNC": "3", 
+    "MCC_MNC": "421-03", 
+    "MNC": "03", 
     "Name": "sabaph/yemen-mobile-yemen"
   }, 
   {
@@ -11585,8 +11585,8 @@
     "Country": "Zambia", 
     "MCC": "645", 
     "ISO": "ZM", 
-    "MCC_MNC": "645-1", 
-    "MNC": "1", 
+    "MCC_MNC": "645-01", 
+    "MNC": "01", 
     "Name": "zain/celtel-zambia"
   }, 
   {
@@ -11595,8 +11595,8 @@
     "Country": "Zambia", 
     "MCC": "645", 
     "ISO": "ZM", 
-    "MCC_MNC": "645-2", 
-    "MNC": "2", 
+    "MCC_MNC": "645-02", 
+    "MNC": "02", 
     "Name": "mtn/telecel-zambia"
   }, 
   {
@@ -11605,8 +11605,8 @@
     "Country": "Zambia", 
     "MCC": "645", 
     "ISO": "ZM", 
-    "MCC_MNC": "645-3", 
-    "MNC": "3", 
+    "MCC_MNC": "645-03", 
+    "MNC": "03", 
     "Name": "cell-z/mts-zambia"
   }, 
   {
@@ -11615,8 +11615,8 @@
     "Country": "Zimbabwe", 
     "MCC": "648", 
     "ISO": "ZW", 
-    "MCC_MNC": "648-4", 
-    "MNC": "4", 
+    "MCC_MNC": "648-04", 
+    "MNC": "04", 
     "Name": "econet-zimbabwe"
   }, 
   {
@@ -11625,8 +11625,8 @@
     "Country": "Zimbabwe", 
     "MCC": "648", 
     "ISO": "ZW", 
-    "MCC_MNC": "648-1", 
-    "MNC": "1", 
+    "MCC_MNC": "648-01", 
+    "MNC": "01", 
     "Name": "net-one-zimbabwe"
   }, 
   {
@@ -11635,8 +11635,8 @@
     "Country": "Zimbabwe", 
     "MCC": "648", 
     "ISO": "ZW", 
-    "MCC_MNC": "648-3", 
-    "MNC": "3", 
+    "MCC_MNC": "648-03", 
+    "MNC": "03", 
     "Name": "telecel-zimbabwe"
   }
 ]

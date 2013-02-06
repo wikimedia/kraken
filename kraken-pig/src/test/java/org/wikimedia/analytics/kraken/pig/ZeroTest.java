@@ -26,15 +26,27 @@ import org.junit.Test;
 
 import java.util.HashMap;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class ZeroTest {
 
     @Test
-    public void Test1() throws JsonMappingException, JsonParseException{
+    public void Test1() throws JsonMappingException, JsonParseException {
         Zero zero = new Zero();
         HashMap<String, Mcc_Mnc> mcc_mnc = zero.constructMccMncData();
         assertNotNull(mcc_mnc);
+    }
+
+    @Test
+    public void Test2() throws JsonMappingException, JsonParseException {
+        Zero zero = new Zero();
+        HashMap<String, Mcc_Mnc> mcc_mnc = zero.constructMccMncData();
+        Mcc_Mnc carrier = mcc_mnc.get("624-02");
+        assertNotNull(carrier);
+        assertEquals("624-02", carrier.getMCC_MNC());
+        assertEquals("orange-cameroon", carrier.getName());
+        assertEquals("Cameroon", carrier.getCountry());
     }
 
 

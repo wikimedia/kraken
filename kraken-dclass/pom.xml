@@ -20,4 +20,18 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
+    <dependencies>
+        <dependency>
+            <artifactId>commons-cli</artifactId>
+            <groupId>commons-cli</groupId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.devicemap</groupId>
+            <artifactId>openddr-java</artifactId>
+            <version>0.9.9-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

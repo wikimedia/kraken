@@ -42,7 +42,7 @@ public class Zero extends EvalFunc<Tuple> {
     HashMap<String, Mcc_Mnc> mcc_mnc = null;
     private TupleFactory tupleFactory = TupleFactory.getInstance();
 
-    public static HashMap<String, Mcc_Mnc> constructMccMncData() throws JsonMappingException, JsonParseException {
+    public HashMap<String, Mcc_Mnc> constructMccMncData() throws JsonMappingException, JsonParseException {
         JsonFactory jfactory = new JsonFactory();
         HashMap<String, Mcc_Mnc> mcc_mnc = new HashMap<String, Mcc_Mnc>();
         List<Mcc_Mnc> zeros = null;
@@ -79,7 +79,7 @@ public class Zero extends EvalFunc<Tuple> {
     /** {@inheritDoc} */
     @Override
     public Tuple exec(Tuple input) throws IOException {
-        if (input == null || input.size() == 0) {
+        if (input == null || input.size() != 1) {
             return null;
         }
         String key = (String) input.get(0);
