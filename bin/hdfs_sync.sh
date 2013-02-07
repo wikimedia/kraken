@@ -19,5 +19,6 @@ to_sync="oozie pig"
 for d in $to_sync; do 
     hadoop fs -mkdir -p $dest
     c="hadoop fs -rm -r -f $dest/$d && hadoop fs -put $kraken_path/$d $dest/"
-    echo $c;
+    echo $c
+    $c
 done
