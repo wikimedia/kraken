@@ -23,7 +23,7 @@
             <name-node>${nameNode}</name-node>
             <script>/user/otto/kraken/pig/concat_sort.pig</script>
             <argument>-p</argument>
-            <argument>input=${INPUT}</argument>
+            <argument>input=${CONCAT_INPUT}</argument>
             <argument>-p</argument>
             <argument>dest=${DEST}</argument>
         </pig>
