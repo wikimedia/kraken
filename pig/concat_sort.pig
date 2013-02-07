@@ -15,16 +15,14 @@ SET default_parallel 1;
 -- remove any previously leftover $input.concat.tmp files.
 fs -rm -r -f $input.concat.tmp
 
--- load data in
+-- load and sort data
 DATA = LOAD '$input';
--- sort it
 DATA = ORDER DATA BY *;
 
 -- output it into a single file in $output directory
 STORE DATA into '$input.concat.tmp';
 
--- rename $output.tmp to $output.
--- fs -touchz $dest;
+-- rename $input.concat.tmp/part-r-00000 to $dest.
 fs -rm -f $dest;
 fs -mv $input.concat.tmp/part-r-00000 $dest
 fs -rm -r -f $input.concat.tmp
