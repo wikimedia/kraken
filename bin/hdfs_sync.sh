@@ -16,9 +16,8 @@ kraken_path=$(cd "$(dirname "$0")/.."; pwd)
 
 to_sync="oozie pig"
 
+hadoop fs -mkdir -p $dest
 for d in $to_sync; do 
-    hadoop fs -mkdir -p $dest
-    c="hadoop fs -rm -r -f $dest/$d && hadoop fs -put $kraken_path/$d $dest/"
-    echo $c
-    $c
+    hadoop fs -rm -r -f $dest/$d && hadoop fs -put $kraken_path/$d $dest/$d
+    echo "Synced $kraken_path/$d to $dest/$d"
 done
