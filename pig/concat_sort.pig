@@ -22,7 +22,7 @@ DATA = ORDER DATA BY *;
 -- output it into a single file in $output directory
 STORE DATA into '$dest.concat.tmp';
 
--- rename $input.concat.tmp/part-r-00000 to $dest.
+-- rename $dest.concat.tmp/part-r-00000 to $dest.
 fs -rm -f $dest;
 fs -mv $dest.concat.tmp/part-r-00000 $dest
 fs -rm -r -f $dest.concat.tmp
