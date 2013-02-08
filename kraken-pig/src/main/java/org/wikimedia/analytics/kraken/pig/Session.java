@@ -17,51 +17,89 @@
  */
 package org.wikimedia.analytics.kraken.pig;
 
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.util.hash.Hash;
+import org.apache.hadoop.util.hash.MurmurHash;
 import org.apache.pig.EvalFunc;
-import org.apache.pig.data.DataBag;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Iterator;
-
-import com.google.common.hash.Hashing;
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.HashCode;
+import java.io.InputStreamReader;
 
 
 public class Session extends EvalFunc<Tuple> {
 
+    Hash hasher = new MurmurHash();
+    Configuration conf = new Configuration();
+    FileSystem fs;
+    int seed;
 
-    int epoch = (int) (System.currentTimeMillis() / 1000);
-    HashFunction hf = Hashing.murmur3_128(epoch);
-
+    public Session(String path) throws IOException {
+        this.fs = FileSystem.get(conf);
+        readSeedValue(path);
+    }
 
     public Tuple exec(Tuple input) throws IOException {
         if (input == null || input.size() != 2) {
             return null;
         }
-        DataBag bag = (DataBag) input.get(0);
-        Iterator<Tuple> it = bag.iterator();
-        Tuple ipAddress = (Tuple) input.get(1);
-        Tuple userAgent = (Tuple) input.get(2);
-        String sessionId;
-        //Create the output tuple
+        String ipAddress = (String) input.get(1);
+        String userAgent = (String) input.get(2);
+
         Tuple output = TupleFactory.getInstance().newTuple(1);
 
-        while (it.hasNext()) {
-            sessionId = generateId(ipAddress, userAgent);
-            output.set(0, sessionId);
-        }
 
+        output.set(0, generateId(ipAddress, userAgent));
         return output;
     }
 
-    private String generateId(Tuple ipAddress, Tuple userAgent){
-        HashCode hc = hf.newHasher().
-                putString(ipAddress.toString()).
-                putString(userAgent.toString()).
-                hash();
-        return hc.toString();
+    private void readSeedValue(String path) throws IOException{
+        Path inFile = new Path(path);
+        if (!fs.exists(inFile))
+            System.err.println("Input file not found");
+        if (!fs.isFile(inFile))
+            System.err.println("Input should be a file");
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(inFile)));
+        StringBuilder sb = new StringBuilder();
+        String line;
+
+        while ((line = br.readLine()) != null){
+            System.out.println(line);
+            sb.append(line);
+        }
+        br.close();
+
+        int x = 0;
+        for (int i = 0; i < sb.length(); i++){
+            char c = sb.charAt(i);
+            x = x + c;
+        }
+        this.seed = x;
     }
+
+    public int generateId(String ipAddress, String userAgent){
+        byte[] ipAddressBytes = ipAddress.getBytes();
+        byte[] userAgentBytes = userAgent.getBytes();
+        byte[] sessionInput = concat(ipAddressBytes, userAgentBytes);
+        return this.hasher.hash(sessionInput, this.seed);
+    }
+
+    private byte[] concat(byte[] a, byte[] b) {
+        byte[] c = new byte[a.length + b.length];
+        System.arraycopy(a, 0, c, 0, a.length);
+        System.arraycopy(b, 0, c, a.length, b.length);
+        return c;
+    }
+
+//        HashCode hc = hf.newHasher().
+//                putString(ipAddress.toString()).
+//                putString(userAgent.toString()).
+//                hash();
+//        return hc.toString();
+
 }
