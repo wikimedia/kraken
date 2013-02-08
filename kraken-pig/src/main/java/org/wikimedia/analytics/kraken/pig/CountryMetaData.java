@@ -24,6 +24,7 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.wikimedia.analytics.kraken.schemas.Country;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -18,10 +18,10 @@
  * @version $Id: $Id
  */
 
-package org.wikimedia.analytics.kraken.pig;
+package org.wikimedia.analytics.kraken.schemas;
 
 
-public class Country {
+public class Country extends Schema {
     public String id;
     public String name;
     public Integer num;
