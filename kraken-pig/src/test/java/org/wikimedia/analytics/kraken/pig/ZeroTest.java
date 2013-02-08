@@ -23,6 +23,7 @@ package org.wikimedia.analytics.kraken.pig;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
+import org.wikimedia.analytics.kraken.schemas.Mcc_Mnc;
 
 import java.util.HashMap;
 
