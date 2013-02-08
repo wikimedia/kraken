@@ -21,6 +21,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+
     <dependencies>
         <dependency>
             <groupId>org.wikimedia.analytics</groupId>
@@ -28,17 +29,6 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.pig</groupId>
-            <artifactId>pigunit</artifactId>
-            <version>0.10.0-cdh4.1.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>2.0.0-cdh4.1.2</version>
-        </dependency>
 
         <dependency>
             <groupId>org.apache.pig</groupId>
@@ -47,10 +37,62 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.pig</groupId>
+            <artifactId>pigunit</artifactId>
+            <version>0.10.0-cdh4.1.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.kohsuke</groupId>
             <artifactId>geoip</artifactId>
             <version>1.2.5</version>
         </dependency>
+
+
+        <!-- Hadoop -->
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>2.0.0-cdh4.1.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>tomcat</groupId>
+                    <artifactId>jasper-compiler</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>jetty</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>2.0.0-cdh4.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>2.0.0-cdh4.1.2</version>
+        </dependency>
+        <!-- Hadoop testing -->
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-hdfs</artifactId>
+            <version>2.0.0-cdh4.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-minicluster</artifactId>
+            <version>2.0.0-cdh4.1.2</version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
+
 
 </project>
