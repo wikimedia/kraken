@@ -23,7 +23,7 @@ package org.wikimedia.analytics.kraken.pig;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
-import org.wikimedia.analytics.kraken.schemas.Mcc_Mnc;
+import org.wikimedia.analytics.kraken.schemas.MccMnc;
 
 import java.util.HashMap;
 
@@ -35,15 +35,15 @@ public class ZeroTest {
     @Test
     public void Test1() throws JsonMappingException, JsonParseException {
         Zero zero = new Zero();
-        HashMap<String, Mcc_Mnc> mcc_mnc = zero.constructMccMncData();
+        HashMap<String, MccMnc> mcc_mnc = zero.constructMccMncData();
         assertNotNull(mcc_mnc);
     }
 
     @Test
     public void Test2() throws JsonMappingException, JsonParseException {
         Zero zero = new Zero();
-        HashMap<String, Mcc_Mnc> mcc_mnc = zero.constructMccMncData();
-        Mcc_Mnc carrier = mcc_mnc.get("624-02");
+        HashMap<String, MccMnc> mcc_mnc = zero.constructMccMncData();
+        MccMnc carrier = mcc_mnc.get("624-02");
         assertNotNull(carrier);
         assertEquals("624-02", carrier.getMCC_MNC());
         assertEquals("orange-cameroon", carrier.getName());
