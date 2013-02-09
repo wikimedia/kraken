@@ -19,7 +19,7 @@
 package org.wikimedia.analytics.kraken.schemas;
 
 
-public class Mcc_Mnc {
+public class MccMnc {
 
     public String Network;
     public String Country;
