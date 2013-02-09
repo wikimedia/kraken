@@ -27,6 +27,9 @@ import org.apache.pig.PigWarning;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
+import org.wikimedia.analytics.kraken.schemas.Country;
+import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
+import org.wikimedia.analytics.kraken.schemas.Schema;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -51,7 +54,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 
     private String dbPath = "/usr/share/GeoIP";
 
-    private HashMap<String, Country> countries = new HashMap<String, Country>();
+    private HashMap<String, Schema> countries = new HashMap<String, Schema>();
     private HashMap<String, String> databases =  new HashMap<String, String>();
 
     private final List<String> neededGeoFieldNames = new ArrayList<String>();
@@ -76,7 +79,9 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 
     private void init(String inputFields, String db) throws IOException {
         this.db = db;
-        this.countries = CountryMetaData.constructGeoMetaData();
+        JsonToClassConverter converter = new JsonToClassConverter();
+        this.countries = converter.construct("org.wikimedia.analytics.kraken.schemas.Country", "country-codes.json", "getA2");
+
 
         continentFixes.put("EU", "EU");   // Europe
         continentFixes.put("AP", "AS");   // Asia/Pacific (These addresses often map to Chinese lat/lon, so we choose Asia as the continent.)
@@ -102,12 +107,12 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 
         if (ip4Lookup == null) {
             this.dbFullPath = new File(this.dbPath, this.databases.get(db));
-            ip4Lookup = new LookupService(this.dbFullPath.getPath());
+            ip4Lookup = new LookupService(this.dbFullPath.getPath(), LookupService.GEOIP_MEMORY_CACHE);
         }
 
         if (ip6Lookup == null) {
             this.dbFullip6Path = new File(this.dbPath, this.databases.get("GeoIPv6"));
-            ip6Lookup = new LookupService(this.dbFullip6Path.getPath());
+            ip6Lookup = new LookupService(this.dbFullip6Path.getPath(), LookupService.GEOIP_MEMORY_CACHE);
         }
     }
 
@@ -144,7 +149,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 
     private Tuple getContinentName(String countryCode, Tuple output, int i) throws ExecException{
         if (countryCode != null) {
-            Country country = this.countries.get(countryCode);
+            Country country = (Country) this.countries.get(countryCode);
             String continentCode = continentFixes.containsKey(countryCode) == true ? continentFixes.get(countryCode) : country.getContinentCode();
             String continentName = continentNameFixes.containsKey(continentCode) == true ? continentNameFixes.get(continentCode) : country.getContinentName();
             output.set(i, continentName);
@@ -157,7 +162,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 
     private Tuple getContinentCode(String countryCode, Tuple output, int i) throws ExecException{
         if (countryCode != null) {
-            Country country = this.countries.get(countryCode);
+            Country country = (Country) this.countries.get(countryCode);
             String continentCode = continentFixes.containsKey(countryCode) == true ? continentFixes.get(countryCode) : country.getContinentCode();
             output.set(i,continentCode);
         } else {
