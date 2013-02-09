@@ -18,19 +18,18 @@
 package org.wikimedia.analytics.kraken.pig;
 
 import org.apache.pig.EvalFunc;
+import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
-import org.apache.pig.backend.executionengine.ExecException;
-
 import org.wikimedia.analytics.dclassjni.DclassWrapper;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserAgentClassifier  extends EvalFunc<Tuple> {
         DclassWrapper dw = null;
@@ -38,7 +37,13 @@ public class UserAgentClassifier  extends EvalFunc<Tuple> {
         private Map result = new HashMap<String, String>();
         private List args = new ArrayList<String>();
         private final List knownArgs = new ArrayList<String>();
-        private final Pattern samsung = Pattern.compile("([A-Z]*)(\\s|\\-)([A-Z\\d]*)");
+
+    private Pattern Android = Pattern.compile("WikipediaMobile\\/\\d\\.\\d(\\.\\d)?");
+    private Pattern Firefox = Pattern.compile(Pattern.quote("Mozilla/5.0%20(Mobile;%20rv:18.0)%20Gecko/18.0%20Firefox/18.0"));
+    private Pattern RIM = Pattern.compile(Pattern.quote("Mozilla/5.0 (PlayBook; U; RIM Tablet OS 2.1.0; en-US) AppleWebKit/536.2+ (KHTML, like Gecko) Version/7.2.1.0 Safari/536.2+"));
+    private Pattern Windows = Pattern.compile(Pattern.quote("Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MSAppHost/1.0)"));
+
+    public List<Pattern> patterns = new ArrayList<Pattern>(5);
 
     public UserAgentClassifier() {
         if (this.dw == null) {
@@ -46,11 +51,31 @@ public class UserAgentClassifier  extends EvalFunc<Tuple> {
         }
         //knownArgs.add(0,);
         this.dw.initUA();
+        patterns.add(0, Firefox);
+        patterns.add(1, Android);
+        patterns.add(2, RIM);
+        patterns.add(3, Windows);
+
     }
 
     public UserAgentClassifier(String[] args) {
         this();
     }
+
+    private String unspace(String useragent) {
+        return useragent.replace("%20", " ");
+    }
+
+    private boolean detectMobileApp(String useragent) {
+        for (Pattern pattern : patterns) {
+            Matcher matcher = pattern.matcher(useragent);
+            if (matcher.matches()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     @Override
     /**
@@ -84,20 +109,20 @@ public class UserAgentClassifier  extends EvalFunc<Tuple> {
         return Boolean.parseBoolean(result.get(param));
     }
 
-    private Tuple setAppleResult(Tuple output) throws ExecException{
+    private Tuple postProcessApple(Tuple output) throws ExecException{
 
         return output;
 
     }
 
-    private Tuple setSamsungResult(Tuple output) throws ExecException {
+    private Tuple postProcessSamsung(Tuple output) throws ExecException {
         /*
         This function takes a Samsung model (GT-S5750E, GT S5620) and drops all
         suffix characters and digits to allow for rollup of the keys.
          */
 
         String model = (String) result.get("model");
-        Matcher m = samsung.matcher(model);
+        Matcher m = this.Android.matcher(model);
         if (m.matches() && m.groupCount() == 4) {
             String name = m.group(1);
             String value = m.group(3);
