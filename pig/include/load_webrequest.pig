@@ -6,7 +6,7 @@ DEFINE LOAD_WEBREQUEST(input_path) RETURNS WEBREQUEST_FIELDS {
   $WEBREQUEST_FIELDS = LOAD '$input_path' AS (
     kafka_byte_offset:double,
     hostname:chararray,
-    sequence:double,
+    sequence:long,
     timestamp:chararray,
     request_time:chararray,
     remote_addr:chararray,
