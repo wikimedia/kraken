@@ -20,8 +20,7 @@
 
 /**
  * Modified for Kraken to accept arguments at run-time.
- *
- * @version $Id: $Id
+
  */
 
 package org.wikimedia.analytics.kraken.pig;
