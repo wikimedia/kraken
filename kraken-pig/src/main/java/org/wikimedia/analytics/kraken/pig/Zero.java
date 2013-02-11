@@ -34,22 +34,29 @@ import com.fasterxml.jackson.core.JsonParseException;
 import java.io.IOException;
 import java.util.HashMap;
 
-
+/**
+ * This PIG UDF is used to map the custom X-CS http header to the mobile carrier and country
+ * and this is part of the Wikipedia Zero project. This function returns two fields:
+ * the carrier name and the ISO-3316 country code.
+ */
 
 public class Zero extends EvalFunc<Tuple> {
 
     HashMap<String, Schema> map = new HashMap<String, Schema>();
     private TupleFactory tupleFactory = TupleFactory.getInstance();
 
+
+    /**
+     *
+     * @throws JsonMappingException
+     * @throws JsonParseException
+     */
     public Zero() throws JsonMappingException, JsonParseException{
         JsonToClassConverter converter = new JsonToClassConverter();
         map = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getCountryCode");
     }
 
-    /**
-     * This PIG UDF expects the X-CS http header as input and will return
-     * two fields: the carrier name and the ISO-3316 country code.
-     */
+
     /** {@inheritDoc} */
     @Override
     public Tuple exec(Tuple input) throws IOException {

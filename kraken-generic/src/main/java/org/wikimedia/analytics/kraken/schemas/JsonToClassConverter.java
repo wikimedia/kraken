@@ -34,9 +34,26 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 
-
+/**
+ * The JsonToClassConverter is a generic class that can load any file that contains a list
+ * of JSON objects into a {@link HashMap} with the key specified by the caller and the value
+ * an instance of the JSON object
+ */
 public class JsonToClassConverter {
 
+    /**
+     * @param className refers to the name of the class that maps to the JSON file. Make sure that
+     * all properties in the JSON file are defined in the Java class, else it will throw an error
+     * @param file contains the name of the JSON file to be loaded. The default place to put this
+     * file is in the src/main/resource folder
+     * @param key name of the field from the JSON object that should be used as key to store the
+     * JSON object in the HashMap. Suppose the field containing the key is called 'foo' then the
+     * java Class should have a getter called getFoo.
+     * @return
+     * @throws JsonMappingException
+     * @throws JsonParseException
+     * @throws RuntimeException
+     */
     public HashMap<String, Schema> construct(String className, String file, String key)
             throws JsonMappingException, JsonParseException, RuntimeException {
         JsonFactory jfactory = new JsonFactory();

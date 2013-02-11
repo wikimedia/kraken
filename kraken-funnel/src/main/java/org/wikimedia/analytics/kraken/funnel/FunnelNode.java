@@ -19,15 +19,14 @@
  */
 package org.wikimedia.analytics.kraken.funnel;
 
-import java.util.Arrays;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
 /*
  * A FunnelNode is a building block for a Funnel. The simplest funnel is:

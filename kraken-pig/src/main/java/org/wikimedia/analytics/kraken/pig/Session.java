@@ -31,6 +31,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
+/**
+ * This class offers the functionality to create user sessions by hashign  the combination of useragent string,
+ * and ip address.
+ */
 public class Session extends EvalFunc<Tuple> {
 
     Hash hasher = new MurmurHash();
@@ -38,6 +42,12 @@ public class Session extends EvalFunc<Tuple> {
     FileSystem fs;
     int seed;
 
+
+    /**
+     *
+     * @param path path to hdfs that contains the seed value, this file should not be public.
+     * @throws IOException
+     */
     public Session(String path) throws IOException {
         this.fs = FileSystem.get(conf);
         readSeedValue(path);
@@ -89,6 +99,12 @@ public class Session extends EvalFunc<Tuple> {
         return this.hasher.hash(sessionInput, this.seed);
     }
 
+    /**
+     * Merge two arbitrary byte arrays
+     * @param a byte array 1
+     * @param b byte array 2
+     * @return merged byte array
+     */
     private byte[] concat(byte[] a, byte[] b) {
         byte[] c = new byte[a.length + b.length];
         System.arraycopy(a, 0, c, 0, a.length);

@@ -24,53 +24,53 @@ package org.wikimedia.analytics.kraken.eventlogging;
 import java.util.ArrayList;
 
 public class Field {
-	private enum Type {
-		STRING, INTEGER, BOOLEAN, ARRAYLIST
-	}
+    private enum Type {
+        STRING, INTEGER, BOOLEAN, ARRAYLIST
+    }
 
-	private final Type type;
-	private final Object value;
+    private final Type type;
+    private final Object value;
 
-	private Field(Object value, Type type) {
-		this.value = value;
-		this.type = type;
-	}
+    private Field(Object value, Type type) {
+        this.value = value;
+        this.type = type;
+    }
 
-	public static Field fromString(String s) {
-		return new Field(s, Type.STRING);
-	}
+    public static Field fromString(String s) {
+        return new Field(s, Type.STRING);
+    }
 
-	public static Field fromInteger(Integer i) {
-		return new Field(i, Type.INTEGER);
-	}
+    public static Field fromInteger(Integer i) {
+        return new Field(i, Type.INTEGER);
+    }
 
-	public static Field fromBoolean(Boolean b) {
-		return new Field(b, Type.BOOLEAN);
-	}
+    public static Field fromBoolean(Boolean b) {
+        return new Field(b, Type.BOOLEAN);
+    }
 
-	public static Field fromArrayListString(ArrayList<String> a) {
-		return new Field (a, Type.ARRAYLIST);
-	}
+    public static Field fromArrayListString(ArrayList<String> a) {
+        return new Field (a, Type.ARRAYLIST);
+    }
 
-	public Type getType() {
-		return this.type;
-	}
+    public Type getType() {
+        return this.type;
+    }
 
-	public String getStringValue() {
-		return (String) value;
-	}
+    public String getStringValue() {
+        return (String) value;
+    }
 
-	public Integer getIntegerValue() {
-		return (Integer) value;
-	}
+    public Integer getIntegerValue() {
+        return (Integer) value;
+    }
 
-	public Boolean getBooleanValue() {
-		return (Boolean) value;
-	}
-	
-	public ArrayList<String> getArrayListString() {
+    public Boolean getBooleanValue() {
+        return (Boolean) value;
+    }
+
+    public ArrayList<String> getArrayListString() {
         //Not yet implemented
-		return new ArrayList<String>();
-	}
-	// equals, hashCode
+        return new ArrayList<String>();
+    }
+    // equals, hashCode
 }

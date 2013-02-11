@@ -41,6 +41,11 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class provides a customizable Pig UDF to lookup geographic information belonging
+ * to either an IP4 or IP6 address.
+ */
+
 public class GeoIpLookup extends EvalFunc<Tuple> {
 
     private static final String EMPTY_STRING = "";
@@ -64,23 +69,38 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
     private final static Pattern ip4Pattern = Pattern.compile("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$");
     private final static Pattern ip6Pattern = Pattern.compile("^(?:[0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}(?::(?:[0-9]{1,3}\\.){3}[0-9]{1,3})*$");
 
-    public GeoIpLookup(String[] params) throws IOException {
-        init(params[0], params[1]);
-    }
+    /**
+     * @param inputFields: a comma separated list of fields that are requested.
+     * Valid field names include: continent, country, city, longitude, latitude, region, state, (only for North America).
+     *
+     * @param db: the name of the Maxmind db to use. Valid choices are: GeoIPCity, GeoIP and GeoIPRegion.
+     * We recommend GeoIPCity as that seems to have the most detailed information
+     */
 
     public GeoIpLookup(String inputFields, String db) throws IOException{
         init(inputFields, db);
     }
 
+    /** {@inheritDoc}
+     * {@param String geoDbPath}: the full path to a Maxmind db on the local filesystem, this is useful if you want to
+      * use an different / older databases then the ones that are installed on Kraken.
+     */
     public GeoIpLookup(String inputFields, String db, String geoDbPath) throws IOException {
         this.dbPath = geoDbPath;
         init(inputFields, db);
     }
 
-    private void init(String inputFields, String db) throws IOException {
+    private void init(String inputFields, String db) throws IOException, RuntimeException {
         this.db = db;
+
+        // A custom function to add continentCode and continentName support, this is not natively offered by the
+        // Maxmind database. We load a json file containing the mapping of countries to contintents and add two
+        // getters.
+
         JsonToClassConverter converter = new JsonToClassConverter();
         this.countries = converter.construct("org.wikimedia.analytics.kraken.schemas.Country", "country-codes.json", "getA2");
+
+
 
 
         continentFixes.put("EU", "EU");   // Europe
@@ -116,7 +136,9 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
         }
     }
 
-
+    /**
+     * This function checks whether the supplied Maxmind database name is recognized or not.
+     */
     private boolean validateDatabaseName(String db) {
         if (!this.databases.containsKey(db)) {
             return false;
@@ -125,6 +147,9 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
         }
     }
 
+    /**
+     * This function checks whether the list of supplied fields are all valid Maxmind database fields.
+     */
     private boolean validateGeoFieldNames(String inputFields) {
         Field[] validGeoFields = Location.class.getFields();
         String[] fields = inputFields.split(",");
@@ -146,6 +171,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
         }
 
     }
+
 
     private Tuple getContinentName(String countryCode, Tuple output, int i) throws ExecException{
         if (countryCode != null) {

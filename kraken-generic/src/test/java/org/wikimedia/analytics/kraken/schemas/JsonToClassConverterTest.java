@@ -26,6 +26,7 @@ import java.util.HashMap;
 
 import static junit.framework.Assert.assertEquals;
 
+
 public class JsonToClassConverterTest {
 
     @Test

@@ -20,7 +20,10 @@
 
 package org.wikimedia.analytics.kraken.schemas;
 
-
+/**
+ * This class provides the mapping to the country-codes.json file in src/main/resources.
+ * The guaranteed unique field in this class is either the 'a2' or 'a3' fields.
+ */
 public class Country extends Schema {
     public String id;
     public String name;
