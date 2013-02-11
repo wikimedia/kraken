@@ -13,3 +13,6 @@ doc/
 pom.xml.releaseBackup
 release.properties
 *.tag
+kraken-dclass/src/main/java/org/openddr/
+.pydevproject
+build/

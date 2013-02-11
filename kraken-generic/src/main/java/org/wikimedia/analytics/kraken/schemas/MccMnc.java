@@ -16,10 +16,14 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package org.wikimedia.analytics.kraken.pig;
+package org.wikimedia.analytics.kraken.schemas;
 
-
-public class Mcc_Mnc {
+/**
+ * This class provides the mapping to the MccMnc json file in src/main/resources.
+ * The json file has been scraped from mcc-mnc.com The guaranteed unique field in this class is
+ * 'MCC_MNC' and this field should be used as key.
+ */
+public class MccMnc extends Schema {
 
     public String Network;
     public String Country;

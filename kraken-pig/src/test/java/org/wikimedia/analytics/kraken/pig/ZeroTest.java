@@ -1,5 +1,5 @@
 /**
- *Copyright (C) 2012  Wikimedia Foundation
+ *Copyright (C) 2012-2013  Wikimedia Foundation
  *
  *This program is free software; you can redistribute it and/or
  *modify it under the terms of the GNU General Public License
@@ -14,8 +14,7 @@
  *You should have received a copy of the GNU General Public License
  *along with this program; if not, write to the Free Software
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * @version $Id: $Id
+
  */
 
 package org.wikimedia.analytics.kraken.pig;
@@ -23,6 +22,7 @@ package org.wikimedia.analytics.kraken.pig;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.junit.Test;
+import org.wikimedia.analytics.kraken.schemas.MccMnc;
 
 import java.util.HashMap;
 
@@ -34,15 +34,15 @@ public class ZeroTest {
     @Test
     public void Test1() throws JsonMappingException, JsonParseException {
         Zero zero = new Zero();
-        HashMap<String, Mcc_Mnc> mcc_mnc = zero.constructMccMncData();
+        HashMap<String, MccMnc> mcc_mnc = zero.constructMccMncData();
         assertNotNull(mcc_mnc);
     }
 
     @Test
     public void Test2() throws JsonMappingException, JsonParseException {
         Zero zero = new Zero();
-        HashMap<String, Mcc_Mnc> mcc_mnc = zero.constructMccMncData();
-        Mcc_Mnc carrier = mcc_mnc.get("624-02");
+        HashMap<String, MccMnc> mcc_mnc = zero.constructMccMncData();
+        MccMnc carrier = mcc_mnc.get("624-02");
         assertNotNull(carrier);
         assertEquals("624-02", carrier.getMCC_MNC());
         assertEquals("orange-cameroon", carrier.getName());

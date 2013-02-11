@@ -16,17 +16,9 @@
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
  */
+package org.wikimedia.analytics.kraken.schemas;
 
-package org.wikimedia.analytics.kraken.utils;
 
-import java.util.Date;
+public abstract class Schema {
 
-public class DateUtils {
-
-	public DateUtils() {
-	}
-	
-	public static Date convertToDate(Long timestamp) {
-		return new Date(timestamp);
-	}
 }

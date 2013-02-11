@@ -1,5 +1,5 @@
 /**
- *Copyright (C) 2012  Wikimedia Foundation
+ *Copyright (C) 2012-2013  Wikimedia Foundation
  *
  *This program is free software; you can redistribute it and/or
  *modify it under the terms of the GNU General Public License
@@ -14,20 +14,18 @@
  *You should have received a copy of the GNU General Public License
  *along with this program; if not, write to the Free Software
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * @version $Id: $Id
+
  */
 package org.wikimedia.analytics.kraken.funnel;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /*
  * A FunnelNode is a building block for a Funnel. The simplest funnel is:

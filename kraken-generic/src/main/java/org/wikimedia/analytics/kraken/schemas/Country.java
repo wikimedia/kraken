@@ -1,5 +1,5 @@
 /**
- *Copyright (C) 2012  Wikimedia Foundation
+ *Copyright (C) 2012-2013  Wikimedia Foundation
  *
  *This program is free software; you can redistribute it and/or
  *modify it under the terms of the GNU General Public License
@@ -14,14 +14,16 @@
  *You should have received a copy of the GNU General Public License
  *along with this program; if not, write to the Free Software
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * @version $Id: $Id
+
  */
 
-package org.wikimedia.analytics.kraken.pig;
+package org.wikimedia.analytics.kraken.schemas;
 
-
-public class Country {
+/**
+ * This class provides the mapping to the country-codes.json file in src/main/resources.
+ * The guaranteed unique field in this class is either the 'a2' or 'a3' fields.
+ */
+public class Country extends Schema {
     public String id;
     public String name;
     public Integer num;

@@ -1,5 +1,5 @@
 /**
- *Copyright (C) 2012  Wikimedia Foundation
+ *Copyright (C) 2012-2013  Wikimedia Foundation
  *
  *This program is free software; you can redistribute it and/or
  *modify it under the terms of the GNU General Public License
@@ -14,8 +14,7 @@
  *You should have received a copy of the GNU General Public License
  *along with this program; if not, write to the Free Software
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * @version $Id: $Id
+
  */
 
 package org.wikimedia.analytics.kraken.pig;
@@ -24,58 +23,39 @@ package org.wikimedia.analytics.kraken.pig;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 
+import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
+import org.wikimedia.analytics.kraken.schemas.MccMnc;
+import org.wikimedia.analytics.kraken.schemas.Schema;
+
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.core.JsonParseException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 
+/**
+ * This PIG UDF is used to map the custom X-CS http header to the mobile carrier and country
+ * and this is part of the Wikipedia Zero project. This function returns two fields:
+ * the carrier name and the ISO-3316 country code.
+ */
 
 public class Zero extends EvalFunc<Tuple> {
 
-    HashMap<String, Mcc_Mnc> mcc_mnc = null;
+    HashMap<String, Schema> map = new HashMap<String, Schema>();
     private TupleFactory tupleFactory = TupleFactory.getInstance();
 
-    public HashMap<String, Mcc_Mnc> constructMccMncData() throws JsonMappingException, JsonParseException {
-        JsonFactory jfactory = new JsonFactory();
-        HashMap<String, Mcc_Mnc> mcc_mnc = new HashMap<String, Mcc_Mnc>();
-        List<Mcc_Mnc> zeros = null;
-
-        InputStream input =
-                Mcc_Mnc.class.getClassLoader().getResourceAsStream("mcc_mnc.json");
-        try {
-            JsonParser jParser = jfactory.createJsonParser(input);
-            zeros = new ObjectMapper().readValue(jParser,new TypeReference<List<Mcc_Mnc>>() {});
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                input.close();
-            } catch (IOException ee){
-                System.err.println("Could not close filestream");
-            }
-        }
-
-        for(Mcc_Mnc zero : zeros) {
-            mcc_mnc.put(zero.getMCC_MNC(), zero);
-        }
-        return mcc_mnc;
-    }
-
-    public Zero() throws JsonMappingException, JsonParseException {
-        mcc_mnc = this.constructMccMncData();
-    }
 
     /**
-     * This PIG UDF expects the X-CS http header as input and will return
-     * two fields: the carrier name and the ISO-3316 country code.
+     *
+     * @throws JsonMappingException
+     * @throws JsonParseException
      */
+    public Zero() throws JsonMappingException, JsonParseException{
+        JsonToClassConverter converter = new JsonToClassConverter();
+        map = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getCountryCode");
+    }
+
+
     /** {@inheritDoc} */
     @Override
     public Tuple exec(Tuple input) throws IOException {
@@ -83,7 +63,7 @@ public class Zero extends EvalFunc<Tuple> {
             return null;
         }
         String key = (String) input.get(0);
-        Mcc_Mnc zero = mcc_mnc.get(key);
+        MccMnc zero = (MccMnc) map.get(key);
         if (zero != null) {
             Tuple output = tupleFactory.newTuple(2);
             output.set(0, zero.getName());
