@@ -4,6 +4,14 @@
 Usage:
   ktunnel [options] <service> [<ssh_host>]
 
+Available tunnel services:
+  namenode
+  datenode
+  jobs
+  history
+  hue
+  oozie
+
 Options:
   -h --help             show this help message and exit
   -f --background       background the tunnel process
