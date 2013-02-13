@@ -29,37 +29,42 @@ import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
 import org.wikimedia.analytics.kraken.schemas.Schema;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class uses the dClass mobile device user agent decision tree to determine vendor/version of a mobile device.
+ * dClass is built on the OpenDDR project.
+ */
 public class UserAgentClassifier extends EvalFunc<Tuple> {
-    DclassWrapper dw = null;
+    private DclassWrapper dw = null;
     private String useragent = null;
     private Map result = new HashMap<String, String>();
-    private List args = new ArrayList<String>();
-    private final List knownArgs = new ArrayList<String>();
+    //private List args = new ArrayList<String>();
+    //private final List knownArgs = new ArrayList<String>();
 
     //Additional Apple device recognizers
-    private Pattern AppleBuildIdentifiers = Pattern.compile("(\\d{1,2}[A-L]\\d{1,3}a?)");
+    private Pattern appleBuildIdentifiers = Pattern.compile("(\\d{1,2}[A-L]\\d{1,3}a?)");
     private HashMap<String, Schema> appleProducts = new HashMap<String, Schema>();
 
     // Wikimedia Mobile Apps regular expressions
-    private Pattern Android = Pattern.compile("WikipediaMobile\\/\\d\\.\\d(\\.\\d)?");
-    private Pattern Firefox = Pattern.compile(Pattern.quote("Mozilla/5.0%20(Mobile;%20rv:18.0)%20Gecko/18.0%20Firefox/18.0"));
-    private Pattern RIM = Pattern.compile(Pattern.quote("Mozilla/5.0 (PlayBook; U; RIM Tablet OS 2.1.0; en-US) AppleWebKit/536.2+ (KHTML, like Gecko) Version/7.2.1.0 Safari/536.2+"));
-    private Pattern Windows = Pattern.compile(Pattern.quote("Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MSAppHost/1.0)"));
+    private Pattern android = Pattern.compile("WikipediaMobile\\/\\d\\.\\d(\\.\\d)?");
+    private Pattern firefox = Pattern.compile(Pattern.quote("Mozilla/5.0%20(Mobile;%20rv:18.0)%20Gecko/18.0%20Firefox/18.0"));
+    private Pattern rim = Pattern.compile(Pattern.quote("Mozilla/5.0 (PlayBook; U; RIM Tablet OS 2.1.0; en-US) AppleWebKit/536.2+ (KHTML, like Gecko) Version/7.2.1.0 Safari/536.2+"));
+    private Pattern windows = Pattern.compile(Pattern.quote("Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MSAppHost/1.0)"));
 
-    public Map<String, Pattern> mobileAppPatterns;
+    private Map<String, Pattern> mobileAppPatterns;
 
-    /*
-     * UserAgentClassifier constructor that loads:
+    /**
+     * * UserAgentClassifier constructor that loads:
      * 1) dClass library
      * 2) initializes Wikimedia Mobile app regular expressions
      * 3) load JSON with Apple iOS specific information
+     *
+     * @throws JsonMappingException
+     * @throws JsonParseException
      */
     public UserAgentClassifier() throws JsonMappingException, JsonParseException {
         if (this.dw == null) {
@@ -67,30 +72,45 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
         }
         //knownArgs.add(0,);
         this.dw.initUA();
-        mobileAppPatterns = new HashMap<String,Pattern>();
-        mobileAppPatterns.put("Wikimedia App Firefox", Firefox);
-        mobileAppPatterns.put("Wikimedia App Android", Android);
-        mobileAppPatterns.put("Wikimedia App RIM", RIM);
-        mobileAppPatterns.put("Wikimedia App Windows", Windows);
+        mobileAppPatterns = new HashMap<String, Pattern>();
+        mobileAppPatterns.put("Wikimedia App Firefox", firefox);
+        mobileAppPatterns.put("Wikimedia App Android", android);
+        mobileAppPatterns.put("Wikimedia App RIM", rim);
+        mobileAppPatterns.put("Wikimedia App Windows", windows);
 
         JsonToClassConverter converter = new JsonToClassConverter();
         this.appleProducts = converter.construct("org.wikimedia.analytics.kraken.schemas.AppleUserAgent", "ios.json", "getBuild");
 
     }
 
-    public UserAgentClassifier(String[] args) throws JsonMappingException, JsonParseException {
+    /**
+     *
+     * @param args
+     * @throws JsonMappingException
+     * @throws JsonParseException
+     */
+    public UserAgentClassifier(final String[] args) throws JsonMappingException, JsonParseException {
         this();
-        mobileAppPatterns = new HashMap<String,Pattern>();
+        mobileAppPatterns = new HashMap<String, Pattern>();
     }
 
+    /**
+     *
+     * @param useragent
+     * @return useragent without spaces encoded as %20
+     */
     private String unspace(String useragent) {
         return useragent.replace("%20", " ");
     }
 
-    /*
+    /**
      * If the useragent string is not identified as a mobile device using dClass
      * then we need to determine whether it's an Wikimedia mobile app. This
      * function iterates over a list of regular expressions to look for a match.
+     *
+     * @param output
+     * @return
+     * @throws ExecException
      */
     private Tuple detectMobileApp(Tuple output) throws ExecException {
         Pattern pattern;
@@ -111,7 +131,7 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
     }
 
 
-    @Override
+
     /**
      * {@inheritDoc}
      *
@@ -126,7 +146,8 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
      * 6) Wikimedia Mobile app or null
      * 7) Apple iOS specific information or null
      */
-    public Tuple exec(Tuple input) throws IOException {
+    @Override
+    public Tuple exec(final Tuple input) throws IOException {
         if (input == null || input.size() != 1 || input.get(0) == null) {
             return null;
         }
@@ -150,25 +171,34 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
         }  else if ("Apple".equals(vendor)) {
             output = postProcessApple(output);
         }
-
-
         return output;
     }
 
-    private boolean convertToBoolean(Map<String, String> result, String param){
+    /**
+     * Converts the 'true' or 'false' string to a boolean
+     * @param result
+     * @param param
+     * @return boolean
+     */
+    private boolean convertToBoolean(final Map<String, String> result, final String param) {
         return Boolean.parseBoolean(result.get(param));
     }
 
 
-    /*
+    /**
      * dClass has identified the mobile device as one from Apple but unfortunately
      * it does not provide reliable iOS version information. This function
      * adds iOS information but care should be used when this data is interpreted:
      * The iOS version is determined using the build number and hence the iOS field
      * should be read as "this mobile device has at least iOS version xyz running".
+     *
+     * @param output
+     * @return
+     * @throws ExecException
      */
-    private Tuple postProcessApple(Tuple output) throws ExecException{
-        Matcher match = AppleBuildIdentifiers.matcher(this.useragent);
+
+    private Tuple postProcessApple(Tuple output) throws ExecException {
+        Matcher match = appleBuildIdentifiers.matcher(this.useragent);
         if (match.matches()) {
             String build = match.group(0).toString();
             AppleUserAgent appleUserAgent = (AppleUserAgent) this.appleProducts.get(build);
@@ -180,6 +210,12 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
 
     }
 
+    /**
+     *
+     * @param output
+     * @return
+     * @throws ExecException
+     */
     private Tuple postProcessSamsung(Tuple output) throws ExecException {
         /*
         This function takes a Samsung model (GT-S5750E, GT S5620) and drops all
@@ -187,11 +223,11 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
          */
 
         String model = (String) result.get("model");
-        Matcher m = this.Android.matcher(model);
+        Matcher m = this.android.matcher(model);
         if (m.matches() && m.groupCount() == 4) {
             String name = m.group(1);
             String value = m.group(3);
-            String valueCleaned = value.replaceAll("\\d","");
+            String valueCleaned = value.replaceAll("\\d", "");
             String modelCleaned = name + "-" + valueCleaned;
             output.set(2, modelCleaned);
         } else {
@@ -202,7 +238,15 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
 
     }
 
-    public void finalize() {
+    /**
+     * Call the custom finalizer to free the memory from the C library
+     */
+    protected final void finalize() {
+        try {
+            super.finalize();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
         this.dw.destroyUA();
     }
 }

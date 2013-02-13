@@ -19,38 +19,40 @@
 
 package org.wikimedia.analytics.kraken.funnel;
 
-import java.util.*;
-import java.util.regex.MatchResult;
-import java.util.regex.Pattern;
-
 import com.google.gson.JsonElement;
-
 import com.google.gson.JsonObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
+
 /**
- * Component	Description					Example
- * client		client application 			web, iphone, android
- * languagecode	project language			en, fr, ja
- * project		project name				wikipedia, wikisource
- * namespace								0, 2
- * page			page or functional grouping		
- * event		action taken by user		impression, click
+ * Inspiration taken from "The Uniﬁed Logging Infrastructure for Data Analytics at Twitter".
+ * (http://vldb.org/pvldb/vol5/p1771_georgelee_vldb2012.pdf)
+ * Component    Description                 Example
+ * client       client application          web, iphone, android
+ * languagecode project language            en, fr, ja
+ * project      project name                wikipedia, wikisource
+ * namespace                                0, 2
+ * page                                     page or functional grouping
+ * event        action taken by user        impression, click
  *
  * suggested encoding of an event:
  * client:languagecode:project:namespace:page:event
  *
- * Inspiration taken from "The Uniﬁed Logging Infrastructure
- * for Data Analytics at Twitter" 
- * (http://vldb.org/pvldb/vol5/p1771_georgelee_vldb2012.pdf)
+
  */
 class UserActionNode extends Node{
     /** The params. */
     public Map<ComponentType, String> componentValues;
     private final Pattern wikis = Pattern.compile("project:(patternForProject)|||language:(patternForLanguage)"); //TODO: Find actual regex
-    private boolean reachedPreviousNode = true;
+    //private boolean reachedPreviousNode = true;
     //public List<Date> visited;
     //public String url;
 
@@ -59,7 +61,7 @@ class UserActionNode extends Node{
      *
      * @param json {@link com.google.gson.JsonObject} NOTE: keys must be upper-case
      */
-    public UserActionNode(JsonObject json)  {
+    public UserActionNode(final JsonObject json)  {
         /**
          * // TODO: this gets repeated for every instantiation so it should be
          * factored out, this will be taken care of once we store the EventLogging
@@ -82,17 +84,15 @@ class UserActionNode extends Node{
                 switch (type) {
                     case PROJECT:
                         componentValues.putAll(splitProject(valueString));
+                        break;
                     default:
                         componentValues.put(type, valueString);
+                        break;
                 }
             }
         }
     }
 
-
-//    public UserActionNode(Map<String, String> nodeDefinition, String UserActionNodeName) {
-//        //TODO: implement
-//    }
 
     /**
      * Split project variable from EventLogging data in language and project
@@ -100,7 +100,7 @@ class UserActionNode extends Node{
      *
      * @param project the new project
      */
-    private HashMap<ComponentType, String> splitProject(String project) {
+    private HashMap<ComponentType, String> splitProject(final String project) {
         MatchResult match = this.wikis.matcher(project);
         HashMap<ComponentType, String> ret = new HashMap<ComponentType, String>();
         ret.put(ComponentType.PROJECT, match.group(0));
@@ -108,13 +108,16 @@ class UserActionNode extends Node{
         return ret;
     }
 
-    /*
+    /**
      * Compare two nodes and determine whether they can be considered the same.
+     * @param obj
+     * @return
      */
+
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;
-        if (obj instanceof FunnelNode) { return ((FunnelNode)obj).matches(this); }
+        if (obj instanceof FunnelNode) { return ((FunnelNode) obj).matches(this); }
         if (!(obj instanceof UserActionNode)) { return false; }
 
         return new EqualsBuilder().
@@ -125,6 +128,7 @@ class UserActionNode extends Node{
     public int hashCode() {
         return new HashCodeBuilder().append(this.toString()).toHashCode();
     }
+
     public String toString() {
         List<String> sb = new LinkedList<String>();
         for (ComponentType key : ComponentType.values()) {

@@ -25,34 +25,35 @@ import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigSplit;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import java.io.IOException;
+
 public class PigStorageWithInputPath extends PigStorage {
-	Path path = null;
+    Path path = null;
 
-	// SHOULD BE THIS: but error is thrown in grunt, so hardcoded for now
-	// public PigStorageWithInputPath(String delim) {
-	//     super(delim);
-	// }
+    // SHOULD BE THIS: but error is thrown in grunt, so hardcoded for now
+    // public PigStorageWithInputPath(String delim) {
+    //     super(delim);
+    // }
 
-	/**
-	 * <p>Constructor for PigStorageWithInputPath.</p>
-	 */
-	public PigStorageWithInputPath() {
-		super(" ");
-	}
+    /**
+     * <p>Constructor for PigStorageWithInputPath.</p>
+     */
+    public PigStorageWithInputPath() {
+        super(" ");
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public void prepareToRead(RecordReader reader, PigSplit split) {
-		super.prepareToRead(reader, split);
-		path = ((FileSplit)split.getWrappedSplit()).getPath();
-	}
+    /** {@inheritDoc} */
+    @Override
+    public void prepareToRead(RecordReader reader, PigSplit split) {
+        super.prepareToRead(reader, split);
+        path = ((FileSplit) split.getWrappedSplit()).getPath();
+    }
 
-	/** {@inheritDoc} */
-	@Override
-	public Tuple getNext() throws IOException {
-		Tuple myTuple = super.getNext();
-		if (myTuple != null)
-			myTuple.append(path.toString());
-		return myTuple;
-	}
+    /** {@inheritDoc} */
+    @Override
+    public Tuple getNext() throws IOException {
+        Tuple myTuple = super.getNext();
+        if (myTuple != null)
+            myTuple.append(path.toString());
+        return myTuple;
+    }
 }

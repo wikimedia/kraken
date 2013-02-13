@@ -29,31 +29,37 @@ import org.apache.pig.data.TupleFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 
 
 /**
- * This class offers the functionality to create user sessions by hashign  the combination of useragent string,
+ * This class offers the functionality to create user sessions by hashing  the combination of useragent string,
  * and ip address.
  */
 public class Session extends EvalFunc<Tuple> {
 
-    Hash hasher = new MurmurHash();
-    Configuration conf = new Configuration();
-    FileSystem fs;
-    int seed;
+    private Hash hasher = new MurmurHash();
+    private Configuration conf = new Configuration();
+    private FileSystem fs;
+    private int seed;
 
 
     /**
-     *
      * @param path path to hdfs that contains the seed value, this file should not be public.
      * @throws IOException
      */
-    public Session(String path) throws IOException {
+    public Session(final String path) throws IOException {
         this.fs = FileSystem.get(conf);
         readSeedValue(path);
     }
 
-    public Tuple exec(Tuple input) throws IOException {
+    /**
+     *
+     * @param input
+     * @return
+     * @throws IOException
+     */
+    public final Tuple exec(final Tuple input) throws IOException {
         if (input == null || input.size() != 2) {
             return null;
         }
@@ -67,14 +73,20 @@ public class Session extends EvalFunc<Tuple> {
         return output;
     }
 
-    private void readSeedValue(String path) throws IOException{
+    /**
+     * Given a path to HDFS, read the contents of the file and read the contents as seed for the hashing function.
+     * @param path path on HDFS to seed file
+     * @throws IOException
+     */
+    private void readSeedValue(final String path) throws IOException {
         Path inFile = new Path(path);
         if (!fs.exists(inFile))
             System.err.println("Input file not found");
         if (!fs.isFile(inFile))
             System.err.println("Input should be a file");
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(inFile)));
+        Charset cs = Charset.forName("utf-8");
+        BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(inFile), cs));
         StringBuilder sb = new StringBuilder();
         String line;
 
@@ -92,7 +104,13 @@ public class Session extends EvalFunc<Tuple> {
         this.seed = x;
     }
 
-    public int generateId(String ipAddress, String userAgent){
+    /**
+     * Given an ipAddress and a useragent string, generate an id of the combined byte array.
+     * @param ipAddress the ipAddress from the logline
+     * @param userAgent the userAgent string from the logline
+     * @return the seed value as an integer.
+     */
+    public final int generateId(final String ipAddress, final String userAgent) {
         byte[] ipAddressBytes = ipAddress.getBytes();
         byte[] userAgentBytes = userAgent.getBytes();
         byte[] sessionInput = concat(ipAddressBytes, userAgentBytes);
@@ -105,7 +123,7 @@ public class Session extends EvalFunc<Tuple> {
      * @param b byte array 2
      * @return merged byte array
      */
-    private byte[] concat(byte[] a, byte[] b) {
+    private byte[] concat(final byte[] a, final byte[] b) {
         byte[] c = new byte[a.length + b.length];
         System.arraycopy(a, 0, c, 0, a.length);
         System.arraycopy(b, 0, c, a.length, b.length);

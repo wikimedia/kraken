@@ -87,6 +87,9 @@ public abstract class Pageview extends EvalFunc<Tuple> {
         }
     }
 
+    /**
+     * Given a url, determine the pageview type (mobile, desktop, api, and blog).
+     */
     private void detectPageviewType() {
         if (this.url.getHost().contains(".m.")) {
             this.pageviewType = PageviewType.MOBILE;
@@ -101,7 +104,7 @@ public abstract class Pageview extends EvalFunc<Tuple> {
 
     }
 
-    public Tuple exec(Tuple input) throws ExecException {
+    public Tuple exec(final Tuple input) throws ExecException {
         if (input == null || input.size() != 4) {
             return null;
         }
@@ -113,9 +116,9 @@ public abstract class Pageview extends EvalFunc<Tuple> {
         setUrl(url);
 
 
-        if (pageviewFilter.isValidResponse(response) &&
-                pageviewFilter.isValidMimeType(mimetype) &&
-                !pageviewFilter.isInternalWMFTraffic(ip)) {
+        if (pageviewFilter.isValidResponse(response)
+            && pageviewFilter.isValidMimeType(mimetype)
+            && !pageviewFilter.isInternalWMFTraffic(ip)) {
 
             detectPageviewType();
             if (passCustomFilter()) {
@@ -130,7 +133,11 @@ public abstract class Pageview extends EvalFunc<Tuple> {
     }
 
 
-    private void setUrl(String urlStr) {
+    /**
+     * Setter for the url field.
+     * @param urlStr
+     */
+    private void setUrl(final String urlStr) {
         try {
             this.url = new URL(urlStr);
         } catch (MalformedURLException e) {
@@ -138,6 +145,4 @@ public abstract class Pageview extends EvalFunc<Tuple> {
             this.url = null;
         }
     }
-
-
 }
