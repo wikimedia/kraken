@@ -19,10 +19,12 @@
 
 package org.wikimedia.analytics.kraken.pig;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.junit.Test;
+import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
 import org.wikimedia.analytics.kraken.schemas.MccMnc;
+import org.wikimedia.analytics.kraken.schemas.Schema;
 
 import java.util.HashMap;
 
@@ -32,17 +34,10 @@ import static org.junit.Assert.assertNotNull;
 public class ZeroTest {
 
     @Test
-    public void Test1() throws JsonMappingException, JsonParseException {
-        Zero zero = new Zero();
-        HashMap<String, MccMnc> mcc_mnc = zero.constructMccMncData();
-        assertNotNull(mcc_mnc);
-    }
-
-    @Test
     public void Test2() throws JsonMappingException, JsonParseException {
-        Zero zero = new Zero();
-        HashMap<String, MccMnc> mcc_mnc = zero.constructMccMncData();
-        MccMnc carrier = mcc_mnc.get("624-02");
+        JsonToClassConverter converter = new JsonToClassConverter();
+        HashMap<String, Schema> map = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getCountryCode");
+        MccMnc carrier = (MccMnc) map.get("624-02");
         assertNotNull(carrier);
         assertEquals("624-02", carrier.getMCC_MNC());
         assertEquals("orange-cameroon", carrier.getName());

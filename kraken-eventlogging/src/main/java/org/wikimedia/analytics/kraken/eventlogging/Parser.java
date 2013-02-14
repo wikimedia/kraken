@@ -24,12 +24,12 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -58,9 +58,9 @@ public class Parser {
      *
      * @param args the arguments
      * @throws JsonParseException the json parse exception
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws MalformedURLException
      */
-    public static void main(String args[]) throws JsonParseException, MalformedURLException, IOException {
+    public static void main(final String args[]) throws JsonParseException, MalformedURLException, IOException {
         // This is an example
         Parser parser = new Parser();
         String jsonSchema = parser.loadEventLoggingJsonSchema("GettingStarted", "0");
@@ -97,7 +97,14 @@ public class Parser {
         }
     }
 
-    public URL generateSchemaUrl(String schema, String revisionId) throws MalformedURLException {
+    /**
+     *
+     * @param schema
+     * @param revisionId
+     * @return
+     * @throws MalformedURLException
+     */
+    public final URL generateSchemaUrl(final String schema, final String revisionId) throws MalformedURLException {
         URL url = new URL("http://meta.wikimedia.org/w/index.php?action=raw&title=Schema:" + schema +"&oldid=" + revisionId);
         return url;
     }
@@ -106,16 +113,18 @@ public class Parser {
      * Load event logging json schema.
      *
      * @param schemaName the schema name
+     * @param revisionId the Mediawiki revisionid of the schema document.
      * @return a string containing the retrieved json schema.
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    public String loadEventLoggingJsonSchema(String schemaName, String revisionId)
-            throws MalformedURLException, IOException {
+    public final String loadEventLoggingJsonSchema(final String schemaName, final String revisionId)
+            throws IOException {
         URL url = generateSchemaUrl(schemaName, revisionId);
         BufferedReader reader = null;
         StringBuilder buffer = new StringBuilder();
         try {
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            Charset cs = Charset.forName("utf-8");
+            reader = new BufferedReader(new InputStreamReader(url.openStream(), cs));
             int cp;
             while ((cp = reader.read()) != -1) {
                 buffer.append((char) cp);
@@ -134,7 +143,7 @@ public class Parser {
      * @throws JsonParseException the json parse exception
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    public void parseEventLoggingJsonSchem(String jsonSchema)
+    public void parseEventLoggingJsonSchem(final String jsonSchema)
             throws JsonParseException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonFactory jf = mapper.getFactory();
