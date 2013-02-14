@@ -5,14 +5,13 @@
         <pig>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
-            <script>/user/otto/kraken/pig/webrequest_loss_hourly.pig</script>
+            <script>/libs/kraken/pig/webrequest_loss_hourly.pig</script>
             <argument>-p</argument>
             <argument>input=${INPUT}</argument>
             <argument>-p</argument>
             <argument>output=${OUTPUT}</argument>
             <argument>-p</argument>
             <argument>hour_regex=${HOUR_REGEX}</argument>
-            <archive>/user/otto/lib/kraken.jar</archive>
         </pig>
         <ok to="concat"/>
         <error to="kill"/>
@@ -21,7 +20,7 @@
         <pig>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
-            <script>/user/otto/kraken/pig/concat_sort.pig</script>
+            <script>/libs/kraken/pig/concat_sort.pig</script>
             <argument>-p</argument>
             <argument>input=${CONCAT_INPUT}</argument>
             <argument>-p</argument>
