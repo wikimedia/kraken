@@ -22,7 +22,7 @@
     </data-in>
   </input-events>
   <output-events>
-    <data-out name="OUTPUT" dataset="webrequest_loss_by_hour">
+    <data-out name="OUTPUT" dataset="webrequest_loss">
       <instance>${coord:current(-4)}</instance>
     </data-out>
   </output-events>
