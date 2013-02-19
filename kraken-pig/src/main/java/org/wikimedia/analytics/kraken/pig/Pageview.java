@@ -70,20 +70,23 @@ public abstract class Pageview extends EvalFunc<Tuple> {
         return false;
     }
 
-
+    /**
+     *
+     * @return
+     */
     private String canonicalizeURL()  {
         switch (this.pageviewType) {
             case MOBILE:
-                return pageviewCanonical.canonicalizeDesktopPageview(this.url);
+                return pageviewCanonical.canonicalizeDesktopPageview(this.url, this.pageviewType);
 
             case DESKTOP:
-                return pageviewCanonical.canonicalizeMobilePageview(this.url);
+                return pageviewCanonical.canonicalizeMobilePageview(this.url, this.pageviewType);
 
             case API:
-                return pageviewCanonical.canonicalizeApiRequest(this.url);
+                return pageviewCanonical.canonicalizeApiRequest(this.url, this.pageviewType);
 
             case BLOG:
-                return pageviewCanonical.canonicalizeBlogPageview(this.url);
+                return pageviewCanonical.canonicalizeBlogPageview(this.url, this.pageviewType);
 
             default:
                 return this.url.toString();

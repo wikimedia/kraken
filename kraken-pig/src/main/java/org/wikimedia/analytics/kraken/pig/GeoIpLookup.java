@@ -21,6 +21,7 @@ package org.wikimedia.analytics.kraken.pig;
 
 import com.maxmind.geoip.Location;
 import com.maxmind.geoip.LookupService;
+import org.apache.commons.logging.Log;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.PigWarning;
 import org.apache.pig.backend.executionengine.ExecException;
@@ -30,13 +31,13 @@ import org.wikimedia.analytics.kraken.schemas.Country;
 import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
 import org.wikimedia.analytics.kraken.schemas.Schema;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.List;
-import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,6 +48,7 @@ import java.util.regex.Pattern;
 
 public class GeoIpLookup extends EvalFunc<Tuple> {
 
+    private final Log LOG = getLogger();
     private static final String EMPTY_STRING = "";
     private File dbFullPath;
     private File dbFullip6Path;

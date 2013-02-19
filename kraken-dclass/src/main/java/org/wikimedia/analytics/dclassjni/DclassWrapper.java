@@ -62,38 +62,44 @@ public class DclassWrapper {
      *
      * @return the _pointer_di
      */
-    public long get_pointer_di() {
+    public final long get_pointer_di() {
         return pointer_di;
     }
 
-    static String UserAgentSample = "Mozilla/5.0 (Linux; U; Android 2.2; en; HTC Aria A6380 Build/ERE27) AppleWebKit/540.13+ (KHTML, like Gecko) Version/3.1 Mobile Safari/524.15.0";
-    static private final String os = System.getProperty("os.name").toLowerCase();
+    static String userAgentSample = "Mozilla/5.0 (Linux; U; Android 2.2; en; HTC Aria A6380 Build/ERE27) AppleWebKit/540.13+ (KHTML, like Gecko) Version/3.1 Mobile Safari/524.15.0";
+    private static final String OS = System.getProperty("os.name").toLowerCase();
 
     static {
         try {
             loadDclassSharedObject();
         } catch (IOException e) {
             e.printStackTrace();
-        };
-    };
+        }
+    }
 
-    public static void main(String[] args){
+    /**
+     *
+     * @param args
+     */
+    public static void main(final String[] args){
 
         Result result = new Result();
-        result.classifyUseragent(UserAgentSample);
+        result.classifyUseragent(userAgentSample);
     }
 
 
+    /**
+     *
+     * @throws IOException
+     */
     public static void loadDclassSharedObject() throws IOException {
         try {
-            if (os.contains("mac")) {
-                //System.load("/usr/local/lib/libdclass.dylib");
+            if (OS.contains("mac")) {
                 System.load("/usr/local/lib/libdclassjni.0.dylib");
 
-            } else if (os.contains("nix") ||
-                    os.contains("nux") ||
-                    os.contains("aix")) {
-                //System.load("/usr/lib/libdclass.so");
+            } else if (OS.contains("nix")
+                    || OS.contains("nux")
+                    || OS.contains("aix")) {
                 System.load("/usr/lib/libdclassjni.so");
             } else {
                 System.out.println("OS not supported.");
