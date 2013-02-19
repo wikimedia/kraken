@@ -48,7 +48,7 @@
         </property>
         <property>
           <name>DEST</name>
-          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest_loss/webrequest_loss_by_hour.tsv</value>
+          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest_loss_by_hour.tsv</value>
         </property>
       </configuration>
    </workflow>
