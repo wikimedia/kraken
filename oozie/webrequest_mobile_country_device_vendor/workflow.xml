@@ -1,7 +1,7 @@
 
 <workflow-app name="webrequest_mobile_country_device_vendor_workflow" xmlns="uri:oozie:workflow:0.4">
-    <start to="webrequest_mobile_country_device_vendor_hour_action"/>
-    <action name="webrequest_mobile_country_device_vendor_hour_action">
+    <start to="webrequest_mobile_country_device_vendor"/>
+    <action name="webrequest_mobile_country_device_vendor">
         <pig>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
