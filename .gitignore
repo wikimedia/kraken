@@ -16,3 +16,4 @@ release.properties
 kraken-dclass/src/main/java/org/openddr/
 .pydevproject
 build/
+testdata*

@@ -1,30 +1,18 @@
 package org.wikimedia.analytics.kraken.pig;
 
-import org.apache.hadoop.fs.FileUtil;
-import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.mapred.ClusterMapReduceTestCase;
-import org.apache.hadoop.mapred.JobClient;
-import org.apache.hadoop.mapred.JobConf;
-import org.apache.hadoop.mapred.Utils;
-
-import java.io.*;
-
-
-
-
-    public class SessionTest extends ClusterMapReduceTestCase {
-        public void test() throws Exception {
-            JobConf conf = createJobConf();
-
-            Path inDir = new Path("testing/jobconf/input");
-            Path outDir = new Path("testing/jobconf/output");
-
-            OutputStream os = getFileSystem().create(new Path(inDir, "text.txt"));
-            Writer wr = new OutputStreamWriter(os);
-            wr.write("b a\n");
-            wr.close();
-
-            conf.setJobName("mr");
+//    public class SessionTest extends ClusterMapReduceTestCase {
+//        public void test() throws Exception {
+//            JobConf conf = createJobConf();
+//
+//            Path inDir = new Path("testing/jobconf/input");
+//            Path outDir = new Path("testing/jobconf/output");
+//
+//            OutputStream os = getFileSystem().create(new Path(inDir, "text.txt"));
+//            Writer wr = new OutputStreamWriter(os);
+//            wr.write("b a\n");
+//            wr.close();
+//
+//            conf.setJobName("mr");
 
 //            conf.setOutputKeyClass(Text.class);
 //            conf.setOutputValueClass(LongWritable.class);
@@ -35,22 +23,22 @@ import java.io.*;
 //            FileInputFormat.setInputPaths(conf, inDir);
 //            FileOutputFormat.setOutputPath(conf, outDir);
 
-            assertTrue(JobClient.runJob(conf).isSuccessful());
+//            assertTrue(JobClient.runJob(conf).isSuccessful());
 
-            // Check the output is as expected
-            Path[] outputFiles = FileUtil.stat2Paths(
-                    getFileSystem().listStatus(outDir, new Utils.OutputFileUtils.OutputFilesFilter()));
-
-            assertEquals(1, outputFiles.length);
-
-            InputStream in = getFileSystem().open(outputFiles[0]);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            assertEquals("a\t1", reader.readLine());
-            assertEquals("b\t1", reader.readLine());
-            assertNull(reader.readLine());
-            reader.close();
-        }
-    }
+//            // Check the output is as expected
+//            Path[] outputFiles = FileUtil.stat2Paths(
+//                    getFileSystem().listStatus(outDir, new Utils.OutputFileUtils.OutputFilesFilter()));
+//
+//            assertEquals(1, outputFiles.length);
+//
+//            InputStream in = getFileSystem().open(outputFiles[0]);
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+//            assertEquals("a\t1", reader.readLine());
+//            assertEquals("b\t1", reader.readLine());
+//            assertNull(reader.readLine());
+//            reader.close();
+//        }
+//    }
 
 //    private MiniDFSCluster dfsCluster = null;
 //    //private MiniMRCluster mrCluster = null;

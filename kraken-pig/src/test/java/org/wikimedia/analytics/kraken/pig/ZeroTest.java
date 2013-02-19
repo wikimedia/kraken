@@ -34,9 +34,9 @@ import static org.junit.Assert.assertNotNull;
 public class ZeroTest {
 
     @Test
-    public void Test2() throws JsonMappingException, JsonParseException {
+    public void testMccMncJsonFile() throws JsonMappingException, JsonParseException {
         JsonToClassConverter converter = new JsonToClassConverter();
-        HashMap<String, Schema> map = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getCountryCode");
+        HashMap<String, Schema> map = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getMCC_MNC");
         MccMnc carrier = (MccMnc) map.get("624-02");
         assertNotNull(carrier);
         assertEquals("624-02", carrier.getMCC_MNC());
