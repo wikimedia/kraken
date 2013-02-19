@@ -24,6 +24,9 @@ import org.apache.pig.PigWarning;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
+import org.wikimedia.analytics.kraken.pageview.PageviewCanonical;
+import org.wikimedia.analytics.kraken.pageview.PageviewFilter;
+import org.wikimedia.analytics.kraken.pageview.PageviewType;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -59,7 +62,7 @@ public abstract class Pageview extends EvalFunc<Tuple> {
                 break;
 
             case BLOG:
-                return this.pageviewFilter.isValidBlogURL(this.url);
+                return this.pageviewFilter.isValidBlogPageview(this.url);
 
             default:
                 return false;
@@ -116,7 +119,7 @@ public abstract class Pageview extends EvalFunc<Tuple> {
         setUrl(url);
 
 
-        if (pageviewFilter.isValidResponse(response)
+        if (pageviewFilter.isValidResponseCode(response)
             && pageviewFilter.isValidMimeType(mimetype)
             && !pageviewFilter.isInternalWMFTraffic(ip)) {
 
