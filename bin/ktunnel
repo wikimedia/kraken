@@ -1,0 +1,69 @@
+#!/usr/bin/env python
+"""Kraken SSH tunnels for web GUI access.
+
+Usage:
+  ktunnel [options] <service> [<ssh_host>]
+
+Available tunnel services:
+  namenode
+  datenode
+  jobs
+  history
+  hue
+  oozie
+
+Options:
+  -h --help             show this help message and exit
+  -f --background       background the tunnel process
+  -v --verbose          turn on verbose ssh output
+
+Examples:
+  
+  Tunnel to Hue:
+    ktunnel hue
+
+  Tunnel to job browser in the background:
+    ktunnel --background jobs 
+
+  Tunnel to Oozie web UI as a different user using a different bastion.
+    ktunnel oozie bubba@analytics1001.wikimedia.org
+
+"""
+
+from docopt import docopt
+import sys
+import os
+
+default_ssh_address = 'analytics1001.wikimedia.org'
+
+services = {
+    'namenode': {'host': 'analytics1010.eqiad.wmnet', 'port': 50070},
+    'datanode': {'host': 'analytics1011.eqiad.wmnet', 'port': 50075},
+    'jobs':     {'host': 'analytics1010.eqiad.wmnet', 'port': 8088 },
+    'history':  {'host': 'analytics1010.eqiad.wmnet', 'port': 19888},
+    'hue':      {'host': 'analytics1027.eqiad.wmnet', 'port': 8888 },
+    'oozie':    {'host': 'analytics1027.eqiad.wmnet', 'port': 11000},
+}
+
+def tunnel(ssh_host, bind_port, dest_host, dest_port, background=False, verbose=True):
+    background_flag = 'f' if background else ''
+    verbose_flag    = 'v' if verbose    else ''
+    command = "ssh -N%s%s %s -L %i:%s:%i" % (background_flag, verbose_flag, ssh_host, bind_port, dest_host, dest_port)
+    print command
+    os.system(command)
+    
+if __name__ == '__main__':
+    # parse arguments
+    arguments = docopt(__doc__)
+    # print arguments
+
+    if (arguments['<service>'] not in services.keys()):
+        print "Error.  service must be one of " + ', '.join(services.keys())
+        exit(1)
+
+    ssh_host = arguments['<ssh_host>'] if arguments['<ssh_host>'] else default_ssh_address
+
+    service = services[arguments['<service>']]
+    print "Tunneling to %s.  Tunnel will be available at http://localhost:%s\n" % (arguments['<service>'], service['port'])
+    tunnel(ssh_host, service['port'], service['host'], service['port'], arguments['--background'], arguments['--verbose'])
+    

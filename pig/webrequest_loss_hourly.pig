@@ -1,5 +1,10 @@
 REGISTER 'kraken.jar'
 
+-- import LOAD_WEBREQUEST macro to load in webrequest log fields.
+IMPORT 'include/load_webrequest.pig';
+
+-- setting this to 4 for now, since we are
+-- only importing logs from the 4 mobile varnish hosts
 SET default_parallel 4;
 
 DEFINE TO_HOUR      org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd_HH');
@@ -15,7 +20,7 @@ DEFINE EXTRACT      org.apache.pig.builtin.REGEX_EXTRACT_ALL();
 -- The default is to match all hour timestamps.
 %default hour_regex '.*';
 
-LOG_FIELDS     = LOAD '$input' AS (kafka_byte_offset:long, hostname:chararray, sequence:long, timestamp:chararray, request_time:chararray, remote_addr:chararray, http_status:chararray, bytes_sent:chararray, request_method:chararray, uri:chararray, proxy_host:chararray, content_type:chararray, referer:chararray, x_forwarded_for:chararray, user_agent:chararray);
+LOG_FIELDS     = LOAD_WEBREQUEST('$input');
 
 LOG_FIELDS  = FOREACH LOG_FIELDS GENERATE
  hostname, 
