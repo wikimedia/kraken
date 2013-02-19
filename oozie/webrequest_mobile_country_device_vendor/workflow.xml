@@ -1,0 +1,36 @@
+
+<workflow-app name="webrequest_mobile_country_device_vendor_workflow" xmlns="uri:oozie:workflow:0.4">
+    <start to="webrequest_mobile_country_device_vendor"/>
+    <action name="webrequest_mobile_country_device_vendor">
+        <pig>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <script>/libs/kraken/pig/webrequest_hour_country_device_vendor.pig</script>
+            <argument>-p</argument>
+            <argument>input=${INPUT}</argument>
+            <argument>-p</argument>
+            <argument>output=${OUTPUT}</argument>
+            <argument>-p</argument>
+            <argument>hour_regex=${HOUR_REGEX}</argument>
+        </pig>
+        <ok to="concat"/>
+        <error to="kill"/>
+    </action>
+    <action name="concat">
+        <pig>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <script>/libs/kraken/pig/concat_sort.pig</script>
+            <argument>-p</argument>
+            <argument>input=${CONCAT_INPUT}</argument>
+            <argument>-p</argument>
+            <argument>dest=${DEST}</argument>
+        </pig>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
