@@ -20,7 +20,7 @@ package org.wikimedia.analytics.kraken.pageview;
 
 
 import java.net.URL;
-import java.util.Arrays;
+
 
 /**
  *
@@ -29,17 +29,51 @@ public class PageviewCanonical {
     private StringBuilder sb;
 
 
+
+    private String getProject(final URL url, final PageviewType pageviewType){
+        sb = new StringBuilder();
+        String[] hostname = url.getHost().split("\\.");
+        if (pageviewType == PageviewType.MOBILE || pageviewType == PageviewType.MOBILE_API) {
+            sb.append(hostname[0]);
+            sb.append(".");
+            sb.append(hostname[1]);
+            sb.append(".");
+            sb.append(hostname[2]);
+        }  else if (pageviewType == PageviewType.IMAGE) {
+            sb.append(hostname[0]);
+        } else {
+            sb.append(hostname[0]);
+            sb.append(".");
+            sb.append(hostname[1]);
+        }
+        return sb.toString();
+
+    }
     /**
      *
      * @param url
+     * @parm pageviewType
      * @return
      */
-    public String canonicalizeDesktopPageview(final URL url) {
+    public String canonicalizeDesktopPageview(final URL url, final PageviewType pageviewType) {
+        String project = getProject(url, pageviewType);
         sb = new StringBuilder();
-        String[] hostname = url.getHost().split("\\.");
-        sb.append(hostname[0]);
-        sb.append(".");
-        sb.append(hostname[1]);
+        sb.append(project);
+        sb.append(" ");
+        sb.append(url.getPath().replace("/wiki/", ""));
+        return sb.toString();
+    }
+
+    /**
+     *
+     * @param url
+     * @parm pageviewType
+     * @return
+     */
+    public String canonicalizeMobilePageview(final URL url, final PageviewType pageviewType) {
+        String project = getProject(url, pageviewType);
+        sb = new StringBuilder();
+        sb.append(project);
         sb.append(" ");
         sb.append(url.getPath().replace("/wiki/", ""));
         return sb.toString();
@@ -50,25 +84,7 @@ public class PageviewCanonical {
      * @param url
      * @return
      */
-    public String canonicalizeMobilePageview(final URL url) {
-        sb = new StringBuilder();
-        String[] hostname = url.getHost().split("\\.");
-        sb.append(hostname[0]);
-        sb.append(".");
-        sb.append(hostname[1]);
-        sb.append(".");
-        sb.append(hostname[2]);
-        sb.append(" ");
-        sb.append(url.getPath().replace("/wiki/", ""));
-        return sb.toString();
-    }
-
-    /**
-     *
-     * @param url
-     * @return
-     */
-    public String canonicalizeApiRequest(final URL url) {
+    public String canonicalizeApiRequest(final URL url, final PageviewType pageviewType) {
         //TODO not yet implemented
         return url.toString();
     }
@@ -76,9 +92,10 @@ public class PageviewCanonical {
     /**
      *
      * @param url
+     * @parm pageviewType
      * @return
      */
-    public String canonicalizeBlogPageview(final URL url) {
+    public String canonicalizeBlogPageview(final URL url, final PageviewType pageviewType) {
         //TODO not yet implemented
         return url.toString();
     }
@@ -86,9 +103,10 @@ public class PageviewCanonical {
     /**
      *
      * @param url
+     * @parm pageviewType
      * @return
      */
-    public String canonicalizeSearchQuery(final URL url) {
+    public String canonicalizeSearchQuery(final URL url, final PageviewType pageviewType) {
         return url.toString();
     }
 
@@ -97,15 +115,17 @@ public class PageviewCanonical {
      * Given thumbail view https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Acueducto_de_Segovia_01.jpg/600px-Acueducto_de_Segovia_01.jpg
      * that becomes https://upload.wikimedia.org/wikipedia/commons/1/19/Acueducto_de_Segovia_01.jpg
      * @param url
+     * @parm pageviewType
      * @return
      */
-    public String canonicalizeImagePageview(final URL url) {
+    public String canonicalizeImagePageview(final URL url, final PageviewType pageviewType) {
         int positionRightSlash = url.getPath().lastIndexOf("/");
         String path = url.getPath().replace("thumb", "").substring(0, positionRightSlash);
+        String project = getProject(url, pageviewType);
 
         sb = new StringBuilder();
-        sb.append(url.getHost());
-        sb.append("/");
+        sb.append(project);
+        sb.append(" ");
         sb.append(path);
         return sb.toString();
     }

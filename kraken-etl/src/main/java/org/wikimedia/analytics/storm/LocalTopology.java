@@ -74,9 +74,6 @@ public class LocalTopology {
         conf.put("redis-host", REDIS_HOST);
         conf.put("redis-port", REDIS_PORT);
 
-
-        KrakenSpout spout = new KrakenSpout();
-
         TopologyBuilder builder = new TopologyBuilder();
 
         builder.setSpout("kraken-spout", new KrakenSpout(), 1);
@@ -97,7 +94,7 @@ public class LocalTopology {
 
             LocalCluster cluster = new LocalCluster();
             cluster.submitTopology("KrakenLocal", conf, builder.createTopology());
-            Utils.sleep(10000);
+            Utils.sleep(20000);
             cluster.killTopology("KrakenLocal");
             cluster.shutdown();
         }

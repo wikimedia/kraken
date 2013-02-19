@@ -53,7 +53,7 @@ public class JsonToClassConverter {
      * @throws JsonParseException
      * @throws RuntimeException
      */
-    public HashMap<String, Schema> construct(String className, String file, String key)
+    public final HashMap<String, Schema> construct(final String className, final String file, final String key)
             throws JsonMappingException, JsonParseException, RuntimeException {
         JsonFactory jfactory = new JsonFactory();
         HashMap<String, Schema> map = new HashMap<String, Schema>();
@@ -82,7 +82,7 @@ public class JsonToClassConverter {
 
         try {
             JsonParser jParser = jfactory.createJsonParser(input);
-            schemas = mapper.readValue(jParser,type);
+            schemas = mapper.readValue(jParser, type);
         } catch (IOException e) {
             System.err.println("Specified file could not be found.");
         } finally {
@@ -95,7 +95,7 @@ public class JsonToClassConverter {
             }
         }
         if (schemas != null){
-            for(Schema schemaInstance: schemas) {
+            for (Schema schemaInstance: schemas) {
                 try {
                     Method getKey = schemaInstance.getClass().getMethod(key);
                     map.put(getKey.invoke(schemaInstance).toString(), schemaInstance);
@@ -103,7 +103,7 @@ public class JsonToClassConverter {
                     throw new RuntimeException(e);
                 } catch (InvocationTargetException e) {
                     throw new RuntimeException(e);
-                } catch (NoSuchMethodException e){
+                } catch (NoSuchMethodException e) {
                     System.err.println("Specified key is not a valid Getter for " + className);
                 }
             }

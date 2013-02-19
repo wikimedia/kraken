@@ -233,9 +233,7 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
         } else {
             output.set(2, m.group(0));
         }
-
         return output;
-
     }
 
     /**
