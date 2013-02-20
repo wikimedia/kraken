@@ -24,7 +24,7 @@ DEFINE TO_HOUR             org.wikimedia.analytics.kraken.pig.ConvertDateFormat(
 -- The default is to match all hour timestamps.
 %default hour_regex '.*';
 
-LOG_FIELDS     = LOAD_WEBREQUEST('mobile.1000.log');
+LOG_FIELDS     = LOAD_WEBREQUEST('$input');
 
 LOG_FIELDS     = FILTER LOG_FIELDS BY (request_method MATCHES '(GET|get)');
 LOG_FIELDS     = FILTER LOG_FIELDS BY (content_type MATCHES '.*(text\\/html).*' OR (content_type == '-'));
