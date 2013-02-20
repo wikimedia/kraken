@@ -94,7 +94,7 @@ public class LocalTopology {
 
             LocalCluster cluster = new LocalCluster();
             cluster.submitTopology("KrakenLocal", conf, builder.createTopology());
-            Utils.sleep(20000);
+            Utils.sleep(10000);
             cluster.killTopology("KrakenLocal");
             cluster.shutdown();
         }

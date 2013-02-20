@@ -69,7 +69,7 @@ public class RedisCommitterBolt implements IRichBolt {
                         final OutputCollector outputCollector) {
         jedis = new Jedis(LocalTopology.REDIS_HOST, LocalTopology.REDIS_PORT);
         jedis.connect();
-        this.sdf = new SimpleDateFormat("yyyy-MM-dd HH:59:59");
+        this.sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
     }
 
@@ -84,9 +84,8 @@ public class RedisCommitterBolt implements IRichBolt {
         String userAgent = tuple.getString(13);
 
         Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType);
-        if (pageview.isValidURL()) {
-        //if (pageview.validate()) {
-            pageview.detectPageviewType();
+        if (pageview.isValidURL() && pageview.validate()) {
+            ///pageview.detectPageviewType();
             String timestamp = parseTimestamp(tuple.getString(2));
             String canonicalURL = pageview.getCanonicalURL();
             jedis.hincrBy(canonicalURL, timestamp, 1);

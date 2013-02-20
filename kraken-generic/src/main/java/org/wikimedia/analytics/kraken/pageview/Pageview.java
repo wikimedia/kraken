@@ -23,7 +23,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- *
+ * This class provides the main functionality to:
+ * 1) determine whether a logline from a cache server is a pageview
+ * 2) canonicalize the title of the pageview
  */
 public class Pageview {
     private URL url;
@@ -40,12 +42,12 @@ public class Pageview {
 
     /**
      *
-     * @param url
-     * @param referer
-     * @param userAgent
-     * @param statusCode
-     * @param ipAddress
-     * @param mimeType
+     * @param url page visited
+     * @param referer origin of visitor, '-' if direct hit.
+     * @param userAgent string indicating the browser/device used by the visitor
+     * @param statusCode responsecode from the cache server to indicate whether request was successful or not
+     * @param ipAddress ipaddress of the visitor
+     * @param mimeType content type requested
      */
     public Pageview(final String url, final String referer, final String userAgent,
                     final String statusCode, final String ipAddress, final String mimeType) {
@@ -71,10 +73,10 @@ public class Pageview {
     }
 
     /**
-     *
-     * @return
+     * Detailed business logic to determine per pageview type whether the visit should be counted as a pageview or not.
+     * @return true/false
      */
-    private boolean passCustomFilter() {
+    public final boolean passCustomFilter() {
         switch (this.pageviewType) {
             case MOBILE :
                 return pageviewFilter.isValidMobilePageview(this.url);
@@ -84,6 +86,9 @@ public class Pageview {
 
             case DESKTOP:
                 return pageviewFilter.isValidDesktopPageview(this.url);
+
+            case IMAGE:
+                return true;
 
             case API:
                 return true;
@@ -102,10 +107,9 @@ public class Pageview {
 
     /**
      *
-     * @return
+     * @return String containing the canonical title of the page visited
      */
     private String canonicalizeURL()  {
-        System.out.println(this.pageviewType.toString());
         switch (this.pageviewType) {
             case MOBILE:
                 return pageviewCanonical.canonicalizeMobilePageview(this.url,  this.pageviewType);
@@ -134,7 +138,7 @@ public class Pageview {
     }
 
     /**
-     *
+     * Getter for canonicalizeURL()
      * @return
      */
     public final String getCanonicalURL() {
@@ -147,7 +151,11 @@ public class Pageview {
     public void detectPageviewType() {
          if (this.url.getHost().contains(".m.")) {
             if (this.url.getPath().contains("api.php")) {
-                this.pageviewType = PageviewType.MOBILE_API;
+                if (this.url.getQuery().contains("opensearch")) {
+                    this.pageviewType = PageviewType.MOBILE_SEARCH;
+                }  else {
+                    this.pageviewType = PageviewType.MOBILE_API;
+                }
             } else {
                 this.pageviewType = PageviewType.MOBILE;
             }
@@ -158,7 +166,7 @@ public class Pageview {
         } else if (this.url.getPath().contains("index.php")) {
             this.pageviewType = PageviewType.DESKTOP;
         } else if (this.url.getPath().contains("api.php")) {
-             if (this.url.getPath().contains("action=opensearch")) {
+             if (this.url.getQuery() != null && this.url.getQuery().contains("opensearch")) {
                  this.pageviewType = PageviewType.SEARCH;
              } else {
                 this.pageviewType = PageviewType.API;
@@ -173,15 +181,15 @@ public class Pageview {
     }
 
     /**
-     *
-     * @return
+     * Pageviewtype agnostic checks to determine whether request is pageview or not.
+     * @return true/false
      */
     public final boolean validate() {
         boolean result = false;
         if (pageviewFilter.isValidUserAgent(userAgent)
                 && pageviewFilter.isValidResponseCode(statusCode)
                 && pageviewFilter.isValidMimeType(mimeType)
-                && !pageviewFilter.isInternalWMFTraffic(ipAddress)) {
+                && pageviewFilter.isNotInternalWMFTraffic(ipAddress)) {
             result = passCustomFilter();
             return result;
         }
@@ -189,8 +197,8 @@ public class Pageview {
     }
 
     /**
-     *
-     * @return
+     * Determines whether the url was succesfully parsed to instance of URL.
+     * @return true/false
      */
     public final boolean isValidURL() {
         if (this.url != null) {

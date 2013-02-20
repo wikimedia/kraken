@@ -19,15 +19,31 @@
 package org.wikimedia.analytics.kraken.pageview;
 
 /**
- *
+ * This clas defines the different types of pageviews on the Wikimedia properties.
  */
 public enum PageviewType {
-        MOBILE,
-        DESKTOP,
-        MOBILE_API,
-        API,
-        SEARCH,
-        BLOG,
-        IMAGE
+    /** A regular mobile pageview */
+    MOBILE,
+
+    /** A mobile pageview requested through the api */
+    MOBILE_API,
+
+    /** A mobile search request */
+    MOBILE_SEARCH,
+
+    /** A regular pageview */
+    DESKTOP,
+
+    /** A regular API request */
+    API,
+
+    /** A regular search request */
+    SEARCH,
+
+    /** A pageview on the blog */
+    BLOG,
+
+    /** An image from commons or upload */
+    IMAGE
     }
 

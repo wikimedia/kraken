@@ -82,7 +82,7 @@ public class PageviewFilter {
      * @param ipAddress
      * @return
      */
-    public final boolean isInternalWMFTraffic(final String ipAddress) {
+    public final boolean isNotInternalWMFTraffic(final String ipAddress) {
         //TODO: not yet implemented
         return true;
     }
