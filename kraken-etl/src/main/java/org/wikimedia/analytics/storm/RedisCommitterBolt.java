@@ -30,6 +30,7 @@ import redis.clients.jedis.Jedis;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -67,7 +68,8 @@ public class RedisCommitterBolt implements IRichBolt {
     @Override
     public void prepare(final Map map, final TopologyContext topologyContext,
                         final OutputCollector outputCollector) {
-        jedis = new Jedis(LocalTopology.REDIS_HOST, LocalTopology.REDIS_PORT);
+        System.out.println("OUTPUT: " + Arrays.toString(map.keySet().toArray()));
+        jedis = new Jedis((String) map.get("redisHost"), Integer.parseInt((String) map.get("redisPort")));
         jedis.connect();
         this.sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 

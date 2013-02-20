@@ -42,7 +42,7 @@ import java.util.Map;
  *
  */
 public class KrakenSpout extends BaseRichSpout {
-    public static Logger LOG = LoggerFactory.getLogger(TestWordSpout.class);
+    public static Logger LOG = LoggerFactory.getLogger(KrakenSpout.class);
     boolean _isDistributed;
     SpoutOutputCollector _collector;
     private boolean completed = false;
@@ -71,8 +71,6 @@ public class KrakenSpout extends BaseRichSpout {
      */
     public final void open(final Map conf, final TopologyContext context, final SpoutOutputCollector collector) {
         try {
-
-
             this.fileReader = new FileReader(conf.get("inputFile").toString());
         } catch (IOException e) {
             throw new RuntimeException("Error reading file " + conf.get("fileInput"));
