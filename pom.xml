@@ -94,6 +94,10 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>sonatype</id>
+            <url>http://nexus.wmflabs.org/nexus/content/groups/public</url>
+        </repository>
     </repositories>
 
 
