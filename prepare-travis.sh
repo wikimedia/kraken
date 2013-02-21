@@ -1,6 +1,6 @@
 BASE_URL="https://repository.cloudera.com/artifactory/cloudera-repos/org/apache";
 CLOUDERA_VERSION="cdh4.1.2";
-PIG_VERSION="0.10.0-CLOUDERA_VERSION";
+PIG_VERSION="0.10.0-$CLOUDERA_VERSION";
 HADOOP_VERSION="2.0.0-$CLOUDERA_VERSION";
 
 
