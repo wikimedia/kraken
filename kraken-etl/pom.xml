@@ -80,7 +80,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass></mainClass>
+                            <mainClass>org.wikimedia.analytics.storm.Cli</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
