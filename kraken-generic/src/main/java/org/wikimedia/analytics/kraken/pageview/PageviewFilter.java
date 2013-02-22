@@ -22,13 +22,13 @@ package org.wikimedia.analytics.kraken.pageview;
 import java.net.URL;
 
 /**
- *
+ * The general Pageview filter class for all jobs running on Kraken.
  */
 public class PageviewFilter {
 
     /**
      *
-     * @param userAgent
+     * @param userAgent string identifying the device/browser used by the visitor.
      * @return
      */
     public final boolean isValidUserAgent(final String userAgent) {

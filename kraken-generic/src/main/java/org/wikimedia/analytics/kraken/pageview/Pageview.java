@@ -35,9 +35,9 @@ public class Pageview {
     private String mimeType;
     private String timestamp;
 
-    private PageviewType pageviewType;
-    private PageviewFilter pageviewFilter;
-    private PageviewCanonical pageviewCanonical;
+    public PageviewType pageviewType;
+    public PageviewFilter pageviewFilter;
+    public PageviewCanonical pageviewCanonical;
 
     /**
      *
@@ -120,40 +120,32 @@ public class Pageview {
      *
      * @return String containing the canonical title of the page visited
      */
-    private String canonicalizeURL()  {
+    public final void canonicalizeURL()  {
         switch (this.pageviewType) {
             case MOBILE:
-                return pageviewCanonical.canonicalizeMobilePageview(this.url,  this.pageviewType);
+                pageviewCanonical.canonicalizeMobilePageview(this.url, this.pageviewType);
 
             case MOBILE_API:
-                return pageviewCanonical.canonicalizeMobilePageview(this.url,  this.pageviewType);
+                pageviewCanonical.canonicalizeMobilePageview(this.url, this.pageviewType);
 
             case DESKTOP:
-                return pageviewCanonical.canonicalizeDesktopPageview(this.url,  this.pageviewType);
+                pageviewCanonical.canonicalizeDesktopPageview(this.url, this.pageviewType);
 
             case API:
-                return pageviewCanonical.canonicalizeApiRequest(this.url,  this.pageviewType);
+                pageviewCanonical.canonicalizeApiRequest(this.url, this.pageviewType);
 
             case BLOG:
-                return pageviewCanonical.canonicalizeBlogPageview(this.url,  this.pageviewType);
+                pageviewCanonical.canonicalizeBlogPageview(this.url, this.pageviewType);
 
             case SEARCH:
-                return pageviewCanonical.canonicalizeSearchQuery(this.url,  this.pageviewType);
+                pageviewCanonical.canonicalizeSearchQuery(this.url, this.pageviewType);
 
             case IMAGE:
-                return pageviewCanonical.canonicalizeImagePageview(this.url,  this.pageviewType);
+                pageviewCanonical.canonicalizeImagePageview(this.url, this.pageviewType);
 
             default:
-                return (this.url != null ? this.url.toString() : "bad.formed.url");
+                break;
         }
-    }
-
-    /**
-     * Getter for canonicalizeURL()
-     * @return
-     */
-    public final String getCanonicalURL() {
-        return canonicalizeURL();
     }
 
     /**
@@ -212,7 +204,7 @@ public class Pageview {
     }
 
     /**
-     * Determines whether the url was succesfully parsed to instance of URL.
+     * Determines whether the url was successfully parsed to instance of URL.
      * @return true/false
      */
     public final boolean isValidURL() {

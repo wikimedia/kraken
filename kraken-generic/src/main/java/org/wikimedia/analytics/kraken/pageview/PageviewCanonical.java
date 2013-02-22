@@ -35,6 +35,11 @@ public class PageviewCanonical {
     private Pattern action = Pattern.compile("action=[a-z]*");
     private Matcher matcher;
 
+    private String language;
+    private String articleTitle;
+    private String project;
+    private String query;
+
 
     /**
      *
@@ -117,15 +122,10 @@ public class PageviewCanonical {
      * @parm pageviewType
      * @return
      */
-    public String canonicalizeDesktopPageview(final URL url, final PageviewType pageviewType) {
-        String project = getProject(url, pageviewType);
+    public final void canonicalizeDesktopPageview(final URL url, final PageviewType pageviewType) {
+        this.project = getProject(url, pageviewType);
         String titleInput = url.getPath().replace("/wiki/", "");
-        String title = decodeURL(titleInput);
-        sb = new StringBuilder();
-        sb.append(project);
-        sb.append(" ");
-        sb.append(title);
-        return sb.toString();
+        this.articleTitle = decodeURL(titleInput);
     }
 
     /**
@@ -134,15 +134,10 @@ public class PageviewCanonical {
      * @parm pageviewType
      * @return
      */
-    public String canonicalizeMobilePageview(final URL url, final PageviewType pageviewType) {
-        String project = getProject(url, pageviewType);
+    public final void canonicalizeMobilePageview(final URL url, final PageviewType pageviewType) {
+        this.project = getProject(url, pageviewType);
         String titleInput = url.getPath().replace("/wiki/", "");
-        String title = decodeURL(titleInput);
-        sb = new StringBuilder();
-        sb.append(project);
-        sb.append(" ");
-        sb.append(title);
-        return sb.toString();
+        this.articleTitle = decodeURL(titleInput);
     }
 
     /**
@@ -150,24 +145,18 @@ public class PageviewCanonical {
      * @param url
      * @return
      */
-    public String canonicalizeApiRequest(final URL url, final PageviewType pageviewType) {
-        String project = getProject(url, pageviewType);
-        String query;
+    public final void canonicalizeApiRequest(final URL url, final PageviewType pageviewType) {
+        this.project = getProject(url, pageviewType);
 
         if (url.getQuery() != null) {
             try {
-                 query = action.matcher(url.getQuery()).group(0);
+                 this.query = action.matcher(url.getQuery()).group(0);
             } catch (IllegalStateException e) {
-                query = "unknown.api.action";
+                this.query = "unknown.api.action";
             }
         } else {
-            query = "unknown.api.action";
+            this.query = "unknown.api.action";
         }
-        sb = new StringBuilder();
-        sb.append(project);
-        sb.append(" ");
-        sb.append(query);
-        return sb.toString();
     }
 
     /**
@@ -176,9 +165,8 @@ public class PageviewCanonical {
      * @parm pageviewType
      * @return
      */
-    public String canonicalizeBlogPageview(final URL url, final PageviewType pageviewType) {
+    public final void canonicalizeBlogPageview(final URL url, final PageviewType pageviewType) {
         //TODO not yet implemented
-        return url.toString();
     }
 
     /**
@@ -187,8 +175,8 @@ public class PageviewCanonical {
      * @parm pageviewType
      * @return
      */
-    public String canonicalizeSearchQuery(final URL url, final PageviewType pageviewType) {
-        return url.toString();
+    public final void canonicalizeSearchQuery(final URL url, final PageviewType pageviewType) {
+        //TODO not yet implemented
     }
 
     /**
@@ -199,15 +187,40 @@ public class PageviewCanonical {
      * @parm pageviewType
      * @return
      */
-    public String canonicalizeImagePageview(final URL url, final PageviewType pageviewType) {
-
+    public final void canonicalizeImagePageview(final URL url, final PageviewType pageviewType) {
         String path = parsePath(url);
-        String project = getProject(url, pageviewType);
+        this.project = getProject(url, pageviewType);
+    }
 
-        sb = new StringBuilder();
-        sb.append(project);
-        sb.append(" ");
-        sb.append(path);
-        return sb.toString();
+    /**
+     *
+     * @return
+     */
+    public final String getLanguage() {
+        return language;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final String getArticleTitle() {
+        return articleTitle;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final String getProject() {
+        return project;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final String getQuery() {
+        return query;
     }
 }

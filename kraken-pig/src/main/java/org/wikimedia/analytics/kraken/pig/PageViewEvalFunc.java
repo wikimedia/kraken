@@ -18,9 +18,10 @@
  */
 package org.wikimedia.analytics.kraken.pig;
 
-import org.apache.pig.FilterFunc;
+import org.apache.pig.EvalFunc;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.Tuple;
+import org.apache.pig.data.TupleFactory;
 import org.wikimedia.analytics.kraken.pageview.Pageview;
 import org.wikimedia.analytics.kraken.pageview.PageviewCanonical;
 import org.wikimedia.analytics.kraken.pageview.PageviewFilter;
@@ -34,7 +35,7 @@ import org.wikimedia.analytics.kraken.pageview.PageviewType;
  REGISTER 'kraken-generic-0.0.1-SNAPSHOT.jar'
  SET default_parallism 10;
 
- DEFINE PAGEVIEW org.wikimedia.analytics.kraken.pig.PageViewFilter();
+ DEFINE PAGEVIEW org.wikimedia.analytics.kraken.pig.PageViewEvalFunc();
  DEFINE TO_DAY  org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd');
 
  LOG_FIELDS     = LOAD '$input' USING PigStorage('\t') AS (
@@ -69,10 +70,8 @@ import org.wikimedia.analytics.kraken.pageview.PageviewType;
  STORE COUNT into '$output';
  * </code>
  */
-public class PageViewFilter extends FilterFunc {
-    private PageviewType pageviewType;
-    private PageviewFilter pageviewFilter;
-    private PageviewCanonical pageviewCanonical;
+public class PageViewEvalFunc extends EvalFunc<Tuple> {
+    private TupleFactory tupleFactory = TupleFactory.getInstance();
 
     /**
      *
@@ -80,7 +79,7 @@ public class PageViewFilter extends FilterFunc {
      * @return true/false
      * @throws ExecException
      */
-    public final Boolean exec(final Tuple input) throws ExecException {
+    public final Tuple exec(final Tuple input) throws ExecException {
         if (input == null || input.get(0) == null || input.size() != 6) {
             return null;
         }
@@ -92,15 +91,18 @@ public class PageViewFilter extends FilterFunc {
         String ip = (input.get(4) != null ? (String) input.get(4) : "-");
         String mimeType = (input.get(5) != null ? (String) input.get(5) : "-");
 
-        boolean result;
 
-
+        Tuple output;
         Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimeType);
+
         if (pageview.validate()) {
-            result = true;
+            output = tupleFactory.newTuple();
+            output.set(0, pageview.pageviewCanonical.getLanguage());
+            output.set(1, pageview.pageviewCanonical.getProject());
+            output.set(2, pageview.pageviewCanonical.getArticleTitle());
         } else {
-            result = false;
+            output = null;
         }
-    return result;
+    return output;
     }
 }

@@ -72,7 +72,6 @@ public class RedisCommitterBolt implements IRichBolt {
         jedis = new Jedis((String) map.get("redisHost"), Integer.parseInt((String) map.get("redisPort")));
         jedis.connect();
         this.sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-
     }
 
     @Override
@@ -86,13 +85,13 @@ public class RedisCommitterBolt implements IRichBolt {
         String userAgent = tuple.getString(13);
 
         Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType);
-        if (pageview.isValidURL() && pageview.validate()) {
-            ///pageview.detectPageviewType();
+        if (pageview.validate()) {
             String timestamp = parseTimestamp(tuple.getString(2));
-            String canonicalURL = pageview.getCanonicalURL();
-            jedis.hincrBy(canonicalURL, timestamp, 1);
+            pageview.canonicalizeURL();
+            //TODO: this needs to be refined.
+            String key = pageview.pageviewCanonical.getLanguage() + pageview.pageviewCanonical.getProject() + pageview.pageviewCanonical.getArticleTitle();
+            jedis.hincrBy(key, timestamp, 1);
         }
-
     }
 
     @Override
