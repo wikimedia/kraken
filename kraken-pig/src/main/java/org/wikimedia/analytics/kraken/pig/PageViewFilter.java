@@ -28,6 +28,46 @@ import org.wikimedia.analytics.kraken.pageview.PageviewType;
 
 /**
  * Entry point for the Pig UDF class that uses the Pageview filter logic.
+ * This is a simple Pig script that illustrates how to use this Pig UDF.
+ * <code>
+ REGISTER 'kraken-pig-0.0.1-SNAPSHOT.jar'
+ REGISTER 'kraken-generic-0.0.1-SNAPSHOT.jar'
+ SET default_parallism 10;
+
+ DEFINE PAGEVIEW org.wikimedia.analytics.kraken.pig.PageViewFilter();
+ DEFINE TO_DAY  org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd');
+
+ LOG_FIELDS     = LOAD '/wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-02*' USING PigStorage('\t') AS (
+ kafka_offset,
+ hostname:chararray,
+ udplog_sequence,
+ timestamp:chararray,
+ request_time:chararray,
+ remote_addr:chararray,
+ http_status:chararray,
+ bytes_sent:chararray,
+ request_method:chararray,
+ uri:chararray,
+ proxy_host:chararray,
+ content_type:chararray,
+ referer:chararray,
+ x_forwarded_for:chararray,
+ user_agent:chararray,
+ http_language:chararray,
+ x_cs:chararray );
+
+ LOG_FIELDS = FILTER LOG_FIELDS BY PAGEVIEW(uri,referer,user_agent,http_status,remote_addr,content_type);
+
+ PARSED     = FOREACH LOG_FIELDS GENERATE TO_DAY(timestamp) AS day, uri;
+
+ GROUPED    = GROUP PARSED BY (day,  uri);
+
+ COUNT       = FOREACH GROUPED GENERATE
+ FLATTEN(group) AS (day, uri),
+ COUNT_STAR($1) as num PARALLEL 7;
+ --DUMP COUNT;
+ STORE COUNT into '$output';
+ * </code>
  */
 public class PageViewFilter extends FilterFunc {
     private PageviewType pageviewType;
