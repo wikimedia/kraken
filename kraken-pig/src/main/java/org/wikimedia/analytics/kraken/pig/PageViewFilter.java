@@ -37,7 +37,7 @@ import org.wikimedia.analytics.kraken.pageview.PageviewType;
  DEFINE PAGEVIEW org.wikimedia.analytics.kraken.pig.PageViewFilter();
  DEFINE TO_DAY  org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd');
 
- LOG_FIELDS     = LOAD '/wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-02*' USING PigStorage('\t') AS (
+ LOG_FIELDS     = LOAD '$input' USING PigStorage('\t') AS (
  kafka_offset,
  hostname:chararray,
  udplog_sequence,
@@ -64,7 +64,7 @@ import org.wikimedia.analytics.kraken.pageview.PageviewType;
 
  COUNT       = FOREACH GROUPED GENERATE
  FLATTEN(group) AS (day, uri),
- COUNT_STAR($1) as num PARALLEL 7;
+ COUNT_STAR($1) as num PARALLEL 10;
  --DUMP COUNT;
  STORE COUNT into '$output';
  * </code>
@@ -76,12 +76,12 @@ public class PageViewFilter extends FilterFunc {
 
     /**
      *
-     * @param input tuple containing url, referer, useragent, statuscode, ip and mimetype.
+     * @param input tuple containing url, referer, userAgent, statusCode, ip and mimeType.
      * @return true/false
      * @throws ExecException
      */
     public final Boolean exec(final Tuple input) throws ExecException {
-        if (input == null || input.size() != 6) {
+        if (input == null || input.get(0) == null || input.size() != 6) {
             return null;
         }
 
@@ -90,20 +90,17 @@ public class PageViewFilter extends FilterFunc {
         String userAgent = (input.get(2) != null ? (String) input.get(2) : "-");
         String statusCode = (input.get(3) != null ? (String) input.get(3) : "-");
         String ip = (input.get(4) != null ? (String) input.get(4) : "-");
-        String mimetype = (input.get(5) != null ? (String) input.get(5) : "-");
+        String mimeType = (input.get(5) != null ? (String) input.get(5) : "-");
 
         boolean result;
 
-        if (url != null) {
-            Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimetype);
-            if (pageview.validate()) {
-                result = true;
-            } else {
-                result = false;
-            }
-        }  else {
+
+        Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimeType);
+        if (pageview.validate()) {
+            result = true;
+        } else {
             result = false;
         }
-        return result;
+    return result;
     }
 }
