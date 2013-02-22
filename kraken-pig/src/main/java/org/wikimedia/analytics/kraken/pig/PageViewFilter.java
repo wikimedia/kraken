@@ -18,26 +18,18 @@
  */
 package org.wikimedia.analytics.kraken.pig;
 
-
 import org.apache.pig.FilterFunc;
-import org.apache.pig.PigWarning;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.Tuple;
-import org.apache.pig.data.TupleFactory;
 import org.wikimedia.analytics.kraken.pageview.Pageview;
 import org.wikimedia.analytics.kraken.pageview.PageviewCanonical;
 import org.wikimedia.analytics.kraken.pageview.PageviewFilter;
 import org.wikimedia.analytics.kraken.pageview.PageviewType;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 /**
- * Entry point for the Pig UDF class that uses the Pageview logic.
+ * Entry point for the Pig UDF class that uses the Pageview filter logic.
  */
-public class PageRequest extends FilterFunc {
-    private URL url;
-
+public class PageViewFilter extends FilterFunc {
     private PageviewType pageviewType;
     private PageviewFilter pageviewFilter;
     private PageviewCanonical pageviewCanonical;
@@ -49,24 +41,20 @@ public class PageRequest extends FilterFunc {
      * @throws ExecException
      */
     public final Boolean exec(final Tuple input) throws ExecException {
-        if (input == null || input.size() != 5) {
+        if (input == null || input.size() != 6) {
             return null;
         }
+
         String url = (String) input.get(0);
         String referer = (String) input.get(1);
-        String userAgent = (String) input.get(2);
-        String statusCode = (String) input.get(3);
-        String ip = (String) input.get(4);
-        String mimetype = (String) input.get(5);
+        String userAgent = (input.get(2) != null ? (String) input.get(2) : "-");
+        String statusCode = (input.get(3) != null ? (String) input.get(3) : "-");
+        String ip = (input.get(4) != null ? (String) input.get(4) : "-");
+        String mimetype = (input.get(5) != null ? (String) input.get(5) : "-");
 
-        setUrl(url);
         boolean result;
 
-        if (this.url != null
-            && pageviewFilter.isValidResponseCode(statusCode)
-            && pageviewFilter.isValidMimeType(mimetype)
-            && pageviewFilter.isNotInternalWMFTraffic(ip)) {
-
+        if (url != null) {
             Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimetype);
             if (pageview.validate()) {
                 result = true;
@@ -77,19 +65,5 @@ public class PageRequest extends FilterFunc {
             result = false;
         }
         return result;
-    }
-
-
-    /**
-     * Setter for the url field.
-     * @param urlStr
-     */
-    private void setUrl(final String urlStr) {
-        try {
-            this.url = new URL(urlStr);
-        } catch (MalformedURLException e) {
-            warn("Supplied url string is not a valid URI.", PigWarning.UDF_WARNING_1);
-            this.url = null;
-        }
     }
 }

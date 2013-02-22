@@ -18,7 +18,6 @@
  */
 package org.wikimedia.analytics.kraken.pageview;
 
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -54,10 +53,13 @@ public class Pageview {
 
         try {
             this.url = new URL(url);
-            this.referer = new URL(referer);
-            detectPageviewType();
         } catch (MalformedURLException e) {
             this.url = null;
+        }
+
+        try {
+            this.referer = new URL(referer);
+        }  catch (MalformedURLException e) {
             this.referer = null;
         }
 
@@ -65,6 +67,8 @@ public class Pageview {
         this.statusCode = statusCode;
         this.ipAddress = ipAddress;
         this.mimeType = mimeType;
+
+        detectPageviewType();
 
         if (pageviewFilter == null || pageviewCanonical == null) {
             pageviewFilter = new PageviewFilter();
@@ -77,8 +81,11 @@ public class Pageview {
      * @return true/false
      */
     public final boolean passCustomFilter() {
+        if (this.pageviewType == null) {
+            return true;
+        }
         switch (this.pageviewType) {
-            case MOBILE :
+            case MOBILE:
                 return pageviewFilter.isValidMobilePageview(this.url);
 
             case MOBILE_API:
@@ -100,8 +107,12 @@ public class Pageview {
                 // Discard all search queries by default
                 return false;
 
-            default:
+            case OTHER:
+                // Discard all other requests
                 return false;
+
+            default:
+                return true;
         }
     }
 
@@ -148,35 +159,37 @@ public class Pageview {
     /**
      * Given a url, determine the pageview type (mobile, desktop, api, search and blog).
      */
-    public void detectPageviewType() {
-         if (this.url.getHost().contains(".m.")) {
+    public final void detectPageviewType() {
+        if (this.url == null) {
+            this.pageviewType = PageviewType.DESKTOP;
+        } else if (this.url.getHost().contains(".m.")) {
             if (this.url.getPath().contains("api.php")) {
-                if (this.url.getQuery().contains("opensearch")) {
+                if (this.url.getQuery() != null && this.url.getQuery().contains("opensearch")) {
                     this.pageviewType = PageviewType.MOBILE_SEARCH;
+                } else if (this.mimeType.startsWith("image")) {
+                    this.pageviewType = PageviewType.OTHER;
                 }  else {
                     this.pageviewType = PageviewType.MOBILE_API;
                 }
             } else {
                 this.pageviewType = PageviewType.MOBILE;
             }
-        }
-
-        else if (this.url.getPath().contains("/wiki/")) {
+        } else if (this.url.getPath().contains("/wiki/")) {
             this.pageviewType = PageviewType.DESKTOP;
         } else if (this.url.getPath().contains("index.php")) {
             this.pageviewType = PageviewType.DESKTOP;
         } else if (this.url.getPath().contains("api.php")) {
-             if (this.url.getQuery() != null && this.url.getQuery().contains("opensearch")) {
-                 this.pageviewType = PageviewType.SEARCH;
-             } else {
+            if (this.url.getQuery() != null && this.url.getQuery().contains("opensearch")) {
+                this.pageviewType = PageviewType.SEARCH;
+            } else {
                 this.pageviewType = PageviewType.API;
-             }
+            }
         } else if (this.url.getHost().contains("commons") || this.url.getHost().contains("upload")) {
             this.pageviewType = PageviewType.IMAGE;
         } else if (this.url.getHost().contains("blog")) {
             this.pageviewType = PageviewType.BLOG;
         } else {
-            this.pageviewType = PageviewType.DESKTOP;
+            this.pageviewType = PageviewType.OTHER;
         }
     }
 
@@ -186,14 +199,16 @@ public class Pageview {
      */
     public final boolean validate() {
         boolean result = false;
-        if (pageviewFilter.isValidUserAgent(userAgent)
-                && pageviewFilter.isValidResponseCode(statusCode)
-                && pageviewFilter.isValidMimeType(mimeType)
-                && pageviewFilter.isNotInternalWMFTraffic(ipAddress)) {
+        if (isValidURL()
+                && pageviewFilter.isValidUserAgent(this.userAgent)
+                && pageviewFilter.isValidResponseCode(this.statusCode)
+                && pageviewFilter.isValidMimeType(this.mimeType)
+                && pageviewFilter.isNotInternalWMFTraffic(this.ipAddress)) {
             result = passCustomFilter();
             return result;
+        }  else {
+            return result;
         }
-        return result;
     }
 
     /**

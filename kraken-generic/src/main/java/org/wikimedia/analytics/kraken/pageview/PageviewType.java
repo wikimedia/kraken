@@ -44,6 +44,10 @@ public enum PageviewType {
     BLOG,
 
     /** An image from commons or upload */
-    IMAGE
+    IMAGE,
+
+    /** Other type of request */
+    OTHER
     }
+
 
