@@ -19,7 +19,7 @@
 package org.wikimedia.analytics.kraken.pig;
 
 
-import org.apache.pig.EvalFunc;
+import org.apache.pig.FilterFunc;
 import org.apache.pig.PigWarning;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.Tuple;
@@ -32,20 +32,23 @@ import org.wikimedia.analytics.kraken.pageview.PageviewType;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public abstract class PageRequest extends EvalFunc<Tuple> {
+/**
+ * Entry point for the Pig UDF class that uses the Pageview logic.
+ */
+public class PageRequest extends FilterFunc {
     private URL url;
-    private TupleFactory tupleFactory;
+
     private PageviewType pageviewType;
     private PageviewFilter pageviewFilter;
     private PageviewCanonical pageviewCanonical;
 
     /**
      *
-     * @param input
-     * @return
+     * @param input tuple containing url, referer, useragent, statuscode, ip and mimetype.
+     * @return true/false
      * @throws ExecException
      */
-    public final Tuple exec(final Tuple input) throws ExecException {
+    public final Boolean exec(final Tuple input) throws ExecException {
         if (input == null || input.size() != 5) {
             return null;
         }
@@ -57,8 +60,8 @@ public abstract class PageRequest extends EvalFunc<Tuple> {
         String mimetype = (String) input.get(5);
 
         setUrl(url);
+        boolean result;
 
-        Tuple output = tupleFactory.newTuple(1);
         if (this.url != null
             && pageviewFilter.isValidResponseCode(statusCode)
             && pageviewFilter.isValidMimeType(mimetype)
@@ -66,14 +69,14 @@ public abstract class PageRequest extends EvalFunc<Tuple> {
 
             Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimetype);
             if (pageview.validate()) {
-                output.set(0, true);
+                result = true;
             } else {
-                output.set(0, false);
+                result = false;
             }
         }  else {
-            output.set(0, false);
+            result = false;
         }
-        return output;
+        return result;
     }
 
 
