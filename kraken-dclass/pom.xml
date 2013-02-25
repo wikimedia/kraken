@@ -6,7 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Kraken Dclass ${project.parent.version}</name>
+    <name>Kraken Dclass</name>
     <url></url>
 
     <properties>
