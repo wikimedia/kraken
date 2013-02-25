@@ -51,10 +51,9 @@ public class JsonToClassConverter {
      * @return
      * @throws JsonMappingException
      * @throws JsonParseException
-     * @throws RuntimeException
      */
     public final HashMap<String, Schema> construct(final String className, final String file, final String key)
-            throws JsonMappingException, JsonParseException, RuntimeException {
+            throws JsonMappingException, JsonParseException {
         JsonFactory jfactory = new JsonFactory();
         HashMap<String, Schema> map = new HashMap<String, Schema>();
         List<Schema> schemas = null;
