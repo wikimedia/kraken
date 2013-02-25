@@ -158,19 +158,15 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
         vendor = (String) result.get("vendor");
 
         //Create the output tuple
-        Tuple output = TupleFactory.getInstance().newTuple(6);
+        Tuple output = TupleFactory.getInstance().newTuple(7);
         output.set(0, result.get("vendor"));
         output.set(1, result.get("device_os"));
         output.set(2, result.get("device_os_version"));
         output.set(3, convertToBoolean(result, "is_wireless_device"));
         output.set(4, convertToBoolean(result, "is_tablet"));
 
-
-        if ("generic".equals(vendor)) {
-            output = detectMobileApp(output);
-        }  else if ("Apple".equals(vendor)) {
-            output = postProcessApple(output);
-        }
+        output = detectMobileApp(output);  // field 5 contains mobile app info
+        output = postProcessApple(output); // field 6 contains additional iOS version info.
         return output;
     }
 
