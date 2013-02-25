@@ -99,7 +99,7 @@ public class PageviewFilter {
 
     /**
      *
-      * @param responseCode
+     * @param responseCode
      * @return
      */
     public final boolean isValidResponseCode(final String responseCode) {
