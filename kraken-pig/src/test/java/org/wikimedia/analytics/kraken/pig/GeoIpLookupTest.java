@@ -18,6 +18,7 @@
 
 package org.wikimedia.analytics.kraken.pig;
 
+import org.apache.pig.ExecType;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 import org.junit.Test;
@@ -28,7 +29,6 @@ import static org.junit.Assert.*;
 
 
 public class GeoIpLookupTest {
-    //private GeoIpLookup geo;
     private TupleFactory tupleFactory = TupleFactory.getInstance();
     private Tuple input = tupleFactory.newTuple(1);
 
@@ -38,7 +38,7 @@ public class GeoIpLookupTest {
      */
     @Test
     public void testExec1() throws IOException {
-        GeoIpLookup geo = new GeoIpLookup("countryCode, continentCode, continentName", "GeoIPCity");
+        GeoIpLookup geo = new GeoIpLookup("countryCode, continentCode, continentName", "GeoIPCity", ExecType.LOCAL);
         this.input.set(0, "71.217.23.156");
         Tuple geoData = geo.exec(this.input);
         assertNotNull(geoData);
@@ -57,7 +57,7 @@ public class GeoIpLookupTest {
      */
     @Test
     public void testExec2() throws IOException {
-        GeoIpLookup geo = new GeoIpLookup("countryCode, continentCode, continentName", "GeoIP");
+        GeoIpLookup geo = new GeoIpLookup("countryCode, continentCode, continentName", "GeoIP", ExecType.LOCAL);
         this.input.set(0, "127.0.0.1");
         Tuple output = geo.exec(this.input);
         assertNull(output);
@@ -69,7 +69,7 @@ public class GeoIpLookupTest {
      */
     @Test
     public void testExec3() throws IOException {
-        GeoIpLookup geo = new GeoIpLookup("countryCode, continentCode, continentName", "GeoIPCity");
+        GeoIpLookup geo = new GeoIpLookup("countryCode, continentCode, continentName", "GeoIPCity", ExecType.LOCAL);
         this.input.set(0, "65.49.68.181");
         Tuple geoData = geo.exec(this.input);
         assertNotNull(geoData);
@@ -88,7 +88,7 @@ public class GeoIpLookupTest {
      */
     @Test
     public void testExec4() throws IOException {
-        GeoIpLookup geo = new GeoIpLookup("countryCode, continentCode, continentName", "GeoIPCity");
+        GeoIpLookup geo = new GeoIpLookup("countryCode, continentCode, continentName", "GeoIPCity", ExecType.LOCAL);
         this.input.set(0, "206.53.148.17");
         Tuple geoData = geo.exec(this.input);
         assertNotNull(geoData);
@@ -106,9 +106,9 @@ public class GeoIpLookupTest {
      */
     @Test
     public void testExec5() throws IOException {
-        GeoIpLookup geo = new GeoIpLookup("countryCode", "GeoIPCity");
+        GeoIpLookup geo = new GeoIpLookup("countryCode", "GeoIPCity", ExecType.LOCAL);
         this.input.set(0, "wikipedia.org");
-        String output = (String) geo.exec(this.input).get(0);
+        Tuple output = geo.exec(this.input);
         assertEquals(null, output);
     }
 
@@ -118,7 +118,7 @@ public class GeoIpLookupTest {
      */
     @Test
     public void testExec6() throws IOException {
-        GeoIpLookup geo = new GeoIpLookup("countryCode, continentCode, continentName", "GeoIPCity");
+        GeoIpLookup geo = new GeoIpLookup("countryCode, continentCode, continentName", "GeoIPCity", ExecType.LOCAL);
         input.set(0, "185.11.8.188");
         Tuple geoData = geo.exec(input);
         assertNotNull(geoData);
@@ -130,5 +130,4 @@ public class GeoIpLookupTest {
         String continentName = (String) geoData.get(2);
         assertEquals("Asia", continentName);
     }
-
 }
