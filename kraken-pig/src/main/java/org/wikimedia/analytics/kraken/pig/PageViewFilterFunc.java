@@ -22,9 +22,6 @@ import org.apache.pig.FilterFunc;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.Tuple;
 import org.wikimedia.analytics.kraken.pageview.Pageview;
-import org.wikimedia.analytics.kraken.pageview.PageviewCanonical;
-import org.wikimedia.analytics.kraken.pageview.PageviewFilter;
-import org.wikimedia.analytics.kraken.pageview.PageviewType;
 
 /**
  * Entry point for the Pig UDF class that uses the Pageview filter logic.
@@ -70,10 +67,6 @@ import org.wikimedia.analytics.kraken.pageview.PageviewType;
  * </code>
  */
 public class PageViewFilterFunc extends FilterFunc {
-    private PageviewType pageviewType;
-    private PageviewFilter pageviewFilter;
-    private PageviewCanonical pageviewCanonical;
-
     /**
      *
      * @param input tuple containing url, referer, userAgent, statusCode, ip and mimeType.
@@ -93,7 +86,6 @@ public class PageViewFilterFunc extends FilterFunc {
         String mimeType = (input.get(5) != null ? (String) input.get(5) : "-");
 
         boolean result;
-
 
         Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimeType);
         if (pageview.validate()) {

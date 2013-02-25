@@ -23,9 +23,6 @@ import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 import org.wikimedia.analytics.kraken.pageview.Pageview;
-import org.wikimedia.analytics.kraken.pageview.PageviewCanonical;
-import org.wikimedia.analytics.kraken.pageview.PageviewFilter;
-import org.wikimedia.analytics.kraken.pageview.PageviewType;
 
 /**
  * Entry point for the Pig UDF class that uses the Pageview filter logic.
