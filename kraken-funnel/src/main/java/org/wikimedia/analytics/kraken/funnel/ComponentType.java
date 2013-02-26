@@ -19,11 +19,11 @@
 package org.wikimedia.analytics.kraken.funnel;
 
 public enum ComponentType {
-	    CLIENT,
-	    LANGUAGE,
-	    PROJECT,
-	    PAGE,
-	    EVENT,
-        ACTION
-	}
+    CLIENT,
+    LANGUAGE,
+    PROJECT,
+    PAGE,
+    EVENT,
+    ACTION
+}
 
