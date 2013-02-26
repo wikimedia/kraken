@@ -33,11 +33,7 @@ import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
 import org.wikimedia.analytics.kraken.schemas.Schema;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,7 +53,8 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 
     private HashMap<String, Schema> countries = new HashMap<String, Schema>();
 
-    private final List<String> neededGeoFieldNames = new ArrayList<String>();
+    private final List<GeoIpLookupField> neededGeoFieldNames = new ArrayList<GeoIpLookupField>();
+    private final Map<String, GeoIpLookupField> locationFieldMap = new HashMap<String, GeoIpLookupField>();
     private final HashMap<String, String> continentFixes  = new HashMap<String, String>();
     private final HashMap<String, String> continentNameFixes  = new HashMap<String, String>();
 
@@ -94,8 +91,19 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
      * @throws IOException
      */
     private void init(final String inputFields, final String db) throws IOException {
-
         this.db = db;
+
+        locationFieldMap.put("countryCode", GeoIpLookupField.COUNTRYCODE);
+        locationFieldMap.put("continentName", GeoIpLookupField.CONTINENTNAME);
+        locationFieldMap.put("continentCode", GeoIpLookupField.CONTINENTCODE);
+        locationFieldMap.put("region", GeoIpLookupField.REGION);
+        locationFieldMap.put("city", GeoIpLookupField.CITY);
+        locationFieldMap.put("postalCode", GeoIpLookupField.POSTALCODE);
+        locationFieldMap.put("latitude", GeoIpLookupField.LATITUDE);
+        locationFieldMap.put("longitude", GeoIpLookupField.LONGITUDE);
+        locationFieldMap.put("dma_code", GeoIpLookupField.DMACODE);
+        locationFieldMap.put("area_code", GeoIpLookupField.AREACODE);
+        locationFieldMap.put("metro_code", GeoIpLookupField.METROCODE);
 
         // A custom function to add continentCode and continentName support, this is not natively offered by the
         // Maxmind database. We load a json file containing the mapping of countries to continents and add two
@@ -116,7 +124,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
         continentNameFixes.put("AS", "Asia");
         continentNameFixes.put("EU", "Europe");
 
-        if (!validateGeoFieldNames(inputFields)) {
+        if (!initializeGeoFieldNames(inputFields)) {
             System.out.println("Valid field names are: continentCode, continentName, " + Arrays.toString(Location.class.getFields()));
             throw new RuntimeException("Invalid arguments for GeoIpLookup constructor");
         }
@@ -128,64 +136,49 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
      * @param inputFields a comma separated list of the required geo fields.
      * @return true/false
      */
-    private boolean validateGeoFieldNames(final String inputFields) {
-        Field[] validGeoFields = Location.class.getFields();
+    private boolean initializeGeoFieldNames(final String inputFields) {
+        Set<String> validGeoFields = this.locationFieldMap.keySet();
         String[] fields = inputFields.split(",");
         for (String field : fields) {
-            if (field.trim().contains("continent")) {
-                this.neededGeoFieldNames.add(field.trim());
-            }
-            for (Field validField : validGeoFields) {
-                if (validField.getName().equals(field.trim().toString())){
-                    this.neededGeoFieldNames.add(field.trim());
-                    break;
-                }
+            if (!validGeoFields.contains(field.toString().trim())) {
+                return false;
+            } else{
+                this.neededGeoFieldNames.add(this.locationFieldMap.get(field.toString().trim()));
             }
         }
-        if (this.neededGeoFieldNames.size() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return true;
     }
+
 
     /**
      *
      * @param countryCode the A2 countryCode that is used as lookup value for continent.
-     * @param output Tuple that will contain the result of the lookup
-     * @param i Integer position in the tuple to store result
-     * @return Tuple output
+     * @return String
      * @throws ExecException
      */
-    private Tuple getContinentName(final String countryCode, Tuple output, final int i) throws ExecException{
+    private String getContinentName(final String countryCode) throws ExecException{
         if (countryCode != null) {
             Country country = (Country) this.countries.get(countryCode);
             String continentCode = continentFixes.containsKey(countryCode) ? continentFixes.get(countryCode) : country.getContinentCode();
-            String continentName = continentNameFixes.containsKey(continentCode) ? continentNameFixes.get(continentCode) : country.getContinentName();
-            output.set(i, continentName);
+            return continentNameFixes.containsKey(continentCode) ? continentNameFixes.get(continentCode) : country.getContinentName();
         } else {
-            output.set(i, "Unknown");
+            return "Unknown";
         }
-        return output;
     }
 
     /**
      *
      * @param countryCode
-     * @param output
-     * @param i
-     * @return
+     * @return String with continentCode
      * @throws ExecException
      */
-    private Tuple getContinentCode(final String countryCode, Tuple output, final int i) throws ExecException{
+    private String getContinentCode(final String countryCode) throws ExecException{
         if (countryCode != null) {
             Country country = (Country) this.countries.get(countryCode);
-            String continentCode = continentFixes.containsKey(countryCode) ? continentFixes.get(countryCode) : country.getContinentCode();
-            output.set(i, continentCode);
+            return continentFixes.containsKey(countryCode) ? continentFixes.get(countryCode) : country.getContinentCode();
         } else {
-            output.set(i, "Unknown");
+            return "Unknown";
         }
-        return output;
     }
 
     /**
@@ -194,13 +187,13 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
      */
     private void initLookupService() throws IOException {
         if (pigContext.getExecType() == ExecType.LOCAL) {
-                ip4Lookup = new LookupService("/usr/share/GeoIP/GeoIPCity.dat", LookupService.GEOIP_MEMORY_CACHE);
-                ip6Lookup = new LookupService("/usr/share/GeoIP/GeoIPv6.dat", LookupService.GEOIP_MEMORY_CACHE);
+            ip4Lookup = new LookupService("/usr/share/GeoIP/GeoIPCity.dat", LookupService.GEOIP_MEMORY_CACHE);
+            ip6Lookup = new LookupService("/usr/share/GeoIP/GeoIPv6.dat", LookupService.GEOIP_MEMORY_CACHE);
         } else {
-                ip4Lookup = new LookupService("./GeoIPCity.dat", LookupService.GEOIP_MEMORY_CACHE);
-                // There seems to be a bug when enabling LookupService.GEOIP_MEMORY_CACHE for the GeoIPv6 database
-                // hence it's disabled.
-                ip6Lookup = new LookupService("./GeoIPv6.dat");
+            ip4Lookup = new LookupService("./GeoIPCity.dat", LookupService.GEOIP_MEMORY_CACHE);
+            // There seems to be a bug when enabling LookupService.GEOIP_MEMORY_CACHE for the GeoIPv6 database
+            // hence it's disabled.
+            ip6Lookup = new LookupService("./GeoIPv6.dat", LookupService.GEOIP_INDEX_CACHE);
         }
     }
 
@@ -250,25 +243,47 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 
         if (location != null) {
             int i = 0;
-            String value;
-            for (String field : this.neededGeoFieldNames) {
-                try {
-                    if (!field.contains("continent")) {
-                        value = location.getClass().getField(field).get(location) != null ? location.getClass().getField(field).get(location).toString() : EMPTY_STRING;
-                        output.set(i, value);
+            String value = null;
+            for (GeoIpLookupField field : this.neededGeoFieldNames) {
 
-                    } else if (field.toString().equals("continentCode")) {
-                        output = getContinentCode(location.countryCode, output, i);
-
-                    } else if (field.toString().equals("continentName")) {
-                        output = getContinentName(location.countryCode, output, i);
-                    }
-                } catch (NoSuchFieldException e) {
-                    warn("Location class does not contain the requested field.", PigWarning.UDF_WARNING_2);
-                } catch (IllegalAccessException e) {
-                    // this should not happen because it should already been have caught during the initialization
-                    // of the constructor.
+                switch (field) {
+                    case COUNTRYCODE:
+                        value = location.countryCode;
+                        break;
+                    case CONTINENTCODE:
+                        value = getContinentCode(location.countryCode);
+                        break;
+                    case CONTINENTNAME:
+                        value =  getContinentName(location.countryCode);
+                        break;
+                    case REGION:
+                        value = location.region;
+                        break;
+                    case CITY:
+                        value = location.city;
+                        break;
+                    case POSTALCODE:
+                        value = location.postalCode;
+                        break;
+                    case LATITUDE:
+                        value = Float.toString(location.latitude);
+                        break;
+                    case LONGITUDE:
+                        value = Float.toString(location.longitude);
+                        break;
+                    case DMACODE:
+                        value = Integer.toString(location.dma_code);
+                        break;
+                    case AREACODE:
+                        value = Integer.toString(location.area_code);
+                        break;
+                    case METROCODE:
+                        value = Integer.toString(location.metro_code);
+                        break;
+                    default:
+                        break;
                 }
+                output.set(i, value);
                 i++;
             }
         } else {
@@ -300,7 +315,6 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
         cacheFiles.add("GeoIP.dat#GeoIP.dat");
         cacheFiles.add("GeoIPRegion.dat#GeoIPRegion.dat");
         cacheFiles.add("GeoIPv6.dat#GeoIPv6.dat");
-        System.out.println("YES I AM CALLED");
         return cacheFiles;
     }
 }
