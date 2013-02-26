@@ -1,5 +1,6 @@
 -- Counts webrequests by hour, country code, devive and vendor.
 
+REGISTER 'kraken-generic-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
 REGISTER 'kraken-dclass-0.0.1-SNAPSHOT.jar'
 REGISTER 'kraken-pig-0.0.1-SNAPSHOT.jar'
 REGISTER 'piggybank.jar'
