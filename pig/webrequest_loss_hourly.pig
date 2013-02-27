@@ -3,8 +3,11 @@ REGISTER 'kraken-pig-0.0.1-SNAPSHOT.jar'
 -- import LOAD_WEBREQUEST macro to load in webrequest log fields.
 IMPORT 'include/load_webrequest.pig';
 
--- setting this to 10 to use all datanodes
-SET default_parallel 10;
+-- Setting this to 4 for now, since we are
+-- only importing logs from the 4 mobile varnish hosts.
+-- There will only be 4 unique hostname keys, so we only
+-- need 4 reducers.
+SET default_parallel 4;
 
 DEFINE TO_HOUR      org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd_HH');
 DEFINE EXTRACT      org.apache.pig.builtin.REGEX_EXTRACT_ALL();
