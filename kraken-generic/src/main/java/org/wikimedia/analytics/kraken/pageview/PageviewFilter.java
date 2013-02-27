@@ -93,8 +93,11 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidMimeType(final String mimeType) {
-        //TODO: not yet implemented
-        return true;
+        if (mimeType.contains("text/html")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -103,9 +106,13 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidResponseCode(final String responseCode) {
-        //TODO: not yet implemented
-        return true;
+        if (responseCode.matches(".*(20\\d|302).*")) {
+            return true;
+        } else {
+            return false;
+        }
     }
+
     /**
      *Ignore the following paths:
      * http://testblog.wikimedia.org
@@ -124,6 +131,4 @@ public class PageviewFilter {
         }
         return true;
     }
-
-
 }
