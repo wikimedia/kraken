@@ -1,4 +1,4 @@
-REGISTER 'kraken.jar'
+REGISTER 'kraken-pig-0.0.1-SNAPSHOT.jar'
 
 -- import LOAD_WEBREQUEST macro to load in webrequest log fields.
 IMPORT 'include/load_webrequest.pig';
