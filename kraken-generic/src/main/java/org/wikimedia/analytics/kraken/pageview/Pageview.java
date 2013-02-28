@@ -69,10 +69,11 @@ public class Pageview {
         this.statusCode = statusCode;
         this.ipAddress = ipAddress;
         this.mimeType = mimeType;
+        this.requestMethod = requestMethod;
 
         detectPageviewType();
 
-        if (pageviewFilter == null || pageviewCanonical == null) {
+        if (pageviewFilter == null || pageviewCanonical == null || cidrFilter == null) {
             pageviewFilter = new PageviewFilter();
             cidrFilter = new CidrFilter();
             pageviewCanonical = new PageviewCanonical();

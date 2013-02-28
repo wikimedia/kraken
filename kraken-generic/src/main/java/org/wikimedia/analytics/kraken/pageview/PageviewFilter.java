@@ -63,8 +63,8 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidMobilePageview(final URL url) {
-        //TODO: not yet implemented
-        return true;
+        //for now, the logic is the same but this is likely to change in the future
+        return isValidDesktopPageview(url);
     }
 
     /**
@@ -74,8 +74,15 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidMobileAPIPageview(final URL url, final URL referer) {
-        //TODO: not yet implemented
-        return true;
+        //Start with simple logic, if referer is another Wiki* api call then ignore this url else accept it
+        if (referer.getPath().contains("api.php")
+            && referer.getHost().contains(".wiki")
+            && referer.getQuery() != null
+            && referer.getQuery().contains("view")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -84,7 +91,7 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidMimeType(final String mimeType) {
-        if (mimeType.contains("text/html")) {
+        if (mimeType.contains("text")) {
             return true;
         } else {
             return false;
