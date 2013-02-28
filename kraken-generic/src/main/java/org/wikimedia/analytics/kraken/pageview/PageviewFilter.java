@@ -21,6 +21,7 @@ package org.wikimedia.analytics.kraken.pageview;
 
 import java.net.URL;
 
+
 /**
  * The general Pageview filter class for all jobs running on Kraken.
  */
@@ -73,16 +74,6 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidMobileAPIPageview(final URL url, final URL referer) {
-        //TODO: not yet implemented
-        return true;
-    }
-
-    /**
-     *
-     * @param ipAddress
-     * @return
-     */
-    public final boolean isNotInternalWMFTraffic(final String ipAddress) {
         //TODO: not yet implemented
         return true;
     }

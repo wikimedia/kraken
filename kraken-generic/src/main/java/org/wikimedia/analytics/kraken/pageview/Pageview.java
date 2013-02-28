@@ -38,6 +38,7 @@ public class Pageview {
     public PageviewType pageviewType;
     public PageviewFilter pageviewFilter;
     public PageviewCanonical pageviewCanonical;
+    public CidrFilter cidrFilter;
 
     /**
      *
@@ -72,6 +73,7 @@ public class Pageview {
 
         if (pageviewFilter == null || pageviewCanonical == null) {
             pageviewFilter = new PageviewFilter();
+            cidrFilter = new CidrFilter();
             pageviewCanonical = new PageviewCanonical();
         }
     }
@@ -195,7 +197,7 @@ public class Pageview {
                 && pageviewFilter.isValidUserAgent(this.userAgent)
                 && pageviewFilter.isValidResponseCode(this.statusCode)
                 && pageviewFilter.isValidMimeType(this.mimeType)
-                && pageviewFilter.isNotInternalWMFTraffic(this.ipAddress)) {
+                && cidrFilter.ipAddressFallsInRange(this.ipAddress)) {
             result = passCustomFilter();
             return result;
         }  else {

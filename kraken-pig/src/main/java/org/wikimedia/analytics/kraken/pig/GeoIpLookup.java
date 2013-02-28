@@ -191,10 +191,10 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
             ip6Lookup = new LookupService("/usr/share/GeoIP/GeoIPv6.dat", LookupService.GEOIP_MEMORY_CACHE);
         } else {
             // Enabling cache seems to create weird OOM errors, disabled by default.
-            ip4Lookup = new LookupService("./GeoIPCity.dat");
+            ip4Lookup = new LookupService("GeoIPCity.dat");
             // There seems to be a bug when enabling LookupService.GEOIP_MEMORY_CACHE for the GeoIPv6 database
             // hence it's disabled.
-            ip6Lookup = new LookupService("./GeoIPv6.dat");
+            ip6Lookup = new LookupService("GeoIPv6.dat");
         }
     }
 

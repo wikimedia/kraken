@@ -18,53 +18,37 @@
  */
 package org.wikimedia.analytics.kraken.pig;
 
-
-import org.apache.commons.net.util.SubnetUtils;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
+import org.wikimedia.analytics.kraken.pageview.CidrFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A pig UDF to filter ipaddresses based on CIDR ranges.
  */
 public class Cidr extends EvalFunc<Tuple> {
 
-    /** a list containing all the CIDR ranges to check for */
-    private List<SubnetUtils> subnets = new ArrayList<SubnetUtils>();
-
     private TupleFactory tupleFactory = TupleFactory.getInstance();
     private Tuple output;
+    private CidrFilter cidrFilter;
 
     /**
      *
-     * @param subnetInput a comma separated list of subnets using the CIDR notation.
      */
-    public Cidr(final String subnetInput) {
-        for (String subnet : subnetInput.split(",")) {
-            SubnetUtils subnetUtil = new SubnetUtils(subnet);
-            subnetUtil.setInclusiveHostCount(true);
-            this.subnets.add(subnetUtil);
-        }
+    public Cidr(){
+        cidrFilter = new CidrFilter();
     }
 
     /**
      *
-     * @param ipAddress string that needs to be checked whether it falls in a given CIDR range.
-     * @return true if ipAddress is within one of the specified CIDR ranges otherwise return false.
+     * @param cidrInput
      */
-    private boolean ipAddressFallsInRange(final String ipAddress) {
-        for (SubnetUtils subnet : subnets) {
-            if (subnet.getInfo().isInRange(ipAddress)) {
-                return true;
-            }
-        }
-        return false;
+    public Cidr(final String subnetInput){
+        cidrFilter = new CidrFilter(subnetInput);
     }
 
     /**
@@ -80,7 +64,7 @@ public class Cidr extends EvalFunc<Tuple> {
         }
 
         String ipAddress = (String) input.get(0);
-        boolean result = ipAddressFallsInRange(ipAddress);
+        boolean result = cidrFilter.ipAddressFallsInRange(ipAddress);
 
         output = tupleFactory.newTuple(1);
         output.set(0, result);
