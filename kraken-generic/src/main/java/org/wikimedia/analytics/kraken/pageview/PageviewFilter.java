@@ -105,6 +105,19 @@ public class PageviewFilter {
     }
 
     /**
+     *
+     * @param requestMethod
+     * @return
+     */
+    public final boolean isValidRequestMethod(final String requestMethod) {
+        if (requestMethod.toLowerCase().contains("get")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      *Ignore the following paths:
      * http://testblog.wikimedia.org
      * http://blog.wikimedia.org/wp-login.php

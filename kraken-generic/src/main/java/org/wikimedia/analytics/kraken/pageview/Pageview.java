@@ -33,7 +33,7 @@ public class Pageview {
     private String statusCode;
     private String ipAddress;
     private String mimeType;
-    private String timestamp;
+    private String requestMethod;
 
     public PageviewType pageviewType;
     public PageviewFilter pageviewFilter;
@@ -48,9 +48,10 @@ public class Pageview {
      * @param statusCode responsecode from the cache server to indicate whether request was successful or not
      * @param ipAddress ipaddress of the visitor
      * @param mimeType content type requested
+     * @param requestMethod
      */
     public Pageview(final String url, final String referer, final String userAgent,
-                    final String statusCode, final String ipAddress, final String mimeType) {
+                    final String statusCode, final String ipAddress, final String mimeType, final String requestMethod) {
 
         try {
             this.url = new URL(url);
@@ -197,6 +198,7 @@ public class Pageview {
                 && pageviewFilter.isValidUserAgent(this.userAgent)
                 && pageviewFilter.isValidResponseCode(this.statusCode)
                 && pageviewFilter.isValidMimeType(this.mimeType)
+                && pageviewFilter.isValidRequestMethod(this.requestMethod)
                 && cidrFilter.ipAddressFallsInRange(this.ipAddress)) {
             result = passCustomFilter();
             return result;
