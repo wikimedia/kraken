@@ -12,6 +12,7 @@ DEFINE TO_HOUR      org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-M
 DEFINE EXTRACT      org.apache.pig.builtin.REGEX_EXTRACT_ALL();
 DEFINE ZERO         org.wikimedia.analytics.kraken.pig.Zero();
 DEFINE GEO          org.wikimedia.analytics.kraken.pig.GeoIpLookup('countryCode', 'GeoIPCity');
+DEFINE PAGEVIEW     org.wikimedia.analytics.kraken.pig.PageViewFilterFunc();
 
 -- Set this as a regular expression to filter for desired timestamps.
 -- E.g. if you want to only compute stats for a given hour, then
@@ -29,12 +30,19 @@ LOG_FIELDS     = LOAD_WEBREQUEST('$input');
 LOG_FIELDS    = FILTER LOG_FIELDS BY (x_cs != '-');
 
 LOG_FIELDS  = FOREACH LOG_FIELDS GENERATE
+ uri,
+ referer,
+ user_agent,
+ http_status,
+ content_type,
  x_cs,
  remote_addr,
  TO_HOUR(timestamp) AS day_hour:chararray;
 
 -- only compute stats for hours that match $hour_regex;
 LOG_FIELDS    = FILTER LOG_FIELDS BY day_hour MATCHES '$hour_regex';
+
+LOG_FIELDS    = FILTER LOG_FIELDS BY PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type);
 
 LOG_FIELDS  = FOREACH LOG_FIELDS GENERATE
  day_hour,
