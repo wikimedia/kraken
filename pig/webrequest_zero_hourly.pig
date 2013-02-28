@@ -37,12 +37,13 @@ LOG_FIELDS  = FOREACH LOG_FIELDS GENERATE
  content_type,
  x_cs,
  remote_addr,
+ request_method,
  TO_HOUR(timestamp) AS day_hour:chararray;
 
 -- only compute stats for hours that match $hour_regex;
 LOG_FIELDS    = FILTER LOG_FIELDS BY day_hour MATCHES '$hour_regex';
 
-LOG_FIELDS    = FILTER LOG_FIELDS BY PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type);
+LOG_FIELDS    = FILTER LOG_FIELDS BY PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method);
 
 LOG_FIELDS  = FOREACH LOG_FIELDS GENERATE
  day_hour,
