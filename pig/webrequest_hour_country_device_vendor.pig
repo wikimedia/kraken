@@ -4,7 +4,7 @@ REGISTER 'kraken-generic-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
 REGISTER 'kraken-dclass-0.0.1-SNAPSHOT.jar'
 REGISTER 'kraken-pig-0.0.1-SNAPSHOT.jar'
 REGISTER 'piggybank.jar'
-REGISTER 'geoip-1.2.5.jar'
+REGISTER 'geoip-1.2.9-patch-2-SNAPSHOT.jar'
 
 -- setting this to 10 to use all datanodes
 SET default_parallel 10;
