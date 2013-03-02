@@ -17,23 +17,21 @@
 
  */
 
-package org.wikimedia.analytics.kraken.pig;
+package org.wikimedia.analytics.kraken.geo;
 
 import com.maxmind.geoip.Location;
 import com.maxmind.geoip.LookupService;
-import org.apache.pig.EvalFunc;
-import org.apache.pig.ExecType;
-import org.apache.pig.PigWarning;
-import org.apache.pig.backend.executionengine.ExecException;
-import org.apache.pig.data.Tuple;
-import org.apache.pig.data.TupleFactory;
-import org.apache.pig.impl.PigContext;
 import org.wikimedia.analytics.kraken.schemas.Country;
 import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
 import org.wikimedia.analytics.kraken.schemas.Schema;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.Map;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,15 +39,14 @@ import java.util.regex.Pattern;
  * This class provides a customizable Pig UDF to lookup geographic information belonging
  * to either an IP4 or IP6 address.
  */
-public class GeoIpLookup extends EvalFunc<Tuple> {
+public class GeoIpLookup {
 
     private static final String EMPTY_STRING = "";
     private String db;
 
     private LookupService ip4Lookup;
     private LookupService ip6Lookup;
-    private TupleFactory tupleFactory = TupleFactory.getInstance();
-    private PigContext pigContext = new PigContext();
+    private String execType;
 
     private HashMap<String, Schema> countries = new HashMap<String, Schema>();
 
@@ -58,8 +55,8 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
     private final HashMap<String, String> continentFixes  = new HashMap<String, String>();
     private final HashMap<String, String> continentNameFixes  = new HashMap<String, String>();
 
-    private static final Pattern ip4Pattern = Pattern.compile("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$");
-    private static final Pattern ip6Pattern = Pattern.compile("^(?:[0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}(?::(?:[0-9]{1,3}\\.){3}[0-9]{1,3})*$");
+    private static final Pattern IP4PATTERN = Pattern.compile("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$");
+    private static final Pattern IP6PATTERN = Pattern.compile("^(?:[0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}(?::(?:[0-9]{1,3}\\.){3}[0-9]{1,3})*$");
 
     /**
      * @param inputFields a comma separated list of fields that are requested.
@@ -68,8 +65,9 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
      * We recommend GeoIPCity as that seems to have the most detailed information
      * @throws IOException
      */
-    public GeoIpLookup(final String inputFields, final String db) throws IOException{
+    public GeoIpLookup(final String inputFields, final String db) throws IOException {
         init(inputFields, db);
+        initLookupService();
     }
 
     /**
@@ -79,9 +77,11 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
      * @param execType
      * @throws IOException
      */
-    public GeoIpLookup(final String inputFields, final String db, final ExecType execType) throws IOException {
-        this.pigContext.setExecType(execType);
+
+    public GeoIpLookup(final String inputFields, final String db, final String execType) throws IOException {
         init(inputFields, db);
+        this.execType = execType;
+        initLookupService();
     }
 
     /**
@@ -154,9 +154,8 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
      *
      * @param countryCode the A2 countryCode that is used as lookup value for continent.
      * @return String
-     * @throws ExecException
      */
-    private String getContinentName(final String countryCode) throws ExecException{
+    public final String getContinentName(final String countryCode) {
         if (countryCode != null) {
             Country country = (Country) this.countries.get(countryCode);
             String continentCode = continentFixes.containsKey(countryCode) ? continentFixes.get(countryCode) : country.getContinentCode();
@@ -168,11 +167,10 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
 
     /**
      *
-     * @param countryCode
+     * @param countryCode the A2 countryCode that is used as lookup value for continent.
      * @return String with continentCode
-     * @throws ExecException
      */
-    private String getContinentCode(final String countryCode) throws ExecException{
+    public final String getContinentCode(final String countryCode){
         if (countryCode != null) {
             Country country = (Country) this.countries.get(countryCode);
             return continentFixes.containsKey(countryCode) ? continentFixes.get(countryCode) : country.getContinentCode();
@@ -186,7 +184,7 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
      * @throws IOException
      */
     private void initLookupService() throws IOException {
-        if (pigContext.getExecType() == ExecType.LOCAL) {
+        if (this.execType.equals("LOCAL")) {
             ip4Lookup = new LookupService("/usr/share/GeoIP/GeoIPCity.dat", LookupService.GEOIP_MEMORY_CACHE);
             ip6Lookup = new LookupService("/usr/share/GeoIP/GeoIPv6.dat", LookupService.GEOIP_MEMORY_CACHE);
         } else {
@@ -204,11 +202,11 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
      * @return
      */
     private Integer determineIpAddressType(final String ip) {
-        Matcher ip4 = ip4Pattern.matcher(ip);
+        Matcher ip4 = IP4PATTERN.matcher(ip);
         if (ip4.matches()) {
             return 4;
         }
-        Matcher ip6 = ip6Pattern.matcher(ip);
+        Matcher ip6 = IP6PATTERN.matcher(ip);
         if (ip6.matches()) {
             return 6;
         }
@@ -218,13 +216,11 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
     /**
      *
      * @param ip
-     * @return Tuple containing the requested the geocoded field
-     * @throws ExecException
+     * @return location object
      */
-    private Tuple doGeoLookup(final String ip) throws ExecException {
+    public final Location doGeoLookup(final String ip) {
         Location location = null;
         Integer ipAddressType = determineIpAddressType(ip);
-        Tuple output = tupleFactory.newTuple(this.neededGeoFieldNames.size());
         switch (ipAddressType){
             case 4:
                 location = ip4Lookup.getLocation(ip);
@@ -232,90 +228,19 @@ public class GeoIpLookup extends EvalFunc<Tuple> {
             case 6:
                 location = ip6Lookup.getLocationV6(ip);
                 break;
-            case 0:
-                //Not an IP4 or IP6 address
-                warn("Supplied variable does not seem to be a valid IP4 or IP6 address.", PigWarning.UDF_WARNING_1);
-                return null;
             default:
-                //Not an IP4 or IP6 address
-                warn("Supplied variable does not seem to be a valid IP4 or IP6 address.", PigWarning.UDF_WARNING_1);
-                return null;
+                break;
         }
+        return location;
 
-        if (location != null) {
-            int i = 0;
-            String value = null;
-            for (GeoIpLookupField field : this.neededGeoFieldNames) {
-
-                switch (field) {
-                    case COUNTRYCODE:
-                        value = location.countryCode;
-                        break;
-                    case CONTINENTCODE:
-                        value = getContinentCode(location.countryCode);
-                        break;
-                    case CONTINENTNAME:
-                        value =  getContinentName(location.countryCode);
-                        break;
-                    case REGION:
-                        value = location.region;
-                        break;
-                    case CITY:
-                        value = location.city;
-                        break;
-                    case POSTALCODE:
-                        value = location.postalCode;
-                        break;
-                    case LATITUDE:
-                        value = Float.toString(location.latitude);
-                        break;
-                    case LONGITUDE:
-                        value = Float.toString(location.longitude);
-                        break;
-                    case DMACODE:
-                        value = Integer.toString(location.dma_code);
-                        break;
-                    case AREACODE:
-                        value = Integer.toString(location.area_code);
-                        break;
-                    case METROCODE:
-                        value = Integer.toString(location.metro_code);
-                        break;
-                    default:
-                        break;
-                }
-                output.set(i, value);
-                i++;
-            }
-        } else {
-            warn("MaxMind Geo database does not have location information for the supplied IP address.", PigWarning.UDF_WARNING_3);
-            return null;
-        }
-        return output;
     }
 
-    @Override
-    public final Tuple exec(final Tuple input) throws IOException {
-        if (input == null || input.size() == 0) {
-            return null;
-        }
 
-        if (ip4Lookup == null)  {
-            initLookupService();
-        }
-
-        String ip = (String) input.get(0);
-        Tuple output = doGeoLookup(ip);
-        return output;
-    }
-
-    @Override
-    public final List<String> getCacheFiles() {
-        List<String> cacheFiles = new ArrayList<String>();
-        cacheFiles.add("GeoIPCity.dat#GeoIPCity.dat");
-        cacheFiles.add("GeoIP.dat#GeoIP.dat");
-        cacheFiles.add("GeoIPRegion.dat#GeoIPRegion.dat");
-        cacheFiles.add("GeoIPv6.dat#GeoIPv6.dat");
-        return cacheFiles;
+    /**
+     *
+     * @return
+     */
+    public final List<GeoIpLookupField> getNeededGeoFieldNames() {
+        return neededGeoFieldNames;
     }
 }
