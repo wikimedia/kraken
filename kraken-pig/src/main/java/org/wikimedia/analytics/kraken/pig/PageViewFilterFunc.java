@@ -53,7 +53,7 @@ import org.wikimedia.analytics.kraken.pageview.Pageview;
  http_language:chararray,
  x_cs:chararray );
 
- LOG_FIELDS = FILTER LOG_FIELDS BY PAGEVIEW(uri,referer,user_agent,http_status,remote_addr,content_type);
+ LOG_FIELDS = FILTER LOG_FIELDS BY PAGEVIEW(uri,referer,user_agent,http_status,remote_addr,content_type, request_method);
 
  PARSED     = FOREACH LOG_FIELDS GENERATE TO_DAY(timestamp) AS day, uri;
 
@@ -74,7 +74,7 @@ public class PageViewFilterFunc extends FilterFunc {
      * @throws ExecException
      */
     public final Boolean exec(final Tuple input) throws ExecException {
-        if (input == null || input.get(0) == null || input.size() != 6) {
+        if (input == null || input.get(0) == null || input.size() != 7) {
             return null;
         }
 
@@ -84,10 +84,11 @@ public class PageViewFilterFunc extends FilterFunc {
         String statusCode = (input.get(3) != null ? (String) input.get(3) : "-");
         String ip = (input.get(4) != null ? (String) input.get(4) : "-");
         String mimeType = (input.get(5) != null ? (String) input.get(5) : "-");
+        String requestMethod = (input.get(6) != null ? (String) input.get(6) : "-");
 
         boolean result;
 
-        Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimeType);
+        Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimeType, requestMethod);
         if (pageview.validate()) {
             result = true;
         } else {

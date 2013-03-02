@@ -112,10 +112,13 @@ public class Pageview {
                 return false;
 
             case OTHER:
-                // Discard all other requests
-                return false;
+                // Request that not match to any of the categories above should not be filtered but should show up
+                // so we can refine this categorization even further.
+                return true;
 
             default:
+                // Request that not match to any of the categories above should not be filtered but should show up
+                // so we can refine this categorization even further.
                 return true;
         }
     }
