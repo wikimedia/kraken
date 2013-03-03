@@ -25,6 +25,24 @@ import java.net.URL;
  * This class provides the main functionality to:
  * 1) determine whether a logline from a cache server is a pageview
  * 2) canonicalize the title of the pageview
+ *
+ *
+ 1. Hostname of the squid
+ 2. Sequence number
+ 3. The current time in ISO 8601 format (plus milliseconds), according to the squid server's clock.
+ 4. Request service time in ms
+ 5. Client IP
+ 6. Squid request status, HTTP status code
+ 7. Reply size including HTTP headers
+ 8. Request method (GET/POST etc)
+ 9. URL
+ 10. Squid hierarchy status, peer IP
+ 11. MIME content type
+ 12. Referer header
+ 13. X-Forwarded-For header
+ 14. User-Agent header
+ 15. Accept_Language
+ 16 X-CS (Wikipedia Zero MCC-MNC Carrier Code)
  */
 public class Pageview {
     private URL url;
@@ -35,10 +53,10 @@ public class Pageview {
     private String mimeType;
     private String requestMethod;
 
-    public PageviewType pageviewType;
-    public PageviewFilter pageviewFilter;
-    public PageviewCanonical pageviewCanonical;
-    public CidrFilter cidrFilter;
+    private PageviewType pageviewType;
+    private PageviewFilter pageviewFilter;
+    private PageviewCanonical pageviewCanonical;
+    private CidrFilter cidrFilter;
 
     /**
      *
@@ -171,7 +189,11 @@ public class Pageview {
                     this.pageviewType = PageviewType.MOBILE_API;
                 }
             } else {
-                this.pageviewType = PageviewType.MOBILE;
+                if (this.url.getQuery().contains("search")) {
+                    this.pageviewType = PageviewType.MOBILE_SEARCH;
+                } else {
+                    this.pageviewType = PageviewType.MOBILE;
+                }
             }
         } else if (this.url.getPath().contains("/wiki/")) {
             this.pageviewType = PageviewType.DESKTOP;
@@ -221,6 +243,14 @@ public class Pageview {
         } else {
             return false;
         }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public PageviewType getPageviewType() {
+        return pageviewType;
     }
 }
 

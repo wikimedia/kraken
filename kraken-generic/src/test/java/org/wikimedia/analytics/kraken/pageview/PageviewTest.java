@@ -33,4 +33,28 @@ public class PageviewTest {
         pageview = new Pageview(logFields[8], logFields[12], logFields[14], logFields[5], logFields[6], logFields[11], logFields[7]);
         assertEquals(pageview.validate(), false);
     }
+
+    @Test
+    public void testMobileApiRequest() {
+        pageview = new Pageview("http://de.m.wikipedia.org/w/api.php?action=mobileview&page=mobiletoken&override=1&format=xml", "-", "useragent", "200", "0.0.0.0", "text", "get");
+        pageview.detectPageviewType();
+        assertEquals(PageviewType.MOBILE_API, pageview.getPageviewType());
+    }
+
+    @Test
+    public void testDropMobileSearchRequest1() {
+        pageview = new Pageview("http://fr.m.wikipedia.org/w/api.php?action=opensearch&limit=15&namespace=0&format=xml&search=kacey%20jor", "-", "useragent", "200", "0.0.0.0", "text", "get");
+        pageview.detectPageviewType();
+        assertEquals(PageviewType.MOBILE_SEARCH, pageview.getPageviewType());
+    }
+
+    @Test
+    /**
+     *  test r4 in fast-field-parser-xs/PageViews-FieldParser/t/01-get-wikiproject-for-url.t
+     */
+    public void testDropMobileSearchRequest2()  {
+        pageview = new Pageview("http://en.m.wikipedia.org/wiki?search=Waylon%20Smithers", "-", "useragent", "200", "0.0.0.0", "text", "get");
+        pageview.detectPageviewType();
+        assertEquals(PageviewType.MOBILE_SEARCH, pageview.getPageviewType());
+    }
 }

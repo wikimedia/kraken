@@ -41,8 +41,8 @@ public class CidrFilter {
         //        "208.80.154."
         //        "208.80.155."
         //        "91.198.174."
-        this.subnets.add(new SubnetUtils("208.80.152.0/X"));
-        this.subnets.add(new SubnetUtils("91.198.174.0/X"));
+        this.subnets.add(new SubnetUtils("208.80.152.0/22"));
+        this.subnets.add(new SubnetUtils("91.198.174.0/24"));
     }
 
     /**

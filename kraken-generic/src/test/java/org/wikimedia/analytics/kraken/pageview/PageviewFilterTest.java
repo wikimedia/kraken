@@ -72,5 +72,32 @@ public class PageviewFilterTest {
     public void testInvalidMimeType() {
         assertTrue(pageviewFilter.isValidMimeType("image"));
     }
+
+    @Test
+    /**
+     *  test r5 in fast-field-parser-xs/PageViews-FieldParser/t/01-get-wikiproject-for-url.t
+     */
+    public void testValidMobileDesktopView() throws MalformedURLException {
+        URL url = new URL("http://en.m.wikipedia.org/wiki/Earth");
+        assertTrue(pageviewFilter.isValidMobilePageview(url));
+    }
+    @Test
+    /**
+     *  test r6 in fast-field-parser-xs/PageViews-FieldParser/t/01-get-wikiproject-for-url.t
+     */
+    public void testInvalidMobileApiPageview() throws MalformedURLException {
+        URL url = new URL("http://en.m.wikipedia.org/w/api.php");
+        URL referer = new URL("http://en.m.wikipedia.org");
+        assertFalse(pageviewFilter.isValidMobileAPIPageview(url, referer));
+    }
+
+    @Test
+    /**
+     *  test r7 in fast-field-parser-xs/PageViews-FieldParser/t/01-get-wikiproject-for-url.t
+     */
+    public void testInvalidMobilePageview() throws MalformedURLException {
+        URL url = new URL("http://en.m.wikipedia.org/wiki");
+        assertFalse(pageviewFilter.isValidMobilePageview(url));
+    }
 }
 
