@@ -70,7 +70,7 @@ public class PageviewFilterTest {
 
     @Test
     public void testInvalidMimeType() {
-        assertTrue(pageviewFilter.isValidMimeType("image"));
+        assertFalse(pageviewFilter.isValidMimeType("image"));
     }
 
     @Test
@@ -88,7 +88,7 @@ public class PageviewFilterTest {
     public void testInvalidMobileApiPageview() throws MalformedURLException {
         URL url = new URL("http://en.m.wikipedia.org/w/api.php");
         URL referer = new URL("http://en.m.wikipedia.org");
-        assertFalse(pageviewFilter.isValidMobileAPIPageview(url, referer));
+        assertTrue(pageviewFilter.isValidMobileAPIPageview(url, referer));
     }
 
     @Test

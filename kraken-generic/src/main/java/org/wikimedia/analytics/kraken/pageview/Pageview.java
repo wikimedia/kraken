@@ -249,8 +249,33 @@ public class Pageview {
      *
      * @return
      */
-    public PageviewType getPageviewType() {
+    public final PageviewType getPageviewType() {
         return pageviewType;
     }
+
+    /**
+     *
+     * @return
+     */
+    public final PageviewFilter getPageviewFilter() {
+        return pageviewFilter;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final PageviewCanonical getPageviewCanonical() {
+        return pageviewCanonical;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final CidrFilter getCidrFilter() {
+        return cidrFilter;
+    }
+
 }
 

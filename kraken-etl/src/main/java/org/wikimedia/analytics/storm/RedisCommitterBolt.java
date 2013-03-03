@@ -80,16 +80,18 @@ public class RedisCommitterBolt implements IRichBolt {
         String ipAddress = tuple.getString(4);
         String statusCode = tuple.getString(5);
         String url = tuple.getString(8);
+        String requestMethod = tuple.getString(9);
         String mimeType = tuple.getString(10);
         String referer = tuple.getString(11);
         String userAgent = tuple.getString(13);
 
-        Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType);
+
+        Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         if (pageview.validate()) {
             String timestamp = parseTimestamp(tuple.getString(2));
             pageview.canonicalizeURL();
             //TODO: this needs to be refined.
-            String key = pageview.pageviewCanonical.getLanguage() + pageview.pageviewCanonical.getProject() + pageview.pageviewCanonical.getArticleTitle();
+            String key = pageview.getPageviewCanonical().getLanguage() + pageview.getPageviewCanonical().getProject() + pageview.getPageviewCanonical().getArticleTitle();
             jedis.hincrBy(key, timestamp, 1);
         }
     }
