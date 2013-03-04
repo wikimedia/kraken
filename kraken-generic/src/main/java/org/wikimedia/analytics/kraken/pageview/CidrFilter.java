@@ -63,11 +63,27 @@ public class CidrFilter {
      * @return true if ipAddress is within one of the specified CIDR ranges otherwise return false.
      */
     public final boolean ipAddressFallsInRange(final String ipAddress) {
-        for (SubnetUtils subnet : subnets) {
-            if (subnet.getInfo().isInRange(ipAddress)) {
-                return true;
+        if (isIp4Address(ipAddress)) {
+            for (SubnetUtils subnet : subnets) {
+                if (subnet.getInfo().isInRange(ipAddress)) {
+                    return true;
+                }
             }
+            return false;
+        } else {
+            return true;
         }
-        return false;
+    }
+
+    /**
+     *
+     * @param ipAddress
+     */
+    private boolean isIp4Address(final String ipAddress) {
+        if (ipAddress.contains(":")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

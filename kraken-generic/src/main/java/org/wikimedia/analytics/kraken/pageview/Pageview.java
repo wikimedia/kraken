@@ -89,8 +89,6 @@ public class Pageview {
         this.mimeType = mimeType;
         this.requestMethod = requestMethod;
 
-        detectPageviewType();
-
         if (pageviewFilter == null || pageviewCanonical == null || cidrFilter == null) {
             pageviewFilter = new PageviewFilter();
             cidrFilter = new CidrFilter();
@@ -102,10 +100,7 @@ public class Pageview {
      * Detailed business logic to determine per pageview type whether the visit should be counted as a pageview or not.
      * @return true/false
      */
-    public final boolean passCustomFilter() {
-        if (this.pageviewType == null) {
-            return true;
-        }
+    public final boolean secondStepPageviewValidation() {
         switch (this.pageviewType) {
             case MOBILE:
                 return pageviewFilter.isValidMobilePageview(this.url);
@@ -113,21 +108,29 @@ public class Pageview {
             case MOBILE_API:
                 return pageviewFilter.isValidMobileAPIPageview(this.url, this.referer);
 
+            case MOBILE_SEARCH:
+                // Discard all search queries by default
+                return false;
+
             case DESKTOP:
                 return pageviewFilter.isValidDesktopPageview(this.url);
 
-            case IMAGE:
+            case DESKTOP_API:
                 return true;
 
-            case API:
+            case DESKTOP_SEARCH:
+                // Discard all search queries by default
+                return false;
+
+            case COMMONS_IMAGE:
                 return true;
+
+            case BANNER:
+                // Discard all banner impressions by default
+                return false;
 
             case BLOG:
                 return pageviewFilter.isValidBlogPageview(this.url);
-
-            case SEARCH:
-                // Discard all search queries by default
-                return false;
 
             case OTHER:
                 // Request that not match to any of the categories above should not be filtered but should show up
@@ -153,20 +156,27 @@ public class Pageview {
             case MOBILE_API:
                 pageviewCanonical.canonicalizeMobilePageview(this.url, this.pageviewType);
 
+            case MOBILE_SEARCH:
+                pageviewCanonical.canonicalizeSearchQuery(this.url, this.pageviewType);
+
             case DESKTOP:
                 pageviewCanonical.canonicalizeDesktopPageview(this.url, this.pageviewType);
 
-            case API:
+            case DESKTOP_API:
                 pageviewCanonical.canonicalizeApiRequest(this.url, this.pageviewType);
+
+            case DESKTOP_SEARCH:
+                pageviewCanonical.canonicalizeSearchQuery(this.url, this.pageviewType);
+
+            case COMMONS_IMAGE:
+                pageviewCanonical.canonicalizeImagePageview(this.url, this.pageviewType);
+
+            case BANNER:
+                //TODO: not yet implemented
+                break;
 
             case BLOG:
                 pageviewCanonical.canonicalizeBlogPageview(this.url, this.pageviewType);
-
-            case SEARCH:
-                pageviewCanonical.canonicalizeSearchQuery(this.url, this.pageviewType);
-
-            case IMAGE:
-                pageviewCanonical.canonicalizeImagePageview(this.url, this.pageviewType);
 
             default:
                 break;
@@ -176,37 +186,17 @@ public class Pageview {
     /**
      * Given a url, determine the pageview type (mobile, desktop, api, search and blog).
      */
-    public final void detectPageviewType() {
-        if (this.url == null) {
-            this.pageviewType = PageviewType.DESKTOP;
+    public final void determinePageviewType() {
+        if (this.url.getQuery() != null && this.url.getQuery().contains("BannerLoader")) {
+            this.pageviewType = PageviewType.BANNER;
+        } else if (this.url.getHost().contains("commons")) {
+            this.pageviewType = PageviewType.COMMONS_IMAGE;
         } else if (this.url.getHost().contains(".m.")) {
-            if (this.url.getPath().contains("api.php")) {
-                if (this.url.getQuery() != null && this.url.getQuery().contains("opensearch")) {
-                    this.pageviewType = PageviewType.MOBILE_SEARCH;
-                } else if (this.mimeType.startsWith("image")) {
-                    this.pageviewType = PageviewType.OTHER;
-                }  else {
-                    this.pageviewType = PageviewType.MOBILE_API;
-                }
-            } else {
-                if (this.url.getQuery().contains("search")) {
-                    this.pageviewType = PageviewType.MOBILE_SEARCH;
-                } else {
-                    this.pageviewType = PageviewType.MOBILE;
-                }
-            }
-        } else if (this.url.getPath().contains("/wiki/")) {
+            this.pageviewType = PageviewType.MOBILE;
+            determineMobileSubPageviewType();
+        } else if (this.url.getHost().contains("wiki")) {
             this.pageviewType = PageviewType.DESKTOP;
-        } else if (this.url.getPath().contains("index.php")) {
-            this.pageviewType = PageviewType.DESKTOP;
-        } else if (this.url.getPath().contains("api.php")) {
-            if (this.url.getQuery() != null && this.url.getQuery().contains("opensearch")) {
-                this.pageviewType = PageviewType.SEARCH;
-            } else {
-                this.pageviewType = PageviewType.API;
-            }
-        } else if (this.url.getHost().contains("commons") || this.url.getHost().contains("upload")) {
-            this.pageviewType = PageviewType.IMAGE;
+            determineDesktopSubPageviewType();
         } else if (this.url.getHost().contains("blog")) {
             this.pageviewType = PageviewType.BLOG;
         } else {
@@ -215,21 +205,65 @@ public class Pageview {
     }
 
     /**
+     *
+     */
+    private void determineDesktopSubPageviewType() {
+        if (this.url.getPath().contains("api.php")) {
+            if (this.url.getQuery() != null && this.url.getQuery().contains("opensearch")) {
+                this.pageviewType = PageviewType.DESKTOP_SEARCH;
+            } else {
+                this.pageviewType = PageviewType.DESKTOP_API;
+            }
+        } else if (this.url.getQuery() != null && this.url.getQuery().contains("search")) {
+            this.pageviewType = PageviewType.DESKTOP_SEARCH;
+        }
+    }
+
+    /**
+     *
+     */
+    private void determineMobileSubPageviewType() {
+        if (this.url.getPath().contains("api.php")) {
+            if (this.url.getQuery() != null && this.url.getQuery().contains("opensearch")) {
+                this.pageviewType = PageviewType.MOBILE_SEARCH;
+            }  else {
+                this.pageviewType = PageviewType.MOBILE_API;
+            }
+        } else if (this.url.getQuery() != null && this.url.getQuery().contains("search")) {
+            this.pageviewType = PageviewType.MOBILE_SEARCH;
+        }
+    }
+
+    /**
+     *
+     */
+    public final boolean isPageview() {
+        if (initialPageviewValidation()) {
+            determinePageviewType();
+            if (secondStepPageviewValidation()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Pageviewtype agnostic checks to determine whether request is pageview or not.
      * @return true/false
      */
-    public final boolean validate() {
-        boolean result = false;
+    public final boolean initialPageviewValidation() {
         if (isValidURL()
+                && pageviewFilter.isNotBitsOrUploadDomain(this.url)
                 && pageviewFilter.isValidUserAgent(this.userAgent)
                 && pageviewFilter.isValidResponseCode(this.statusCode)
-                && pageviewFilter.isValidMimeType(this.mimeType)
                 && pageviewFilter.isValidRequestMethod(this.requestMethod)
                 && cidrFilter.ipAddressFallsInRange(this.ipAddress)) {
-            result = passCustomFilter();
-            return result;
+            return true;
         }  else {
-            return result;
+            return false;
         }
     }
 

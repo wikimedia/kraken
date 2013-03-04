@@ -65,12 +65,12 @@ public class PageviewFilterTest {
 
     @Test
     public void testValidMimeType() {
-        assertTrue(pageviewFilter.isValidMimeType("text"));
+        assertTrue(pageviewFilter.isValidMimeType(PageviewType.DESKTOP, "text/html"));
     }
 
     @Test
     public void testInvalidMimeType() {
-        assertFalse(pageviewFilter.isValidMimeType("image"));
+        assertTrue(pageviewFilter.isValidMimeType(PageviewType.COMMONS_IMAGE, "image/png"));
     }
 
     @Test

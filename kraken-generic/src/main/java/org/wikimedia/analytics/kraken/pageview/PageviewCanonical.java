@@ -105,7 +105,7 @@ public class PageviewCanonical {
             sb.append(hostname[1]);
             sb.append(".");
             sb.append(hostname[2]);
-        }  else if (pageviewType == PageviewType.IMAGE) {
+        }  else if (pageviewType == PageviewType.COMMONS_IMAGE) {
             sb.append(hostname[0]);
         } else {
             sb.append(hostname[0]);

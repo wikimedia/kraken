@@ -89,7 +89,7 @@ public class PageViewFilterFunc extends FilterFunc {
         boolean result;
 
         Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimeType, requestMethod);
-        if (pageview.validate()) {
+        if (pageview.isPageview()) {
             result = true;
         } else {
             result = false;

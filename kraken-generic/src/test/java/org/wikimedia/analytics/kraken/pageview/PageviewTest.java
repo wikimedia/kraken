@@ -31,20 +31,20 @@ public class PageviewTest {
         String logLines = "ssl1002,362176022,1970-01-01T00:00:00.000,0.086,0.0.0.0,FAKE_CACHE_STATUS/301,680,GET https://fr.wikipedia.org/wiki/Discussion:Histoire du Racing Club de Strasbourg,NONE/wikipedia,-,-,-,Mozilla/5.0%20(compatible;%20Googlebot/2.1;%20+http://www.google.com/bot.html),-,-";
         String[] logFields = logLines.split(",");
         pageview = new Pageview(logFields[8], logFields[12], logFields[14], logFields[5], logFields[6], logFields[11], logFields[7]);
-        assertEquals(pageview.validate(), false);
+        assertEquals(pageview.isPageview(), false);
     }
 
     @Test
     public void testMobileApiRequest() {
         pageview = new Pageview("http://de.m.wikipedia.org/w/api.php?action=mobileview&page=mobiletoken&override=1&format=xml", "-", "useragent", "200", "0.0.0.0", "text", "get");
-        pageview.detectPageviewType();
+        pageview.determinePageviewType();
         assertEquals(PageviewType.MOBILE_API, pageview.getPageviewType());
     }
 
     @Test
     public void testDropMobileSearchRequest1() {
         pageview = new Pageview("http://fr.m.wikipedia.org/w/api.php?action=opensearch&limit=15&namespace=0&format=xml&search=kacey%20jor", "-", "useragent", "200", "0.0.0.0", "text", "get");
-        pageview.detectPageviewType();
+        pageview.determinePageviewType();
         assertEquals(PageviewType.MOBILE_SEARCH, pageview.getPageviewType());
     }
 
@@ -54,7 +54,7 @@ public class PageviewTest {
      */
     public void testDropMobileSearchRequest2()  {
         pageview = new Pageview("http://en.m.wikipedia.org/wiki?search=Waylon%20Smithers", "-", "useragent", "200", "0.0.0.0", "text", "get");
-        pageview.detectPageviewType();
+        pageview.determinePageviewType();
         assertEquals(PageviewType.MOBILE_SEARCH, pageview.getPageviewType());
     }
 }

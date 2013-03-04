@@ -87,7 +87,7 @@ public class RedisCommitterBolt implements IRichBolt {
 
 
         Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
-        if (pageview.validate()) {
+        if (pageview.isPageview()) {
             String timestamp = parseTimestamp(tuple.getString(2));
             pageview.canonicalizeURL();
             //TODO: this needs to be refined.

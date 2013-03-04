@@ -19,6 +19,8 @@
 package org.wikimedia.analytics.kraken.pageview;
 
 
+import com.google.common.net.MediaType;
+
 import java.net.URL;
 
 
@@ -26,6 +28,18 @@ import java.net.URL;
  * The general Pageview filter class for all jobs running on Kraken.
  */
 public class PageviewFilter {
+
+
+    /**
+     *
+     */
+    public final boolean isNotBitsOrUploadDomain(final URL url) {
+        if (url.getHost().contains("bits") || url.getHost().contains("upload")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     /**
      *
@@ -35,9 +49,9 @@ public class PageviewFilter {
     public final boolean isValidUserAgent(final String userAgent) {
         //This should be replaced using the dClass device detector
         if (userAgent.contains("bot")
-            || userAgent.contains("spider")
-            || userAgent.contains("http")
-            || userAgent.contains("crawler")) {
+                || userAgent.contains("spider")
+                || userAgent.contains("http")
+                || userAgent.contains("crawler")) {
             return false;
         } else {
             return true;
@@ -76,9 +90,9 @@ public class PageviewFilter {
     public final boolean isValidMobileAPIPageview(final URL url, final URL referer) {
         //Start with simple logic, if referer is another Wiki* api call then ignore this url else accept it
         if (referer.getPath().contains("api.php")
-            && referer.getHost().contains(".wiki")
-            && referer.getQuery() != null
-            && referer.getQuery().contains("view")) {
+                && referer.getHost().contains(".wiki")
+                && referer.getQuery() != null
+                && referer.getQuery().contains("view")) {
             return false;
         } else {
             return true;
@@ -87,11 +101,44 @@ public class PageviewFilter {
 
     /**
      *
+     * @param pageviewType
      * @param mimeType
      * @return
      */
-    public final boolean isValidMimeType(final String mimeType) {
-        if (mimeType.contains("text")) {
+    public final boolean isValidMimeType(final PageviewType pageviewType, final String mimeType) {
+        boolean result;
+        if (pageviewType == PageviewType.COMMONS_IMAGE) {
+            result = isValidCommonsImageMimeType(mimeType);
+        } else {
+            result = isValidPageviewMimeType(mimeType);
+        }
+        return result;
+    }
+
+
+    /**
+     *
+     * @param mimeType
+     * @return
+     */
+    private boolean isValidPageviewMimeType(final String mimeType) {
+        MediaType mediaType = MediaType.parse(mimeType);
+        if ((mediaType.type().equals("text") && (mediaType.subtype().equals("html"))
+                || (mediaType.type().equals("application") && mediaType.subtype().equals("json")))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     *
+     * @param mimeType
+     * @return
+     */
+    private boolean isValidCommonsImageMimeType(final String mimeType) {
+        MediaType mediaType = MediaType.parse(mimeType);
+        if (mediaType.type().contains("image")) {
             return true;
         } else {
             return false;
@@ -136,8 +183,8 @@ public class PageviewFilter {
     public final boolean isValidBlogPageview(final URL url) {
         if (url != null && (
                 url.getPath().startsWith("wp-")
-                || url.getPath().startsWith("?s=")
-                || url.getHost().startsWith("test"))) {
+                        || url.getPath().startsWith("?s=")
+                        || url.getHost().startsWith("test"))) {
             return false;
         }
         return true;
