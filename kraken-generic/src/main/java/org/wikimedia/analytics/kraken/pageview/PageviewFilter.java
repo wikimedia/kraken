@@ -89,7 +89,7 @@ public class PageviewFilter {
      */
     public final boolean isValidMobileAPIPageview(final URL url, final URL referer) {
         //Start with simple logic, if referer is another Wiki* api call then ignore this url else accept it
-        if (referer.getPath().contains("api.php")
+        if (referer != null && referer.getPath().contains("api.php")
                 && referer.getHost().contains(".wiki")
                 && referer.getQuery() != null
                 && referer.getQuery().contains("view")) {
