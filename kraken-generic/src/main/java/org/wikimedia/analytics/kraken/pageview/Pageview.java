@@ -248,11 +248,7 @@ public class Pageview {
     public final boolean isPageview() {
         if (initialPageviewValidation()) {
             determinePageviewType();
-            if (secondStepPageviewValidation()) {
-                return true;
-            } else {
-                return false;
-            }
+            return secondStepPageviewValidation();
         } else {
             return false;
         }
@@ -263,16 +259,12 @@ public class Pageview {
      * @return true/false
      */
     public final boolean initialPageviewValidation() {
-        if (isValidURL()
+        return (isValidURL()
                 && pageviewFilter.isNotBitsOrUploadDomain(this.url)
                 && pageviewFilter.isValidUserAgent(this.userAgent)
                 && pageviewFilter.isValidResponseCode(this.statusCode)
                 && pageviewFilter.isValidRequestMethod(this.requestMethod)
-                && cidrFilter.ipAddressFallsInRange(this.ipAddress)) {
-            return true;
-        }  else {
-            return false;
-        }
+                && !cidrFilter.ipAddressFallsInRange(this.ipAddress));
     }
 
     /**
@@ -280,11 +272,7 @@ public class Pageview {
      * @return true/false
      */
     public final boolean isValidURL() {
-        if (this.url != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.url != null;
     }
 
     /**
@@ -320,4 +308,3 @@ public class Pageview {
     }
 
 }
-

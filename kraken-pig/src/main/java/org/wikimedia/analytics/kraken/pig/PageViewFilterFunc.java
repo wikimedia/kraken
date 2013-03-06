@@ -86,14 +86,7 @@ public class PageViewFilterFunc extends FilterFunc {
         String mimeType = (input.get(5) != null ? (String) input.get(5) : "-");
         String requestMethod = (input.get(6) != null ? (String) input.get(6) : "-");
 
-        boolean result;
-
         Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimeType, requestMethod);
-        if (pageview.isPageview()) {
-            result = true;
-        } else {
-            result = false;
-        }
-    return result;
+        return pageview.isPageview();
     }
 }
