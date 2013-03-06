@@ -184,7 +184,7 @@ public class GeoIpLookup {
      * @throws IOException
      */
     private void initLookupService() throws IOException {
-        if (this.execType.equals("LOCAL")) {
+        if (this.execType != null && this.execType.equals("LOCAL")) {
             ip4Lookup = new LookupService("/usr/share/GeoIP/GeoIPCity.dat", LookupService.GEOIP_MEMORY_CACHE);
             ip6Lookup = new LookupService("/usr/share/GeoIP/GeoIPv6.dat", LookupService.GEOIP_MEMORY_CACHE);
         } else {
