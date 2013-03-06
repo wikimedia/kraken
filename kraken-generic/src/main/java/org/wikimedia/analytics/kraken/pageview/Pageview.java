@@ -105,6 +105,9 @@ public class Pageview {
             case MOBILE:
                 return pageviewFilter.isValidMobilePageview(this.url);
 
+            case MOBILE_ZERO:
+                return pageviewFilter.isValidMobilePageview(this.url);
+
             case MOBILE_API:
                 return pageviewFilter.isValidMobileAPIPageview(this.url, this.referer);
 
@@ -156,6 +159,9 @@ public class Pageview {
             case MOBILE_API:
                 pageviewCanonical.canonicalizeMobilePageview(this.url, this.pageviewType);
 
+            case MOBILE_ZERO:
+                pageviewCanonical.canonicalizeMobilePageview(this.url, this.pageviewType);
+
             case MOBILE_SEARCH:
                 pageviewCanonical.canonicalizeSearchQuery(this.url, this.pageviewType);
 
@@ -194,6 +200,8 @@ public class Pageview {
         } else if (this.url.getHost().contains(".m.")) {
             this.pageviewType = PageviewType.MOBILE;
             determineMobileSubPageviewType();
+        } else if (this.url.getHost().contains(".zero.")) {
+            this.pageviewType = PageviewType.MOBILE_ZERO;
         } else if (this.url.getHost().contains("wiki")) {
             this.pageviewType = PageviewType.DESKTOP;
             determineDesktopSubPageviewType();
