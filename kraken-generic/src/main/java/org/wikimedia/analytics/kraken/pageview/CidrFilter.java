@@ -36,11 +36,10 @@ public class CidrFilter {
      * Default constructor that use WMF internal IP ranges
      */
     public CidrFilter() {
-        //        "208.80.152.",
-        //        "208.80.153."
-        //        "208.80.154."
-        //        "208.80.155."
-        //        "91.198.174."
+        /**
+         * 208.80.152.0/22 && 91.198.174.0/24 are internal WMF office ranges and should be excluded from
+         * pageview counts
+         */
         this.subnets.add(new SubnetUtils("208.80.152.0/22"));
         this.subnets.add(new SubnetUtils("91.198.174.0/24"));
     }
@@ -80,10 +79,6 @@ public class CidrFilter {
      * @param ipAddress
      */
     private boolean isIp4Address(final String ipAddress) {
-        if (ipAddress.contains(":")) {
-            return false;
-        } else {
-            return true;
-        }
+        return !ipAddress.contains(":");
     }
 }
