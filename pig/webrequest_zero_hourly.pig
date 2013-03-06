@@ -11,7 +11,7 @@ SET default_parallel 10;
 DEFINE TO_HOUR      org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd_HH');
 DEFINE EXTRACT      org.apache.pig.builtin.REGEX_EXTRACT_ALL();
 DEFINE ZERO         org.wikimedia.analytics.kraken.pig.Zero();
-DEFINE GEO          org.wikimedia.analytics.kraken.pig.GeoIpLookup('countryCode', 'GeoIPCity');
+DEFINE GEO          org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
 DEFINE PAGEVIEW     org.wikimedia.analytics.kraken.pig.PageViewFilterFunc();
 
 -- Set this as a regular expression to filter for desired timestamps.
@@ -29,29 +29,22 @@ LOG_FIELDS     = LOAD_WEBREQUEST('$input');
 -- only keep log lines which have an X-CS header set
 LOG_FIELDS    = FILTER LOG_FIELDS BY (x_cs != '-');
 
-LOG_FIELDS  = FOREACH LOG_FIELDS GENERATE
- uri,
- referer,
- user_agent,
- http_status,
- content_type,
+--LOG_FIELDS    = FILTER LOG_FIELDS BY PAGEVIEW(uri,referer,user_agent,http_status,remote_addr,content_type);
+
+LOG_FIELDS    = FOREACH LOG_FIELDS GENERATE
  x_cs,
  remote_addr,
- request_method,
- TO_HOUR(timestamp) AS day_hour:chararray;
+ TO_HOUR(timestamp) AS day_hour:chararray,
+ FLATTEN(GEO(remote_addr)) AS country,
+ FLATTEN(ZERO(x_cs)) AS (carrier:chararray, iso:chararray);
 
 -- only compute stats for hours that match $hour_regex;
 LOG_FIELDS    = FILTER LOG_FIELDS BY day_hour MATCHES '$hour_regex';
 
-LOG_FIELDS    = FILTER LOG_FIELDS BY PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method);
-
-LOG_FIELDS  = FOREACH LOG_FIELDS GENERATE
- day_hour,
- FLATTEN(GEO(remote_addr)) AS country,
- FLATTEN(ZERO(x_cs)) AS carrier:chararray;
-
+--COUNT = FOREACH (GROUP LOG_FIELDS BY (uri)) GENERATE FLATTEN(group);
 COUNT          = FOREACH (GROUP LOG_FIELDS BY (day_hour, carrier, country)) GENERATE FLATTEN(group), COUNT(LOG_FIELDS.carrier) as num;
 COUNT          = ORDER COUNT BY day_hour, carrier, country;
 
 -- save results into $output
-STORE COUNT INTO '$output' USING PigStorage();
+--STORE COUNT INTO '$output' USING PigStorage();
+DUMP COUNT;
