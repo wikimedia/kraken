@@ -54,7 +54,9 @@ public class PageviewFilter {
     public final boolean isValidDesktopPageview(final URL url) {
         if (url.getPath().contains("Special:")) {
             return false;
-        } else if (url.getPath().contains("/wiki/")) {
+        } else if (url.getPath().contains("wiki/")
+                   || url.getPath().contains("w/index.php?")
+                   || url.getPath().contains("w/api.php?")) {
             return true;
         }
         return false;
@@ -92,13 +94,32 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidMimeType(final PageviewType pageviewType, final String mimeType) {
-        boolean result;
-        if (pageviewType == PageviewType.COMMONS_IMAGE) {
-            result = isValidCommonsImageMimeType(mimeType);
-        } else {
-            result = isValidPageviewMimeType(mimeType);
+        switch (pageviewType) {
+
+            case COMMONS_IMAGE:
+                return isValidCommonsImageMimeType(mimeType);
+
+            case MOBILE:
+            case MOBILE_API:
+            case MOBILE_SEARCH:
+            case MOBILE_ZERO:
+                return isValidMobilePageviewMimeType(mimeType);
+
+            default:
+                return isValidDesktopPageviewMimeType(mimeType);
         }
-        return result;
+    }
+
+    /**
+     *
+     * @param mimeType
+     * @return
+     */
+    private boolean isValidMobilePageviewMimeType(final String mimeType) {
+        MediaType mediaType = MediaType.parse(mimeType);
+        return ((mediaType.type().equals("text")
+                && ((mediaType.subtype().equals("html") || mediaType.subtype().equals("vnd.wap.wml")))
+                || (mediaType.type().equals("application") && mediaType.subtype().equals("json"))));
     }
 
 
@@ -107,14 +128,10 @@ public class PageviewFilter {
      * @param mimeType
      * @return
      */
-    private boolean isValidPageviewMimeType(final String mimeType) {
+    private boolean isValidDesktopPageviewMimeType(final String mimeType) {
         MediaType mediaType = MediaType.parse(mimeType);
-        if ((mediaType.type().equals("text") && (mediaType.subtype().equals("html"))
-                || (mediaType.type().equals("application") && mediaType.subtype().equals("json")))) {
-            return true;
-        } else {
-            return false;
-        }
+        return ((mediaType.type().equals("text") && (mediaType.subtype().equals("html"))
+                || (mediaType.type().equals("application") && mediaType.subtype().equals("json"))));
     }
 
     /**
@@ -124,11 +141,7 @@ public class PageviewFilter {
      */
     private boolean isValidCommonsImageMimeType(final String mimeType) {
         MediaType mediaType = MediaType.parse(mimeType);
-        if (mediaType.type().contains("image")) {
-            return true;
-        } else {
-            return false;
-        }
+        return (mediaType.type().contains("image"));
     }
 
     /**
