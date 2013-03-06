@@ -69,7 +69,7 @@ import org.wikimedia.analytics.kraken.pageview.Pageview;
 public class PageViewFilterFunc extends FilterFunc {
     /**
      *
-     * @param input tuple containing url, referer, userAgent, statusCode, ip and mimeType.
+     * @param input tuple containing url, referer, userAgent, statusCode, ipAddress, mimeType and requestMethod.
      * @return true/false
      * @throws ExecException
      */

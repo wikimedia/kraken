@@ -69,6 +69,11 @@ public class PageviewFilterTest {
     }
 
     @Test
+    public void testValidMimeType2() {
+        assertTrue(pageviewFilter.isValidMimeType(PageviewType.DESKTOP, "text/html; charset=UTF-8"));
+    }
+
+    @Test
     public void testInvalidMimeType() {
         assertTrue(pageviewFilter.isValidMimeType(PageviewType.COMMONS_IMAGE, "image/png"));
     }
@@ -100,4 +105,3 @@ public class PageviewFilterTest {
         assertFalse(pageviewFilter.isValidMobilePageview(url));
     }
 }
-

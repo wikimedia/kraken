@@ -37,8 +37,9 @@ import java.util.List;
  * to either an IP4 or IP6 address.
  */
 public class GeoIpLookupEvalFunc extends EvalFunc<Tuple> {
-
+    /** Factory to generate Pig tuples */
     private TupleFactory tupleFactory = TupleFactory.getInstance();
+
     private GeoIpLookup geoIpLookup;
 
     /**

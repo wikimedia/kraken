@@ -20,18 +20,19 @@
 package org.wikimedia.analytics.kraken.pig;
 
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.apache.pig.EvalFunc;
+import org.apache.pig.PigWarning;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
-
 import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
 import org.wikimedia.analytics.kraken.schemas.MccMnc;
 import org.wikimedia.analytics.kraken.schemas.Schema;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.core.JsonParseException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This PIG UDF is used to map the custom X-CS http header to the mobile carrier and country
@@ -41,37 +42,42 @@ import java.util.HashMap;
 
 public class Zero extends EvalFunc<Tuple> {
 
-    HashMap<String, Schema> map = new HashMap<String, Schema>();
-    private TupleFactory tupleFactory = TupleFactory.getInstance();
+    /** Map containing x-cs keys and mobile carrier information*/
+    private HashMap<String, Schema> map = new HashMap<String, Schema>();
 
+    /** Factory to generate Pig tuples */
+    private TupleFactory tupleFactory = TupleFactory.getInstance();
 
     /**
      *
      * @throws JsonMappingException
      * @throws JsonParseException
      */
-    public Zero() throws JsonMappingException, JsonParseException{
+    public Zero() throws JsonMappingException, JsonParseException {
         JsonToClassConverter converter = new JsonToClassConverter();
-        map = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getCountryCode");
+        this.map = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getMCC_MNC");
     }
 
 
     /** {@inheritDoc} */
     @Override
-    public Tuple exec(Tuple input) throws IOException {
-        if (input == null || input.size() != 1) {
+    public final Tuple exec(final Tuple input) throws IOException {
+        if (input == null || input.size() != 1 || input.get(0) == null) {
             return null;
         }
-        String key = (String) input.get(0);
-        MccMnc zero = (MccMnc) map.get(key);
-        if (zero != null) {
-            Tuple output = tupleFactory.newTuple(2);
-            output.set(0, zero.getName());
-            output.set(1, zero.getISO());
-            return output;
 
+        String key = (String) input.get(0);
+        MccMnc carrier = (MccMnc) this.map.get(key);
+        Tuple output = tupleFactory.newTuple(2);
+
+        if (carrier != null) {
+            output.set(0, carrier.getName());
+            output.set(1, carrier.getISO());
         } else {
-            return null;
+            warn("Key was not found in MccMnc Map", PigWarning.UDF_WARNING_1);
+            output.set(0, "no carrier");
+            output.set(1, "no country");
         }
+        return output;
     }
 }

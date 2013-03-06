@@ -31,6 +31,9 @@ public enum PageviewType {
     /** A mobile search request, url contains .m. and the string 'search' */
     MOBILE_SEARCH,
 
+    /** A mobile zero request, url contains .zero. */
+    MOBILE_ZERO,
+
     /** A regular pageview */
     DESKTOP,
 

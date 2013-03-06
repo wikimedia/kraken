@@ -37,11 +37,24 @@ public class ZeroTest {
     public void testMccMncJsonFile() throws JsonMappingException, JsonParseException {
         JsonToClassConverter converter = new JsonToClassConverter();
         HashMap<String, Schema> map = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getMCC_MNC");
+
         MccMnc carrier = (MccMnc) map.get("624-02");
         assertNotNull(carrier);
         assertEquals("624-02", carrier.getMCC_MNC());
         assertEquals("orange-cameroon", carrier.getName());
         assertEquals("Cameroon", carrier.getCountry());
+    }
+
+
+    @Test
+    public void testMccMncJsonFile2() throws JsonMappingException, JsonParseException {
+        JsonToClassConverter converter = new JsonToClassConverter();
+        HashMap<String, Schema> map = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getMCC_MNC");
+        MccMnc carrier = (MccMnc) map.get("420-01");
+        assertNotNull(carrier);
+        assertEquals("420-01", carrier.getMCC_MNC());
+        assertEquals("stc/al-jawal-saudi-arabia", carrier.getName());
+        assertEquals("Saudi Arabia", carrier.getCountry());
     }
 
 

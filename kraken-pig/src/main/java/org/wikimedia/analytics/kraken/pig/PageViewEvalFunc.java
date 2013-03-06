@@ -68,6 +68,7 @@ import org.wikimedia.analytics.kraken.pageview.Pageview;
  * </code>
  */
 public class PageViewEvalFunc extends EvalFunc<Tuple> {
+    /** Factory to generate Pig tuples */
     private TupleFactory tupleFactory = TupleFactory.getInstance();
 
     /**
