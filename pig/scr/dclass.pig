@@ -10,7 +10,7 @@ DEFINE EXTRACT org.apache.pig.piggybank.evaluation.string.RegexExtract();
 DEFINE TO_DAY  org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd');
 DEFINE MATCH   org.wikimedia.analytics.kraken.pig.RegexMatch();
 
-LOG_FIELDS     = LOAD '/wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-01-20*' USING PigStorage(' ') AS (
+LOG_FIELDS     = LOAD '/wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-01*' USING PigStorage(' ') AS (
   hostname,
   udplog_sequence,
   timestamp:chararray,
