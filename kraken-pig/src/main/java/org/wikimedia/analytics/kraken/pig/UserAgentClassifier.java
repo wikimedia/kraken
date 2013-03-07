@@ -37,8 +37,17 @@ import java.util.regex.Pattern;
 /**
  * This class uses the dClass mobile device user agent decision tree to determine vendor/version of a mobile device.
  * dClass is built on the OpenDDR project.
+ *
+ * NOTES:
+ * 1) iPod devices are treated as if they are iPhones
+ * 2) Not all Apple build id's are recognized
+ * 3) Browser version is poorly supported by openDDR, especially for Apple devices
+ * 4) The Apple post processor function does try to fix of the openDDR issues but it is definitely not perfect.
  */
 public class UserAgentClassifier extends EvalFunc<Tuple> {
+    /** Factory to generate Pig tuples */
+    private TupleFactory tupleFactory = TupleFactory.getInstance();
+
     private DclassWrapper dw = null;
     private String useragent = null;
     private Map result = new HashMap<String, String>();
@@ -51,9 +60,9 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
 
     // Wikimedia Mobile Apps regular expressions
     private Pattern android = Pattern.compile("WikipediaMobile\\/\\d\\.\\d(\\.\\d)?");
-    private Pattern firefox = Pattern.compile(Pattern.quote("Mozilla/5.0%20(Mobile;%20rv:18.0)%20Gecko/18.0%20Firefox/18.0"));
+    private Pattern firefox = Pattern.compile(Pattern.quote("Mozilla/5.0 (Mobile; rv:18.0) Gecko/18.0 Firefox/18.0")); //VERIFIED
     private Pattern rim = Pattern.compile(Pattern.quote("Mozilla/5.0 (PlayBook; U; RIM Tablet OS 2.1.0; en-US) AppleWebKit/536.2+ (KHTML, like Gecko) Version/7.2.1.0 Safari/536.2+"));
-    private Pattern windows = Pattern.compile(Pattern.quote("Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MSAppHost/1.0)"));
+    private Pattern windows = Pattern.compile(Pattern.quote("Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MSAppHost/1.0)")); //VERIFIED
 
     private Map<String, Pattern> mobileAppPatterns;
 
@@ -79,8 +88,7 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
         mobileAppPatterns.put("Wikimedia App Windows", windows);
 
         JsonToClassConverter converter = new JsonToClassConverter();
-        this.appleProducts = converter.construct("org.wikimedia.analytics.kraken.schemas.AppleUserAgent", "ios.json", "getBuild");
-
+        this.appleProducts = converter.construct("org.wikimedia.analytics.kraken.schemas.AppleUserAgent", "ios.json", "getProduct");
     }
 
     /**
@@ -118,7 +126,7 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
         for (Map.Entry<String, Pattern> entry : mobileAppPatterns.entrySet()) {
             pattern = entry.getValue();
             Matcher matcher = pattern.matcher(this.useragent);
-            if (matcher.matches()) {
+            if (matcher.find()) {
                 output.set(5, entry.getKey());
                 foundMatch = true;
                 break;
@@ -129,7 +137,6 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
         }
         return output;
     }
-
 
 
     /**
@@ -147,18 +154,15 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
      * 7) Apple iOS specific information or null
      */
     @Override
-    public Tuple exec(final Tuple input) throws IOException {
+    public final Tuple exec(final Tuple input) throws IOException {
         if (input == null || input.size() != 1 || input.get(0) == null) {
             return null;
         }
 
-        String vendor;
         this.useragent = unspace(input.get(0).toString());
         result = this.dw.classifyUA(this.useragent);
-        vendor = (String) result.get("vendor");
 
-        //Create the output tuple
-        Tuple output = TupleFactory.getInstance().newTuple(7);
+        Tuple output = tupleFactory.newTuple(7);
         output.set(0, result.get("vendor"));
         output.set(1, result.get("device_os"));
         output.set(2, result.get("device_os_version"));
@@ -195,15 +199,26 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
 
     private Tuple postProcessApple(Tuple output) throws ExecException {
         Matcher match = appleBuildIdentifiers.matcher(this.useragent);
-        if (match.matches()) {
+        if (match.find()) {
             String build = match.group(0).toString();
-            AppleUserAgent appleUserAgent = (AppleUserAgent) this.appleProducts.get(build);
-            output.set(6, appleUserAgent.toString());
+            String device;
+            boolean isTablet = (Boolean) output.get(4);
+            if (isTablet) {
+                device = "iPad";
+            } else {
+                device = (String) output.get(1);
+            }
+            String key = device.split(" ")[0] + "-" + build;
+            AppleUserAgent appleUserAgent = (AppleUserAgent) this.appleProducts.get(key);
+            if (appleUserAgent != null) {
+                output.set(6, appleUserAgent.toString());
+            } else {
+                output.set(6, "unknown.apple.build.id");
+            }
         } else {
             output.set(6, null);
         }
         return output;
-
     }
 
     /**
@@ -213,9 +228,9 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
      * @throws ExecException
      */
     private Tuple postProcessSamsung(Tuple output) throws ExecException {
-        /*
-        This function takes a Samsung model (GT-S5750E, GT S5620) and drops all
-        suffix characters and digits to allow for rollup of the keys.
+        /**
+         * This function takes a Samsung model (GT-S5750E, GT S5620) and drops all
+         * suffix characters and digits to allow for rollup of the keys.
          */
 
         String model = (String) result.get("model");

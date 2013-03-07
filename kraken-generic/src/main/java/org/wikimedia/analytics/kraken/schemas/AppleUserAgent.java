@@ -28,14 +28,15 @@ package org.wikimedia.analytics.kraken.schemas;
  * this field should be used as key.
  */
 public class AppleUserAgent extends Schema {
-
+    /**
+     * The properties need to be public so that the JsonToClassConvert class can read them.
+     */
     public String Product;
     public String AppleProduct;
     public String UserAgentPrefix;
     public String Build;
     public String Introduced;
     public String IOSVersion;
-
 
     public String getProduct() {
         return Product;

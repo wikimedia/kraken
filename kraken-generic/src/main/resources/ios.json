@@ -64,7 +64,7 @@
     "IOSVersion": "3.0.1"
   }, 
   {
-    "Product": "iPhone;-7C144", 
+    "Product": "iPhone-7C144",
     "AppleProduct": "iPhone; iPhone 3G; iPhone 3GS; iOS 3.1", 
     "UserAgentPrefix": "Apple-iPhone/703.144", 
     "Build": "7C144", 
@@ -960,7 +960,7 @@
     "IOSVersion": "6.0"
   }, 
   {
-    "Product": "iPad;-7B367", 
+    "Product": "iPad-7B367", 
     "AppleProduct": "iPad; iOS 3.2", 
     "UserAgentPrefix": "Apple-iPad/702.367", 
     "Build": "7B367", 
@@ -968,7 +968,7 @@
     "IOSVersion": "3.2.2"
   }, 
   {
-    "Product": "iPad;-7B405", 
+    "Product": "iPad-7B405", 
     "AppleProduct": "iPad; iOS 3.2.1", 
     "UserAgentPrefix": "Apple-iPad/702.405", 
     "Build": "7B405", 
@@ -976,7 +976,7 @@
     "IOSVersion": "3.2.1"
   }, 
   {
-    "Product": "iPad;-7B500", 
+    "Product": "iPad-7B500", 
     "AppleProduct": "iPad; iOS 3.2.2", 
     "UserAgentPrefix": "Apple-iPad/702.500", 
     "Build": "7B500", 
@@ -984,7 +984,7 @@
     "IOSVersion": "3.2.2"
   }, 
   {
-    "Product": "iPad;-8C148", 
+    "Product": "iPad-8C148", 
     "AppleProduct": "iPad; iOS 4.2.1", 
     "UserAgentPrefix": "Apple-iPad1C1/803.148", 
     "Build": "8C148", 
@@ -992,7 +992,7 @@
     "IOSVersion": "4.2.1"
   }, 
   {
-    "Product": "iPad;-8F190", 
+    "Product": "iPad-8F190", 
     "AppleProduct": "iPad;  iOS 4.3", 
     "UserAgentPrefix": "Apple-iPad1C1/806.190", 
     "Build": "8F190", 
