@@ -29,7 +29,7 @@ LOG_FIELDS     = LOAD_WEBREQUEST('$input');
 -- only keep log lines which have an X-CS header set
 LOG_FIELDS    = FILTER LOG_FIELDS BY (x_cs != '-');
 
---LOG_FIELDS    = FILTER LOG_FIELDS BY PAGEVIEW(uri,referer,user_agent,http_status,remote_addr,content_type);
+LOG_FIELDS    = FILTER LOG_FIELDS BY PAGEVIEW(uri,referer,user_agent,http_status,remote_addr,content_type,request_method);
 
 LOG_FIELDS    = FOREACH LOG_FIELDS GENERATE
  x_cs,
