@@ -199,7 +199,7 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
 
     private Tuple postProcessApple(Tuple output) throws ExecException {
         Matcher match = appleBuildIdentifiers.matcher(this.useragent);
-        if (match.find()) {
+        if (match.find() && output.get(1) != null) {
             String build = match.group(0).toString();
             String device;
             boolean isTablet = (Boolean) output.get(4);
@@ -208,6 +208,7 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
             } else {
                 device = (String) output.get(1);
             }
+
             String key = device.split(" ")[0] + "-" + build;
             AppleUserAgent appleUserAgent = (AppleUserAgent) this.appleProducts.get(key);
             if (appleUserAgent != null) {
