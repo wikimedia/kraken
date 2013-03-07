@@ -13,7 +13,7 @@ SET default_parallel 10;
 IMPORT 'include/load_webrequest.pig';
 
 DEFINE EXTRACT             org.apache.pig.piggybank.evaluation.string.RegexExtract();
-DEFINE GEOCODE_COUNTRY     org.wikimedia.analytics.kraken.pig.GeoIpLookup('countryCode', 'GeoIPCity');
+DEFINE GEOCODE_COUNTRY     org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
 DEFINE DCLASS              org.wikimedia.analytics.kraken.pig.UserAgentClassifier(''); 
 DEFINE TO_HOUR             org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd_HH');
 DEFINE PAGEVIEW            org.wikimedia.analytics.kraken.pig.PageViewFilterFunc();
