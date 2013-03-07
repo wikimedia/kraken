@@ -37,16 +37,18 @@ LOG_FIELDS     = FOREACH LOG_FIELDS GENERATE
                     TO_HOUR(timestamp) AS day_hour,
                     FLATTEN(GEOCODE_COUNTRY(remote_addr)) AS country,
                     FLATTEN(DCLASS(user_agent)) AS 
-                       (device:chararray,
-                        vendor:chararray,
-                        model:chararray,
+                       (vendor:chararray,
+                        device_os:chararray,
+                        device_os_version:chararray,
                         is_wireless:chararray,
-                        is_tablet:chararray);
+                        is_tablet:chararray,
+                        wikimedia_app:chararray,
+                        apple_info:chararray);
 
 -- only compute stats for hours that match $hour_regex;
 LOG_FIELDS    = FILTER LOG_FIELDS BY day_hour MATCHES '$hour_regex';
 
-COUNT          = FOREACH (GROUP LOG_FIELDS BY (day_hour, country, device, vendor) PARALLEL 10) GENERATE FLATTEN(group), COUNT(LOG_FIELDS.country) as num;
-COUNT          = ORDER COUNT BY day_hour, country, device, vendor;
+COUNT          = FOREACH (GROUP LOG_FIELDS BY (day_hour, country, device_os, device_os_version, apple_info, is_tablet, wikimedia_app) PARALLEL 10) GENERATE FLATTEN(group), COUNT(LOG_FIELDS.country) as num;
+COUNT          = ORDER COUNT BY day_hour, country, device_os, device_os_version;
 
 STORE COUNT into '$output';
