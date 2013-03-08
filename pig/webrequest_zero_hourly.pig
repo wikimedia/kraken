@@ -1,6 +1,6 @@
 REGISTER 'kraken-pig-0.0.1-SNAPSHOT.jar'
 REGISTER 'kraken-generic-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
-REGISTER 'geoip-1.2.5.jar'
+REGISTER 'geoip-1.2.9-patch-2-SNAPSHOT.jar'
 
 -- import LOAD_WEBREQUEST macro to load in webrequest log fields.
 IMPORT 'include/load_webrequest.pig';
