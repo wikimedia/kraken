@@ -104,7 +104,7 @@ public class PageViewFilterFunc extends FilterFunc {
         // Check that we were passed two fields
         if (input.size() != 7) {
             throw new RuntimeException(
-                    "Expected (chararray), input does not have 6 fields");
+                    "Expected (chararray), input does not have 7 fields");
         }
 
         try {
