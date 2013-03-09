@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.PigWarning;
+import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
@@ -32,7 +33,7 @@ import org.wikimedia.analytics.kraken.schemas.Schema;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * This PIG UDF is used to map the custom X-CS http header to the mobile carrier and country
@@ -62,7 +63,7 @@ public class Zero extends EvalFunc<Tuple> {
     /** {@inheritDoc} */
     @Override
     public final Tuple exec(final Tuple input) throws IOException {
-        if (input == null || input.size() != 1 || input.get(0) == null) {
+        if (input == null || input.get(0) == null) {
             return null;
         }
 
@@ -79,5 +80,35 @@ public class Zero extends EvalFunc<Tuple> {
             output.set(1, "no country");
         }
         return output;
+    }
+
+    /**
+     *
+     * @param input
+     * @return
+     */
+    public final org.apache.pig.impl.logicalLayer.schema.Schema outputSchema(final org.apache.pig.impl.logicalLayer.schema.Schema input) {
+        // Check that we were passed two fields
+        if (input.size() != 1) {
+            throw new RuntimeException(
+                    "Expected (chararray), input does not have 1 field");
+        }
+
+        try {
+            // Get the types for the column and check them.  If it's
+            // wrong figure out what type was passed and give a good error
+            // message.
+            if (input.getField(0).type != DataType.CHARARRAY) {
+                String msg = "Expected input (chararray), received schema (";
+                msg += DataType.findTypeName(input.getField(0).type);
+                msg += ")";
+                throw new RuntimeException(msg);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        // output is boolean
+        return new org.apache.pig.impl.logicalLayer.schema.Schema(new org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema(null, DataType.BOOLEAN));
     }
 }
