@@ -21,15 +21,20 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.backend.executionengine.ExecException;
+import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
+import org.apache.pig.impl.logicalLayer.schema.Schema;
+import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
 import org.wikimedia.analytics.dclassjni.DclassWrapper;
+import org.wikimedia.analytics.dclassjni.Result;
 import org.wikimedia.analytics.kraken.schemas.AppleUserAgent;
 import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
-import org.wikimedia.analytics.kraken.schemas.Schema;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,13 +55,11 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
 
     private DclassWrapper dw = null;
     private String useragent = null;
-    private Map result = new HashMap<String, String>();
-    //private List args = new ArrayList<String>();
-    //private final List knownArgs = new ArrayList<String>();
+    private Result result;
 
     //Additional Apple device recognizers
     private Pattern appleBuildIdentifiers = Pattern.compile("(\\d{1,2}[A-L]\\d{1,3}a?)");
-    private HashMap<String, Schema> appleProducts = new HashMap<String, Schema>();
+    private HashMap<String, org.wikimedia.analytics.kraken.schemas.Schema> appleProducts;
 
     // Wikimedia Mobile Apps regular expressions
     private Pattern android = Pattern.compile("WikipediaMobile\\/\\d\\.\\d(\\.\\d)?");
@@ -87,7 +90,10 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
         mobileAppPatterns.put("Wikimedia App RIM", rim);
         mobileAppPatterns.put("Wikimedia App Windows", windows);
 
+        result = new Result();
+
         JsonToClassConverter converter = new JsonToClassConverter();
+        this.appleProducts = new HashMap<String, org.wikimedia.analytics.kraken.schemas.Schema>();
         this.appleProducts = converter.construct("org.wikimedia.analytics.kraken.schemas.AppleUserAgent", "ios.json", "getProduct");
     }
 
@@ -100,43 +106,53 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
     public UserAgentClassifier(final String[] args) throws JsonMappingException, JsonParseException {
         this();
         mobileAppPatterns = new HashMap<String, Pattern>();
+        appleProducts = new HashMap<String, org.wikimedia.analytics.kraken.schemas.Schema>();
     }
 
     /**
      *
-     * @param useragent
-     * @return useragent without spaces encoded as %20
-     */
-    private String unspace(String useragent) {
-        return useragent.replace("%20", " ");
-    }
-
-    /**
-     * If the useragent string is not identified as a mobile device using dClass
-     * then we need to determine whether it's an Wikimedia mobile app. This
-     * function iterates over a list of regular expressions to look for a match.
-     *
-     * @param output
+     * @param input
      * @return
-     * @throws ExecException
      */
-    private Tuple detectMobileApp(Tuple output) throws ExecException {
-        Pattern pattern;
-        boolean foundMatch = false;
-        for (Map.Entry<String, Pattern> entry : mobileAppPatterns.entrySet()) {
-            pattern = entry.getValue();
-            Matcher matcher = pattern.matcher(this.useragent);
-            if (matcher.find()) {
-                output.set(5, entry.getKey());
-                foundMatch = true;
-                break;
+    public final Schema outputSchema(final Schema input) {
+        // Check that we were passed two fields
+        if (input.size() != 1) {
+            throw new RuntimeException(
+                    "Expected (chararray), input does not have 1 field");
+        }
+
+        try {
+            // Get the types for the column and check them.  If it's
+            // wrong figure out what type was passed and give a good error
+            // message.
+            if (input.getField(0).type != DataType.CHARARRAY) {
+                String msg = "Expected input (chararray), received schema (";
+                msg += DataType.findTypeName(input.getField(0).type);
+                msg += ")";
+                throw new RuntimeException(msg);
             }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        if (!foundMatch) {
-            output.set(5, null);
-        }
-        return output;
+
+        List<FieldSchema> fields = new ArrayList<FieldSchema>();
+        // parentId, deviceOs and DeviceOsVersion are CHARARRAYS
+        fields.add(new FieldSchema(null, DataType.CHARARRAY));
+        fields.add(new FieldSchema(null, DataType.CHARARRAY));
+        fields.add(new FieldSchema(null, DataType.CHARARRAY));
+        //hasJavascript, isWireless and isTablet are BOOLEANS
+        fields.add(new FieldSchema(null, DataType.BOOLEAN));
+        fields.add(new FieldSchema(null, DataType.BOOLEAN));
+        fields.add(new FieldSchema(null, DataType.BOOLEAN));
+        //width and height are integers
+        fields.add(new FieldSchema(null, DataType.INTEGER));
+        fields.add(new FieldSchema(null, DataType.INTEGER));
+        //Mobile app and addditonal vendor info are CHARARRAYS
+        fields.add(new FieldSchema(null, DataType.CHARARRAY));
+        fields.add(new FieldSchema(null, DataType.CHARARRAY));
+        return new Schema(fields);
     }
+
 
 
     /**
@@ -160,30 +176,34 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
         }
 
         this.useragent = unspace(input.get(0).toString());
-        result = this.dw.classifyUA(this.useragent);
+        result.classifyUseragent(this.useragent);
 
-        Tuple output = tupleFactory.newTuple(7);
-        output.set(0, result.get("vendor"));
-        output.set(1, result.get("device_os"));
-        output.set(2, result.get("device_os_version"));
-        output.set(3, convertToBoolean(result, "is_wireless_device"));
-        output.set(4, convertToBoolean(result, "is_tablet"));
+        Tuple output = tupleFactory.newTuple(10);
+        // General properties
+        output.set(0, result.getParentId());
+        output.set(1, result.getDeviceOs());
+        output.set(2, null); //result.getDeviceOsVersion());
+        output.set(3, result.getIsWirelessDevice());
+        output.set(9, result.getAjaxSupportJavascript());
+        output.set(4, result.getIsTablet());
+        output.set(5, result.getDisplayWidth());
+        output.set(6, result.getDisplayHeight());
 
-        output = detectMobileApp(output);  // field 5 contains mobile app info
-        output = postProcessApple(output); // field 6 contains additional iOS version info.
+        //Wikimedia Mobile App detection
+        output.set(7, detectMobileApp());  // field 5 contains mobile app info
+
+        //Vendor specific handling to add more variables or clean up stuff
+        if ("Apple".equals(result.getVendor())) {
+            String device = result.getIsTablet() ? "iPad" : result.getModel();
+            output.set(8, postProcessApple(device)); // field 6 contains additional iOS version info.
+        } else if ("Samsung".equals(result.getVendor())) {
+            output.set(8, postProcessSamsung((String) result.getModel()));
+        } else {
+            output.set(8, null);
+        }
+
         return output;
     }
-
-    /**
-     * Converts the 'true' or 'false' string to a boolean
-     * @param result
-     * @param param
-     * @return boolean
-     */
-    private boolean convertToBoolean(final Map<String, String> result, final String param) {
-        return Boolean.parseBoolean(result.get(param));
-    }
-
 
     /**
      * dClass has identified the mobile device as one from Apple but unfortunately
@@ -192,61 +212,75 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
      * The iOS version is determined using the build number and hence the iOS field
      * should be read as "this mobile device has at least iOS version xyz running".
      *
-     * @param output
+     * @param device
      * @return
      * @throws ExecException
      */
-
-    private Tuple postProcessApple(Tuple output) throws ExecException {
+    private String postProcessApple(final String device) throws ExecException {
         Matcher match = appleBuildIdentifiers.matcher(this.useragent);
-        if (match.find() && output.get(1) != null) {
+        if (match.find() && device != null) {
             String build = match.group(0).toString();
-            String device;
-            boolean isTablet = (Boolean) output.get(4);
-            if (isTablet) {
-                device = "iPad";
-            } else {
-                device = (String) output.get(1);
-            }
-
             String key = device.split(" ")[0] + "-" + build;
             AppleUserAgent appleUserAgent = (AppleUserAgent) this.appleProducts.get(key);
             if (appleUserAgent != null) {
-                output.set(6, appleUserAgent.toString());
+                return  appleUserAgent.toString();
             } else {
-                output.set(6, "unknown.apple.build.id");
+                return "unknown.apple.build.id";
             }
         } else {
-            output.set(6, null);
+            return null;
         }
-        return output;
     }
 
     /**
-     *
-     * @param output
+     * This function takes a Samsung model (GT-S5750E, GT S5620) and drops all
+     * suffix characters and digits to allow for rollup of the keys.
+     * @param model
      * @return
      * @throws ExecException
      */
-    private Tuple postProcessSamsung(Tuple output) throws ExecException {
-        /**
-         * This function takes a Samsung model (GT-S5750E, GT S5620) and drops all
-         * suffix characters and digits to allow for rollup of the keys.
-         */
-
-        String model = (String) result.get("model");
+    private String postProcessSamsung(final String model) throws ExecException {
         Matcher m = this.android.matcher(model);
         if (m.matches() && m.groupCount() == 4) {
             String name = m.group(1);
             String value = m.group(3);
             String valueCleaned = value.replaceAll("\\d", "");
             String modelCleaned = name + "-" + valueCleaned;
-            output.set(2, modelCleaned);
+            return modelCleaned;
         } else {
-            output.set(2, m.group(0));
+            return m.group(0);
         }
-        return output;
     }
+
+    /**
+     *
+     * @param useragent
+     * @return useragent without spaces encoded as %20
+     */
+    private String unspace(String useragent) {
+        return useragent.replace("%20", " ");
+    }
+
+    /**
+     * If the useragent string is not identified as a mobile device using dClass
+     * then we need to determine whether it's an Wikimedia mobile app. This
+     * function iterates over a list of regular expressions to look for a match.
+     *
+     * @return String with Wikimedia Mobile app info or null if no match
+     * @throws ExecException
+     */
+    private String detectMobileApp() throws ExecException {
+        Pattern pattern;
+        for (Map.Entry<String, Pattern> entry : mobileAppPatterns.entrySet()) {
+            pattern = entry.getValue();
+            Matcher matcher = pattern.matcher(this.useragent);
+            if (matcher.find()) {
+                return entry.getKey().toString();
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Call the custom finalizer to free the memory from the C library
