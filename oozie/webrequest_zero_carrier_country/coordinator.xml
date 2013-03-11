@@ -1,0 +1,56 @@
+
+<coordinator-app name="webrequest_zero_carrier_country"
+  frequency="${coord:hours(1)}"
+  start="2013-02-01T01:00Z" end="2020-01-01T23:00Z" timezone="Universal"
+  xmlns="uri:oozie:coordinator:0.1">
+  <datasets>
+    <dataset name="webrequest-wikipedia-mobile" frequency="${coord:minutes(15)}"
+             initial-instance="2013-02-01T00:00Z" timezone="Universal">
+      <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/raw/webrequest/webrequest-wikipedia-mobile/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+      <done-flag></done-flag>
+    </dataset>
+    <dataset name="zero_carrier_country" frequency="${coord:minutes(15)}"
+             initial-instance="2013-02-01T00:00Z" timezone="Universal">
+      <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/zero_carrier_country/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+      <done-flag></done-flag>
+    </dataset>
+  </datasets>
+  <input-events>
+    <data-in name="INPUT" dataset="webrequest-wikipedia-mobile">
+      <start-instance>${coord:current(-5)}</start-instance>
+      <end-instance>${coord:current(0)}</end-instance>
+    </data-in>
+  </input-events>
+  <output-events>
+    <data-out name="OUTPUT" dataset="zero_carrier_country">
+      <instance>${coord:current(-4)}</instance>
+    </data-out>
+  </output-events>
+  <action>
+    <workflow>
+      <app-path>${wf_application_path}</app-path>
+      <configuration>
+          <property>
+            <name>INPUT</name>
+            <value>${coord:dataIn('INPUT')}</value>
+          </property>
+        <property>
+          <name>OUTPUT</name>
+          <value>${coord:dataOut('OUTPUT')}</value>
+        </property>
+        <property>
+          <name>HOUR_REGEX</name>
+          <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM-dd_HH')}</value>
+        </property>
+        <property>
+          <name>CONCAT_INPUT</name>
+          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/zero_carrier_country</value>
+        </property>
+        <property>
+          <name>DEST</name>
+          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/zero_carrier_country_by_hour.tsv</value>
+        </property>
+      </configuration>
+   </workflow>
+  </action>
+</coordinator-app>
