@@ -23,14 +23,18 @@ import com.maxmind.geoip.Location;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.PigWarning;
 import org.apache.pig.backend.executionengine.ExecException;
+import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
+import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.wikimedia.analytics.kraken.geo.GeoIpLookup;
 import org.wikimedia.analytics.kraken.geo.GeoIpLookupField;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides a customizable Pig UDF to lookup geographic information belonging
@@ -42,6 +46,8 @@ public class GeoIpLookupEvalFunc extends EvalFunc<Tuple> {
 
     private GeoIpLookup geoIpLookup;
 
+    private Map<GeoIpLookupField, Byte> mapping;
+
     /**
      * @param inputFields a comma separated list of fields that are requested.
      * Valid field names include: continentCode, continentName, country, city, longitude, latitude, region, state, (only for North America).
@@ -51,8 +57,20 @@ public class GeoIpLookupEvalFunc extends EvalFunc<Tuple> {
      */
     public GeoIpLookupEvalFunc(final String inputFields, final String db) throws IOException {
         geoIpLookup = new GeoIpLookup(inputFields, db);
-    }
 
+        mapping = new HashMap<GeoIpLookupField, Byte>();
+        mapping.put(GeoIpLookupField.COUNTRYCODE, DataType.CHARARRAY);
+        mapping.put(GeoIpLookupField.CONTINENTNAME, DataType.CHARARRAY);
+        mapping.put(GeoIpLookupField.CONTINENTCODE, DataType.CHARARRAY);
+        mapping.put(GeoIpLookupField.REGION, DataType.CHARARRAY);
+        mapping.put(GeoIpLookupField.CITY, DataType.CHARARRAY);
+        mapping.put(GeoIpLookupField.POSTALCODE, DataType.CHARARRAY);
+        mapping.put(GeoIpLookupField.LATITUDE, DataType.FLOAT);
+        mapping.put(GeoIpLookupField.LONGITUDE, DataType.FLOAT);
+        mapping.put(GeoIpLookupField.DMACODE, DataType.INTEGER);
+        mapping.put(GeoIpLookupField.AREACODE, DataType.INTEGER);
+        mapping.put(GeoIpLookupField.METROCODE, DataType.INTEGER);
+    }
 
     /**
      *
@@ -64,6 +82,7 @@ public class GeoIpLookupEvalFunc extends EvalFunc<Tuple> {
     public GeoIpLookupEvalFunc(final String inputFields, final String db, final String execType) throws IOException {
         geoIpLookup = new GeoIpLookup(inputFields, db, execType);
     }
+
     /**
      *
      * @param location instance of the Maxmind Location class
@@ -74,47 +93,45 @@ public class GeoIpLookupEvalFunc extends EvalFunc<Tuple> {
     private Tuple setResult(final Location location, final Tuple output) throws ExecException {
         if (location != null) {
             int i = 0;
-            String value = null;
             for (GeoIpLookupField field : geoIpLookup.getNeededGeoFieldNames()) {
 
                 switch (field) {
                     case COUNTRYCODE:
-                        value = location.countryCode;
+                        output.set(i, location.countryCode);
                         break;
                     case CONTINENTCODE:
-                        value = geoIpLookup.getContinentCode(location.countryCode);
+                        output.set(i, geoIpLookup.getContinentCode(location.countryCode));
                         break;
                     case CONTINENTNAME:
-                        value = geoIpLookup.getContinentName(location.countryCode);
+                        output.set(i, geoIpLookup.getContinentName(location.countryCode));
                         break;
                     case REGION:
-                        value = location.region;
+                        output.set(i, location.region);
                         break;
                     case CITY:
-                        value = location.city;
+                        output.set(i, location.city);
                         break;
                     case POSTALCODE:
-                        value = location.postalCode;
+                        output.set(i, location.postalCode);
                         break;
                     case LATITUDE:
-                        value = Float.toString(location.latitude);
+                        output.set(i, location.latitude);
                         break;
                     case LONGITUDE:
-                        value = Float.toString(location.longitude);
+                        output.set(i, location.longitude);
                         break;
                     case DMACODE:
-                        value = Integer.toString(location.dma_code);
+                        output.set(i, location.dma_code);
                         break;
                     case AREACODE:
-                        value = Integer.toString(location.area_code);
+                        output.set(i, location.area_code);
                         break;
                     case METROCODE:
-                        value = Integer.toString(location.metro_code);
+                        output.set(i, location.metro_code);
                         break;
                     default:
                         break;
                 }
-                output.set(i, value);
                 i++;
             }
         } else {
@@ -126,7 +143,7 @@ public class GeoIpLookupEvalFunc extends EvalFunc<Tuple> {
 
     @Override
     public final Tuple exec(final Tuple input) throws IOException {
-        if (input == null || input.size() == 0 || input.get(0) == null) {
+        if (input == null || input.get(0) == null) {
             return null;
         }
 
@@ -151,5 +168,42 @@ public class GeoIpLookupEvalFunc extends EvalFunc<Tuple> {
         cacheFiles.add("GeoIPRegion.dat#GeoIPRegion.dat");
         cacheFiles.add("GeoIPv6.dat#GeoIPv6.dat");
         return cacheFiles;
+    }
+
+    /**
+     *
+     * @param input
+     * @return
+     */
+    public final Schema outputSchema(final Schema input) {
+        // Check that we were passed two fields
+        if (input.size() != 1) {
+            throw new RuntimeException(
+                    "Expected (chararray), input does not have 1 field");
+        }
+
+        try {
+            // Get the types for the column and check them.  If it's
+            // wrong figure out what type was passed and give a good error
+            // message.
+            if (input.getField(0).type != DataType.CHARARRAY) {
+                String msg = "Expected input (chararray,chararray,chararray,chararray,chararray,chararray,chararray), received schema (";
+                msg += DataType.findTypeName(input.getField(0).type);
+                msg += ")";
+                throw new RuntimeException(msg);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        List<Schema.FieldSchema> fields = new ArrayList<Schema.FieldSchema>();
+
+        int i = 0;
+        while (geoIpLookup.getNeededGeoFieldNames().iterator().hasNext()) {
+            GeoIpLookupField field = geoIpLookup.getNeededGeoFieldNames().get(i);
+            fields.add(new Schema.FieldSchema(null, mapping.get(field)));
+            i++;
+        }
+        return new Schema(fields);
     }
 }

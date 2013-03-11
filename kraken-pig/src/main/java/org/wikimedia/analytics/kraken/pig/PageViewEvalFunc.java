@@ -20,9 +20,14 @@ package org.wikimedia.analytics.kraken.pig;
 
 import org.apache.pig.EvalFunc;
 import org.apache.pig.backend.executionengine.ExecException;
+import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
+import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.wikimedia.analytics.kraken.pageview.Pageview;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Entry point for the Pig UDF class that uses the Pageview filter logic.
@@ -78,7 +83,7 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
      * @throws ExecException
      */
     public final Tuple exec(final Tuple input) throws ExecException {
-        if (input == null || input.get(0) == null || input.size() != 6) {
+        if (input == null || input.get(0) == null) {
             return null;
         }
 
@@ -90,12 +95,11 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
         String mimeType = (input.get(5) != null ? (String) input.get(5) : "-");
         String requestMethod = (input.get(6) != null ? (String) input.get(6) : "-");
 
-
         Tuple output;
         Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimeType, requestMethod);
 
         if (pageview.isPageview()) {
-            output = tupleFactory.newTuple();
+            output = tupleFactory.newTuple(3);
             output.set(0, pageview.getPageviewCanonical().getLanguage());
             output.set(1, pageview.getPageviewCanonical().getProject());
             output.set(2, pageview.getPageviewCanonical().getArticleTitle());
@@ -103,5 +107,57 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
             output = null;
         }
     return output;
+    }
+
+    /**
+     *
+     * @param input
+     * @return
+     */
+    public final Schema outputSchema(final Schema input) {
+        // Check that we were passed two fields
+        if (input.size() != 7) {
+            throw new RuntimeException(
+                    "Expected (chararray), input does not have 7 fields");
+        }
+
+        try {
+            // Get the types for the column and check them.  If it's
+            // wrong figure out what type was passed and give a good error
+            // message.
+            if (input.getField(0).type != DataType.CHARARRAY
+                || input.getField(1).type != DataType.CHARARRAY
+                || input.getField(2).type != DataType.CHARARRAY
+                || input.getField(3).type != DataType.CHARARRAY
+                || input.getField(4).type != DataType.CHARARRAY
+                || input.getField(5).type != DataType.CHARARRAY
+                || input.getField(6).type != DataType.CHARARRAY) {
+                String msg = "Expected input (chararray,chararray,chararray,chararray,chararray,chararray,chararray), received schema (";
+                msg += DataType.findTypeName(input.getField(0).type);
+                msg += ", ";
+                msg += DataType.findTypeName(input.getField(1).type);
+                msg += ", ";
+                msg += DataType.findTypeName(input.getField(2).type);
+                msg += ", ";
+                msg += DataType.findTypeName(input.getField(3).type);
+                msg += ", ";
+                msg += DataType.findTypeName(input.getField(4).type);
+                msg += ", ";
+                msg += DataType.findTypeName(input.getField(5).type);
+                msg += ", ";
+                msg += DataType.findTypeName(input.getField(6).type);
+                msg += ")";
+                throw new RuntimeException(msg);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        List<Schema.FieldSchema> fields = new ArrayList<Schema.FieldSchema>();
+        // Language, project and article title are all CHARARRAYS
+        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
+        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
+        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
+        return new Schema(fields);
     }
 }
