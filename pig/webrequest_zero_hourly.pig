@@ -46,5 +46,4 @@ COUNT          = FOREACH (GROUP LOG_FIELDS BY (day_hour, carrier, country)) GENE
 COUNT          = ORDER COUNT BY day_hour, carrier, country;
 
 -- save results into $output
---STORE COUNT INTO '$output' USING PigStorage();
-DUMP COUNT;
+STORE COUNT INTO '$output' USING PigStorage();
