@@ -39,8 +39,11 @@ LOG_FIELDS     = FOREACH LOG_FIELDS GENERATE
                        (vendor:chararray,
                         device_os:chararray,
                         device_os_version:chararray,
-                        is_wireless:chararray,
-                        is_tablet:chararray,
+                        has_javascript:boolean,
+                        is_wireless:boolean,
+                        is_tablet:boolean,
+                        width:int,
+                        height:int,
                         wikimedia_app:chararray,
                         apple_info:chararray);
 
