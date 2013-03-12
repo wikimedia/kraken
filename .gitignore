@@ -17,3 +17,4 @@ kraken-dclass/src/main/java/org/openddr/
 .pydevproject
 build/
 testdata*
+deploy.sh
