@@ -59,6 +59,24 @@ public class Zero extends EvalFunc<Tuple> {
         this.map = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getMCC_MNC");
     }
 
+    /**
+     *
+     * @param kvpairs
+     * @return
+     */
+    private String extractXcsValue(final String rawString) {
+        String[] kvpairs = rawString.split(";");
+        if (kvpairs.length > 1) {
+            for (String kvpair : kvpairs) {
+                if (kvpair.startsWith("zero")) {
+                    return kvpair.split("=")[1];
+                }
+            }
+        } else {
+        return kvpairs[0].split("=")[1];
+        }
+        return rawString;
+    }
 
     /** {@inheritDoc} */
     @Override
@@ -67,7 +85,7 @@ public class Zero extends EvalFunc<Tuple> {
             return null;
         }
 
-        String key = (String) input.get(0);
+        String key = extractXcsValue((String) input.get(0));
         MccMnc carrier = (MccMnc) this.map.get(key);
         Tuple output = tupleFactory.newTuple(2);
 

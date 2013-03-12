@@ -21,17 +21,22 @@ package org.wikimedia.analytics.kraken.pig;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import org.apache.pig.data.Tuple;
+import org.apache.pig.data.TupleFactory;
 import org.junit.Test;
 import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
 import org.wikimedia.analytics.kraken.schemas.MccMnc;
 import org.wikimedia.analytics.kraken.schemas.Schema;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class ZeroTest {
+    /** Factory to generate Pig tuples */
+    private TupleFactory tupleFactory = TupleFactory.getInstance();
 
     @Test
     public void testMccMncJsonFile() throws JsonMappingException, JsonParseException {
@@ -45,7 +50,6 @@ public class ZeroTest {
         assertEquals("Cameroon", carrier.getCountry());
     }
 
-
     @Test
     public void testMccMncJsonFile2() throws JsonMappingException, JsonParseException {
         JsonToClassConverter converter = new JsonToClassConverter();
@@ -57,5 +61,14 @@ public class ZeroTest {
         assertEquals("Saudi Arabia", carrier.getCountry());
     }
 
+    @Test
+    public void testMccMncJsonFile3() throws IOException, JsonParseException, JsonMappingException {
+        Tuple input = tupleFactory.newTuple(1);
+        input.set(0, "zero=420-01;mf-m=a");
+        Zero zero = new Zero();
+        Tuple carrier = zero.exec(input);
+        assertEquals("stc/al-jawal-saudi-arabia", carrier.get(0));
+        assertEquals("SA", carrier.get(1));
+    }
 
 }
