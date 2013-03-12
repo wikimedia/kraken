@@ -175,35 +175,36 @@ public class GeoIpLookupEvalFunc extends EvalFunc<Tuple> {
      * @param input
      * @return
      */
-    public final Schema outputSchema(final Schema input) {
-        // Check that we were passed two fields
-        if (input.size() != 1) {
-            throw new RuntimeException(
-                    "Expected (chararray), input does not have 1 field");
-        }
-
-        try {
-            // Get the types for the column and check them.  If it's
-            // wrong figure out what type was passed and give a good error
-            // message.
-            if (input.getField(0).type != DataType.CHARARRAY) {
-                String msg = "Expected input (chararray,chararray,chararray,chararray,chararray,chararray,chararray), received schema (";
-                msg += DataType.findTypeName(input.getField(0).type);
-                msg += ")";
-                throw new RuntimeException(msg);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        List<Schema.FieldSchema> fields = new ArrayList<Schema.FieldSchema>();
-
-        int i = 0;
-        while (geoIpLookup.getNeededGeoFieldNames().iterator().hasNext()) {
-            GeoIpLookupField field = geoIpLookup.getNeededGeoFieldNames().get(i);
-            fields.add(new Schema.FieldSchema(null, mapping.get(field)));
-            i++;
-        }
-        return new Schema(fields);
-    }
+//    public final Schema outputSchema(final Schema input) {
+// this is more complicated
+//        // Check that we were passed two fields
+//        if (input.size() != 1) {
+//            throw new RuntimeException(
+//                    "Expected (chararray), input does not have 1 field");
+//        }
+//
+//        try {
+//            // Get the types for the column and check them.  If it's
+//            // wrong figure out what type was passed and give a good error
+//            // message.
+//            if (input.getField(0).type != DataType.CHARARRAY) {
+//                String msg = "Expected input a list of chararrays, received schema (";
+//                msg += DataType.findTypeName(input.getField(0).type);
+//                msg += ")";
+//                throw new RuntimeException(msg);
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        List<Schema.FieldSchema> fields = new ArrayList<Schema.FieldSchema>();
+//
+//        int i = 0;
+//        while (geoIpLookup.getNeededGeoFieldNames().iterator().hasNext()) {
+//            GeoIpLookupField field = geoIpLookup.getNeededGeoFieldNames().get()
+//            fields.add(new Schema.FieldSchema(null, mapping.get(field)));
+//            i++;
+//        }
+//        return new Schema(fields);
+//    }
 }
