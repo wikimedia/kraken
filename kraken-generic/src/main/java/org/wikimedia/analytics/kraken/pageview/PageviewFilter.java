@@ -168,6 +168,7 @@ public class PageviewFilter {
      * http://blog.wikimedia.org/wp-login.php
      * http://blog.wikimedia.org/wp-admin/
      * http://blog.wikimedia.org/?s=  (i.e. searches)
+     * http://blog.wikimedia.org/?p=22448&preview=true (preview of article while editing)
      * @param url
      * @return
      */
@@ -175,6 +176,7 @@ public class PageviewFilter {
         return (url != null && (
                 url.getPath().startsWith("wp-")
                         || url.getPath().startsWith("?s=")
-                        || url.getHost().startsWith("test")));
+                        || url.getHost().startsWith("test")
+                        || (url.getQuery() != null & !url.getQuery().contains("preview=true"))));
     }
 }
