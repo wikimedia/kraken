@@ -196,8 +196,8 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
         if ("Apple".equals(result.getVendor())) {
             String device = result.getIsTablet() ? "iPad" : result.getModel();
             output.set(8, postProcessApple(device)); // field 6 contains additional iOS version info.
-        } else if ("Samsung".equals(result.getVendor())) {
-            output.set(8, postProcessSamsung((String) result.getModel()));
+//        } else if ("Samsung".equals(result.getVendor())) {
+//            output.set(8, postProcessSamsung((String) result.getModel()));
         } else {
             output.set(8, null);
         }
@@ -248,7 +248,7 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
             String modelCleaned = name + "-" + valueCleaned;
             return modelCleaned;
         } else {
-            return m.group(0);
+            return m.group(0) != null ? m.group(0) : null;
         }
     }
 
