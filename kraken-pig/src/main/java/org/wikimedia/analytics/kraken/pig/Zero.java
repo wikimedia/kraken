@@ -32,7 +32,9 @@ import org.wikimedia.analytics.kraken.schemas.MccMnc;
 import org.wikimedia.analytics.kraken.schemas.Schema;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -96,33 +98,37 @@ public class Zero extends EvalFunc<Tuple> {
         return output;
     }
 
-//    /**
-//     *
-//     * @param input
-//     * @return
-//     */
-//    public final org.apache.pig.impl.logicalLayer.schema.Schema outputSchema(final org.apache.pig.impl.logicalLayer.schema.Schema input) {
-//        // Check that we were passed two fields
-//        if (input.size() != 1) {
-//            throw new RuntimeException(
-//                    "Expected (chararray), input does not have 1 field");
-//        }
-//
-//        try {
-//            // Get the types for the column and check them.  If it's
-//            // wrong figure out what type was passed and give a good error
-//            // message.
-//            if (input.getField(0).type != DataType.CHARARRAY) {
-//                String msg = "Expected input (chararray), received schema (";
-//                msg += DataType.findTypeName(input.getField(0).type);
-//                msg += ")";
-//                throw new RuntimeException(msg);
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        // output is boolean
-//        return new org.apache.pig.impl.logicalLayer.schema.Schema(new org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema(null, DataType.BOOLEAN));
-//    }
+    /**
+     *
+     * @param input
+     * @return
+     */
+    public final org.apache.pig.impl.logicalLayer.schema.Schema outputSchema(final org.apache.pig.impl.logicalLayer.schema.Schema input) {
+        // Check that we were passed two fields
+        if (input.size() != 1) {
+            throw new RuntimeException(
+                    "Expected (chararray), input does not have 1 field");
+        }
+
+        try {
+            // Get the types for the column and check them.  If it's
+            // wrong figure out what type was passed and give a good error
+            // message.
+            if (input.getField(0).type != DataType.CHARARRAY) {
+                String msg = "Expected input (chararray), received schema (";
+                msg += DataType.findTypeName(input.getField(0).type);
+                msg += ")";
+                throw new RuntimeException(msg);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+        List<org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema> fields = new ArrayList<org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema>();
+        // Carrier and ISO country are chararrays
+        fields.add(new org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema(null, DataType.CHARARRAY));
+        fields.add(new org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema(null, DataType.CHARARRAY));
+        return new org.apache.pig.impl.logicalLayer.schema.Schema(fields);
+    }
 }
