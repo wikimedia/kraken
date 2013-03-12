@@ -62,7 +62,7 @@ public class ZeroTest {
     }
 
     @Test
-    public void testMccMncJsonFile3() throws IOException, JsonParseException, JsonMappingException {
+    public void testZeroWithMFAKey() throws IOException, JsonParseException, JsonMappingException {
         Tuple input = tupleFactory.newTuple(1);
         input.set(0, "zero=420-01;mf-m=a");
         Zero zero = new Zero();
@@ -71,4 +71,23 @@ public class ZeroTest {
         assertEquals("SA", carrier.get(1));
     }
 
+    @Test
+    public void testZeroWithMFAKey2() throws IOException, JsonParseException, JsonMappingException {
+        Tuple input = tupleFactory.newTuple(1);
+        input.set(0, "zero=420-01");
+        Zero zero = new Zero();
+        Tuple carrier = zero.exec(input);
+        assertEquals("stc/al-jawal-saudi-arabia", carrier.get(0));
+        assertEquals("SA", carrier.get(1));
+    }
+
+    @Test
+    public void testZeroWithoutMFAKey() throws IOException, JsonParseException, JsonMappingException {
+        Tuple input = tupleFactory.newTuple(1);
+        input.set(0, "420-01");
+        Zero zero = new Zero();
+        Tuple carrier = zero.exec(input);
+        assertEquals("stc/al-jawal-saudi-arabia", carrier.get(0));
+        assertEquals("SA", carrier.get(1));
+    }
 }

@@ -61,21 +61,17 @@ public class Zero extends EvalFunc<Tuple> {
 
     /**
      *
-     * @param kvpairs
+     * @param rawString
      * @return
      */
     private String extractXcsValue(final String rawString) {
         String[] kvpairs = rawString.split(";");
-        if (kvpairs.length > 1) {
-            for (String kvpair : kvpairs) {
-                if (kvpair.startsWith("zero")) {
-                    return kvpair.split("=")[1];
-                }
+        for (String kvpair : kvpairs) {
+            if (kvpair.startsWith("zero")) {
+                return kvpair.split("=")[1];
             }
-        } else {
-        return kvpairs[0].split("=")[1];
         }
-        return rawString;
+        return kvpairs[0];
     }
 
     /** {@inheritDoc} */
