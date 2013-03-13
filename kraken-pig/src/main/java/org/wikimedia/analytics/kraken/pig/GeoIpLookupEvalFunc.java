@@ -173,20 +173,21 @@ public class GeoIpLookupEvalFunc extends EvalFunc<Tuple> {
 
         Tuple output = tupleFactory.newTuple(geoIpLookup.getNeededGeoFieldNames().size());
 
-        String proxyIp = null;
+        String proxyIp;
+        String ip;
         // Check if the proxy ip address has been supplied as well
         try {
             proxyIp = (String) input.get(1);
+            ip = parseIpAddress((String) input.get(0), proxyIp);
         } catch (IndexOutOfBoundsException e) {
             // proxy address is not given
+            ip = (String) input.get(0);
         }
 
-        String ip = parseIpAddress((String) input.get(0), proxyIp);
         if (ip == null) {
             warn("Supplied variable does not seem to be a valid IP4 or IP6 address.", PigWarning.UDF_WARNING_1);
             return null;
         }
-
 
         Location location = geoIpLookup.doGeoLookup(ip);
         if (location != null){
