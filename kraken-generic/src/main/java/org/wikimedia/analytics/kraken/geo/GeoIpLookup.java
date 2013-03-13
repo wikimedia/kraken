@@ -72,12 +72,12 @@ public class GeoIpLookup {
 
     /**
      *
-     * @param inputFields
-     * @param db
+     * @param inputFields a comma separated list of fields that are requested.
+     * Valid field names include: continent, country, city, longitude, latitude, region, state, (only for North America).
+     * @param db the name of the Maxmind db to use. Valid choices are: GeoIPCity, GeoIP and GeoIPRegion.
      * @param execType
      * @throws IOException
      */
-
     public GeoIpLookup(final String inputFields, final String db, final String execType) throws IOException {
         init(inputFields, db);
         this.execType = execType;

@@ -141,6 +141,30 @@ public class GeoIpLookupEvalFunc extends EvalFunc<Tuple> {
         return output;
     }
 
+    /**
+     *
+     * @param ipAddress the ipaddress of the request as recorded by a cache frontend server
+     * @param proxyIpRaw a comma-separated list of ip addresses where the left most is the ip address of the originating
+     *                   client. See for more details http://en.wikipedia.org/wiki/X-Forwarded-For
+     *                   We do this lookup of proxy ip addresses primarily for Opera-powered devices and browsers as they
+     *                   all use proxy servers that distort our geocoding efforts.
+     * @return
+     */
+    private String parseIpAddress(final String ipAddress, final String proxyIpRaw) {
+        //TODO: we need to make sure that the client ip address in the proxyIpRaw is not an internal address like
+        //127.0.0.1 or 192.168.*.*
+        if (proxyIpRaw == null || "-".equals(proxyIpRaw)) {
+            return ipAddress;
+        } else {
+            String[] proxyIp = proxyIpRaw.split(",");
+            try {
+                return proxyIp[0];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                return null;
+            }
+        }
+    }
+
     @Override
     public final Tuple exec(final Tuple input) throws IOException {
         if (input == null || input.get(0) == null) {
@@ -149,7 +173,21 @@ public class GeoIpLookupEvalFunc extends EvalFunc<Tuple> {
 
         Tuple output = tupleFactory.newTuple(geoIpLookup.getNeededGeoFieldNames().size());
 
-        String ip = (String) input.get(0);
+        String proxyIp = null;
+        // Check if the proxy ip address has been supplied as well
+        try {
+            proxyIp = (String) input.get(1);
+        } catch (IndexOutOfBoundsException e) {
+            // proxy address is not given
+        }
+
+        String ip = parseIpAddress((String) input.get(0), proxyIp);
+        if (ip == null) {
+            warn("Supplied variable does not seem to be a valid IP4 or IP6 address.", PigWarning.UDF_WARNING_1);
+            return null;
+        }
+
+
         Location location = geoIpLookup.doGeoLookup(ip);
         if (location != null){
             output = setResult(location, output);
