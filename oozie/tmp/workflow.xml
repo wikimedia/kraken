@@ -1,0 +1,22 @@
+<workflow-app name="test_webrequest_loss_by_hour" xmlns="uri:oozie:workflow:0.4">
+    <start to="webrequest_loss_by_hour_action"/>
+    <action name="webrequest_loss_by_hour_action">
+        <pig>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <script>/user/otto/tmp/webrequest_loss_hourly.pig</script>
+            <argument>-p</argument>
+            <argument>input=/wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-02-11_18.45.00,/wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-02-11_19.00.00,/wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-02-11_19.15.00,/wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-02-11_19.30.00,/wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-02-11_19.45.00,/wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-02-11_20.00.00</argument>
+            <argument>-p</argument>
+            <argument>output=/user/otto/tmp/webrequest_loss_hourly4</argument>
+            <argument>-p</argument>
+            <argument>hour_regex=2013-02-11_19</argument>
+        </pig>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
