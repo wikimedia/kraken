@@ -173,10 +173,15 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidBlogPageview(final URL url) {
-        return (url != null
-                && !url.getPath().startsWith("wp-")
-                && !url.getPath().startsWith("?s=")
-                && !url.getHost().startsWith("test")
-                && (url.getQuery() != null & !url.getQuery().contains("preview=true")));
+        if (url != null
+                && url.getQuery() != null
+                && (url.getQuery().startsWith("s=")
+                || url.getQuery().contains("preview=true"))) {
+            return false;
+        } else {
+            return (url != null
+                && !url.getPath().startsWith("/wp-")
+                && !url.getHost().startsWith("test"));
+        }
     }
 }
