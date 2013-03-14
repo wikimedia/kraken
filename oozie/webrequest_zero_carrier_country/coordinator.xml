@@ -11,7 +11,7 @@
     </dataset>
     <dataset name="zero_carrier_country" frequency="${coord:minutes(15)}"
              initial-instance="2013-03-14T00:00Z" timezone="Universal">
-      <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/zero_carrier_country/${YEAR}-${MONTH}/${DAY}/${HOUR}/${MINUTE}.00</uri-template>
+      <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/zero_carrier_country/${YEAR}-${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
       <done-flag></done-flag>
     </dataset>
   </datasets>

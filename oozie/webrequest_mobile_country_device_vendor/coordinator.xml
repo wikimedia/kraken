@@ -11,7 +11,7 @@
     </dataset>
     <dataset name="mobile_country_device_vendor" frequency="${coord:minutes(15)}"
              initial-instance="2013-02-01T00:00Z" timezone="Universal">
-      <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/mobile_country_device_vendor/${YEAR}-${MONTH}/${DAY}/${HOUR}/${MINUTE}.00</uri-template>
+      <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/mobile_country_device_vendor/${YEAR}-${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
       <done-flag></done-flag>
     </dataset>
   </datasets>
