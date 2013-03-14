@@ -104,4 +104,31 @@ public class PageviewFilterTest {
         URL url = new URL("http://en.m.wikipedia.org/wiki");
         assertFalse(pageviewFilter.isValidMobilePageview(url));
     }
+
+
+    @Test
+    /**
+     * http://blog.wikimedia.org/wp-login.php
+     * http://blog.wikimedia.org/wp-admin/
+     * http://blog.wikimedia.org/?s=  (i.e. searches)
+     * http://blog.wikimedia.org/?p=22448&preview=true
+     */
+    public void testInvalidBlogPageRequest() throws MalformedURLException {
+        URL url1 = new URL("http://blog.wikimedia.org/wp-login.php");
+        URL url2 = new URL("http://blog.wikimedia.org/wp-admin/");
+        URL url3 = new URL("http://blog.wikimedia.org/?s=foo");
+        URL url4 = new URL("http://blog.wikimedia.org/?p=22448&preview=true");
+        assertFalse(pageviewFilter.isValidBlogPageview(null));
+        assertFalse(pageviewFilter.isValidBlogPageview(url1));
+        assertFalse(pageviewFilter.isValidBlogPageview(url2));
+        assertFalse(pageviewFilter.isValidBlogPageview(url3));
+        assertFalse(pageviewFilter.isValidBlogPageview(url4));
+    }
+
+    @Test
+    public void tesValidBlogPageRequest() throws MalformedURLException {
+        URL url = new URL("https://blog.wikimedia.org/2013/01/12/remembering-aaron-swartz-1986-2013/");
+        assertTrue(pageviewFilter.isValidBlogPageview(url));
+    }
+
 }
