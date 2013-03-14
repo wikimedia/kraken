@@ -55,8 +55,8 @@ public class PageviewFilter {
         if (url.getPath().contains("Special:")) {
             return false;
         } else if (url.getPath().contains("wiki/")
-                   || url.getPath().contains("w/index.php?")
-                   || url.getPath().contains("w/api.php?")) {
+                || url.getPath().contains("w/index.php?")
+                || url.getPath().contains("w/api.php?")) {
             return true;
         }
         return false;
@@ -173,10 +173,10 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidBlogPageview(final URL url) {
-        return (url != null && (
-                url.getPath().startsWith("wp-")
-                        || url.getPath().startsWith("?s=")
-                        || url.getHost().startsWith("test")
-                        || (url.getQuery() != null & !url.getQuery().contains("preview=true"))));
+        return (url != null
+                && !url.getPath().startsWith("wp-")
+                && !url.getPath().startsWith("?s=")
+                && !url.getHost().startsWith("test")
+                && (url.getQuery() != null & !url.getQuery().contains("preview=true")));
     }
 }
