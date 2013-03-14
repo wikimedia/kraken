@@ -62,10 +62,13 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
     private HashMap<String, org.wikimedia.analytics.kraken.schemas.Schema> appleProducts;
 
     // Wikimedia Mobile Apps regular expressions
+    // Source: http://www.mediawiki.org/wiki/Mobile/User_agents
     private Pattern android = Pattern.compile("WikipediaMobile\\/\\d\\.\\d(\\.\\d)?");
     private Pattern firefox = Pattern.compile(Pattern.quote("Mozilla/5.0 (Mobile; rv:18.0) Gecko/18.0 Firefox/18.0")); //VERIFIED
     private Pattern rim = Pattern.compile(Pattern.quote("Mozilla/5.0 (PlayBook; U; RIM Tablet OS 2.1.0; en-US) AppleWebKit/536.2+ (KHTML, like Gecko) Version/7.2.1.0 Safari/536.2+"));
     private Pattern windows = Pattern.compile(Pattern.quote("Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MSAppHost/1.0)")); //VERIFIED
+    //TODO implement iOS user agent regex, probably need multiple regexes as there have been quite a few changes between versions
+
 
     private Map<String, Pattern> mobileAppPatterns;
 

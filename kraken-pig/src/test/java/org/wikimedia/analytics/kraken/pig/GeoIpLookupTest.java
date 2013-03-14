@@ -29,7 +29,7 @@ import static org.junit.Assert.*;
 
 public class GeoIpLookupTest {
     private TupleFactory tupleFactory = TupleFactory.getInstance();
-    private Tuple input = tupleFactory.newTuple(1);
+    private Tuple input = tupleFactory.newTuple(2);
 
     /**
      * ipAddress
@@ -128,5 +128,19 @@ public class GeoIpLookupTest {
         assertEquals("AS", continentCode);
         String continentName = (String) geoData.get(2);
         assertEquals("Asia", continentName);
+    }
+
+    /**
+     * test proxyaddress substitution
+     * @throws IOException
+     */
+    @Test
+    public void testProxyIp() throws IOException {
+        GeoIpLookupEvalFunc geo = new GeoIpLookupEvalFunc("countryCode, continentCode, continentName", "GeoIP", "LOCAL");
+        this.input.set(0, "37.228.105.17"); // this ip address is an Opera proxy server
+        this.input.set(1, "101.209.27.230,%20101.209.27.230"); // these are random ip addresses
+        Tuple output = geo.exec(this.input);
+        String countryCode = (String) output.get(0);
+        assertEquals("IN", countryCode);
     }
 }

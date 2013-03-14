@@ -62,7 +62,7 @@ public class ZeroTest {
     }
 
     @Test
-    public void testZeroWithMFAKey() throws IOException, JsonParseException, JsonMappingException {
+    public void testZeroWithMFAKey() throws IOException  {
         Tuple input = tupleFactory.newTuple(1);
         input.set(0, "zero=420-01;mf-m=a");
         Zero zero = new Zero();
@@ -72,7 +72,7 @@ public class ZeroTest {
     }
 
     @Test
-    public void testZeroWithMFAKey2() throws IOException, JsonParseException, JsonMappingException {
+    public void testZeroWithMFAKey2() throws IOException {
         Tuple input = tupleFactory.newTuple(1);
         input.set(0, "zero=420-01");
         Zero zero = new Zero();
@@ -82,7 +82,7 @@ public class ZeroTest {
     }
 
     @Test
-    public void testZeroWithoutMFAKey() throws IOException, JsonParseException, JsonMappingException {
+    public void testZeroWithoutMFAKey() throws IOException {
         Tuple input = tupleFactory.newTuple(1);
         input.set(0, "420-01");
         Zero zero = new Zero();

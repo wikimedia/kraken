@@ -32,7 +32,9 @@ import org.wikimedia.analytics.kraken.schemas.MccMnc;
 import org.wikimedia.analytics.kraken.schemas.Schema;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -122,7 +124,11 @@ public class Zero extends EvalFunc<Tuple> {
             throw new RuntimeException(e);
         }
 
-        // output is boolean
-        return new org.apache.pig.impl.logicalLayer.schema.Schema(new org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema(null, DataType.BOOLEAN));
+
+        List<org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema> fields = new ArrayList<org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema>();
+        // Carrier and ISO country are chararrays
+        fields.add(new org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema(null, DataType.CHARARRAY));
+        fields.add(new org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema(null, DataType.CHARARRAY));
+        return new org.apache.pig.impl.logicalLayer.schema.Schema(fields);
     }
 }
