@@ -7,12 +7,14 @@ set -e
 
 limn_name=pageviews_by_zero_carrier
 
+# TODO: create deb for limnpy and install.
+limnify=/home/otto/scr/limnify/bin/limnify 
+
 # cat all zero_carrier_country output files into sort and limnify
 hadoop fs -cat /wmf/public/webrequest/zero_carrier_country/20*/*/*/* | sort |
 
 # pivot on carrier (2nd column)
-# TODO: create deb for limnpy and install.
-/home/otto/scr/limnify/bin/limnify                    \
+${limnify}                                            \
   --delim "\t"                                        \
   --header Date Carrier Country Pageviews             \
   --datefmt "%Y-%m-%d_%H"                             \
