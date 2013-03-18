@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+# cd into tmpdir
+tmpdir=$(mktemp --directory)
+cd "${tmpdir}"
+
 # Quick and dirty script to
 # limnify zero_carrier_country data stored in HDFS
 # This limn data be stored back into HDFS.
@@ -28,3 +32,7 @@ ${limnify}                                            \
 hadoop fs -rm -f -r /wmf/public/webrequest/zero_carrier_country/_limn/${limn_name} &&
 hadoop fs -mkdir -p /wmf/public/webrequest/zero_carrier_country/_limn/${limn_name} &&
 hadoop fs -put ./datafiles ./datasources /wmf/public/webrequest/zero_carrier_country/_limn/${limn_name}/
+
+# remove tmpdir
+cd -
+rm -r "${tmpdir}"
