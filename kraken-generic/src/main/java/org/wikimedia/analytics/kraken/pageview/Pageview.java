@@ -101,22 +101,22 @@ public class Pageview {
      * @return true/false
      */
     public final boolean secondStepPageviewValidation() {
-        switch (this.pageviewType) {
+        switch (pageviewType) {
             case MOBILE:
-                return pageviewFilter.isValidMobilePageview(this.url);
+                return pageviewFilter.isValidMobilePageview(url);
 
             case MOBILE_ZERO:
-                return pageviewFilter.isValidMobilePageview(this.url);
+                return pageviewFilter.isValidMobilePageview(url);
 
             case MOBILE_API:
-                return pageviewFilter.isValidMobileAPIPageview(this.url, this.referer);
+                return pageviewFilter.isValidMobileAPIPageview(url, referer);
 
             case MOBILE_SEARCH:
                 // Discard all search queries by default
                 return false;
 
             case DESKTOP:
-                return pageviewFilter.isValidDesktopPageview(this.url);
+                return pageviewFilter.isValidDesktopPageview(url);
 
             case DESKTOP_API:
                 return true;
@@ -133,7 +133,7 @@ public class Pageview {
                 return false;
 
             case BLOG:
-                return pageviewFilter.isValidBlogPageview(this.url);
+                return pageviewFilter.isValidBlogPageview(url);
 
             case OTHER:
                 // Request that not match to any of the categories above should not be filtered but should show up
@@ -152,37 +152,37 @@ public class Pageview {
      * @return String containing the canonical title of the page visited
      */
     public final void canonicalizeURL()  {
-        switch (this.pageviewType) {
+        switch (pageviewType) {
             case MOBILE:
-                pageviewCanonical.canonicalizeMobilePageview(this.url, this.pageviewType);
+                pageviewCanonical.canonicalizeMobilePageview(url, pageviewType);
 
             case MOBILE_API:
-                pageviewCanonical.canonicalizeMobilePageview(this.url, this.pageviewType);
+                pageviewCanonical.canonicalizeMobilePageview(url, pageviewType);
 
             case MOBILE_ZERO:
-                pageviewCanonical.canonicalizeMobilePageview(this.url, this.pageviewType);
+                pageviewCanonical.canonicalizeMobilePageview(url, pageviewType);
 
             case MOBILE_SEARCH:
-                pageviewCanonical.canonicalizeSearchQuery(this.url, this.pageviewType);
+                pageviewCanonical.canonicalizeSearchQuery(url, pageviewType);
 
             case DESKTOP:
-                pageviewCanonical.canonicalizeDesktopPageview(this.url, this.pageviewType);
+                pageviewCanonical.canonicalizeDesktopPageview(url, pageviewType);
 
             case DESKTOP_API:
-                pageviewCanonical.canonicalizeApiRequest(this.url, this.pageviewType);
+                pageviewCanonical.canonicalizeApiRequest(url, pageviewType);
 
             case DESKTOP_SEARCH:
-                pageviewCanonical.canonicalizeSearchQuery(this.url, this.pageviewType);
+                pageviewCanonical.canonicalizeSearchQuery(url, pageviewType);
 
             case COMMONS_IMAGE:
-                pageviewCanonical.canonicalizeImagePageview(this.url, this.pageviewType);
+                pageviewCanonical.canonicalizeImagePageview(url, pageviewType);
 
             case BANNER:
                 //TODO: not yet implemented
                 break;
 
             case BLOG:
-                pageviewCanonical.canonicalizeBlogPageview(this.url, this.pageviewType);
+                pageviewCanonical.canonicalizeBlogPageview(url, pageviewType);
 
             default:
                 break;
@@ -193,22 +193,22 @@ public class Pageview {
      * Given a url, determine the pageview type (mobile, desktop, api, search and blog).
      */
     public final void determinePageviewType() {
-        if (this.url.getQuery() != null && this.url.getQuery().contains("BannerLoader")) {
-            this.pageviewType = PageviewType.BANNER;
-        } else if (this.url.getHost().contains("commons")) {
-            this.pageviewType = PageviewType.COMMONS_IMAGE;
-        } else if (this.url.getHost().contains(".m.")) {
-            this.pageviewType = PageviewType.MOBILE;
+        if (url.getQuery() != null && url.getQuery().contains("BannerLoader")) {
+            pageviewType = PageviewType.BANNER;
+        } else if (url.getHost().contains("commons")) {
+            pageviewType = PageviewType.COMMONS_IMAGE;
+        } else if (url.getHost().contains(".m.")) {
+            pageviewType = PageviewType.MOBILE;
             determineMobileSubPageviewType();
-        } else if (this.url.getHost().contains(".zero.")) {
-            this.pageviewType = PageviewType.MOBILE_ZERO;
-        } else if (this.url.getHost().contains("wiki")) {
-            this.pageviewType = PageviewType.DESKTOP;
+        } else if (url.getHost().contains(".zero.")) {
+            pageviewType = PageviewType.MOBILE_ZERO;
+        } else if (url.getHost().contains("wiki")) { // FIXME: obviously wrong
+            pageviewType = PageviewType.DESKTOP;
             determineDesktopSubPageviewType();
-        } else if (this.url.getHost().contains("blog")) {
-            this.pageviewType = PageviewType.BLOG;
+        } else if (url.getHost().contains("blog")) {
+            pageviewType = PageviewType.BLOG;
         } else {
-            this.pageviewType = PageviewType.OTHER;
+            pageviewType = PageviewType.OTHER;
         }
     }
 
@@ -216,14 +216,14 @@ public class Pageview {
      *
      */
     private void determineDesktopSubPageviewType() {
-        if (this.url.getPath().contains("api.php")) {
-            if (this.url.getQuery() != null && this.url.getQuery().contains("opensearch")) {
-                this.pageviewType = PageviewType.DESKTOP_SEARCH;
+        if (url.getPath().contains("api.php")) {
+            if (url.getQuery() != null && url.getQuery().contains("opensearch")) {
+                pageviewType = PageviewType.DESKTOP_SEARCH;
             } else {
-                this.pageviewType = PageviewType.DESKTOP_API;
+                pageviewType = PageviewType.DESKTOP_API;
             }
-        } else if (this.url.getQuery() != null && this.url.getQuery().contains("search")) {
-            this.pageviewType = PageviewType.DESKTOP_SEARCH;
+        } else if (url.getQuery() != null && url.getQuery().contains("search")) {
+            pageviewType = PageviewType.DESKTOP_SEARCH;
         }
     }
 
@@ -231,14 +231,14 @@ public class Pageview {
      *
      */
     private void determineMobileSubPageviewType() {
-        if (this.url.getPath().contains("api.php")) {
-            if (this.url.getQuery() != null && this.url.getQuery().contains("opensearch")) {
-                this.pageviewType = PageviewType.MOBILE_SEARCH;
+        if (url.getPath().contains("api.php")) {
+            if (url.getQuery() != null && url.getQuery().contains("opensearch")) {
+                pageviewType = PageviewType.MOBILE_SEARCH;
             }  else {
-                this.pageviewType = PageviewType.MOBILE_API;
+                pageviewType = PageviewType.MOBILE_API;
             }
-        } else if (this.url.getQuery() != null && this.url.getQuery().contains("search")) {
-            this.pageviewType = PageviewType.MOBILE_SEARCH;
+        } else if (url.getQuery() != null && url.getQuery().contains("search")) {
+            pageviewType = PageviewType.MOBILE_SEARCH;
         }
     }
 
@@ -260,11 +260,11 @@ public class Pageview {
      */
     public final boolean initialPageviewValidation() {
         return (isValidURL()
-                && pageviewFilter.isNotBitsOrUploadDomain(this.url)
-                && pageviewFilter.isValidUserAgent(this.userAgent)
-                && pageviewFilter.isValidResponseCode(this.statusCode)
-                && pageviewFilter.isValidRequestMethod(this.requestMethod)
-                && !cidrFilter.ipAddressFallsInRange(this.ipAddress));
+                && pageviewFilter.isNotBitsOrUploadDomain(url)
+                && pageviewFilter.isValidUserAgent(userAgent)
+                && pageviewFilter.isValidResponseCode(statusCode)
+                && pageviewFilter.isValidRequestMethod(requestMethod)
+                && !cidrFilter.ipAddressFallsInRange(ipAddress));
     }
 
     /**
@@ -272,7 +272,7 @@ public class Pageview {
      * @return true/false
      */
     public final boolean isValidURL() {
-        return this.url != null;
+        return url != null;
     }
 
     /**
@@ -280,6 +280,7 @@ public class Pageview {
      * @return
      */
     public final PageviewType getPageviewType() {
+        if (pageviewType == null) determinePageviewType();
         return pageviewType;
     }
 
