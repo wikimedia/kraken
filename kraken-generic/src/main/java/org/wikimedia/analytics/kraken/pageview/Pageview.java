@@ -56,6 +56,7 @@ public class Pageview {
     private PageviewType pageviewType;
     private PageviewFilter pageviewFilter;
     private PageviewCanonical pageviewCanonical;
+    private ProjectInfo projectInfo;
     private CidrFilter cidrFilter;
 
     /**
@@ -183,6 +184,7 @@ public class Pageview {
 
             case BLOG:
                 pageviewCanonical.canonicalizeBlogPageview(url, pageviewType);
+                break;
 
             default:
                 break;
@@ -195,7 +197,7 @@ public class Pageview {
     public final void determinePageviewType() {
         if (url.getQuery() != null && url.getQuery().contains("BannerLoader")) {
             pageviewType = PageviewType.BANNER;
-        } else if (url.getHost().contains("commons")) {
+        } else if (url.getHost().contains("commons")) { // FIXME: obviously wrong
             pageviewType = PageviewType.COMMONS_IMAGE;
         } else if (url.getHost().contains(".m.")) {
             pageviewType = PageviewType.MOBILE;
@@ -205,7 +207,7 @@ public class Pageview {
         } else if (url.getHost().contains("wiki")) { // FIXME: obviously wrong
             pageviewType = PageviewType.DESKTOP;
             determineDesktopSubPageviewType();
-        } else if (url.getHost().contains("blog")) {
+        } else if (url.getHost().contains("blog")) { // FIXME: obviously wrong
             pageviewType = PageviewType.BLOG;
         } else {
             pageviewType = PageviewType.OTHER;
@@ -298,6 +300,13 @@ public class Pageview {
      */
     public final PageviewCanonical getPageviewCanonical() {
         return pageviewCanonical;
+    }
+
+    public final ProjectInfo getProjectInfo() {
+        if (projectInfo == null && url != null) {
+            projectInfo = new ProjectInfo(url.getHost());
+        }
+        return projectInfo;
     }
 
     /**
