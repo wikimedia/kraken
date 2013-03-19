@@ -101,7 +101,7 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
         Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimeType, requestMethod);
 
         if (pageview.isPageview()) {
-            output = tupleFactory.newTuple(3);
+            output = tupleFactory.newTuple(4);
             output.set(0, pageview.getProjectInfo().getLanguage());
             output.set(1, pageview.getProjectInfo().getProjectDomain());
             output.set(2, pageview.getProjectInfo().getSiteVersion());
