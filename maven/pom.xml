@@ -1,12 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
+    <name>Wikimedia Analytics Parent POM</name>
+    
     <groupId>org.wikimedia.analytics.kraken</groupId>
     <artifactId>parent-pom</artifactId>
-    <version>1</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
-    <name>Wikimedia Analytics OSS Parent</name>
-
-
+    
+    
     <organization>
         <name>Wikimedia Foundation</name>
         <url>http://www.wikimediafoundation.org</url>
@@ -34,17 +36,9 @@
         <url>https://github.com/wikimedia/kraken/issues</url>
     </issueManagement>
 
-    <description>
-        Sonatype helps Wikimedia Analytics projects to set up Maven repositories on https://nexus.sonatype.org/
-    </description>
-
     <scm>
-        <connection>
-            scm:git:git@github.com/wmf-analytics/kraken.git
-        </connection>
-        <developerConnection>
-            scm:git:git@github.com/wmf-analytics/kraken.git
-        </developerConnection>
+        <connection>scm:git:git@github.com/wmf-analytics/kraken.git</connection>
+        <developerConnection>scm:git:git@github.com/wmf-analytics/kraken.git</developerConnection>
         <url>scm:git:git@github.com/wmf-analytics/kraken.git</url>
     </scm>
 

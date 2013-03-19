@@ -1,38 +1,37 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.wikimedia.analytics</groupId>
+    
+    <name>Kraken EventLogging</name>
+    
+    <groupId>org.wikimedia.analytics.kraken</groupId>
     <artifactId>kraken-eventlogging</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
-
-    <name>Kraken Eventlogging</name>
-    <url></url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <skip.tests>false</skip.tests>
-    </properties>
-
+    
     <parent>
-        <groupId>org.wikimedia.analytics</groupId>
+        <groupId>org.wikimedia.analytics.kraken</groupId>
         <artifactId>kraken</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
+    
     <dependencies>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>2.1.1</version>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.1.1</version>
         </dependency>
     </dependencies>
-
+    
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <skip.tests>false</skip.tests>
+    </properties>
+    
 </project>

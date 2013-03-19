@@ -1,67 +1,87 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    
+    <name>Kraken Pig Library</name>
+    
     <groupId>org.wikimedia.analytics.kraken</groupId>
     <artifactId>kraken-pig</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
-
-    <name>Kraken Pig</name>
-    <url></url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <skip.tests>false</skip.tests>
-    </properties>
-
+    
     <parent>
-        <groupId>org.wikimedia.analytics</groupId>
+        <groupId>org.wikimedia.analytics.kraken</groupId>
         <artifactId>kraken</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
-
+    
+    
     <dependencies>
+        
+        <!-- Kraken -->
+        
         <dependency>
-            <groupId>org.wikimedia.analytics</groupId>
+            <groupId>org.wikimedia.analytics.kraken</groupId>
             <artifactId>kraken-dclass</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.2-SNAPSHOT</version>
         </dependency>
-
+        
         <dependency>
-            <groupId>org.wikimedia.analytics</groupId>
+            <groupId>org.wikimedia.analytics.kraken</groupId>
             <artifactId>kraken-generic</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.2-SNAPSHOT</version>
         </dependency>
-
-
-        <dependency>
-            <groupId>org.apache.pig</groupId>
-            <artifactId>pig</artifactId>
-            <version>0.10.0-cdh4.1.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.pig</groupId>
-            <artifactId>pigunit</artifactId>
-            <version>0.10.0-cdh4.1.2</version>
-            <scope>test</scope>
-        </dependency>
-
+        
+        
+        <!-- Misc -->
+        
         <dependency>
             <groupId>org.kohsuke</groupId>
             <artifactId>geoip</artifactId>
             <version>1.2.5</version>
         </dependency>
-
-
-        <!-- Hadoop -->
-
+        
+        
+        <!-- Hadoop, Pig -->
+        
+        <dependency>
+            <groupId>org.apache.pig</groupId>
+            <artifactId>pig</artifactId>
+            <version>0.10.0-cdh4.2.0</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jline</artifactId>
+                    <groupId>jline</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jsch</artifactId>
+                    <groupId>com.jcraft</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>joda-time</artifactId>
+                    <groupId>joda-time</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jython</artifactId>
+                    <groupId>org.python</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>hadoop-root</artifactId>
+                    <groupId>com.cloudera.cdh</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>pig-ant</artifactId>
+                    <groupId>com.cloudera.cdh</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
-            <version>2.0.0-cdh4.1.2</version>
+            <version>2.0.0-cdh4.2.0</version>
+            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>tomcat</groupId>
@@ -73,27 +93,43 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-client</artifactId>
-            <version>2.0.0-cdh4.1.2</version>
+            <version>2.0.0-cdh4.2.0</version>
+            <scope>provided</scope>
         </dependency>
-
-        <!-- Hadoop testing -->
+        
+        
+        
+        <!-- Testing -->
+        
+        <dependency>
+            <groupId>org.apache.pig</groupId>
+            <artifactId>pigunit</artifactId>
+            <version>0.10.0-cdh4.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
-            <version>2.0.0-cdh4.1.2</version>
+            <version>2.0.0-cdh4.2.0</version>
+            <scope>test</scope>
         </dependency>
-
+        
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-minicluster</artifactId>
-            <version>2.0.0-cdh4.1.2</version>
+            <version>2.0.0-cdh4.2.0</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <skip.tests>false</skip.tests>
+    </properties>
+    
 </project>

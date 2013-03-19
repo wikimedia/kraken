@@ -1,88 +1,92 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.wikimedia.analytics.kraken.funnel</groupId>
+    
+    <name>Kraken Funnel</name>
+    
+    <groupId>org.wikimedia.analytics.kraken</groupId>
     <artifactId>kraken-funnel</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-
-    <name>Kraken Funnel</name>
-    <url></url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
+    
+    
     <parent>
-        <groupId>org.wikimedia.analytics</groupId>
+        <groupId>org.wikimedia.analytics.kraken</groupId>
         <artifactId>kraken</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
+    
     <dependencies>
+        
+        <!-- Kraken -->
+        
+        <dependency>
+            <groupId>org.wikimedia.analytics.kraken</groupId>
+            <artifactId>kraken-generic</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.wikimedia.analytics.kraken</groupId>
+            <artifactId>kraken-dclass</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
+        
+        
+        <!-- Others -->
+        
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+        
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr</artifactId>
             <version>3.4</version>
         </dependency>
-
+        
         <dependency>
             <groupId>net.sf.jgrapht</groupId>
             <artifactId>jgrapht</artifactId>
             <version>0.8.3</version>
             <scope>compile</scope>
         </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.2.2</version>
-        </dependency>
-
+        
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.2.2</version>
         </dependency>
-
+        
         <dependency>
             <groupId>commons-cli</groupId>
             <artifactId>commons-cli</artifactId>
             <version>1.2</version>
         </dependency>
-
+        
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.wikimedia.analytics</groupId>
-            <artifactId>kraken-generic</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.wikimedia.analytics</groupId>
-            <artifactId>kraken-dclass</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+        
     </dependencies>
-
+    
+    
     <build>
         <plugins>
             <plugin>
@@ -123,7 +127,7 @@
                     </archive>
                 </configuration>
             </plugin>
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.4</version>
@@ -136,9 +140,13 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
+            </plugin> -->
+        
         </plugins>
     </build>
-
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    
 </project>
