@@ -32,6 +32,8 @@ import java.util.List;
 /**
  * Entry point for the Pig UDF class that uses the Pageview filter logic.
  * This is a simple Pig script that illustrates how to use this Pig UDF.
+ *
+ * TODO: This example is for PageViewFilterFunc!
  * <code>
  REGISTER 'kraken-pig-0.0.1-SNAPSHOT.jar'
  REGISTER 'kraken-generic-0.0.1-SNAPSHOT.jar'
@@ -79,7 +81,7 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
     /**
      *
      * @param input tuple containing url, referer, userAgent, statusCode, ip and mimeType.
-     * @return true/false
+     * @return (language, project, site_version, article_title)
      * @throws ExecException
      */
     public final Tuple exec(final Tuple input) throws ExecException {
@@ -100,9 +102,10 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
 
         if (pageview.isPageview()) {
             output = tupleFactory.newTuple(3);
-            output.set(0, pageview.getPageviewCanonical().getLanguage());
-            output.set(1, pageview.getPageviewCanonical().getProject());
-            output.set(2, pageview.getPageviewCanonical().getArticleTitle());
+            output.set(0, pageview.getProjectInfo().getLanguage());
+            output.set(1, pageview.getProjectInfo().getProjectDomain());
+            output.set(2, pageview.getProjectInfo().getSiteVersion());
+            output.set(3, pageview.getPageviewCanonical().getArticleTitle());
         } else {
             output = null;
         }
@@ -154,10 +157,10 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
         }
 
         List<Schema.FieldSchema> fields = new ArrayList<Schema.FieldSchema>();
-        // Language, project and article title are all CHARARRAYS
-        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
-        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
-        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
+        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));   // language
+        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));   // project
+        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));   // site_version
+        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));   // article_title
         return new Schema(fields);
     }
 }
