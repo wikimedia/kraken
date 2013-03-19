@@ -2,7 +2,9 @@ package org.wikimedia.analytics.kraken.pageview;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.common.io.Resources;
 
+import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -12,10 +14,13 @@ public class ProjectInfo {
     private static Map<String, String> SITE_VERSIONS = new HashMap<String, String>();
     private static Set<String> LANGUAGES = new HashSet<String>();
 
-    static {
-        SITE_VERSIONS.put("zero", "Z");
-        SITE_VERSIONS.put("m", "M");
 
+    static {
+        SITE_VERSIONS.put("zero",   "Z");
+        SITE_VERSIONS.put("m",      "M");
+        SITE_VERSIONS.put("mobile", "M");
+
+        // List<String> langs = Resources.readLines(Resources.getResource("languages.txt"), Charset.defaultCharset());
         LANGUAGES.add("en");
         LANGUAGES.add("de");
         LANGUAGES.add("fr");
@@ -309,8 +314,10 @@ public class ProjectInfo {
     private String language = null;
     private String siteVersion = "X";
     private String projectDomain;
-    // private String project; // Canonical ID for this project
-    // private String projectName; // Human-readable name of this project
+
+    // TODO: work out the actual space of project names and assign them canonical IDs.
+    // private String project;          // Canonical ID for this project
+    // private String projectName;      // Human-readable name of this project
 
 
     public ProjectInfo(String hostname) {
