@@ -46,7 +46,7 @@ import java.util.List;
 public class Zero extends EvalFunc<Tuple> {
 
     /** Map containing x-cs keys and mobile carrier information*/
-    private HashMap<String, Schema> map = new HashMap<String, Schema>();
+    private HashMap<String, Schema> mccMncMap = new HashMap<String, Schema>();
 
     /** Factory to generate Pig tuples */
     private TupleFactory tupleFactory = TupleFactory.getInstance();
@@ -58,7 +58,7 @@ public class Zero extends EvalFunc<Tuple> {
      */
     public Zero() throws JsonMappingException, JsonParseException {
         JsonToClassConverter converter = new JsonToClassConverter();
-        this.map = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getMCC_MNC");
+        mccMncMap = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getMCC_MNC");
     }
 
     /**
@@ -83,17 +83,17 @@ public class Zero extends EvalFunc<Tuple> {
             return null;
         }
 
-        String key = extractXcsValue((String) input.get(0));
-        MccMnc carrier = (MccMnc) this.map.get(key);
+        String mcc = extractXcsValue((String) input.get(0));
+        MccMnc carrier = (MccMnc) this.mccMncMap.get(mcc);
         Tuple output = tupleFactory.newTuple(2);
 
         if (carrier != null) {
             output.set(0, carrier.getName());
             output.set(1, carrier.getISO());
         } else {
-            warn("Key was not found in MccMnc Map", PigWarning.UDF_WARNING_1);
-            output.set(0, "no carrier");
-            output.set(1, "no country");
+            warn("Key was not found in MccMnc Map: "+mcc, PigWarning.UDF_WARNING_1);
+            output.set(0, mcc);
+            output.set(1, null);
         }
         return output;
     }
@@ -106,8 +106,7 @@ public class Zero extends EvalFunc<Tuple> {
     public final org.apache.pig.impl.logicalLayer.schema.Schema outputSchema(final org.apache.pig.impl.logicalLayer.schema.Schema input) {
         // Check that we were passed two fields
         if (input.size() != 1) {
-            throw new RuntimeException(
-                    "Expected (chararray), input does not have 1 field");
+            throw new RuntimeException("Expected (chararray), input does not have 1 field");
         }
 
         try {
