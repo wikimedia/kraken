@@ -52,12 +52,35 @@ public class Pageview {
     private String ipAddress;
     private String mimeType;
     private String requestMethod;
+    private String mode;
 
     private PageviewType pageviewType;
     private PageviewFilter pageviewFilter;
     private PageviewCanonical pageviewCanonical;
     private ProjectInfo projectInfo;
     private CidrFilter cidrFilter;
+
+
+    /**
+     *
+     * @param url
+     * @param ipAddress
+     */
+    public Pageview(final String url, final String ipAddress) {
+        try {
+            this.url = new URL(url);
+        } catch (MalformedURLException e) {
+            this.url = null;
+        }
+
+        this.ipAddress = ipAddress;
+        this.mode = "webstatscollector";
+
+        if (pageviewFilter == null || cidrFilter == null) {
+            pageviewFilter = new PageviewFilter();
+            cidrFilter = new CidrFilter();
+        }
+    }
 
     /**
      *
@@ -89,6 +112,7 @@ public class Pageview {
         this.ipAddress = ipAddress;
         this.mimeType = mimeType;
         this.requestMethod = requestMethod;
+        this.mode = 'new_definition';
 
         if (pageviewFilter == null || pageviewCanonical == null || cidrFilter == null) {
             pageviewFilter = new PageviewFilter();
@@ -244,6 +268,20 @@ public class Pageview {
         }
     }
 
+
+    /**
+     * see https://raw.github.com/wikimedia/metrics/master/pageviews/webstatscollector/pageview_definition.png
+     * for definition
+     * For now leave out project stuff
+     */
+    public final boolean isWebstatscollectorPageview() {
+        return (isValidURL()
+                && !cidrFilter.ipAddressFallsInRange(this.ipAddress))
+                && this.url.getHost().endsWith(".org")
+                && this.url.getPath() != null
+                && this.url.getPath().contains("/wiki/");
+    }
+
     /**
      *
      */
@@ -302,6 +340,10 @@ public class Pageview {
         return pageviewCanonical;
     }
 
+    /**
+     *
+     * @return
+     */
     public final ProjectInfo getProjectInfo() {
         if (projectInfo == null && url != null) {
             projectInfo = new ProjectInfo(url.getHost());
