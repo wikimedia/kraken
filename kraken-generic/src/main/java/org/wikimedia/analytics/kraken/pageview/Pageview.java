@@ -112,7 +112,7 @@ public class Pageview {
         this.ipAddress = ipAddress;
         this.mimeType = mimeType;
         this.requestMethod = requestMethod;
-        this.mode = 'new_definition';
+        this.mode = "new_definition";
 
         if (pageviewFilter == null || pageviewCanonical == null || cidrFilter == null) {
             pageviewFilter = new PageviewFilter();
@@ -320,7 +320,7 @@ public class Pageview {
      * @return
      */
     public final PageviewType getPageviewType() {
-        if (pageviewType == null) determinePageviewType();
+        // if (pageviewType == null) determinePageviewType();
         return pageviewType;
     }
 
