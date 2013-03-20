@@ -1,49 +1,51 @@
-REGISTER 'kraken-pig-0.0.1-SNAPSHOT.jar'
-REGISTER 'kraken-generic-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
 REGISTER 'geoip-1.2.9-patch-2-SNAPSHOT.jar'
+REGISTER 'kraken-generic-0.0.2-SNAPSHOT-jar-with-dependencies.jar'
+REGISTER 'kraken-dclass-0.0.2-SNAPSHOT.jar'
+REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
 
--- import LOAD_WEBREQUEST macro to load in webrequest log fields.
-IMPORT 'include/load_webrequest.pig';
-
--- setting this to 10 because we have 10 worker nodes
 SET default_parallel 10;
 
 DEFINE TO_HOUR      org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd_HH');
-DEFINE EXTRACT      org.apache.pig.builtin.REGEX_EXTRACT_ALL();
-DEFINE ZERO         org.wikimedia.analytics.kraken.pig.Zero();
 DEFINE GEO          org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
-DEFINE PAGEVIEW     org.wikimedia.analytics.kraken.pig.PageViewFilterFunc();
+DEFINE ZERO         org.wikimedia.analytics.kraken.pig.Zero();
+DEFINE IS_PAGEVIEW  org.wikimedia.analytics.kraken.pig.PageViewFilterFunc();
+DEFINE PAGEVIEW     org.wikimedia.analytics.kraken.pig.PageViewEvalFunc();
 
--- Set this as a regular expression to filter for desired timestamps.
--- E.g. if you want to only compute stats for a given hour, then
---   -p hour_regex='2013-01-02_15'.
--- This will make your output only contain values for 15:00 on Jan 2.
--- If you want hourly output for an entire day, then:
---   -p hour_regex='2013-01-02_\d\d'
--- should do just fine.
--- The default is to match all hour timestamps.
+-- Set by oozie or CLI flag (e.g., -p hour_regex='2013-01-02_\d\d')
 %default hour_regex '.*';
 
-LOG_FIELDS     = LOAD_WEBREQUEST('$input');
+IMPORT 'include/load_webrequest.pig'; -- See include/load_webrequest.pig
+log_fields = LOAD_WEBREQUEST('$input');
 
--- only keep log lines which have an X-CS header set
-LOG_FIELDS    = FILTER LOG_FIELDS BY (x_cs != '-');
+/*
+    Only keep log lines for which all of the following is true:
+     - X-CS/X-Analytics header is present
+     - timestamp matches $hour_regex
+     - host matches *.wikipedia.org
+     - request is a pageview
+    
+    Note: We push the filter up as far as possible to minimize the data we compute on.
+*/
+log_fields = FILTER log_fields
+    BY (    (x_cs != '-')
+        AND (TO_HOUR(timestamp) MATCHES '$hour_regex')
+        AND (uri MATCHES 'https?://([^/]+?\\.)?wikipedia\\.org/.*')
+        AND IS_PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method)
+    );
 
-LOG_FIELDS    = FILTER LOG_FIELDS BY PAGEVIEW(uri,referer,user_agent,http_status,remote_addr,content_type,request_method);
+log_fields = FOREACH log_fields
+    GENERATE
+        TO_HOUR(timestamp)          AS day_hour:chararray,
+        FLATTEN(PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method))
+                                    AS (language:chararray, project:chararray, site_version:chararray, article_title:chararray),
+        FLATTEN(GEO(remote_addr))   AS (country:chararray),
+        FLATTEN(ZERO(x_cs))         AS (carrier:chararray, carrier_iso:chararray)
+    ;
 
-LOG_FIELDS    = FOREACH LOG_FIELDS GENERATE
- x_cs,
- remote_addr,
- TO_HOUR(timestamp) AS day_hour:chararray,
- FLATTEN(GEO(remote_addr)) AS country,
- FLATTEN(ZERO(x_cs)) AS (carrier:chararray, iso:chararray);
+country_count = FOREACH (GROUP log_fields BY (day_hour, language, project, site_version, country))
+    GENERATE FLATTEN($0), '-', COUNT($1) AS num:int;
+STORE country_count INTO '$output/country' USING PigStorage();
 
--- only compute stats for hours that match $hour_regex;
-LOG_FIELDS    = FILTER LOG_FIELDS BY day_hour MATCHES '$hour_regex';
-
---COUNT = FOREACH (GROUP LOG_FIELDS BY (uri)) GENERATE FLATTEN(group);
-COUNT          = FOREACH (GROUP LOG_FIELDS BY (day_hour, carrier, country)) GENERATE FLATTEN(group), COUNT(LOG_FIELDS.carrier) as num;
-COUNT          = ORDER COUNT BY day_hour, carrier, country;
-
--- save results into $output
-STORE COUNT INTO '$output' USING PigStorage();
+carrier_count = FOREACH (GROUP log_fields BY (day_hour, language, project, site_version, country, carrier))
+    GENERATE FLATTEN($0), COUNT($1) AS num:int;
+STORE carrier_count INTO '$output/carrier' USING PigStorage();

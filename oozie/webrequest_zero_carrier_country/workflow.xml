@@ -1,23 +1,35 @@
-
 <workflow-app name="webrequest_zero_carrier_country_workflow" xmlns="uri:oozie:workflow:0.4">
+    
     <start to="webrequest_zero_carrier_country"/>
+    
     <action name="webrequest_zero_carrier_country">
         <pig>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
             <script>/libs/kraken/pig/webrequest_zero_hour_carrier_country.pig</script>
+            
             <argument>-p</argument>
             <argument>input=${INPUT}</argument>
+            
             <argument>-p</argument>
             <argument>output=${OUTPUT}</argument>
+            
             <argument>-p</argument>
             <argument>hour_regex=${HOUR_REGEX}</argument>
+            
+            <file>/libs/GeoIP.dat</file>
+            <file>/libs/GeoIPCity.dat</file>
+            <file>/libs/GeoIPRegion.dat</file>
+            <file>/libs/GeoIPv6.dat</file>
         </pig>
         <ok to="end"/>
         <error to="kill"/>
     </action>
+    
     <kill name="kill">
         <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
     </kill>
+    
     <end name="end"/>
+    
 </workflow-app>
