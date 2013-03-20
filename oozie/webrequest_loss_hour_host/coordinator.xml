@@ -1,7 +1,7 @@
 
 <coordinator-app name="webrequest_loss_hour_host"
   frequency="${coord:hours(1)}"
-  start="2013-02-01T01:00Z" end="2020-01-01T23:00Z" timezone="Universal"
+  start="2013-03-10T01:00Z" end="2020-01-01T23:00Z" timezone="Universal"
   xmlns="uri:oozie:coordinator:0.1">
   <datasets>
     <dataset name="webrequest-wikipedia-mobile" frequency="${coord:minutes(15)}"
