@@ -270,9 +270,8 @@ public class Pageview {
 
 
     /**
-     * see https://raw.github.com/wikimedia/metrics/master/pageviews/webstatscollector/pageview_definition.png
-     * for definition
-     * For now leave out project stuff
+     * @See https://raw.github.com/wikimedia/metrics/master/pageviews/webstatscollector/pageview_definition.png
+     * XXX: For now leave out project stuff
      */
     public final boolean isWebstatscollectorPageview() {
         return (isValidURL()
@@ -282,9 +281,6 @@ public class Pageview {
                 && this.url.getPath().contains("/wiki/");
     }
 
-    /**
-     *
-     */
     public final boolean isPageview() {
         if (initialPageviewValidation()) {
             determinePageviewType();
@@ -315,35 +311,19 @@ public class Pageview {
         return url != null;
     }
 
-    /**
-     *
-     * @return
-     */
     public final PageviewType getPageviewType() {
         // if (pageviewType == null) determinePageviewType();
         return pageviewType;
     }
 
-    /**
-     *
-     * @return
-     */
     public final PageviewFilter getPageviewFilter() {
         return pageviewFilter;
     }
 
-    /**
-     *
-     * @return
-     */
     public final PageviewCanonical getPageviewCanonical() {
         return pageviewCanonical;
     }
 
-    /**
-     *
-     * @return
-     */
     public final ProjectInfo getProjectInfo() {
         if (projectInfo == null && url != null) {
             projectInfo = new ProjectInfo(url.getHost());
@@ -351,10 +331,6 @@ public class Pageview {
         return projectInfo;
     }
 
-    /**
-     *
-     * @return
-     */
     public final CidrFilter getCidrFilter() {
         return cidrFilter;
     }
