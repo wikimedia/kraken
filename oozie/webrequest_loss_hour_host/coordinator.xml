@@ -1,17 +1,17 @@
 
-<coordinator-app name="webrequest_loss_by_hour"
+<coordinator-app name="webrequest_loss_hour_host"
   frequency="${coord:hours(1)}"
-  start="2013-02-01T01:00Z" end="2020-01-01T23:00Z" timezone="Universal"
+  start="2013-03-10T01:00Z" end="2020-01-01T23:00Z" timezone="Universal"
   xmlns="uri:oozie:coordinator:0.1">
   <datasets>
     <dataset name="webrequest-wikipedia-mobile" frequency="${coord:minutes(15)}"
-             initial-instance="2013-02-01T00:00Z" timezone="Universal">
+             initial-instance="2013-03-10T00:00Z" timezone="Universal">
       <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/raw/webrequest/webrequest-wikipedia-mobile/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
       <done-flag></done-flag>
     </dataset>
     <dataset name="webrequest_loss" frequency="${coord:minutes(15)}"
-             initial-instance="2013-02-01T00:00Z" timezone="Universal">
-      <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest_loss/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+             initial-instance="2013-03-10T00:00Z" timezone="Universal">
+      <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/loss/data/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
       <done-flag></done-flag>
     </dataset>
   </datasets>
@@ -44,11 +44,11 @@
         </property>
         <property>
           <name>CONCAT_INPUT</name>
-          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest_loss</value>
+          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/loss/data</value>
         </property>
         <property>
           <name>DEST</name>
-          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest_loss_by_hour.tsv</value>
+          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/loss/webrequest_loss.tsv</value>
         </property>
       </configuration>
    </workflow>
