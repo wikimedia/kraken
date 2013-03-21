@@ -27,21 +27,21 @@ device_info = FOREACH log_fields
         FLATTEN(GEO(remote_addr))   AS (country:chararray),
         FLATTEN(DCLASS(user_agent)) AS (
             vendor:chararray,
+            model:chararray,
             device_os:chararray,
             device_os_version:chararray,
+            device_class:chararray,
+            browser:chararray,
+            browser_version:chararray,
+            wmf_mobile_app:chararray,
             has_javascript:boolean,
-            is_wireless:boolean,
-            is_tablet:boolean,
-            width:int,
-            height:int,
-            wikimedia_app:chararray,
-            apple_info:chararray )
-    ;
+            display_dimensions:chararray,
+            input_device:chararray
+        );
 
-device_info = FOREACH device_info
-    GENERATE day_hour, country, (is_wireless ? 'handheld' : (is_tablet ? 'tablet' : 'desktop')) as device_class:chararray;
-device_info_count = FOREACH (GROUP device_info BY ALL)
+-- device_os_version, browser_version, display_dimensions
+device_info_count = FOREACH (GROUP device_info BY (day_hour, country, device_class, device_os, browser))
     GENERATE FLATTEN($0), COUNT($1) AS num:int;
-device_info_count = ORDER device_info_count BY day_hour, country;
+-- device_info_count = ORDER device_info_count BY (day_hour, country, device_class);
 
 STORE device_info_count INTO '$output' USING PigStorage();

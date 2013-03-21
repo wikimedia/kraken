@@ -35,22 +35,25 @@ LOG_FIELDS    = FILTER LOG_FIELDS BY NOT PAGEVIEW(uri,referer,user_agent,http_st
 LOG_FIELDS     = FOREACH LOG_FIELDS GENERATE 
                     TO_HOUR(timestamp) AS day_hour,
                     FLATTEN(GEOCODE_COUNTRY(remote_addr)) AS country,
-                    FLATTEN(DCLASS(user_agent)) AS 
-                       (vendor:chararray,
+                    FLATTEN(DCLASS(user_agent)) AS (
+                        vendor:chararray,
+                        model:chararray,
                         device_os:chararray,
                         device_os_version:chararray,
+                        device_class:chararray,
+                        browser:chararray,
+                        browser_version:chararray,
+                        wmf_mobile_app:chararray,
                         has_javascript:boolean,
-                        is_wireless:boolean,
-                        is_tablet:boolean,
-                        width:int,
-                        height:int,
-                        wikimedia_app:chararray,
-                        apple_info:chararray);
+                        display_dimensions:chararray,
+                        input_device:chararray
+                    );
 
 -- only compute stats for hours that match $hour_regex;
-LOG_FIELDS    = FILTER LOG_FIELDS BY day_hour MATCHES '$hour_regex';
+LOG_FIELDS = FILTER LOG_FIELDS BY day_hour MATCHES '$hour_regex';
 
-COUNT          = FOREACH (GROUP LOG_FIELDS BY (day_hour, country, device_os, device_os_version, apple_info, is_tablet, wikimedia_app) PARALLEL 10) GENERATE FLATTEN(group), COUNT(LOG_FIELDS.country) as num;
-COUNT          = ORDER COUNT BY day_hour, country, device_os, device_os_version;
+COUNT      = FOREACH (GROUP LOG_FIELDS BY (day_hour, country, device_os, device_os_version, device_class, wmf_mobile_app) PARALLEL 10)
+             GENERATE FLATTEN(group), COUNT(LOG_FIELDS.country) as num;
+COUNT      = ORDER COUNT BY day_hour, country, device_os, device_os_version;
 
 STORE COUNT into '$output';
