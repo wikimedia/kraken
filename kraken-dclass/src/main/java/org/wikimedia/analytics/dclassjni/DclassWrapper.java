@@ -66,43 +66,19 @@ public class DclassWrapper {
         return pointer_di;
     }
 
-    static String userAgentSample = "Mozilla/5.0 (Linux; U; Android 2.2; en; HTC Aria A6380 Build/ERE27) AppleWebKit/540.13+ (KHTML, like Gecko) Version/3.1 Mobile Safari/524.15.0";
+
     private static final String OS = System.getProperty("os.name").toLowerCase();
 
-    static {
-        try {
-            loadDclassSharedObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     *
-     * @param args
-     */
-    public static void main(final String[] args){
-
-        Result result = new Result();
-        result.classifyUseragent(userAgentSample);
-    }
-
-
-    /**
-     *
-     * @throws IOException
-     */
     public static void loadDclassSharedObject() throws IOException {
         try {
             if (OS.contains("mac")) {
                 System.load("/usr/local/lib/libdclassjni.0.dylib");
-
             } else if (OS.contains("nix")
                     || OS.contains("nux")
                     || OS.contains("aix")) {
                 System.load("/usr/lib/libdclassjni.so");
             } else {
-                System.out.println("OS not supported.");
+                System.err.println("OS not supported.");
                 System.exit(-1);
             }
         } catch (UnsatisfiedLinkError e) {
@@ -111,7 +87,25 @@ public class DclassWrapper {
             System.err.println("/usr/lib/libdclassjni.so is readable: " + f.canRead());
             System.err.println("Native code library failed to load.\n" + e);
             e.printStackTrace();
-            }
         }
     }
+
+    static {
+        try {
+            loadDclassSharedObject();
+        } catch (IOException e) {
+            System.err.println("Error loading dClass Shared Object: "+e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    static String userAgentSample = "Mozilla/5.0 (Linux; U; Android 2.2; en; HTC Aria A6380 Build/ERE27) AppleWebKit/540.13+ (KHTML, like Gecko) Version/3.1 Mobile Safari/524.15.0";
+    public static void main(final String[] args){
+        DeviceClassification deviceClassification = new DeviceClassification();
+        deviceClassification.classifyUseragent(userAgentSample);
+    }
+
+
+}
 

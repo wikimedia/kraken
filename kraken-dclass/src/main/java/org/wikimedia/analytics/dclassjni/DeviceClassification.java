@@ -39,89 +39,88 @@ import java.util.Map;
  * is_desktop: 'false'
  *
  */
+public class DeviceClassification {
 
-public class Result {
+    /**
+     * Only initialize the dClass JNI wrapper on-demand (and only once),
+     * as doing so loads 2+ MB of dtree data into memory from disk.
+     */
+    private static boolean isDClassInitialized = false;
 
-    /** The vendor. */
-    private String vendor;
+    /**
+     * Wrapper subclass to release the dtree data when the singleton is
+     * destroyed, presumably when its classloader is released (which *can*
+     * happen without imminent JVM termination, such as in IOC containers,
+     * like Spring).
+     */
+    final private static DclassWrapper dClass = new DclassWrapper() {
+        @Override
+        protected void finalize() {
+            if (isDClassInitialized) destroyUA();
+        }
+    };
 
-    /** The model. */
-    private String model;
+    /**
+     * Initializing the dClass JNI wrapper loads the dtree data (~2MB) into memory.
+     * By using a static wrapper we avoid reloading the db, but we must synchronize
+     * access to settle a race during classification.
+     */
+    synchronized private static Map classifyUA(String ua) {
+        if (!isDClassInitialized) {
+            dClass.initUA();
+            isDClassInitialized = true;
+        }
+        return dClass.classifyUA(ua);
+    }
 
-    /** The parent id. */
+
+
     private String parentId;
-
-    /** The input devices. */
-    private String inputDevices;
-
-    /** The display height. */
-    private Integer displayHeight;
-
-    /** The display width. */
-    private Integer displayWidth;
-
-    /** The device_os. */
+    private String vendor;
+    private String model;
     private String deviceOs;
-
-    /** The ajax_support_javascript. */
+    private String deviceOsVersion;
+    private int displayHeight;
+    private int displayWidth;
+    private String inputDevices;
+    private String browser;
+    private String browserVersion;
+    private boolean isTablet;
+    private boolean isWirelessDevice;
+    private boolean isCrawler;
+    private boolean isDesktop;
     private boolean ajaxSupportJavascript;
 
-    /** The is_tablet. */
-    private boolean isTablet;
 
-    /** The is_wireless_device. */
-    private boolean isWirelessDevice;
+    public DeviceClassification() {}
 
-    /** The is_crawler. */
-    private boolean isCrawler;
-
-    /** The is_desktop. */
-    private boolean isDesktop;
-
-
-    //UserAgentClassifier.destroyUA();
-
-    DclassWrapper dw = new DclassWrapper();
-
-    /**
-     * Initiates UA JNI internal data
-     */
-    public Result() {
-        dw.initUA();
+    public DeviceClassification(String userAgent) {
+        classifyUseragent(userAgent);
     }
 
     /**
      *
      * @param userAgent
      */
-    public final void classifyUseragent(final String userAgent) {
-        Map result  = dw.classifyUA(userAgent);
-        this.setVendor(result.get("vendor"));
-        this.setModel(result.get("model"));
-        this.setParentId(result.get("parentId"));
-        this.setInputDevices(result.get("inputDevices"));
-        this.setDeviceOs(result.get("device_os"));
-        this.setDisplayHeight(result.get("displayHeight"));
-        this.setDisplayWidth(result.get("displayWidth"));
-        this.setAjaxSupportJavascript(result.get("ajax_support_javascript"));
-        this.setIsTablet(result.get("is_tablet"));
-        this.setIsCrawler(result.get("is_crawler"));
-        this.setIsDesktop(result.get("is_desktop"));
+    public final DeviceClassification classifyUseragent(final String userAgent) {
+        final Map result  = classifyUA(userAgent);
+        setVendor(result.get("vendor"));
+        setModel(result.get("model"));
+        setParentId(result.get("parentId"));
+        setInputDevices(result.get("inputDevices"));
+        setDeviceOs(result.get("device_os"));
+        setDeviceOsVersion(result.get("device_os_version"));
+        setDisplayHeight(result.get("displayHeight"));
+        setDisplayWidth(result.get("displayWidth"));
+        setAjaxSupportJavascript(result.get("ajax_support_javascript"));
+        setIsTablet(result.get("is_tablet"));
+        setIsCrawler(result.get("is_crawler"));
+        setIsDesktop(result.get("is_desktop"));
+        setBrowser(result.get("browser"));
+        setBrowserVersion(result.get("browser_version"));
+        return this;
     }
 
-
-    /**
-     *
-     * @param userAgent
-     */
-    private void debugOutputdClass(final String userAgent) {
-        Map result  = dw.classifyUA(userAgent);
-        Iterator it = result.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<String, String> entry = (Map.Entry) it.next();
-            System.out.println(entry.getKey() + " : " + entry.getValue());
-        }
-    }
 
     /**
      * Gets the vendor.
@@ -250,6 +249,24 @@ public class Result {
     }
 
     /**
+     * Gets the device_os_version.
+     *
+     * @return the device_os_version
+     */
+    public final String getDeviceOsVersion() {
+        return deviceOsVersion;
+    }
+
+    /**
+     * Sets the device_os_version.
+     *
+     * @param deviceOsVersion the new device_os_version
+     */
+    private void setDeviceOsVersion(final Object deviceOsVersion) {
+        this.deviceOsVersion = (String) deviceOsVersion;
+    }
+
+    /**
      * Gets the ajax_support_javascript.
      *
      * @return the ajaxSupportJavascript
@@ -339,22 +356,55 @@ public class Result {
         this.isDesktop = Boolean.valueOf((String) isDesktop);
     }
 
+    public String getBrowser() {
+        return browser;
+    }
+
+    private void setBrowser(final Object browser) {
+        this.browser = (String) browser;
+    }
+
+    public String getBrowserVersion() {
+        return browserVersion;
+    }
+
+    private void setBrowserVersion(final Object browserVersion) {
+        this.browserVersion = (String) browserVersion;
+    }
+
+
+
+    /* * * * Debugging Utilities * * * */
+
+
     /**
      * Prints the properties of to stdout.
      */
-    public final void print() {
+    final void print() {
         System.out.println("vendor                  = " + getVendor());
         System.out.println("model                   = " + getModel());
         System.out.println("parentId                = " + getParentId());
         System.out.println("inputDevices            = " + getInputDevices());
         System.out.println("device_os               = " + getDeviceOs());
+        System.out.println("device_os_version       = " + getDeviceOsVersion());
         System.out.println("displayHeight           = " + getDisplayHeight());
         System.out.println("displayWidth            = " + getDisplayWidth());
-        System.out.println("ajax_support_javascript = "
-                + ajaxSupportJavascript);
+        System.out.println("ajax_support_javascript = " + ajaxSupportJavascript);
         System.out.println("is_tablet               = " + getIsTablet());
         System.out.println("is_wireless_device      = " + getIsWirelessDevice());
         System.out.println("is_crawler              = " + getIsCrawler());
         System.out.println("is_desktop              = " + getIsDesktop());
+        System.out.println("browser                 = " + getBrowser());
+        System.out.println("browser_version         = " + getBrowserVersion());
     }
+
+    private static void debugOutputdClass(final String userAgent) {
+        final Map result = classifyUA(userAgent);
+        final Iterator it = result.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> entry = (Map.Entry) it.next();
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
+    }
+
 }
