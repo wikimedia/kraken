@@ -23,12 +23,11 @@
             <file>/libs/GeoIPv6.dat</file>
         </pig>
         
-        <ok to="end"/>
-        <!-- <ok to="concat"/> -->
+        <ok to="concat"/>
         <error to="kill"/>
     </action>
     
-    <!-- <action name="concat">
+    <action name="concat">
         <pig>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
@@ -42,7 +41,7 @@
         </pig>
         <ok to="end"/>
         <error to="kill"/>
-    </action> -->
+    </action>
     
     <kill name="kill">
         <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>

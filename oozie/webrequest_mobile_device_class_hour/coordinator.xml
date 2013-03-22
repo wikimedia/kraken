@@ -53,11 +53,11 @@
                 <property><name>HOUR_REGEX</name><value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM-dd_HH')}</value></property>
                 
                 <property><name>CONCAT_INPUT</name><value>${coord:dataOut('OUTPUT')}</value></property>
-                <!-- <property><name>DEST</name><value>${coord.dataOut('TSV')}</value></property> -->
                 <property>
                     <name>DEST</name>
                     <value>hdfs:///wmf/public/webrequest/mobile/device_class/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM/dd')}/webrequest_mobile_device_class-${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM-dd_HH.mm')}.00.tsv</value>
                 </property>
+                <!-- <property><name>DEST</name><value>${coord.dataOut('TSV')}</value></property> -->
             </configuration>
      </workflow>
     </action>
