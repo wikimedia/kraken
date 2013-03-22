@@ -39,8 +39,8 @@ device_info = FOREACH log_fields
             input_device:chararray
         );
 
--- device_os_version, browser_version, display_dimensions
-device_info_count = FOREACH (GROUP device_info BY (day_hour, country, device_class, device_os, browser))
+-- browser, device_os_version, browser_version, display_dimensions
+device_info_count = FOREACH (GROUP device_info BY (day_hour, country, device_class, device_os))
     GENERATE FLATTEN($0), COUNT($1) AS num:int;
 -- device_info_count = ORDER device_info_count BY (day_hour, country, device_class);
 
