@@ -113,6 +113,7 @@ public class DeviceClassification {
         setDisplayHeight(result.get("displayHeight"));
         setDisplayWidth(result.get("displayWidth"));
         setAjaxSupportJavascript(result.get("ajax_support_javascript"));
+        setIsWirelessDevice(result.get("is_wireless_device"));
         setIsTablet(result.get("is_tablet"));
         setIsCrawler(result.get("is_crawler"));
         setIsDesktop(result.get("is_desktop"));
