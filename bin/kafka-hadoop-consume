@@ -18,6 +18,7 @@ Options:
   --limit=<limit>           Number of messages to consume [default: -1] (-1 means no limit; messages will be read until the end of the stream.)
   --redirect-stderr         Redirects stderr into stdout.  This is useful if running in a cron job wrapped in cronic.
   --frequency=<frequency>   The interval in minutes between two consecutive generated Kafka datasets. [default: 15] and this parameter is supplied to standardize the timestamp within a filename. Set frequency to 0 to generate daily filenames without a time component.
+  --queue=<queue_name>      Hadoop queue name (mapreduce.job.queuename). Default: 'standard'.
 """
 
 import os
@@ -81,12 +82,12 @@ def standardized_timestamp(frequency, dt=None):
 
     return timestamp.strftime('%Y-%m-%d_%H.%M.%S')
 
-def consume_topic(zookeeper_hosts, topic, group, output_dir, limit, frequency, redirect_stderr=False):
+def consume_topic(zookeeper_hosts, topic, group, output_dir, limit, frequency, queue_name, redirect_stderr=False):
     print "Consuming %s messages from topic '%s' in consumer group %s into %s..." % (limit, topic, group, output_dir)
     timestamp = standardized_timestamp(frequency)
     output_path = "%s/%s/%s" % (output_dir, topic, timestamp)
     os.system("/usr/bin/hadoop fs -mkdir %s" % output_path)
-    command = "/usr/bin/kafka-hadoop-consumer -z %s -t %s -g %s -l %s -o %s" % (','.join(zookeeper_hosts), topic, group, limit, output_path)
+    command = "/usr/bin/kafka-hadoop-consumer -z %s -t %s -g %s -l %s -q %s -o %s" % (','.join(zookeeper_hosts), topic, group, limit, queue_name, output_path)
     # if specified, redirect the command's stderr
     # to stdout
     if redirect_stderr:
@@ -106,6 +107,8 @@ if __name__ == '__main__':
     topic           = arguments['--topic']
     redirect_stderr = arguments['--redirect-stderr']
     frequency       = arguments['--frequency']
+    queue_name      = arguments['--queue']
+    
 
     # read zookeeper hosts out of zoo.cfg
     zookeeper_conf_file = "/etc/zookeeper/conf/zoo.cfg"
@@ -120,7 +123,7 @@ if __name__ == '__main__':
 
     exitval = 0
     for topic in topics:
-        retval = consume_topic(zookeeper_hosts, topic, group, output, limit, frequency, redirect_stderr)
+        retval = consume_topic(zookeeper_hosts, topic, group, output, limit, frequency, queue_name, redirect_stderr)
         if (retval != 0):
             print "\nThere was an error encountered during consumption of topic %s" % topic
             exitval = retval

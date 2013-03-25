@@ -11,6 +11,7 @@ Available tunnel services:
   history
   hue
   oozie
+  logs
 
 Options:
   -h --help             show this help message and exit
@@ -43,6 +44,8 @@ services = {
     'history':  {'host': 'analytics1010.eqiad.wmnet', 'port': 19888},
     'hue':      {'host': 'analytics1027.eqiad.wmnet', 'port': 8888 },
     'oozie':    {'host': 'analytics1027.eqiad.wmnet', 'port': 11000},
+    'logs':     {'host': 'analytics1020.eqiad.wmnet', 'port': 8042},
+    'j':        {'host': 'analytics1010.eqiad.wmnet', 'port': 50030},
 }
 
 def tunnel(ssh_host, bind_port, dest_host, dest_port, background=False, verbose=True):
