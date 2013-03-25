@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<!-- NOTE:  This file is managed by Puppet. -->
+
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+
+  <property>
+    <name>yarn.resourcemanager.scheduler.address</name>
+    <value>analytics1010.eqiad.wmnet:8030</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.resource-tracker.address</name>
+    <value>analytics1010.eqiad.wmnet:8031</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.address</name>
+    <value>analytics1010.eqiad.wmnet:8032</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.admin.address</name>
+    <value>analytics1010.eqiad.wmnet:8033</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.webapp.address</name>
+    <value>0.0.0.0:8088</value>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.scheduler.class</name>
+    <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
+  </property>
+
+  <property>
+    <name>yarn.nodemanager.localizer.address</name>
+    <value>0.0.0.0:8040</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.address</name>
+    <value>0.0.0.0:8041</value>
+  </property>
+  <property>
+    <name>yarn.nodemanager.webapp.address</name>
+    <value>0.0.0.0:8042</value>
+  </property>
+
+  <property>
+    <name>yarn.nodemanager.aux-services</name>
+    <value>mapreduce.shuffle</value>
+  </property>
+
+  <property>
+    <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+    <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+  </property>
+
+  <property>
+    <name>yarn.nodemanager.resource.memory-mb</name>
+    <value>16384</value>
+  </property>
+
+  <property>
+    <name>yarn.log-aggregation-enable</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <description>List of directories to store localized files in.</description>
+    <name>yarn.nodemanager.local-dirs</name>
+    <value>/var/lib/hadoop/data/c/yarn/local,/var/lib/hadoop/data/d/yarn/local,/var/lib/hadoop/data/e/yarn/local,/var/lib/hadoop/data/f/yarn/local,/var/lib/hadoop/data/g/yarn/local,/var/lib/hadoop/data/h/yarn/local,/var/lib/hadoop/data/i/yarn/local,/var/lib/hadoop/data/j/yarn/local,/var/lib/hadoop/data/k/yarn/local,/var/lib/hadoop/data/l/yarn/local</value>
+  </property>
+
+  <property>
+    <description>Where to store container logs.</description>
+    <name>yarn.nodemanager.log-dirs</name>
+    <value>/var/lib/hadoop/data/c/yarn/logs,/var/lib/hadoop/data/d/yarn/logs,/var/lib/hadoop/data/e/yarn/logs,/var/lib/hadoop/data/f/yarn/logs,/var/lib/hadoop/data/g/yarn/logs,/var/lib/hadoop/data/h/yarn/logs,/var/lib/hadoop/data/i/yarn/logs,/var/lib/hadoop/data/j/yarn/logs,/var/lib/hadoop/data/k/yarn/logs,/var/lib/hadoop/data/l/yarn/logs</value>
+  </property>
+
+  <property>
+    <description>Where to aggregate logs to.</description>
+    <name>yarn.nodemanager.remote-app-log-dir</name>
+    <value>/var/log/hadoop-yarn/apps</value>
+  </property>
+  
+  <property>
+      <name>yarn.app.mapreduce.am.staging-dir</name>
+      <value>/user</value>
+  </property>
+
+
+  <!-- MapReduce intermediate compression -->
+  <property>
+    <name>mapreduce.map.output.compress</name> 
+    <value>true</value>
+  </property>
+  <property>
+    <name>mapred.map.output.compress.codec</name> 
+    <value>org.apache.hadoop.io.compress.SnappyCodec</value>
+  </property>
+  
+  <property>
+    <name>yarn.resourcemanager.nodes.exclude-path</name>
+    <value>/etc/hadoop/conf/hosts.exclude</value>
+    <description>
+      A file that contains a list of NodeManagers to exclude.
+      This is useful for decommissioning nodes.
+    </description>
+  </property>
+
+  <!-- MapReduce final output compression -->
+  <property>
+    <name>mapreduce.output.fileoutputformat.compress</name> 
+    <value>false</value>
+  </property>
+  <property>
+    <name>mapred.output.fileoutputformat.compress.codec</name> 
+    <value>org.apache.hadoop.io.compress.SnappyCodec</value>
+  </property>
+  <property>
+    <name>mapreduce.output.fileoutputformat.compress.type</name> 
+    <value>BLOCK</value>
+  </property>  
+
+  <property>
+    <description>Classpath for typical applications.</description>
+     <name>yarn.application.classpath</name>
+     <value>
+        $HADOOP_CONF_DIR,
+        $HADOOP_COMMON_HOME/*,$HADOOP_COMMON_HOME/lib/*,
+        $HADOOP_HDFS_HOME/*,$HADOOP_HDFS_HOME/lib/*,
+        $HADOOP_MAPRED_HOME/*,$HADOOP_MAPRED_HOME/lib/*,
+        $YARN_HOME/*,$YARN_HOME/lib/*
+     </value>
+  </property>
+</configuration>

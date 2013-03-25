@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!-- NOTE:  This file is managed by Puppet. -->
+
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+
+  <property>
+    <name>fs.defaultFS</name>
+    <value>hdfs://analytics1010.eqiad.wmnet/</value>
+  </property>
+  
+  <property>
+    <name>io.file.buffer.size</name>
+    <value>131072</value>
+  </property>
+
+  <!-- Hue WebHDFS proxy user -->
+  <property>
+    <name>hadoop.proxyuser.hue.hosts</name>
+    <value>*</value>
+  </property>
+  <property>
+    <name>hadoop.proxyuser.hue.groups</name>
+    <value>*</value>
+  </property>
+
+  <!-- Oozie WebHDFS proxy user -->
+  <property>
+    <name>hadoop.proxyuser.oozie.hosts</name>
+    <value>*</value>
+  </property>
+  <property>
+    <name>hadoop.proxyuser.oozie.groups</name>
+    <value>*</value>
+  </property>
+
+  <property>
+    <name>hadoop.security.group.mapping.ldap.url</name>
+    <value>ldaps://virt0.wikimedia.org</value>
+    <description>
+      The URL of the LDAP server to use for resolving user groups when using
+      the LdapGroupsMapping user to group mapping.
+    </description>
+  </property>
+
+  <property>
+    <name>hadoop.security.group.mapping.ldap.bind.user</name>
+    <value>cn=proxyagent,ou=profile,dc=wikimedia,dc=org</value>
+    <description>
+      The distinguished name of the user to bind as when connecting to the LDAP
+      server. This may be left blank if the LDAP server supports anonymous binds.
+    </description>
+  </property>
+
+  <property>
+    <name>hadoop.security.group.mapping.ldap.bind.password.file</name>
+    <value>/tmp/ldap.pw</value>
+    <description>
+      The path to a file containing the password of the bind user.
+
+      IMPORTANT: This file should be readable only by the Unix user running
+      the daemons.
+    </description>
+  </property>
+
+  <property>
+    <name>hadoop.security.group.mapping.ldap.base</name>
+    <value>dc=wikimedia,dc=org</value>
+    <description>
+      The search base for the LDAP connection. This is a distinguished name,
+      and will typically be the root of the LDAP directory.
+    </description>
+  </property>
+
+  <property>
+    <name>hadoop.security.group.mapping.ldap.search.filter.user</name>
+    <value>uid={0},ou=people,dc=wikimedia,dc=org</value>
+    <description>
+      An additional filter to use when searching for LDAP users. The default will
+      usually be appropriate for Active Directory installations. If connecting to
+      an LDAP server with a non-AD schema, this should be replaced with
+      (&amp;(objectClass=inetOrgPerson)(uid={0}). {0} is a special string used to
+      denote where the username fits into the filter.
+    </description>
+  </property>
+
+  <property>
+    <name>hadoop.security.group.mapping.ldap.search.filter.group</name>
+    <value>(objectClass=groupofnames)</value>
+    <description>
+      An additional filter to use when searching for LDAP groups. This should be
+      changed when resolving groups against a non-Active Directory installation.
+      posixGroups are currently not a supported group class.
+    </description>
+  </property>
+
+</configuration>

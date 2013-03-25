@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!-- NOTE:  This file is managed by Puppet. -->
+
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+  <property>
+    <name>dfs.namenode.http-address</name>
+    <value>127.0.0.1:50070</value>
+  </property>
+
+  <property>
+   <name>dfs.permissions.superusergroup</name>
+   <value>hadoop</value>
+  </property>
+
+  <property>
+   <name>dfs.namenode.name.dir</name>
+   <value>/var/lib/hadoop/name</value>
+  </property>
+
+  <property>
+   <name>dfs.datanode.data.dir</name>
+   <value>/var/lib/hadoop/data/c/hdfs/dn,/var/lib/hadoop/data/d/hdfs/dn,/var/lib/hadoop/data/e/hdfs/dn,/var/lib/hadoop/data/f/hdfs/dn,/var/lib/hadoop/data/g/hdfs/dn,/var/lib/hadoop/data/h/hdfs/dn,/var/lib/hadoop/data/i/hdfs/dn,/var/lib/hadoop/data/j/hdfs/dn,/var/lib/hadoop/data/k/hdfs/dn,/var/lib/hadoop/data/l/hdfs/dn</value>
+  </property>
+
+  <property>
+   <name>dfs.block.size</name>
+   <value>268435456</value>
+  </property>
+
+  <property>
+    <name>dfs.webhdfs.enabled</name>
+    <value>true</value>
+  </property>
+  
+  <property>
+    <name>dfs.hosts.exclude</name>
+    <value>/etc/hadoop/conf/hosts.exclude</value>
+    <description>
+      A file that contains a list of DataNodes to exclude.
+      This is useful for decommissioning nodes.
+    </description>
+  </property>
+</configuration>
