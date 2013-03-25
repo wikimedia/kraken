@@ -18,7 +18,7 @@ Options:
   --limit=<limit>           Number of messages to consume [default: -1] (-1 means no limit; messages will be read until the end of the stream.)
   --redirect-stderr         Redirects stderr into stdout.  This is useful if running in a cron job wrapped in cronic.
   --frequency=<frequency>   The interval in minutes between two consecutive generated Kafka datasets. [default: 15] and this parameter is supplied to standardize the timestamp within a filename. Set frequency to 0 to generate daily filenames without a time component.
-  --queue=<queue_name>      Hadoop queue name (mapreduce.job.queuename). Default: 'standard'.
+  --queue=<queue_name>      Hadoop queue name (mapreduce.job.queuename). [default: standard]
 """
 
 import os
@@ -99,7 +99,7 @@ def consume_topic(zookeeper_hosts, topic, group, output_dir, limit, frequency, q
 if __name__ == '__main__':
     # parse arguments
     arguments = docopt(__doc__)
-    # print arguments
+    print arguments
     group           = arguments['--group']
     limit           = arguments['--limit']
     output          = arguments['--output']
