@@ -43,7 +43,7 @@ public class UserAgent {
     private static final Pattern WMF_APP_RIM_UA_PAT     = Pattern.compile("Mozilla/5.0 \\(PlayBook; U; RIM Tablet OS.*\\).*");
     private static final Pattern WMF_APP_WINDOWS_UA_PAT = Pattern.compile(Pattern.quote("Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MSAppHost/1.0)")); //VERIFIED
     // TODO update iOS matching after WikipediaMobile is prepended to it once again
-    private static final Pattern WMF_APP_IOS            = Pattern.compile("Mozilla/5.0(?!Safari).*iPhone(?!Safari).*");
+    private static final Pattern WMF_APP_IOS            = Pattern.compile("Mozilla/5.0(?!.*\\bSafari\\b).*iPhone(?!.*\\bSafari\\b).*");
 
     private static final Map<String, Pattern> WMF_APP_PATTERNS = new HashMap<String, Pattern>();
     static {
