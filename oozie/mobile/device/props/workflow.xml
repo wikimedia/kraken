@@ -26,13 +26,15 @@
             <file>/libs/GeoIPRegion.dat</file>
             <file>/libs/GeoIPv6.dat</file>
         </pig>
-        <ok to="daily_concat"/>
+        <ok to="end"/>
+        <!-- <ok to="daily_concat"/> -->
         <error to="kill"/>
     </action>
     
     <!-- TODO: fork/join to run rollups in parallel -->
     
-    <action name="daily_concat">
+    <!-- TODO: This breaks everything! -->
+    <!-- <action name="daily_concat">
         <pig>
             <script>/libs/kraken/pig/concat_sort.pig</script>
             <argument>-p</argument><argument>input=${DAILY_CONCAT_INPUT}</argument>
@@ -50,7 +52,7 @@
         </pig>
         <ok to="end"/>
         <error to="kill"/>
-    </action>
+    </action> -->
     
     <kill name="kill">
         <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>

@@ -62,24 +62,24 @@
                 </property>
                 
                 <!-- daily rollup -->
-                <property>
+                <!-- <property>
                     <name>DAILY_CONCAT_INPUT</name>
                     <value>hdfs:///wmf/data/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM/dd')}/*</value>
                 </property>
                 <property>
                     <name>DAILY_CONCAT_DEST</name>
                     <value>hdfs:///wmf/public/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM/dd')}/mobile_device_props-${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM-dd')}.tsv</value>
-                </property>
+                </property> -->
                 
                 <!-- monthly rollup -->
-                <property>
+                <!-- <property>
                     <name>MONTHLY_CONCAT_INPUT</name>
                     <value>hdfs:///wmf/data/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM')}/*</value>
                 </property>
                 <property>
                     <name>MONTHLY_CONCAT_DEST</name>
                     <value>hdfs:///wmf/public/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM')}/mobile_device_props-${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM')}.tsv</value>
-                </property>
+                </property> -->
             </configuration>
         </workflow>
     </action>
