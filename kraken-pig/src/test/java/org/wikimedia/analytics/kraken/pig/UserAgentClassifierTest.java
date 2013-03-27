@@ -73,14 +73,23 @@ public class UserAgentClassifierTest {
         assertEquals("Windows 8", output.get(7));
 //        assertNull(output.get(2));
     }
-    
+
     @Test
     public void testIOSWikimediaApp() throws IOException, ParseException{
         UserAgentClassifier ua = new UserAgentClassifier();
         Tuple input =  tupleFactory.newTuple(1);
+
         input.set(0, "Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B142");
         Tuple output = ua.exec(input);
         assertEquals("iOS", output.get(7));
+
+        input.set(0, "Mozilla/5.0 (iPhone; CPU Safari iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B142");
+        output = ua.exec(input);
+        assertEquals(null, output.get(7));
+
+        input.set(0, "Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) Safari AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B142");
+        output = ua.exec(input);
+        assertEquals(null, output.get(7));
     }
 
     @Test
