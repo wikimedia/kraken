@@ -28,7 +28,7 @@ log_fields = LOAD_WEBREQUEST('$input');
 log_fields = FILTER log_fields
     BY (    (x_cs IS NOT NULL) AND (x_cs != '') AND (x_cs != '-')
         AND (x_cs MATCHES '\\d\\d\\d-\\d.*')
-        AND (DATE_BUCKET(timestamp) MATCHES '$date_bucket_format')
+        AND (DATE_BUCKET(timestamp) MATCHES '$date_bucket_regex')
         AND (uri MATCHES 'https?://([^/]+?\\.)?wikipedia\\.org/.*')
         AND IS_PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method)
     );

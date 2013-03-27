@@ -16,7 +16,7 @@ IMPORT 'include/load_webrequest.pig'; -- See include/load_webrequest.pig
 log_fields = LOAD_WEBREQUEST('$input');
 
 log_fields = FILTER log_fields
-    BY (    (DATE_BUCKET(timestamp) MATCHES '$date_bucket_format')
+    BY (    (DATE_BUCKET(timestamp) MATCHES '$date_bucket_regex')
         AND IS_PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method)
     );
 
