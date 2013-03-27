@@ -1,19 +1,19 @@
 <coordinator-app name="mobile_device_props_hour" xmlns="uri:oozie:coordinator:0.1"
     frequency="${coord:hours(1)}"
-    start="2013-01-01T01:00Z" end="2020-01-01T23:00Z"
+    start="2013-03-01T00:00Z" end="2020-01-01T23:00Z"
     timezone="Universal">
     
     <datasets>
         <dataset name="webrequest-wikipedia-mobile"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-01-01T01:00Z"
+                initial-instance="2013-03-01T00:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
         </dataset>
         <dataset name="mobile_device_props"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-01-01T01:00Z"
+                initial-instance="2013-03-01T00:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/data/webrequest/mobile/device/props/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
