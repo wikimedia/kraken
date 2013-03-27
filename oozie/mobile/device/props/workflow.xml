@@ -1,8 +1,15 @@
-<workflow-app name="mobile_device_props_wf" xmlns="uri:oozie:workflow:0.4">
+<workflow-app xmlns="uri:oozie:workflow:0.4" name="mobile_device_props_wf">
     <global>
-        <name-node>${nameNode}</name-node>
-        <job-tracker>${jobTracker}</job-tracker>
+       <job-tracker>${jobTracker}</job-tracker>
+       <name-node>${nameNode}</name-node>
+       <configuration>
+            <property>
+                <name>mapreduce.job.queuename</name>
+                <value>${queueName}</value>
+            </property>
+        </configuration>
     </global>
+    
     <start to="mobile_device_props"/>
     
     <action name="mobile_device_props">

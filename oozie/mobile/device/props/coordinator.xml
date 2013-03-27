@@ -35,10 +35,10 @@
     
     <action>
         <workflow>
-            <app-path>hdfs:///libs/kraken/oozie/mobile/device/props</app-path>
+            <app-path>hdfs:///libs/kraken/oozie/mobile/device/props/workflow.xml</app-path>
             <configuration>
                 <property>
-                    <name>mapreduce.job.queuename</name>
+                    <name>queueName</name>
                     <value>standard</value>
                 </property>
                 
