@@ -1,0 +1,86 @@
+<coordinator-app xmlns="uri:oozie:coordinator:0.1" name="mobile_device_props_hour"
+    frequency="${coord:hours(1)}"
+    start="2013-03-01T01:00Z" end="2020-01-01T23:00Z"
+    timezone="Universal">
+    
+    <datasets>
+        <dataset name="webrequest-wikipedia-mobile"
+                frequency="${coord:minutes(15)}"
+                initial-instance="2013-03-01T00:00Z"
+                timezone="Universal">
+            <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+            <done-flag></done-flag>
+        </dataset>
+        <dataset name="mobile_device_props"
+                frequency="${coord:minutes(15)}"
+                initial-instance="2013-03-01T00:00Z"
+                timezone="Universal">
+            <uri-template>hdfs:///wmf/data/webrequest/mobile/device/props/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
+            <done-flag></done-flag>
+        </dataset>
+    </datasets>
+    
+    <input-events>
+        <data-in name="INPUT" dataset="webrequest-wikipedia-mobile">
+            <start-instance>${coord:current(-5)}</start-instance>
+            <end-instance>${coord:current(0)}</end-instance>
+        </data-in>
+    </input-events>
+    
+    <output-events>
+        <data-out name="OUTPUT" dataset="mobile_device_props">
+            <instance>${coord:current(-4)}</instance>
+        </data-out>
+    </output-events>
+    
+    <action>
+        <workflow>
+            <app-path>hdfs:///libs/kraken/oozie/mobile/device/props/workflow.xml</app-path>
+            <configuration>
+                <property>
+                    <name>queueName</name>
+                    <value>standard</value>
+                </property>
+                
+                
+                <!-- hourly processing -->
+                <property>
+                    <name>INPUT</name>
+                    <value>${coord:dataIn('INPUT')}</value>
+                </property>
+                <property>
+                    <name>OUTPUT</name>
+                    <value>${coord:dataOut('OUTPUT')}</value>
+                </property>
+                <property>
+                    <name>DATE_BUCKET_FORMAT</name>
+                    <value>yyyy-MM-dd_HH</value>
+                </property>
+                <property>
+                    <name>DATE_BUCKET_REGEX</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM-dd_HH')}</value>
+                </property>
+                
+                <!-- daily rollup -->
+                <!-- <property>
+                    <name>DAILY_CONCAT_INPUT</name>
+                    <value>hdfs:///wmf/data/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM/dd')}/*</value>
+                </property>
+                <property>
+                    <name>DAILY_CONCAT_DEST</name>
+                    <value>hdfs:///wmf/public/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM/dd')}/mobile_device_props-${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM-dd')}.tsv</value>
+                </property> -->
+                
+                <!-- monthly rollup -->
+                <!-- <property>
+                    <name>MONTHLY_CONCAT_INPUT</name>
+                    <value>hdfs:///wmf/data/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM')}/*</value>
+                </property>
+                <property>
+                    <name>MONTHLY_CONCAT_DEST</name>
+                    <value>hdfs:///wmf/public/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM')}/mobile_device_props-${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM')}.tsv</value>
+                </property> -->
+            </configuration>
+        </workflow>
+    </action>
+</coordinator-app>

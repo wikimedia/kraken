@@ -86,7 +86,7 @@ if __name__ == '__main__':
         
     
     if (arguments['<service>'] not in (services.keys() + ["all", "workers", "master"])):
-        print "Error.  service must be one of " + ', '.join(services.keys() + ["all", "worker", "master"])
+        print "Error.  service must be one of " + ', '.join(services.keys() + ["all", "workers", "master"])
         exit(1)
         
 

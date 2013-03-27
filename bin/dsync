@@ -107,7 +107,7 @@ fi
 # Look up `dsh` groups
 if [ "$GRPS" ]; then
     for G in $GRPS; do
-        MACHINES="$MACHINES $(cat ~/.dsh/group/$G)"
+        MACHINES="$MACHINES $(cat ~/.dsh/group/$G | grep -vE '^\s*#')"
     done
 fi
 
