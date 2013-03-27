@@ -1,0 +1,52 @@
+<workflow-app name="mobile_device_props_wf" xmlns="uri:oozie:workflow:0.4">
+    <global>
+        <name-node>${nameNode}</name-node>
+        <job-tracker>${jobTracker}</job-tracker>
+    </global>
+    <start to="mobile_device_props"/>
+    
+    <action name="mobile_device_props">
+        <pig>
+            <script>/libs/kraken/pig/mobile_device_props.pig</script>
+            
+            <argument>-p</argument><argument>input=${INPUT}</argument>
+            <argument>-p</argument><argument>output=${OUTPUT}</argument>
+            <argument>-p</argument><argument>date_bucket_format=${DATE_BUCKET_FORMAT}</argument>
+            <argument>-p</argument><argument>date_bucket_regex=${DATE_BUCKET_REGEX}</argument>
+            
+            <file>/libs/GeoIP.dat</file>
+            <file>/libs/GeoIPCity.dat</file>
+            <file>/libs/GeoIPRegion.dat</file>
+            <file>/libs/GeoIPv6.dat</file>
+        </pig>
+        <ok to="daily_concat"/>
+        <error to="kill"/>
+    </action>
+    
+    <!-- TODO: fork/join to run rollups in parallel -->
+    
+    <action name="daily_concat">
+        <pig>
+            <script>/libs/kraken/pig/concat_sort.pig</script>
+            <argument>-p</argument><argument>input=${DAILY_CONCAT_INPUT}</argument>
+            <argument>-p</argument><argument>dest=${DAILY_CONCAT_DEST}</argument>
+        </pig>
+        <ok to="monthly_concat"/>
+        <error to="kill"/>
+    </action>
+    
+    <action name="monthly_concat">
+        <pig>
+            <script>/libs/kraken/pig/concat_sort.pig</script>
+            <argument>-p</argument><argument>input=${MONTHLY_CONCAT_INPUT}</argument>
+            <argument>-p</argument><argument>dest=${MONTHLY_CONCAT_DEST}</argument>
+        </pig>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

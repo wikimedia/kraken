@@ -7,9 +7,6 @@ REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
 %default date_bucket_format 'yyyy-MM-dd_HH';    -- Format applied to timestamps for aggregation into buckets. Default: hourly.
 %default date_bucket_regex '.*';                -- Regex used to filter the formatted date_buckets; must match whole line. Default: no filtering.
 
--- %default default_parallel 10;
--- SET default_parallel $default_parallel;
-
 DEFINE DATE_BUCKET  org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', '$date_bucket_format');
 DEFINE GEO          org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
 DEFINE DCLASS       org.wikimedia.analytics.kraken.pig.UserAgentClassifier();

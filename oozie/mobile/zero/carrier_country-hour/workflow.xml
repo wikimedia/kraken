@@ -1,21 +1,18 @@
-<workflow-app name="webrequest_zero_carrier_country_workflow" xmlns="uri:oozie:workflow:0.4">
+<workflow-app name="zero_carrier_country_wf" xmlns="uri:oozie:workflow:0.4">
+    <global>
+        <name-node>${nameNode}</name-node>
+        <job-tracker>${jobTracker}</job-tracker>
+    </global>
+    <start to="zero_carrier_country"/>
     
-    <start to="webrequest_zero_carrier_country"/>
-    
-    <action name="webrequest_zero_carrier_country">
+    <action name="zero_carrier_country">
         <pig>
-            <job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
             <script>/libs/kraken/pig/webrequest_zero_hour_carrier_country.pig</script>
             
-            <argument>-p</argument>
-            <argument>input=${INPUT}</argument>
-            
-            <argument>-p</argument>
-            <argument>output=${OUTPUT}</argument>
-            
-            <argument>-p</argument>
-            <argument>hour_regex=${HOUR_REGEX}</argument>
+            <argument>-p</argument><argument>input=${INPUT}</argument>
+            <argument>-p</argument><argument>output=${OUTPUT}</argument>
+            <argument>-p</argument><argument>date_bucket_format=${DATE_BUCKET_FORMAT}</argument>
+            <argument>-p</argument><argument>date_bucket_regex=${DATE_BUCKET_REGEX}</argument>
             
             <file>/libs/GeoIP.dat</file>
             <file>/libs/GeoIPCity.dat</file>
