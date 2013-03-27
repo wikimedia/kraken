@@ -16,13 +16,13 @@
   </datasets>
   <input-events>
     <data-in name="INPUT" dataset="webrequest-wikipedia-mobile">
-      <start-instance>${coord:current(-5)}</start-instance>
+      <start-instance>${coord:current(-97)}</start-instance>
       <end-instance>${coord:current(0)}</end-instance>
     </data-in>
   </input-events>
   <output-events>
     <data-out name="OUTPUT" dataset="webrequest-wikipedia-mobile-platform-daily">
-      <instance>${coord:current(-4)}</instance>
+      <instance>${coord:current(-1)}</instance>
     </data-out>
   </output-events>
   <action>
