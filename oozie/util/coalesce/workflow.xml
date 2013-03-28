@@ -17,8 +17,12 @@
             <description>HDFS path(s) naming the input set to be merged and sorted.</description>
         </property>
         <property>
-            <name>output</name>
-            <description>HDFS path naming a file the input set will be merged and sorted into.</description>
+            <name>outputDir</name>
+            <description>HDFS path naming the directory for the file the input set will be merged and sorted into. Ex: hdfs:///wmf/public/webrequest/mobile/device/props/2013/03/01</description>
+        </property>
+        <property>
+            <name>outputFile</name>
+            <description>Filename (NOT a full path -- only the filename) for the output. Ex: mobile_device_props-2013-03-01.tsv</description>
         </property>
     </parameters>
     
@@ -38,12 +42,12 @@
     <action name="coalesce">
         <map-reduce>
             <prepare>
-                <delete path="${output}"/>
-                <delete path="${output}.concat-tmp"/>
+                <delete path="${outputDir}"/>
+                <delete path="${outputDir}.concat-tmp"/>
             </prepare>
             <streaming>
                 <mapper>/bin/cat</mapper>
-                <reducer>/bin/sort</reducer>
+                <reducer>/usr/bin/sort</reducer>
             </streaming>
             <configuration>
                 <property>
@@ -56,11 +60,11 @@
                 </property>
                 <property>
                     <name>mapred.output.dir</name>
-                    <value>${output}.concat-tmp</value>
+                    <value>${outputDir}.concat-tmp</value>
                 </property>
                 <property>
                     <name>mapreduce.output.fileoutputformat.outputdir</name>
-                    <value>${output}.concat-tmp</value>
+                    <value>${outputDir}.concat-tmp</value>
                 </property>
                 <property>
                     <name>mapred.reduce.tasks</name>
@@ -82,9 +86,9 @@
     
     <action name="rename">
         <fs>
-            <mkdir path='${replaceAll(output, "/[^/]+$", "")}'/>
-            <move source="${output}.concat-tmp/part-r-00000" target="${output}"/>
-            <delete path="${output}.concat-tmp"/>
+            <mkdir path="${outputDir}"/>
+            <move source="${outputDir}.concat-tmp/part-00000" target="${outputDir}/${outputFile}"/>
+            <delete path="${outputDir}.concat-tmp"/>
         </fs>
         <ok to="end"/>
         <error to="kill"/>
