@@ -39,6 +39,7 @@
         <map-reduce>
             <prepare>
                 <delete path="${output}"/>
+                <delete path="${output}.concat-tmp"/>
             </prepare>
             <streaming>
                 <mapper>/bin/cat</mapper>
