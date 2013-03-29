@@ -1,4 +1,4 @@
-<workflow-app xmlns="uri:oozie:workflow:0.4" name="coalesce_wf">
+<workflow-app xmlns="uri:oozie:workflow:0.4" name="coalesce-wf">
     <parameters>
         <property>
             <name>nameNode</name>
@@ -12,16 +12,17 @@
             <name>queueName</name>
             <value>adhoc</value>
         </property>
+        
         <property>
-            <name>input</name>
+            <name>coalesceInput</name>
             <description>HDFS path(s) naming the input set to be merged and sorted.</description>
         </property>
         <property>
-            <name>outputDir</name>
+            <name>coalesceOutputDir</name>
             <description>HDFS path naming the directory for the file the input set will be merged and sorted into. Ex: hdfs:///wmf/public/webrequest/mobile/device/props/2013/03/01</description>
         </property>
         <property>
-            <name>outputFile</name>
+            <name>coalesceOutputFile</name>
             <description>Filename (NOT a full path -- only the filename) for the output. Ex: mobile_device_props-2013-03-01.tsv</description>
         </property>
     </parameters>
@@ -42,8 +43,8 @@
     <action name="coalesce">
         <map-reduce>
             <prepare>
-                <delete path="${outputDir}"/>
-                <delete path="${outputDir}.concat-tmp"/>
+                <delete path="${coalesceOutputDir}"/>
+                <delete path="${coalesceOutputDir}.concat-tmp"/>
             </prepare>
             <streaming>
                 <mapper>/bin/cat</mapper>
@@ -52,19 +53,19 @@
             <configuration>
                 <property>
                     <name>mapred.input.dir</name>
-                    <value>${input}</value>
+                    <value>${coalesceInput}</value>
                 </property>
                 <property>
                     <name>mapreduce.input.fileinputformat.inputdir</name>
-                    <value>${input}</value>
+                    <value>${coalesceInput}</value>
                 </property>
                 <property>
                     <name>mapred.output.dir</name>
-                    <value>${outputDir}.concat-tmp</value>
+                    <value>${coalesceOutputDir}.concat-tmp</value>
                 </property>
                 <property>
                     <name>mapreduce.output.fileoutputformat.outputdir</name>
-                    <value>${outputDir}.concat-tmp</value>
+                    <value>${coalesceOutputDir}.concat-tmp</value>
                 </property>
                 <property>
                     <name>mapred.reduce.tasks</name>
@@ -74,10 +75,6 @@
                     <name>mapreduce.job.reduces</name>
                     <value>1</value>
                 </property>
-                <property>
-                    <name>oozie.action.external.stats.write</name>
-                    <value>true</value>
-                </property>
             </configuration>
         </map-reduce>
         <ok to="rename"/>
@@ -86,9 +83,9 @@
     
     <action name="rename">
         <fs>
-            <mkdir path="${outputDir}"/>
-            <move source="${outputDir}.concat-tmp/part-00000" target="${outputDir}/${outputFile}"/>
-            <delete path="${outputDir}.concat-tmp"/>
+            <mkdir path="${coalesceOutputDir}"/>
+            <move source="${coalesceOutputDir}.concat-tmp/part-00000" target="${coalesceOutputDir}/${coalesceOutputFile}"/>
+            <delete path="${coalesceOutputDir}.concat-tmp"/>
         </fs>
         <ok to="end"/>
         <error to="kill"/>
