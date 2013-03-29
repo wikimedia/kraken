@@ -1,12 +1,22 @@
-<coordinator-app xmlns="uri:oozie:coordinator:0.1" name="mobile_device_props_hour"
-    frequency="${coord:hours(1)}"
-    start="2013-03-15T13:00Z" end="2020-01-01T23:00Z"
-    timezone="Universal">
+<coordinator-app xmlns="uri:oozie:coordinator:0.4"
+        name="mobile_device_props_hour"
+        frequency="${coord:hours(1)}"
+        start="2013-03-15T13:00Z" end="2020-01-01T23:00Z"
+        timezone="Universal">
     
     <parameters>
-        <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
-        <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
-        <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
+        <property>
+            <name>nameNode</name>
+            <value>hdfs://analytics1010.eqiad.wmnet:8020</value>
+        </property>
+        <property>
+            <name>jobTracker</name>
+            <value>analytics1010.eqiad.wmnet:8032</value>
+        </property>
+        <property>
+            <name>krakenLibPath</name>
+            <value>${nameNode}/libs/kraken</value>
+        </property>
         
         <!-- Coordinator App -->
         <property>

@@ -1,4 +1,6 @@
-<workflow-app xmlns="uri:oozie:workflow:0.4" name="mobile_device_props_wf">
+<workflow-app xmlns="uri:oozie:workflow:0.4"
+        name="mobile_device_props_wf">
+    
     <parameters>
         <!-- Job defaults -->
         <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
