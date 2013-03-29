@@ -69,9 +69,6 @@
         <error to="kill"/>
     </action>
     
-    <action>
-    </action>
-    
     <action name="coalesce">
         <sub-workflow>
             <app-path>${krakenLibPath}/oozie/util/coalesce/coalesce-wf.xml</app-path>
