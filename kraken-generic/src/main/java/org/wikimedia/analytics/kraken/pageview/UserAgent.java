@@ -37,18 +37,20 @@ public class UserAgent {
 
     // Wikimedia Mobile Apps regular expressions
     // See: http://www.mediawiki.org/wiki/Mobile/User_agents
-    private static final Pattern WMF_APP_ANDROID_UA_PAT = Pattern.compile("WikipediaMobile\\/(\\d\\.\\d(\\.\\d)?)");
-    private static final Pattern WMF_APP_FIREFOX_UA_PAT = Pattern.compile(Pattern.quote("Mozilla/5.0 (Mobile; rv:18.0) Gecko/18.0 Firefox/18.0")); //VERIFIED
-    private static final Pattern WMF_APP_RIM_UA_PAT     = Pattern.compile(Pattern.quote("Mozilla/5.0 (PlayBook; U; RIM Tablet OS 2.1.0; en-US) AppleWebKit/536.2+ (KHTML, like Gecko) Version/7.2.1.0 Safari/536.2+"));
-    private static final Pattern WMF_APP_WINDOWS_UA_PAT = Pattern.compile(Pattern.quote("Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MSAppHost/1.0)")); //VERIFIED
-    // TODO implement iOS user agent regex, probably need multiple regexes as there have been quite a few changes between versions
+    private static final Pattern WMF_APP_ANDROID_UA_PAT = Pattern.compile("WikipediaMobile/.*Android.*");
+    private static final Pattern WMF_APP_FIREFOX_UA_PAT = Pattern.compile("Mozilla/5.0 \\(Mobile; rv:.*\\) Gecko/.* Firefox/.*");
+    private static final Pattern WMF_APP_RIM_UA_PAT     = Pattern.compile("Mozilla/5.0 \\(PlayBook; U; RIM Tablet OS.*\\)");
+    private static final Pattern WMF_APP_WINDOWS_UA_PAT = Pattern.compile("Mozilla/5.0 \\(compatible; MSIE 10.0; Windows NT.*\\)");
+    // TODO update iOS matching after WikipediaMobile is prepended to it once again
+    private static final Pattern WMF_APP_IOS            = Pattern.compile("Mozilla/5.0(?!.*\\bSafari\\b).*iPhone(?!.*\\bSafari\\b).*");
 
     private static final Map<String, Pattern> WMF_APP_PATTERNS = new HashMap<String, Pattern>();
     static {
-        WMF_APP_PATTERNS.put("Wikimedia App Android",   WMF_APP_ANDROID_UA_PAT);
-        WMF_APP_PATTERNS.put("Wikimedia App Firefox",   WMF_APP_FIREFOX_UA_PAT);
-        WMF_APP_PATTERNS.put("Wikimedia App RIM",       WMF_APP_RIM_UA_PAT);
-        WMF_APP_PATTERNS.put("Wikimedia App Windows",   WMF_APP_WINDOWS_UA_PAT);
+        WMF_APP_PATTERNS.put("Android",             WMF_APP_ANDROID_UA_PAT);
+        WMF_APP_PATTERNS.put("Firefox OS",          WMF_APP_FIREFOX_UA_PAT);
+        WMF_APP_PATTERNS.put("BlackBerry PlayBook", WMF_APP_RIM_UA_PAT);
+        WMF_APP_PATTERNS.put("Windows 8",           WMF_APP_WINDOWS_UA_PAT);
+        WMF_APP_PATTERNS.put("iOS",                 WMF_APP_IOS);
     }
 
 
@@ -138,7 +140,7 @@ public class UserAgent {
         for (Map.Entry<String, Pattern> entry : WMF_APP_PATTERNS.entrySet()) {
             pattern = entry.getValue();
             if (pattern.matcher(userAgent).find()) {
-                wmfMobileApp = entry.getKey().toString();
+                wmfMobileApp = entry.getKey();
                 return;
             }
         }

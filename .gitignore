@@ -21,3 +21,4 @@ testdata*
 kraken-dclass/src/main/java/org/openddr/
 *.gz
 tmp/
+*.swp
