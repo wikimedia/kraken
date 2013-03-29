@@ -10,11 +10,11 @@
         
         <!-- Process data -->
         <property>
-            <name>input</name>
+            <name>dataInput</name>
             <description>HDFS path(s) naming the input dataset to be processed.</description>
         </property>
         <property>
-            <name>output</name>
+            <name>dataOutput</name>
             <description>HDFS path to store the output dataset from processing.</description>
         </property>
         <property>
@@ -55,8 +55,8 @@
         <pig>
             <script>${krakenLibPath}/pig/mobile_device_props.pig</script>
             
-            <argument>-p</argument><argument>input=${input}</argument>
-            <argument>-p</argument><argument>output=${output}</argument>
+            <argument>-p</argument><argument>input=${dataInput}</argument>
+            <argument>-p</argument><argument>output=${dataOutput}</argument>
             <argument>-p</argument><argument>date_bucket_format=${dateBucketFormat}</argument>
             <argument>-p</argument><argument>date_bucket_regex=${dateBucketRegex}</argument>
             

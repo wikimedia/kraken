@@ -47,14 +47,14 @@
     </datasets>
     
     <input-events>
-        <data-in name="input" dataset="webrequest-wikipedia-mobile">
+        <data-in name="INPUT" dataset="webrequest-wikipedia-mobile">
             <start-instance>${coord:current(-5)}</start-instance>
             <end-instance>${coord:current(0)}</end-instance>
         </data-in>
     </input-events>
     
     <output-events>
-        <data-out name="output" dataset="mobile_device_props">
+        <data-out name="OUTPUT" dataset="mobile_device_props">
             <instance>${coord:current(-4)}</instance>
         </data-out>
     </output-events>
@@ -69,12 +69,12 @@
                 
                 <!-- hourly processing -->
                 <property>
-                    <name>input</name>
-                    <value>${coord:dataIn('input')}</value>
+                    <name>dataInput</name>
+                    <value>${coord:dataIn('INPUT')}</value>
                 </property>
                 <property>
-                    <name>output</name>
-                    <value>${coord:dataOut('output')}</value>
+                    <name>dataOutput</name>
+                    <value>${coord:dataOut('OUTPUT')}</value>
                 </property>
                 <property>
                     <name>dateBucketFormat</name>
