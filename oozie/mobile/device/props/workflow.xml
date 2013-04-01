@@ -72,7 +72,27 @@
     <action name="coalesce">
         <sub-workflow>
             <app-path>${krakenLibPath}/oozie/util/coalesce/coalesce-wf.xml</app-path>
-            <propagate-configuration/>
+            
+            <!-- FIXME Oozie throws an error about data length! -->
+            <!-- <propagate-configuration/> -->
+            <configuration>
+                <property><name>nameNode</name><value>${nameNode}</value></property>
+                <property><name>jobTracker</name><value>${jobTracker}</value></property>
+                <property><name>queueName</name><value>${queueName}</value></property>
+                
+                <property>
+                    <name>coalesceInput</name>
+                    <value>${coalesceInput}</value>
+                </property>
+                <property>
+                    <name>coalesceOutputDir</name>
+                    <value>${coalesceOutputDir}</value>
+                </property>
+                <property>
+                    <name>coalesceOutputFile</name>
+                    <value>${coalesceOutputFile}</value>
+                </property>
+            </configuration>
         </sub-workflow>
         <ok to="end"/>
         <error to="kill"/>
