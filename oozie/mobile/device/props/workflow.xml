@@ -60,10 +60,10 @@
             <argument>-p</argument><argument>date_bucket_format=${dateBucketFormat}</argument>
             <argument>-p</argument><argument>date_bucket_regex=${dateBucketRegex}</argument>
             
-            <file>/libs/GeoIP.dat#GeoIP.dat</file>
-            <file>/libs/GeoIPCity.dat#GeoIPCity.dat</file>
-            <file>/libs/GeoIPRegion.dat#GeoIPRegion.dat</file>
-            <file>/libs/GeoIPv6.dat#GeoIPv6.dat</file>
+            <file>/libs/GeoIP.dat</file>
+            <file>/libs/GeoIPCity.dat</file>
+            <file>/libs/GeoIPRegion.dat</file>
+            <file>/libs/GeoIPv6.dat</file>
         </pig>
         <ok to="coalesce"/>
         <error to="kill"/>
