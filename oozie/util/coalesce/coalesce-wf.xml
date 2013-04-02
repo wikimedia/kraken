@@ -25,6 +25,11 @@
             <name>coalesceOutputFile</name>
             <description>Filename (NOT a full path -- only the filename) for the output. Ex: mobile_device_props-2013-03-01.tsv</description>
         </property>
+        <property>
+            <name>coalesceOutputTmp</name>
+            <value>${coalesceOutputDir}/${coalesceOutputFile}.concat-tmp</value>
+            <description>HDFS path naming the location for temporary output.</description>
+        </property>
     </parameters>
     
     <global>
@@ -43,7 +48,7 @@
     <action name="coalesce">
         <map-reduce>
             <prepare>
-                <delete path="${coalesceOutputDir}.concat-tmp"/>
+                <delete path="${coalesceOutputTmp}"/>
             </prepare>
             <streaming>
                 <mapper>/bin/cat</mapper>
@@ -60,11 +65,11 @@
                 </property>
                 <property>
                     <name>mapred.output.dir</name>
-                    <value>${coalesceOutputDir}.concat-tmp</value>
+                    <value>${coalesceOutputTmp}</value>
                 </property>
                 <property>
                     <name>mapreduce.output.fileoutputformat.outputdir</name>
-                    <value>${coalesceOutputDir}.concat-tmp</value>
+                    <value>${coalesceOutputTmp}</value>
                 </property>
                 <property>
                     <name>mapred.reduce.tasks</name>
@@ -83,8 +88,9 @@
     <action name="rename">
         <fs>
             <mkdir path="${coalesceOutputDir}"/>
-            <move source="${coalesceOutputDir}.concat-tmp/part-00000" target="${coalesceOutputDir}/${coalesceOutputFile}"/>
-            <delete path="${coalesceOutputDir}.concat-tmp"/>
+            <delete path="${coalesceOutputDir}/${coalesceOutputFile}"/>
+            <move source="${coalesceOutputTmp}/part-00000" target="${coalesceOutputDir}/${coalesceOutputFile}"/>
+            <delete path="${coalesceOutputTmp}"/>
         </fs>
         <ok to="end"/>
         <error to="kill"/>
