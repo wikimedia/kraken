@@ -43,7 +43,6 @@
     <action name="coalesce">
         <map-reduce>
             <prepare>
-                <delete path="${coalesceOutputDir}"/>
                 <delete path="${coalesceOutputDir}.concat-tmp"/>
             </prepare>
             <streaming>
