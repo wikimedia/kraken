@@ -1,0 +1,97 @@
+<workflow-app xmlns="uri:oozie:workflow:0.4" name="coalesce-wf">
+    <parameters>
+        <property>
+            <name>nameNode</name>
+            <value>hdfs://analytics1010.eqiad.wmnet:8020</value>
+        </property>
+        <property>
+            <name>jobTracker</name>
+            <value>analytics1010.eqiad.wmnet:8032</value>
+        </property>
+        <property>
+            <name>queueName</name>
+            <value>adhoc</value>
+        </property>
+        
+        <property>
+            <name>coalesceInput</name>
+            <description>HDFS path(s) naming the input set to be merged and sorted. Ex: hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-03-01_**</description>
+        </property>
+        <property>
+            <name>coalesceOutputDir</name>
+            <description>HDFS path naming the directory for the file the input set will be merged and sorted into. Ex: hdfs:///wmf/public/webrequest/mobile/device/props/2013/03/01</description>
+        </property>
+        <property>
+            <name>coalesceOutputFile</name>
+            <description>Filename (NOT a full path -- only the filename) for the output. Ex: mobile_device_props-2013-03-01.tsv</description>
+        </property>
+    </parameters>
+    
+    <global>
+       <job-tracker>${jobTracker}</job-tracker>
+       <name-node>${nameNode}</name-node>
+       <configuration>
+            <property>
+                <name>mapreduce.job.queuename</name>
+                <value>${queueName}</value>
+            </property>
+        </configuration>
+    </global>
+    
+    <start to="coalesce"/>
+    
+    <action name="coalesce">
+        <map-reduce>
+            <prepare>
+                <delete path="${coalesceOutputDir}.concat-tmp"/>
+            </prepare>
+            <streaming>
+                <mapper>/bin/cat</mapper>
+                <reducer>/usr/bin/sort</reducer>
+            </streaming>
+            <configuration>
+                <property>
+                    <name>mapred.input.dir</name>
+                    <value>${coalesceInput}</value>
+                </property>
+                <property>
+                    <name>mapreduce.input.fileinputformat.inputdir</name>
+                    <value>${coalesceInput}</value>
+                </property>
+                <property>
+                    <name>mapred.output.dir</name>
+                    <value>${coalesceOutputDir}.concat-tmp</value>
+                </property>
+                <property>
+                    <name>mapreduce.output.fileoutputformat.outputdir</name>
+                    <value>${coalesceOutputDir}.concat-tmp</value>
+                </property>
+                <property>
+                    <name>mapred.reduce.tasks</name>
+                    <value>1</value>
+                </property>
+                <property>
+                    <name>mapreduce.job.reduces</name>
+                    <value>1</value>
+                </property>
+            </configuration>
+        </map-reduce>
+        <ok to="rename"/>
+        <error to="kill"/>
+    </action>
+    
+    <action name="rename">
+        <fs>
+            <mkdir path="${coalesceOutputDir}"/>
+            <move source="${coalesceOutputDir}.concat-tmp/part-00000" target="${coalesceOutputDir}/${coalesceOutputFile}"/>
+            <delete path="${coalesceOutputDir}.concat-tmp"/>
+        </fs>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

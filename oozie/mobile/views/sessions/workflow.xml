@@ -1,0 +1,62 @@
+<workflow-app xmlns="uri:oozie:workflow:0.4" name="mobile_sessions_wf">
+    <global>
+       <job-tracker>${jobTracker}</job-tracker>
+       <name-node>${nameNode}</name-node>
+       <configuration>
+            <property>
+                <name>mapreduce.job.queuename</name>
+                <value>${queueName}</value>
+            </property>
+        </configuration>
+    </global>
+    
+    <start to="mobile_sessions"/>
+    
+    <action name="mobile_sessions">
+        <pig>
+            <script>/libs/kraken/pig/mobile_sessions.pig</script>
+            
+            <argument>-p</argument><argument>input=${INPUT}</argument>
+            <argument>-p</argument><argument>output=${OUTPUT}</argument>
+            <argument>-p</argument><argument>date_bucket_format=${DATE_BUCKET_FORMAT}</argument>
+            <argument>-p</argument><argument>date_bucket_regex=${DATE_BUCKET_REGEX}</argument>
+            <argument>-p</argument><argument>session_length=${SESSION_LENGTH}</argument>
+            
+            <file>/libs/GeoIP.dat</file>
+            <file>/libs/GeoIPCity.dat</file>
+            <file>/libs/GeoIPRegion.dat</file>
+            <file>/libs/GeoIPv6.dat</file>
+        </pig>
+        <!-- <ok to="daily_concat"/> -->
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    
+    <!-- TODO: fork/join to run rollups in parallel -->
+    
+    <!-- TODO: This breaks everything! -->
+    <!-- <action name="daily_concat">
+        <pig>
+            <script>/libs/kraken/pig/concat_sort.pig</script>
+            <argument>-p</argument><argument>input=${DAILY_CONCAT_INPUT}</argument>
+            <argument>-p</argument><argument>dest=${DAILY_CONCAT_DEST}</argument>
+        </pig>
+        <ok to="monthly_concat"/>
+        <error to="kill"/>
+    </action>
+    
+    <action name="monthly_concat">
+        <pig>
+            <script>/libs/kraken/pig/concat_sort.pig</script>
+            <argument>-p</argument><argument>input=${MONTHLY_CONCAT_INPUT}</argument>
+            <argument>-p</argument><argument>dest=${MONTHLY_CONCAT_DEST}</argument>
+        </pig>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action> -->
+    
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

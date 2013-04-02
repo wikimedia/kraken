@@ -1,4 +1,43 @@
-<workflow-app xmlns="uri:oozie:workflow:0.4" name="mobile_device_props_wf">
+<workflow-app xmlns="uri:oozie:workflow:0.4"
+        name="mobile_device_props_wf">
+    
+    <parameters>
+        <!-- Job defaults -->
+        <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
+        <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
+        <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
+        <property><name>queueName</name><value>adhoc</value></property>
+        
+        <!-- Process data -->
+        <property>
+            <name>dataInput</name>
+            <description>HDFS path(s) naming the input dataset to be processed.</description>
+        </property>
+        <property>
+            <name>dataOutput</name>
+            <description>HDFS path to store the output dataset from processing.</description>
+        </property>
+        <property>
+            <name>dateBucketFormat</name>
+            <description>Format applied to timestamps for aggregation into buckets.</description>
+        </property>
+        <property>
+            <name>dateBucketRegex</name>
+            <description>Regex used to filter the formatted date_buckets; must match whole line.</description>
+        </property>
+        
+        <!-- Coalesce to one file -->
+        <property>
+            <name>coalesceInput</name>
+        </property>
+        <property>
+            <name>coalesceOutputDir</name>
+        </property>
+        <property>
+            <name>coalesceOutputFile</name>
+        </property>
+    </parameters>
+    
     <global>
        <job-tracker>${jobTracker}</job-tracker>
        <name-node>${nameNode}</name-node>
@@ -10,49 +49,54 @@
         </configuration>
     </global>
     
-    <start to="mobile_device_props"/>
+    <start to="process"/>
     
-    <action name="mobile_device_props">
+    <action name="process">
         <pig>
-            <script>/libs/kraken/pig/mobile_device_props.pig</script>
+            <script>${krakenLibPath}/pig/mobile_device_props.pig</script>
             
-            <argument>-p</argument><argument>input=${INPUT}</argument>
-            <argument>-p</argument><argument>output=${OUTPUT}</argument>
-            <argument>-p</argument><argument>date_bucket_format=${DATE_BUCKET_FORMAT}</argument>
-            <argument>-p</argument><argument>date_bucket_regex=${DATE_BUCKET_REGEX}</argument>
+            <argument>-p</argument><argument>input=${dataInput}</argument>
+            <argument>-p</argument><argument>output=${dataOutput}</argument>
+            <argument>-p</argument><argument>date_bucket_format=${dateBucketFormat}</argument>
+            <argument>-p</argument><argument>date_bucket_regex=${dateBucketRegex}</argument>
             
             <file>/libs/GeoIP.dat</file>
             <file>/libs/GeoIPCity.dat</file>
             <file>/libs/GeoIPRegion.dat</file>
             <file>/libs/GeoIPv6.dat</file>
         </pig>
-        <ok to="end"/>
-        <!-- <ok to="daily_concat"/> -->
+        <ok to="coalesce"/>
         <error to="kill"/>
     </action>
     
-    <!-- TODO: fork/join to run rollups in parallel -->
-    
-    <!-- TODO: This breaks everything! -->
-    <!-- <action name="daily_concat">
-        <pig>
-            <script>/libs/kraken/pig/concat_sort.pig</script>
-            <argument>-p</argument><argument>input=${DAILY_CONCAT_INPUT}</argument>
-            <argument>-p</argument><argument>dest=${DAILY_CONCAT_DEST}</argument>
-        </pig>
-        <ok to="monthly_concat"/>
-        <error to="kill"/>
-    </action>
-    
-    <action name="monthly_concat">
-        <pig>
-            <script>/libs/kraken/pig/concat_sort.pig</script>
-            <argument>-p</argument><argument>input=${MONTHLY_CONCAT_INPUT}</argument>
-            <argument>-p</argument><argument>dest=${MONTHLY_CONCAT_DEST}</argument>
-        </pig>
+    <action name="coalesce">
+        <sub-workflow>
+            <app-path>${krakenLibPath}/oozie/util/coalesce/coalesce-wf.xml</app-path>
+            
+            <!-- FIXME Oozie throws an error about data length! -->
+            <!-- <propagate-configuration/> -->
+            <configuration>
+                <property><name>nameNode</name><value>${nameNode}</value></property>
+                <property><name>jobTracker</name><value>${jobTracker}</value></property>
+                <property><name>queueName</name><value>${queueName}</value></property>
+                
+                <property>
+                    <name>coalesceInput</name>
+                    <value>${coalesceInput}</value>
+                </property>
+                <property>
+                    <name>coalesceOutputDir</name>
+                    <value>${coalesceOutputDir}</value>
+                </property>
+                <property>
+                    <name>coalesceOutputFile</name>
+                    <value>${coalesceOutputFile}</value>
+                </property>
+            </configuration>
+        </sub-workflow>
         <ok to="end"/>
         <error to="kill"/>
-    </action> -->
+    </action>
     
     <kill name="kill">
         <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
