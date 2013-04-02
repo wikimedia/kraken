@@ -35,8 +35,6 @@ class HDFSCoalesceScript(object):
     parser.add_argument("-D", default=[], action="append", dest="javaDefines", metavar='DEFINE',
         help="Define a system property to pass to java -D")
     
-    # parser.add_argument("-N", "--namenode", default="analytics1010.eqiad.wmnet:8020",
-    #     help="Location of the NameNode. [default: %(default)s]")
     parser.add_argument("-J", "--streaming-jar", default="/usr/lib/hadoop-mapreduce/hadoop-streaming.jar",
         help="Location of the Hadoop Streaming jar. [default: %(default)s]")
     
@@ -48,10 +46,9 @@ class HDFSCoalesceScript(object):
         job_user      = self.job_user
         job_queue     = self.job_queue
         job_name      = self.job_name if self.job_name else 'streaming: {} -> {}'.format(mapper, reducer)
-        # namenode      = self.namenode if self.namenode.startswith('hdfs://') else ('hdfs://'+self.namenode)
         javaDefines   = ('-D ' + ' -D '.join(self.javaDefines)) if self.javaDefines else ''
-        input         = self.input    #if self.input.startswith('hdfs://')    else os.path.join(namenode, self.input)
-        output        = self.output   #if self.output.startswith('hdfs://')   else os.path.join(namenode, self.output)
+        input         = self.input
+        output        = self.output
         
         sh(' '.join(["sudo -u {job_user}",
                 "hadoop jar '{streaming_jar}'",
