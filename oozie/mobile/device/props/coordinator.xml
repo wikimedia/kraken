@@ -1,8 +1,6 @@
 <coordinator-app xmlns="uri:oozie:coordinator:0.4"
         name="mobile_device_props_hour"
-        frequency="${coord:hours(1)}"
-        start="2013-04-01T15:00Z" end="2020-01-01T23:00Z"
-        timezone="Universal">
+        frequency="${coord:hours(1)}" start="2013-04-02T20:00Z" end="2020-01-01T23:00Z" timezone="Universal">
     
     <parameters>
         <property>
@@ -32,14 +30,14 @@
     <datasets>
         <dataset name="webrequest-wikipedia-mobile"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-04-01T16:00Z"
+                initial-instance="2013-04-02T19:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
         </dataset>
         <dataset name="mobile_device_props"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-04-01T16:00Z"
+                initial-instance="2013-04-02T19:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/data/webrequest/mobile/device/props/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
@@ -92,7 +90,7 @@
                 </property>
                 <property>
                     <name>coalesceOutputDir</name>
-                    <value>${nameNode}/wmf/public/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM')}</value>
+                    <value>${nameNode}/wmf/public/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM/dd')}</value>
                 </property>
                 <property>
                     <name>coalesceOutputFile</name>
