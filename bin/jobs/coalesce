@@ -31,6 +31,8 @@ class HDFSCoalesceScript(object):
     parser.add_argument("-D", default=[], action="append", dest="javaDefines", metavar='DEFINE',
         help="Define a system property to pass to java -D")
     
+    parser.add_argument("-N", "--namenode", default="analytics1010.eqiad.wmnet:8020",
+        help="Location of the NameNode. [default: %(default)s]")
     parser.add_argument("-J", "--streaming-jar", default="/usr/lib/hadoop-mapreduce/hadoop-streaming.jar",
         help="Location of the Hadoop Streaming jar. [default: %(default)s]")
     
@@ -42,9 +44,10 @@ class HDFSCoalesceScript(object):
         job_queue     = self.job_queue
         job_user      = self.job_user
         streaming_jar = self.streaming_jar
-        inputPaths    = self.input
-        outputFile    = self.output
+        namenode      = self.namenode if self.namenode.startswith('hdfs://') else ('hdfs://'+self.namenode)
         javaDefines   = ('-D ' + ' -D '.join(self.javaDefines)) if self.javaDefines else ''
+        inputPaths    = self.input
+        outputFile    = self.output if self.output.startswith('hdfs://')   else os.path.join(namenode, self.output)
         outputDir     = os.path.dirname(outputFile)
         outputTmp     = outputFile + ".concat-tmp"
         
@@ -61,15 +64,6 @@ class HDFSCoalesceScript(object):
                 "--input '{inputPaths}'",
                 "--output '{outputTmp}'",
             ]), **locals())
-        # sh(' '.join(["sudo -u {job_user}",
-        #         "hadoop jar '{streaming_jar}'",
-        #         "-D mapreduce.job.name='{job_name}'",
-        #         "-D mapreduce.job.queuename='{job_queue}'",
-        #         "-D mapreduce.reduce.tasks=1",
-        #         "-mapper /bin/cat -reducer /usr/bin/sort",
-        #         "-input '{inputPaths}'",
-        #         "-output '{outputTmp}'"
-        #     ]), **locals())
         sh("sudo -u hdfs hdfs dfs -rm -R '{outputDir}'", **locals())
         sh("sudo -u hdfs hdfs dfs -mkdir '{outputDir}'", **locals())
         sh("sudo -u hdfs hdfs dfs -mv '{outputTmp}/part-00000' '{outputFile}'", **locals())
