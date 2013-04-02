@@ -64,7 +64,6 @@ class HDFSCoalesceScript(object):
                 "--input '{inputPaths}'",
                 "--output '{outputTmp}'",
             ]), **locals())
-        sh("sudo -u hdfs hdfs dfs -rm -R '{outputDir}'", **locals())
         sh("sudo -u hdfs hdfs dfs -mkdir '{outputDir}'", **locals())
         sh("sudo -u hdfs hdfs dfs -mv '{outputTmp}/part-00000' '{outputFile}'", **locals())
         sh("sudo -u hdfs hdfs dfs -rm -R '{outputTmp}'", **locals())
