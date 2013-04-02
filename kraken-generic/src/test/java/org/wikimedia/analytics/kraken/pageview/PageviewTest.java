@@ -20,9 +20,7 @@ package org.wikimedia.analytics.kraken.pageview;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PageviewTest {
 
@@ -93,10 +91,64 @@ public class PageviewTest {
     }
 
     @Test
+    public void testBannerLoader() {
+        pageview = new Pageview("http://en.wikipedia.org/wiki/notSureAboutThis?BannerLoader=1", "http://www.google.com", "useragent", "200", "0.0.0.0", "text/html", "GET");
+        assertFalse(pageview.isPageview()); // TODO: when banner impressions are pageviews, turn this back on
+    }
+
+    @Test
     public void testMobilePageview2() {
         pageview = new Pageview("http://ar.m.wikipedia.org/wiki/%D9%85%D9%84%D9%81:Saudi_Ranks.JPG","http://fr.m.wikipedia.org/", "useragent", "miss/200", "0.0.0.0", "text/html; charset=UTF-8", "GET");
         assertTrue(pageview.isPageview());
         assertEquals(PageviewType.MOBILE, pageview.getPageviewType());
     }
 
+    @Test
+    public void testNullURL() {
+        pageview = new Pageview(null, "http://en.wikipedia.org/wiki/Sinkhole", "useragent", "200", "0.0.0.0", "text/html", "GET");
+        assertFalse(pageview.isPageview());
+    }
+
+    @Test
+    public void testNullReferer() {
+        pageview = new Pageview("http://en.wikipedia.org/wiki/Sinkhole", null, "useragent", "200", "0.0.0.0", "text/html", "GET");
+        assertTrue(pageview.isPageview());
+    }
+
+    @Test
+    public void testNullUseragent() {
+        pageview = new Pageview("http://en.wikipedia.org/wiki/Sinkhole", "http://www.google.com", null, "200", "0.0.0.0", "text/html", "GET");
+        assertTrue(pageview.isPageview());
+    }
+
+    @Test
+    public void testNullStatusCode() {
+        pageview = new Pageview("http://en.wikipedia.org/wiki/Sinkhole", "http://www.google.com", "useragent", null, "0.0.0.0", "text/html", "GET");
+        assertFalse(pageview.isPageview());
+    }
+
+    @Test
+    public void testNullIPAddress() {
+        pageview = new Pageview("http://en.wikipedia.org/wiki/Sinkhole", "http://www.google.com", "useragent", "200", null, "text/html", "GET");
+        assertTrue(pageview.isPageview());
+    }
+
+    @Test
+    public void testNullMimeType() {
+        pageview = new Pageview("http://en.wikipedia.org/wiki/Sinkhole", "http://www.google.com", "useragent", "200", "0.0.0.0", null, "GET");
+        assertTrue(pageview.isPageview());
+    }
+
+    @Test
+    public void testNullRequestMethod() {
+        pageview = new Pageview("http://en.wikipedia.org/wiki/Sinkhole", "http://www.google.com", "useragent", "200", "0.0.0.0", "text/html", null);
+        assertFalse(pageview.isPageview());
+    }
+
+
+    @Test
+    public void testSampleMobileLogLine() {
+        pageview = new Pageview("http://fr.m.wikipedia.org/w/api.php?action=opensearch&search=balbutier+&format=json", "-", "WikipediaMobile/ something Android something", "miss/200", "0.0.0.0", "application/json; charset=utf-8", "GET");
+        assertFalse(pageview.isPageview());
+    }
 }

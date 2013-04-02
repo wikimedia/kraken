@@ -52,7 +52,7 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidDesktopPageview(final URL url) {
-        if (url.getPath().contains("Special:")) {
+        if (url.getPath().contains("special:")) {
             return false;
         } else if (url.getPath().contains("wiki/")
                 || url.getPath().contains("w/index.php?")
@@ -81,10 +81,17 @@ public class PageviewFilter {
     public final boolean isValidMobileAPIPageview(final URL url, final URL referer) {
         //Start with simple logic, if referer is another Wiki* api call then ignore this url else accept it
         return !(referer != null
-                && referer.getPath().contains("api.php")
-                && referer.getHost().contains(".wiki")
-                && referer.getQuery() != null
-                && referer.getQuery().contains("view"));
+              && referer.getPath() != null
+              && referer.getQuery() != null
+              && referer.getHost() != null
+              && referer.getPath().contains("/w/api.php")
+              // TODO: remove contains("wiki") after implementing proper domain matching as here:
+              // https://raw.github.com/wikimedia/metrics/master/pageviews/kraken/pageview_base.png
+              && referer.getHost().contains("wiki")
+              && ( referer.getQuery().contains("action=mobileview")
+                || referer.getQuery().contains("action=view")
+              )
+        );
     }
 
     /**
@@ -159,7 +166,7 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidRequestMethod(final String requestMethod) {
-        return (requestMethod.toUpperCase().contains("GET"));
+        return (requestMethod.contains("get"));
     }
 
     /**

@@ -40,7 +40,10 @@ public class UserAgentClassifierTest {
         input.set(0, "Mozilla/5.0 (Mobile; rv:18.0) Gecko/18.0 Firefox/18.0");
         Tuple output = ua.exec(input);
         assertEquals("Firefox OS", output.get(7));
-//        assertNull(output.get(2));
+
+        input.set(0, "starts with something weird Mozilla/5.0 (Mobile; rv:18.0) Gecko/18.0 Firefox/18.0");
+        output = ua.exec(input);
+        assertEquals("Firefox OS", output.get(7));
     }
 
     @Test
@@ -50,7 +53,10 @@ public class UserAgentClassifierTest {
         input.set(0, "WikipediaMobile/1.3.4%20Mozilla/5.0%20(Linux;%20U;%20Android%204.0.3;%20en-us;%20PG86100%20Build/IML74K)%20AppleWebKit/534.30%20(KHTML,%20like%20Gecko)%20Version/4.0%20Mobile%20Safari/534.30");
         Tuple output = ua.exec(input);
         assertEquals("Android", output.get(7));
-//        assertNull(output.get(2));
+
+        input.set(0, "starts with something weird WikipediaMobile/1.3.4%20Mozilla/5.0%20(Linux;%20U;%20Android%204.0.3;%20en-us;%20PG86100%20Build/IML74K)%20AppleWebKit/534.30%20(KHTML,%20like%20Gecko)%20Version/4.0%20Mobile%20Safari/534.30");
+        output = ua.exec(input);
+        assertEquals("Android", output.get(7));
     }
 
     @Ignore
@@ -61,7 +67,10 @@ public class UserAgentClassifierTest {
         input.set(0, "Mozilla/5.0 (PlayBook; U; RIM Tablet OS 2.1.0; en-US) AppleWebKit/536.2+ (KHTML, like Gecko) Version/7.2.1.0 Safari/536.2+");
         Tuple output = ua.exec(input);
         assertEquals("BlackBerry PlayBook", output.get(7));
-//        assertNull(output.get(2));
+
+        input.set(0, "starts with something weird Mozilla/5.0 (PlayBook; U; RIM Tablet OS 2.1.0; en-US) AppleWebKit/536.2+ (KHTML, like Gecko) Version/7.2.1.0 Safari/536.2+");
+        output = ua.exec(input);
+        assertEquals("BlackBerry PlayBook", output.get(7));
     }
 
     @Test
@@ -71,7 +80,10 @@ public class UserAgentClassifierTest {
         input.set(0, "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MSAppHost/1.0)");
         Tuple output = ua.exec(input);
         assertEquals("Windows 8", output.get(7));
-//        assertNull(output.get(2));
+
+        input.set(0, "starts with something weird Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MSAppHost/1.0)");
+        output = ua.exec(input);
+        assertEquals("Windows 8", output.get(7));
     }
 
     @Test
@@ -88,6 +100,10 @@ public class UserAgentClassifierTest {
         assertEquals(null, output.get(7));
 
         input.set(0, "Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) Safari AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B142");
+        output = ua.exec(input);
+        assertEquals(null, output.get(7));
+
+        input.set(0, "starts with something weird Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) Safari AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B142");
         output = ua.exec(input);
         assertEquals(null, output.get(7));
     }

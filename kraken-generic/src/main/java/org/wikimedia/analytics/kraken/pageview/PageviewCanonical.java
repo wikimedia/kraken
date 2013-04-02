@@ -75,9 +75,9 @@ public class PageviewCanonical {
         }
 
         String path;
-        if (!pathWithoutThumb.toLowerCase().endsWith(".jpg")
-                || !pathWithoutThumb.toLowerCase().endsWith(".png")
-                || !pathWithoutThumb.toLowerCase().endsWith(".svg")) {
+        if (!pathWithoutThumb.endsWith(".jpg")
+                || !pathWithoutThumb.endsWith(".png")
+                || !pathWithoutThumb.endsWith(".svg")) {
             positionRightSlash = pathWithoutThumb.lastIndexOf("/");
             if (positionRightSlash > 0) {
                 path = pathWithoutThumb.substring(0, positionRightSlash);

@@ -25,7 +25,13 @@ IMPORT 'hdfs:///libs/kraken/pig/include/load_webrequest.pig';
 */
 
 /* For testing:
+log_fields = LOAD_WEBREQUEST('hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-01-31_*');
+log_fields = LOAD_WEBREQUEST('hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-01-31_22.30*');
+log_fields = LOAD_WEBREQUEST('hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-03-22_16.30*');
 log_fields = LOAD_WEBREQUEST('hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-03-25_22.30*');
+log_fields = LOAD_WEBREQUEST('hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-03-25_16.30*');
+log_fields = LOAD_WEBREQUEST('hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-04-01_16.45*,hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-04-01_17.*');
+log_fields = LOAD_WEBREQUEST('hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-04-01*');
 log_fields = LOAD_WEBREQUEST('pig.sample.webrequest.wikipedia.mobile*');
 */
 log_fields = LOAD_WEBREQUEST('$input');
@@ -35,6 +41,31 @@ matching_log_fields = FILTER log_fields BY (
     (GET_DAY(timestamp) MATCHES '.*')
     AND IS_PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method)
 );
+matching_log_fields = FILTER log_fields BY (
+    (GET_DAY(timestamp) MATCHES '.*')
+);
+platform_info = FOREACH matching_log_fields
+    GENERATE
+        IS_PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method) AS pageview,
+        uri, http_status, referer, request_method, content_type,
+        FLATTEN(DCLASS(REPLACE(user_agent, '%20', ' '))) AS (
+            vendor:chararray,
+            model:chararray,
+            device_os:chararray,
+            device_os_version:chararray,
+            device_class:chararray,
+            browser:chararray,
+            browser_version:chararray,
+            wmf_mobile_app:chararray,
+            has_javascript:boolean,
+            display_dimensions:chararray,
+            input_device:chararray
+        )
+    ;
+platform_info = FILTER platform_info BY wmf_mobile_app == 'Android' AND request_method == 'GET';
+platform_info = FOREACH platform_info GENERATE pageview, http_status, content_type, uri;
+platform_info = ORDER platform_info BY pageview;
+-- referer is always '-' for Android
 */
 matching_log_fields = FILTER log_fields BY (
     (GET_DAY(timestamp) MATCHES '$day_regex')

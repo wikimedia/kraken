@@ -63,12 +63,16 @@ public class Pageview {
 
     /**
      *
-     * @param url
-     * @param ipAddress
-     */
-    public Pageview(final String url, final String ipAddress) {
+     * @param url page visited
+     * @param ipAddress ipaddress of the visitor
+    public Pageview(String url, String ipAddress) {
+
+        // null coalesce all the fields to empty string
+        url = url == null ? "" : url;
+        ipAddress = ipAddress == null ? "0.0.0.0" : ipAddress;
+
         try {
-            this.url = new URL(url);
+            this.url = new URL(url.toLowerCase());
         } catch (MalformedURLException e) {
             this.url = null;
         }
@@ -81,37 +85,47 @@ public class Pageview {
             cidrFilter = new CidrFilter();
         }
     }
+     */
 
     /**
-     *
+     * All passed in strings will be converted to lowercase and stored to this instance
      * @param url page visited
      * @param referer origin of visitor, '-' if direct hit.
      * @param userAgent string indicating the browser/device used by the visitor
      * @param statusCode responsecode from the cache server to indicate whether request was successful or not
      * @param ipAddress ipaddress of the visitor
      * @param mimeType content type requested
-     * @param requestMethod
+     * @param requestMethod GET, POST, etc.
      */
-    public Pageview(final String url, final String referer, final String userAgent,
-                    final String statusCode, final String ipAddress, final String mimeType, final String requestMethod) {
+    public Pageview(String url, String referer, String userAgent,
+                    String statusCode, String ipAddress, String mimeType, String requestMethod) {
+
+        // null coalesce all the fields to empty string
+        url = url == null ? "" : url;
+        referer = referer == null ? "" : referer;
+        userAgent = userAgent == null ? "" : userAgent;
+        statusCode = statusCode == null ? "" : statusCode;
+        ipAddress = ipAddress == null ? "0.0.0.0" : ipAddress;
+        mimeType = mimeType == null ? "" : mimeType;
+        requestMethod = requestMethod == null ? "" : requestMethod;
 
         try {
-            this.url = new URL(url);
+            this.url = new URL(url.toLowerCase());
         } catch (MalformedURLException e) {
             this.url = null;
         }
 
         try {
-            this.referer = new URL(referer);
+            this.referer = new URL(referer.toLowerCase());
         }  catch (MalformedURLException e) {
             this.referer = null;
         }
 
-        this.userAgent = userAgent;
-        this.statusCode = statusCode;
+        this.userAgent = userAgent.toLowerCase();
+        this.statusCode = statusCode.toLowerCase();
         this.ipAddress = ipAddress;
-        this.mimeType = mimeType;
-        this.requestMethod = requestMethod;
+        this.mimeType = mimeType.toLowerCase();
+        this.requestMethod = requestMethod.toLowerCase();
         this.mode = "new_definition";
 
         if (pageviewFilter == null || pageviewCanonical == null || cidrFilter == null) {
@@ -219,7 +233,7 @@ public class Pageview {
      * Given a url, determine the pageview type (mobile, desktop, api, search and blog).
      */
     public final void determinePageviewType() {
-        if (url.getQuery() != null && url.getQuery().contains("BannerLoader")) {
+        if (url.getQuery() != null && url.getQuery().contains("bannerloader")) {
             pageviewType = PageviewType.BANNER;
         } else if (url.getHost().contains("commons")) { // FIXME: obviously wrong
             pageviewType = PageviewType.COMMONS_IMAGE;
