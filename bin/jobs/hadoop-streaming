@@ -1,0 +1,96 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""" Launch a Hadoop streaming job.
+"""
+__author__ = 'David Schoonover <dsc@less.ly>'
+
+import sys, os, argparse
+
+def sh(cmd, *args, **kwargs):
+    cmd = cmd.format(*args, **kwargs)
+    print cmd
+    return os.system(cmd)
+
+
+class HDFSCoalesceScript(object):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("-i", "--input", required=True,
+        help="HDFS path(s) naming the input set (globs are expanded by HDFS). "
+             "Ex: /wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-03-01_**")
+    parser.add_argument("-o", "--output", required=True,
+        help="HDFS path naming the location for the merged and sorted input data. "
+             "Ex: /wmf/public/webrequest/mobile/device/props/2013/03/01/mobile_device_props-2013-03-01.tsv")
+    
+    parser.add_argument("-m", "--mapper", default="/bin/cat",
+        help="Executable to act as the mapper. [default: %(default)s]")
+    parser.add_argument("-r", "--reducer", default="/usr/bin/sort",
+        help="Executable to act as the reducer. [default: %(default)s]")
+    
+    parser.add_argument("-j", "--job-name", default=None,
+        help="Hadoop job name. [default: 'streaming: MAPPER -> REDUCER']")
+    parser.add_argument("-q", "--job-queue", default="adhoc",
+        help="Hadoop queue name. [default: %(default)s]")
+    parser.add_argument("-u", "--job-user", default=os.environ['USER'],
+        help="User to execute job. [default: %(default)s]")
+    parser.add_argument("-D", default=[], action="append", dest="javaDefines", metavar='DEFINE',
+        help="Define a system property to pass to java -D")
+    
+    # parser.add_argument("-N", "--namenode", default="analytics1010.eqiad.wmnet:8020",
+    #     help="Location of the NameNode. [default: %(default)s]")
+    parser.add_argument("-J", "--streaming-jar", default="/usr/lib/hadoop-mapreduce/hadoop-streaming.jar",
+        help="Location of the Hadoop Streaming jar. [default: %(default)s]")
+    
+    
+    def __call__(self):
+        streaming_jar = self.streaming_jar
+        mapper        = self.mapper
+        reducer       = self.reducer
+        job_user      = self.job_user
+        job_queue     = self.job_queue
+        job_name      = self.job_name if self.job_name else 'streaming: {} -> {}'.format(mapper, reducer)
+        # namenode      = self.namenode if self.namenode.startswith('hdfs://') else ('hdfs://'+self.namenode)
+        javaDefines   = ('-D ' + ' -D '.join(self.javaDefines)) if self.javaDefines else ''
+        input         = self.input    #if self.input.startswith('hdfs://')    else os.path.join(namenode, self.input)
+        output        = self.output   #if self.output.startswith('hdfs://')   else os.path.join(namenode, self.output)
+        
+        sh(' '.join(["sudo -u {job_user}",
+                "hadoop jar '{streaming_jar}'",
+                "-D mapreduce.job.name='{job_name}'",
+                "-D mapreduce.job.queuename='{job_queue}'",
+                javaDefines,
+                "-mapper '{mapper}'",
+                "-reducer '{reducer}'",
+                "-input '{input}'",
+                "-output '{output}'"
+            ]), **locals())
+    
+    
+    
+    def __init__(self, *args, **options):
+        self.__dict__.update(**options)
+        self.__args__    = args
+        self.__options__ = options
+    
+    @classmethod
+    def parse(cls, *args, **overrides):
+        parsed = cls.parser.parse_args(args or None)
+        values = dict(**parsed.__dict__)
+        values.update(overrides)
+        return values
+    
+    @classmethod
+    def create(cls, *args, **overrides):
+        values = cls.parse(*args, **overrides)
+        return cls(**values)
+    
+    @classmethod
+    def main(cls, *args, **overrides):
+        return cls.create(*args, **overrides)() or 0
+    
+
+
+
+if __name__ == '__main__':
+    sys.exit(HDFSCoalesceScript.main())
+
+

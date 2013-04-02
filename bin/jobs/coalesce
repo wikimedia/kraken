@@ -1,0 +1,107 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""" Concatenate and sort files, writing the result back to HDFS.
+"""
+__author__ = 'David Schoonover <dsc@less.ly>'
+
+import sys, os, argparse
+from os.path import dirname
+
+def sh(cmd, *args, **kwargs):
+    cmd = cmd.format(*args, **kwargs)
+    print cmd
+    return os.system(cmd)
+
+
+class HDFSCoalesceScript(object):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("-i", "--input", required=True,
+        help="HDFS path(s) naming the input set to be merged and sorted. "
+             "Ex: /wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-03-01_**")
+    parser.add_argument("-o", "--output", required=True,
+        help="HDFS path naming the output file for the merged and sorted data. "
+             "Ex: /wmf/public/webrequest/mobile/device/props/2013/03/01/mobile_device_props-2013-03-01.tsv")
+    
+    parser.add_argument("-j", "--job-name", default="coalesce",
+        help="Hadoop job name. [default: %(default)s]")
+    parser.add_argument("-q", "--job-queue", default="adhoc",
+        help="Hadoop queue name. [default: %(default)s]")
+    parser.add_argument("-u", "--job-user", default=os.environ['USER'],
+        help="User to execute job. [default: %(default)s]")
+    parser.add_argument("-D", default=[], action="append", dest="javaDefines", metavar='DEFINE',
+        help="Define a system property to pass to java -D")
+    
+    parser.add_argument("-J", "--streaming-jar", default="/usr/lib/hadoop-mapreduce/hadoop-streaming.jar",
+        help="Location of the Hadoop Streaming jar. [default: %(default)s]")
+    
+    
+    def __call__(self):
+        HERE = os.path.dirname(sys.argv[0])
+        
+        job_name      = self.job_name
+        job_queue     = self.job_queue
+        job_user      = self.job_user
+        streaming_jar = self.streaming_jar
+        inputPaths    = self.input
+        outputFile    = self.output
+        javaDefines   = ('-D ' + ' -D '.join(self.javaDefines)) if self.javaDefines else ''
+        outputDir     = os.path.dirname(outputFile)
+        outputTmp     = outputFile + ".concat-tmp"
+        
+        sh("sudo -u hdfs hdfs dfs -rm -R '{outputTmp}'", **locals())
+        sh(' '.join([ '{HERE}/hadoop-streaming',
+                "--job-name '{job_name}'",
+                "--job-queue '{job_queue}'",
+                "--job-user '{job_user}'",
+                "--streaming-jar '{streaming_jar}'",
+                javaDefines,
+                "-D mapreduce.reduce.tasks=1",
+                "--mapper /bin/cat",
+                "--reducer /usr/bin/sort",
+                "--input '{inputPaths}'",
+                "--output '{outputTmp}'",
+            ]), **locals())
+        # sh(' '.join(["sudo -u {job_user}",
+        #         "hadoop jar '{streaming_jar}'",
+        #         "-D mapreduce.job.name='{job_name}'",
+        #         "-D mapreduce.job.queuename='{job_queue}'",
+        #         "-D mapreduce.reduce.tasks=1",
+        #         "-mapper /bin/cat -reducer /usr/bin/sort",
+        #         "-input '{inputPaths}'",
+        #         "-output '{outputTmp}'"
+        #     ]), **locals())
+        sh("sudo -u hdfs hdfs dfs -rm -R '{outputDir}'", **locals())
+        sh("sudo -u hdfs hdfs dfs -mkdir '{outputDir}'", **locals())
+        sh("sudo -u hdfs hdfs dfs -mv '{outputTmp}/part-00000' '{outputFile}'", **locals())
+        sh("sudo -u hdfs hdfs dfs -rm -R '{outputTmp}'", **locals())
+    
+    
+    
+    def __init__(self, *args, **options):
+        self.__dict__.update(**options)
+        self.__args__    = args
+        self.__options__ = options
+    
+    @classmethod
+    def parse(cls, *args, **overrides):
+        parsed = cls.parser.parse_args(args or None)
+        values = dict(**parsed.__dict__)
+        values.update(overrides)
+        return values
+    
+    @classmethod
+    def create(cls, *args, **overrides):
+        values = cls.parse(*args, **overrides)
+        return cls(**values)
+    
+    @classmethod
+    def main(cls, *args, **overrides):
+        return cls.create(*args, **overrides)() or 0
+    
+
+
+
+if __name__ == '__main__':
+    sys.exit(HDFSCoalesceScript.main())
+
+
