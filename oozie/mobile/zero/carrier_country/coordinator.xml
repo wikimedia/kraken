@@ -30,14 +30,14 @@
     <datasets>
         <dataset name="webrequest-wikipedia-mobile"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-03-14T00:00Z"
+                initial-instance="2013-02-01T00:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
         </dataset>
         <dataset name="zero_carrier_country"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-03-14T00:00Z"
+                initial-instance="2013-02-01T00:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/public/webrequest/zero/carrier/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
@@ -59,7 +59,7 @@
     
     <action>
         <workflow>
-            <app-path>${nameNode}/libs/kraken/oozie/mobile/zero/carrier_country</app-path>
+            <app-path>${nameNode}/libs/kraken/oozie/mobile/zero/carrier_country/workflow.xml</app-path>
             <configuration>
                 <property><name>nameNode</name><value>${nameNode}</value></property>
                 <property><name>jobTracker</name><value>${jobTracker}</value></property>
