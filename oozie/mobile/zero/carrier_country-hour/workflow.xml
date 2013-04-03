@@ -1,18 +1,81 @@
-<workflow-app name="zero_carrier_country_wf" xmlns="uri:oozie:workflow:0.4">
-    <global>
-        <name-node>${nameNode}</name-node>
-        <job-tracker>${jobTracker}</job-tracker>
-    </global>
-    <start to="zero_carrier_country"/>
+<workflow-app xmlns="uri:oozie:workflow:0.4"
+        name="zero_carrier_country_wf"> 
     
-    <action name="zero_carrier_country">
+    <parameters>
+        <!-- Job defaults -->
+        <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
+        <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
+        <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
+        <property><name>queueName</name><value>adhoc</value></property>
+        
+        <!-- Process data -->
+        <property>
+            <name>dataInput</name>
+            <description>HDFS path(s) naming the input dataset to be processed.</description>
+        </property>
+        <property>
+            <name>carrierOutput</name>
+        </property>
+        <property>
+            <name>countryOutput</name>
+        </property>
+        
+        <!-- Processing Meta -->
+        <property>
+            <name>jobHour</name>
+            <description>Hour of current job.</description>
+        </property>
+        <property>
+            <name>jobDay</name>
+            <description>Day of current job.</description>
+        </property>
+        <property>
+            <name>jobMonth</name>
+            <description>Month of current job.</description>
+        </property>
+        <property>
+            <name>jobYear</name>
+            <description>Year of current job.</description>
+        </property>
+        
+        <!-- XXX: Unused
+        <property>
+            <name>dataDir</name>
+            <value>${nameNode}/wmf/data/webrequest/zero/carrier_country</value>
+        </property>
+        <property>
+            <name>publicDir</name>
+            <value>${nameNode}/wmf/public/webrequest/zero</value>
+        </property>
+        <property>
+            <name>outputFilePrefix</name>
+            <value>zero</value>
+        </property>
+        -->
+    </parameters>
+    
+    <global>
+       <job-tracker>${jobTracker}</job-tracker>
+       <name-node>${nameNode}</name-node>
+       <configuration>
+            <property>
+                <name>mapreduce.job.queuename</name>
+                <value>${queueName}</value>
+            </property>
+        </configuration>
+    </global>
+    
+    <start to="process"/>
+    
+    <action name="process">
         <pig>
-            <script>/libs/kraken/pig/webrequest_zero_hour_carrier_country.pig</script>
+            <script>${krakenLibPath}/pig/webrequest_zero_hour_carrier_country.pig</script>
             
-            <argument>-p</argument><argument>input=${INPUT}</argument>
-            <argument>-p</argument><argument>output=${OUTPUT}</argument>
-            <argument>-p</argument><argument>date_bucket_format=${DATE_BUCKET_FORMAT}</argument>
-            <argument>-p</argument><argument>date_bucket_regex=${DATE_BUCKET_REGEX}</argument>
+            <argument>-p</argument><argument>input=${dataInput}</argument>
+            <argument>-p</argument><argument>carrier_output=${carrierOutput}</argument>
+            <argument>-p</argument><argument>country_output=${countryOutput}</argument>
+            <argument>-p</argument><argument>date_bucket_format=yyyy-MM-dd_HH</argument>
+            <argument>-p</argument><argument>date_bucket_regex=${jobYear}-${jobMonth}-${jobDay}_${jobHour}</argument>
             
             <file>/libs/GeoIP.dat</file>
             <file>/libs/GeoIPCity.dat</file>
@@ -26,7 +89,5 @@
     <kill name="kill">
         <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
     </kill>
-    
     <end name="end"/>
-    
 </workflow-app>

@@ -1,7 +1,31 @@
-<coordinator-app name="webrequest_zero_carrier_country" xmlns="uri:oozie:coordinator:0.1"
-    frequency="${coord:hours(1)}"
-    start="2013-03-14T01:00Z" end="2020-01-01T23:00Z"
-    timezone="Universal">
+<coordinator-app xmlns="uri:oozie:coordinator:0.4"
+        name="webrequest_zero_carrier_country"
+        frequency="${coord:hours(1)}" start="2013-02-01T01:00Z" end="2020-01-01T23:00Z" timezone="Universal">
+    
+    <parameters>
+        <property>
+            <name>nameNode</name>
+            <value>hdfs://analytics1010.eqiad.wmnet:8020</value>
+        </property>
+        <property>
+            <name>jobTracker</name>
+            <value>analytics1010.eqiad.wmnet:8032</value>
+        </property>
+        <property>
+            <name>krakenLibPath</name>
+            <value>${nameNode}/libs/kraken</value>
+        </property>
+        
+        <!-- Coordinator App -->
+        <property>
+            <name>appPath</name>
+            <value>${krakenLibPath}/oozie/mobile/zero/carrier_country</value>
+        </property>
+        <property>
+            <name>queueName</name>
+            <value>standard</value>
+        </property>
+    </parameters>
     
     <datasets>
         <dataset name="webrequest-wikipedia-mobile"
@@ -15,7 +39,7 @@
                 frequency="${coord:minutes(15)}"
                 initial-instance="2013-03-14T00:00Z"
                 timezone="Universal">
-            <uri-template>hdfs:///wmf/public/webrequest/zero_carrier_country/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
+            <uri-template>hdfs:///wmf/public/webrequest/zero/carrier/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
         </dataset>
     </datasets>
@@ -35,11 +59,54 @@
     
     <action>
         <workflow>
-            <app-path>${wf_application_path}</app-path>
+            <app-path>${nameNode}/libs/kraken/oozie/mobile/zero/carrier_country</app-path>
             <configuration>
-                <property><name>INPUT</name><value>${coord:dataIn('INPUT')}</value></property>
-                <property><name>OUTPUT</name><value>${coord:dataOut('OUTPUT')}</value></property>
-                <property><name>HOUR_REGEX</name><value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM-dd_HH')}</value></property>
+                <property><name>nameNode</name><value>${nameNode}</value></property>
+                <property><name>jobTracker</name><value>${jobTracker}</value></property>
+                <property><name>queueName</name><value>${queueName}</value></property>
+                
+                <!-- Hourly Processing -->
+                <property>
+                    <name>dataInput</name>
+                    <value>${coord:dataIn('INPUT')}</value>
+                </property>
+                <property>
+                    <name>carrierOutput</name>
+                    <value>${coord:dataOut('OUTPUT')}</value>
+                </property>
+                <property>
+                    <name>countryOutput</name>
+                    <value>${replaceAll(coord:dataOut('OUTPUT'), "/carrier/", "/country/")}</value>
+                </property>
+                
+                <!-- Processing Meta -->
+                <property>
+                    <name>jobHour</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'HH')}</value>
+                </property>
+                <property>
+                    <name>jobDay</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'dd')}</value>
+                </property>
+                <property>
+                    <name>jobMonth</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'MM')}</value>
+                </property>
+                <property>
+                    <name>jobYear</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy')}</value>
+                </property>
+                
+                <!-- XXX: unused
+                <property>
+                    <name>dataDir</name>
+                    <value>${nameNode}/wmf/data/webrequest/zero/carrier_country</value>
+                </property>
+                <property>
+                    <name>publicDir</name>
+                    <value>${nameNode}/wmf/public/webrequest/zero</value>
+                </property>
+                -->
             </configuration>
         </workflow>
     </action>

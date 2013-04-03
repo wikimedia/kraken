@@ -3,7 +3,12 @@ REGISTER 'kraken-generic-0.0.2-SNAPSHOT-jar-with-dependencies.jar'
 REGISTER 'kraken-dclass-0.0.2-SNAPSHOT.jar'
 REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
 
--- Script Parameters: pass via -p param_name=param_value, ex: -p date_bucket_regex=2013-03-24_00
+-- Script Parameters
+--      Pass via `-p param_name=param_value`. Ex: pig myscript.pig -p date_bucket_regex=2013-03-24_00
+-- Required:
+--      input                                   -- Input data paths.
+--      carrier_output                          -- Output path for carrier data.
+--      country_output                          -- Output path for country data.
 %default date_bucket_format 'yyyy-MM-dd_HH';    -- Format applied to timestamps for aggregation into buckets. Default: hourly.
 %default date_bucket_regex '.*';                -- Regex used to filter the formatted date_buckets; must match whole line. Default: no filtering.
 
@@ -27,7 +32,7 @@ log_fields = LOAD_WEBREQUEST('$input');
 */
 log_fields = FILTER log_fields
     BY (    (x_cs IS NOT NULL) AND (x_cs != '') AND (x_cs != '-')
-        AND (x_cs MATCHES '\\d\\d\\d-\\d.*')
+        AND (x_cs MATCHES '(\\d\\d\\d-\\d.*|.*?\\bzero=\\d\\d\\d-\\d.*)')
         AND (DATE_BUCKET(timestamp) MATCHES '$date_bucket_regex')
         AND (uri MATCHES 'https?://([^/]+?\\.)?wikipedia\\.org/.*')
         AND IS_PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method)
@@ -44,8 +49,8 @@ log_fields = FOREACH log_fields
 
 country_count = FOREACH (GROUP log_fields BY (date_bucket, language, project, site_version, country))
     GENERATE FLATTEN($0), '-', COUNT($1) AS num:int;
-STORE country_count INTO '$output/country' USING PigStorage();
+STORE country_count INTO '$country_output' USING PigStorage();
 
 carrier_count = FOREACH (GROUP log_fields BY (date_bucket, language, project, site_version, country, carrier))
     GENERATE FLATTEN($0), COUNT($1) AS num:int;
-STORE carrier_count INTO '$output/carrier' USING PigStorage();
+STORE carrier_count INTO '$carrier_output' USING PigStorage();
