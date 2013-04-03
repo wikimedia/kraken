@@ -74,12 +74,10 @@
                     <name>carrierOutput</name>
                     <value>${coord:dataOut('OUTPUT')}</value>
                 </property>
-                <!--
                 <property>
                     <name>countryOutput</name>
-                    <value>${replaceAll(coord:dataOut('OUTPUT'), "/carrier/", "/country/")}</value>
+                    <value>hdfs:///wmf/public/webrequest/zero/country/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM/dd/HH.mm.00')}</value>
                 </property>
-                -->
                 
                 <!-- Processing Meta -->
                 <property>
