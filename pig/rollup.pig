@@ -21,11 +21,8 @@ data = LOAD '$input' AS ($input_fields);
 data = FOREACH data GENERATE DATE_BUCKET($date_input_field) AS date_bucket:chararray, *;
 data = FILTER data BY (date_bucket MATCHES '$date_bucket_regex');
 
-rollup = FOREACH (GROUP data BY (date_bucket, $rollup_group_fields))
-    GENERATE
-        FLATTEN($0),
-        SUM(data.$rollup_sum_field) AS sum:long
-    ;
-rollup = ORDER rollup BY date_bucket, $rollup_group_fields;
+data_rollup = FOREACH (GROUP data BY (date_bucket, $rollup_group_fields))
+    GENERATE FLATTEN($0), SUM($1.$rollup_sum_field);
+data_rollup = ORDER data_rollup BY date_bucket, $rollup_group_fields;
 
-STORE data INTO '$output' USING PigStorage();
+STORE data_rollup INTO '$output' USING PigStorage();
