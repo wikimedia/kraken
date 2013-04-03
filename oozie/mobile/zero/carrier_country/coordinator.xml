@@ -74,10 +74,12 @@
                     <name>carrierOutput</name>
                     <value>${coord:dataOut('OUTPUT')}</value>
                 </property>
+                <!--
                 <property>
                     <name>countryOutput</name>
                     <value>${replaceAll(coord:dataOut('OUTPUT'), "/carrier/", "/country/")}</value>
                 </property>
+                -->
                 
                 <!-- Processing Meta -->
                 <property>

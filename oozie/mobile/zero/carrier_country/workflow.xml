@@ -18,6 +18,7 @@
         </property>
         <property>
             <name>countryOutput</name>
+            <value>${replaceAll(carrierOutput, "/carrier/", "/country/")}</value>
         </property>
         
         <!-- Processing Meta -->
