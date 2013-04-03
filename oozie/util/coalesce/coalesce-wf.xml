@@ -1,4 +1,6 @@
-<workflow-app xmlns="uri:oozie:workflow:0.4" name="coalesce-wf">
+<workflow-app xmlns="uri:oozie:workflow:0.4"
+        name="coalesce-wf">
+    
     <parameters>
         <property>
             <name>nameNode</name>

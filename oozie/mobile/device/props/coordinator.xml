@@ -65,7 +65,7 @@
                 <property><name>jobTracker</name><value>${jobTracker}</value></property>
                 <property><name>queueName</name><value>${queueName}</value></property>
                 
-                <!-- hourly processing -->
+                <!-- Hourly Processing -->
                 <property>
                     <name>dataInput</name>
                     <value>${coord:dataIn('INPUT')}</value>
@@ -74,28 +74,57 @@
                     <name>dataOutput</name>
                     <value>${coord:dataOut('OUTPUT')}</value>
                 </property>
+                
+                <!-- Processing Meta -->
                 <property>
-                    <name>dateBucketFormat</name>
-                    <value>yyyy-MM-dd_HH</value>
+                    <name>jobHour</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'HH')}</value>
                 </property>
                 <property>
-                    <name>dateBucketRegex</name>
-                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM-dd_HH')}</value>
+                    <name>jobDay</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'dd')}</value>
+                </property>
+                <property>
+                    <name>jobMonth</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'MM')}</value>
+                </property>
+                <property>
+                    <name>jobYear</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy')}</value>
                 </property>
                 
-                <!-- concat to per-day file -->
+                <!-- Rollup Output -->
                 <property>
-                    <name>coalesceInput</name>
-                    <value>${nameNode}/wmf/data/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM/dd')}/**</value>
+                    <name>dataDir</name>
+                    <value>${nameNode}/wmf/data/webrequest/mobile/device/props</value>
                 </property>
                 <property>
-                    <name>coalesceOutputDir</name>
-                    <value>${nameNode}/wmf/public/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM/dd')}</value>
+                    <name>publicDir</name>
+                    <value>${nameNode}/wmf/public/webrequest/mobile/device/props</value>
                 </property>
                 <property>
-                    <name>coalesceOutputFile</name>
-                    <value>mobile_device_props-${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM-dd')}.tsv</value>
+                    <name>outputFilePrefix</name>
+                    <value>mobile_device_props</value>
                 </property>
+                
+<!--
+                <property>
+                    <name>monthOutputDir</name>
+                    <value>${nameNode}/wmf/public/webrequest/mobile/device/props/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM')}</value>
+                </property>
+                <property>
+                    <name>hourOutputFile</name>
+                    <value>mobile_device_props-hour-${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM-dd')}.tsv</value>
+                </property>
+                <property>
+                    <name>dayOutputFile</name>
+                    <value>mobile_device_props-day-${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM-dd')}.tsv</value>
+                </property>
+                <property>
+                    <name>monthOutputFile</name>
+                    <value>mobile_device_props-month-${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM')}.tsv</value>
+                </property>
+-->
             </configuration>
         </workflow>
     </action>

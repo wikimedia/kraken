@@ -17,24 +17,37 @@
             <name>dataOutput</name>
             <description>HDFS path to store the output dataset from processing.</description>
         </property>
+        
+        <!-- Processing Meta -->
         <property>
-            <name>dateBucketFormat</name>
-            <description>Format applied to timestamps for aggregation into buckets.</description>
+            <name>jobHour</name>
+            <description>Hour of current job.</description>
         </property>
         <property>
-            <name>dateBucketRegex</name>
-            <description>Regex used to filter the formatted date_buckets; must match whole line.</description>
+            <name>jobDay</name>
+            <description>Day of current job.</description>
+        </property>
+        <property>
+            <name>jobMonth</name>
+            <description>Month of current job.</description>
+        </property>
+        <property>
+            <name>jobYear</name>
+            <description>Year of current job.</description>
         </property>
         
-        <!-- Coalesce to one file -->
+        <!-- Rollup Output -->
         <property>
-            <name>coalesceInput</name>
+            <name>dataDir</name>
+            <value>${nameNode}/wmf/data/webrequest/mobile/device/props</value>
         </property>
         <property>
-            <name>coalesceOutputDir</name>
+            <name>publicDir</name>
+            <value>${nameNode}/wmf/public/webrequest/mobile/device/props</value>
         </property>
         <property>
-            <name>coalesceOutputFile</name>
+            <name>outputFilePrefix</name>
+            <value>mobile_device_props</value>
         </property>
     </parameters>
     
@@ -57,24 +70,21 @@
             
             <argument>-p</argument><argument>input=${dataInput}</argument>
             <argument>-p</argument><argument>output=${dataOutput}</argument>
-            <argument>-p</argument><argument>date_bucket_format=${dateBucketFormat}</argument>
-            <argument>-p</argument><argument>date_bucket_regex=${dateBucketRegex}</argument>
+            <argument>-p</argument><argument>date_bucket_format=yyyy-MM-dd_HH</argument>
+            <argument>-p</argument><argument>date_bucket_regex=${jobYear}-${jobMonth}-${jobDay}_${jobHour}</argument>
             
             <file>/libs/GeoIP.dat</file>
             <file>/libs/GeoIPCity.dat</file>
             <file>/libs/GeoIPRegion.dat</file>
             <file>/libs/GeoIPv6.dat</file>
         </pig>
-        <ok to="coalesce"/>
+        <ok to="coalesce_hour"/>
         <error to="kill"/>
     </action>
     
-    <action name="coalesce">
+    <action name="coalesce_hour">
         <sub-workflow>
             <app-path>${krakenLibPath}/oozie/util/coalesce/coalesce-wf.xml</app-path>
-            
-            <!-- FIXME Oozie throws an error about data length! -->
-            <!-- <propagate-configuration/> -->
             <configuration>
                 <property><name>nameNode</name><value>${nameNode}</value></property>
                 <property><name>jobTracker</name><value>${jobTracker}</value></property>
@@ -82,15 +92,131 @@
                 
                 <property>
                     <name>coalesceInput</name>
-                    <value>${coalesceInput}</value>
+                    <value>${dataDir}/${jobYear}/${jobMonth}/${jobDay}/**</value>
                 </property>
                 <property>
                     <name>coalesceOutputDir</name>
-                    <value>${coalesceOutputDir}</value>
+                    <value>${publicDir}/${jobYear}/${jobMonth}/${jobDay}</value>
                 </property>
                 <property>
                     <name>coalesceOutputFile</name>
-                    <value>${coalesceOutputFile}</value>
+                    <value>${outputFilePrefix}-hour-${jobYear}-${jobMonth}-${jobDay}.tsv</value>
+                </property>
+            </configuration>
+        </sub-workflow>
+        <ok to="rollup_day"/>
+        <error to="kill"/>
+    </action>
+    
+    <action name="rollup_day">
+        <sub-workflow>
+            <app-path>${krakenLibPath}/oozie/util/rollup/rollup-wf.xml</app-path>
+            <configuration>
+                <property><name>nameNode</name><value>${nameNode}</value></property>
+                <property><name>jobTracker</name><value>${jobTracker}</value></property>
+                <property><name>queueName</name><value>${queueName}</value></property>
+                
+                <property>
+                    <name>input</name>
+                    <value>${publicDir}/${jobYear}/${jobMonth}/${jobDay}/*-hour-*.tsv</value>
+                </property>
+                <property>
+                    <name>outputDir</name>
+                    <value>${publicDir}/${jobYear}/${jobMonth}/${jobDay}</value>
+                </property>
+                <property>
+                    <name>outputFile</name>
+                    <value>${outputFilePrefix}-day-${jobYear}-${jobMonth}-${jobDay}.tsv</value>
+                </property>
+                
+                <!-- Define the rollup shape -->
+                <property>
+                    <name>inputFields</name>
+                    <value>timestamp:chararray,country:chararray,device_class:chararray,device_os:chararray,num:int</value>
+                </property>
+                <property>
+                    <name>rollupGroupFields</name>
+                    <value>country,device_class,device_os</value>
+                </property>
+                <property>
+                    <name>rollupSumField</name>
+                    <value>num</value>
+                </property>
+                
+                <!-- Define the rollup time window -->
+                <property>
+                    <name>dateInputField</name>
+                    <value>timestamp</value>
+                </property>
+                <property>
+                    <name>dateInputFormat</name>
+                    <value>yyyy-MM-dd_HH</value>
+                </property>
+                <property>
+                    <name>dateBucketFormat</name>
+                    <value>yyyy-MM-dd</value>
+                </property>
+                <property>
+                    <name>dateBucketRegex</name>
+                    <value>${jobYear}-${jobMonth}-${jobDay}</value>
+                </property>
+            </configuration>
+        </sub-workflow>
+        <ok to="rollup_month"/>
+        <error to="kill"/>
+    </action>
+    
+    <action name="rollup_month">
+        <sub-workflow>
+            <app-path>${krakenLibPath}/oozie/util/rollup/rollup-wf.xml</app-path>
+            <configuration>
+                <property><name>nameNode</name><value>${nameNode}</value></property>
+                <property><name>jobTracker</name><value>${jobTracker}</value></property>
+                <property><name>queueName</name><value>${queueName}</value></property>
+                
+                <property>
+                    <name>input</name>
+                    <value>${publicDir}/${jobYear}/${jobMonth}/*/*-day-*.tsv</value>
+                </property>
+                <property>
+                    <name>outputDir</name>
+                    <value>${publicDir}/${jobYear}/${jobMonth}</value>
+                </property>
+                <property>
+                    <name>outputFile</name>
+                    <value>${outputFilePrefix}-month-${jobYear}-${jobMonth}-${jobDay}.tsv</value>
+                </property>
+                
+                <!-- Define the rollup shape -->
+                <property>
+                    <name>inputFields</name>
+                    <value>timestamp:chararray,country:chararray,device_class:chararray,device_os:chararray,num:int</value>
+                </property>
+                <property>
+                    <name>rollupGroupFields</name>
+                    <value>country,device_class,device_os</value>
+                </property>
+                <property>
+                    <name>rollupSumField</name>
+                    <value>num</value>
+                </property>
+                
+                <!-- Define the rollup time window -->
+                <property>
+                    <name>dateInputField</name>
+                    <value>timestamp</value>
+                </property>
+                <property>
+                    <name>dateInputFormat</name>
+                    <value>yyyy-MM-dd</value>
+                </property>
+                <property>
+                    <name>dateBucketFormat</name>
+                    <value>yyyy-MM</value>
+                </property>
+                <property>
+                    <name>dateBucketRegex</name>
+                    <value>${jobYear}-${jobMonth}</value>
                 </property>
             </configuration>
         </sub-workflow>
@@ -98,8 +224,8 @@
         <error to="kill"/>
     </action>
     
+    <end name="end"/>
     <kill name="kill">
         <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
     </kill>
-    <end name="end"/>
 </workflow-app>

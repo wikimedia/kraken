@@ -1,0 +1,125 @@
+<workflow-app xmlns="uri:oozie:workflow:0.4"
+        name="rollup_wf">
+    
+    <parameters>
+        <!-- Job defaults -->
+        <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
+        <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
+        <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
+        <property><name>queueName</name><value>adhoc</value></property>
+        
+        <!-- Paths for input/output -->
+        <property>
+            <name>input</name>
+            <description>HDFS path(s) naming the input set to be rolled up, merged, and sorted. Ex: hdfs:///wmf/data/webrequest/mobile/device/props/2013/03/01/**.tsv</description>
+        </property>
+        <property>
+            <name>outputDir</name>
+            <description>HDFS path naming the directory (NOT including output file) for the output. Ex: hdfs:///wmf/public/webrequest/mobile/device/props/2013/03/01</description>
+        </property>
+        <property>
+            <name>outputFile</name>
+            <description>Filename (NOT a full path -- only the filename) for the output. Ex: mobile_device_props-daily-2013-03-01.tsv</description>
+        </property>
+        <property>
+            <name>rollupOutputTmp</name>
+            <value>${outputDir}/${outputFile}.rollup-tmp</value>
+            <description>HDFS path naming the location for temporary output. Optional; override to customize.</description>
+        </property>
+        
+        <!-- Define the rollup shape -->
+        <property>
+            <name>inputFields</name>
+            <description>Comma-separated list of `name:type` fields used to parse the input. Ex: timestamp:chararray, country:chararray, device_class:chararray, device_os:chararray, num:int</description>
+        </property>
+        <property>
+            <name>rollupGroupFields</name>
+            <description>Comma-separated list of field names to group on for rollup; `date_bucket` is automatically included. Ex: country, device_class, device_os</description>
+        </property>
+        <property>
+            <name>rollupSumField</name>
+            <description>Field to sum for the rollup. Ex: num</description>
+        </property>
+        
+        <!-- Define the rollup time window -->
+        <property>
+            <name>dateInputField</name>
+            <description>Date-field to use for time-bucketing, which becomes `date_bucket`. Ex: timestamp</description>
+        </property>
+        <property>
+            <name>dateInputFormat</name>
+            <description>Date format string used to parse input timestamps from `date_input_field`. Ex: yyyy-MM-dd_HH</description>
+        </property>
+        <property>
+            <name>dateBucketFormat</name>
+            <description>Format applied to timestamps for aggregation into buckets.</description>
+        </property>
+        <property>
+            <name>dateBucketRegex</name>
+            <description>Regex used to filter the formatted date_buckets; must match whole line.</description>
+        </property>
+    </parameters>
+    
+    <global>
+       <job-tracker>${jobTracker}</job-tracker>
+       <name-node>${nameNode}</name-node>
+       <configuration>
+            <property>
+                <name>mapreduce.job.queuename</name>
+                <value>${queueName}</value>
+            </property>
+        </configuration>
+    </global>
+    
+    <start to="rollup"/>
+    
+    <action name="rollup">
+        <pig>
+            <script>${krakenLibPath}/pig/rollup.pig</script>
+            
+            <argument>-p</argument><argument>input=${input}</argument>
+            <argument>-p</argument><argument>output=${rollupOutputTmp}</argument>
+            <argument>-p</argument><argument>input_fields=${inputFields}</argument>
+            <argument>-p</argument><argument>rollup_group_fields=${rollupGroupFields}</argument>
+            <argument>-p</argument><argument>rollup_sum_field=${rollupSumField}</argument>
+            <argument>-p</argument><argument>date_input_field=${dateInputField}</argument>
+            <argument>-p</argument><argument>date_input_format=${dateInputFormat}</argument>
+            <argument>-p</argument><argument>date_bucket_format=${dateBucketFormat}</argument>
+            <argument>-p</argument><argument>date_bucket_regex=${dateBucketRegex}</argument>
+        </pig>
+        <ok to="coalesce"/>
+        <error to="kill"/>
+    </action>
+    
+    <action name="coalesce">
+        <sub-workflow>
+            <app-path>${krakenLibPath}/oozie/util/coalesce/coalesce-wf.xml</app-path>
+            
+            <configuration>
+                <property><name>nameNode</name><value>${nameNode}</value></property>
+                <property><name>jobTracker</name><value>${jobTracker}</value></property>
+                <property><name>queueName</name><value>${queueName}</value></property>
+                
+                <property>
+                    <name>coalesceInput</name>
+                    <value>${rollupOutputTmp}/**</value>
+                </property>
+                <property>
+                    <name>coalesceOutputDir</name>
+                    <value>${outputDir}</value>
+                </property>
+                <property>
+                    <name>coalesceOutputFile</name>
+                    <value>${outputFile}</value>
+                </property>
+            </configuration>
+        </sub-workflow>
+        <ok to="rollup"/>
+        <error to="kill"/>
+    </action>
+    
+    <end name="end"/>
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+</workflow-app>
