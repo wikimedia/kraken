@@ -58,7 +58,7 @@
 
   <property>
     <name>yarn.nodemanager.resource.memory-mb</name>
-    <value>16384</value>
+    <value>40960</value>
   </property>
 
   <property>
@@ -96,7 +96,7 @@
     <value>true</value>
   </property>
   <property>
-    <name>mapred.map.output.compress.codec</name> 
+    <name>mapreduce.map.output.compress.codec</name> 
     <value>org.apache.hadoop.io.compress.SnappyCodec</value>
   </property>
   
