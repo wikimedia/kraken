@@ -132,11 +132,11 @@
                 <!-- Define the rollup shape -->
                 <property>
                     <name>inputFields</name>
-                    <value>timestamp:chararray,country:chararray,device_class:chararray,device_os:chararray,num:int</value>
+                    <value>timestamp:chararray,device_class:chararray,num:int</value>
                 </property>
                 <property>
                     <name>rollupGroupFields</name>
-                    <value>country,device_class,device_os</value>
+                    <value>device_class</value>
                 </property>
                 <property>
                     <name>rollupSumField</name>
@@ -184,17 +184,17 @@
                 </property>
                 <property>
                     <name>outputFile</name>
-                    <value>${outputFilePrefix}-month-${jobYear}-${jobMonth}-${jobDay}.tsv</value>
+                    <value>${outputFilePrefix}-month-${jobYear}-${jobMonth}.tsv</value>
                 </property>
                 
                 <!-- Define the rollup shape -->
                 <property>
                     <name>inputFields</name>
-                    <value>timestamp:chararray,country:chararray,device_class:chararray,device_os:chararray,num:int</value>
+                    <value>timestamp:chararray,device_class:chararray,num:int</value>
                 </property>
                 <property>
                     <name>rollupGroupFields</name>
-                    <value>country,device_class,device_os</value>
+                    <value>device_class</value>
                 </property>
                 <property>
                     <name>rollupSumField</name>

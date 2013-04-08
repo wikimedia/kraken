@@ -8,7 +8,6 @@ REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
 %default date_bucket_regex '.*';                -- Regex used to filter the formatted date_buckets; must match whole line. Default: no filtering.
 
 DEFINE DATE_BUCKET  org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', '$date_bucket_format');
-DEFINE GEO          org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
 DEFINE DCLASS       org.wikimedia.analytics.kraken.pig.UserAgentClassifier();
 DEFINE IS_PAGEVIEW  org.wikimedia.analytics.kraken.pig.PageViewFilterFunc();
 
@@ -23,7 +22,6 @@ log_fields = FILTER log_fields
 device_info = FOREACH log_fields
     GENERATE
         DATE_BUCKET(timestamp)      AS date_bucket:chararray,
-        FLATTEN(GEO(remote_addr))   AS (country:chararray),
         FLATTEN(DCLASS(user_agent)) AS (
             vendor:chararray,
             model:chararray,
@@ -38,9 +36,8 @@ device_info = FOREACH log_fields
             input_device:chararray
         );
 
--- browser, device_os_version, browser_version, display_dimensions
-device_info_count = FOREACH (GROUP device_info BY (date_bucket, country, device_class, device_os))
+device_info_count = FOREACH (GROUP device_info BY (date_bucket, device_class))
     GENERATE FLATTEN($0), COUNT($1) AS num:int;
-device_info_count = ORDER device_info_count BY date_bucket, country, device_class;
+device_info_count = ORDER device_info_count BY date_bucket, device_class;
 
 STORE device_info_count INTO '$output' USING PigStorage();
