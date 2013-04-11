@@ -36,8 +36,8 @@ device_info = FOREACH log_fields
             input_device:chararray
         );
 
-device_info_count = FOREACH (GROUP device_info BY (date_bucket, device_class))
+device_info_count = FOREACH (GROUP device_info BY (date_bucket, device_class, device_os))
     GENERATE FLATTEN($0), COUNT($1) AS num:int;
-device_info_count = ORDER device_info_count BY date_bucket, device_class;
+device_info_count = ORDER device_info_count BY date_bucket, device_class, device_os;
 
 STORE device_info_count INTO '$output' USING PigStorage();
