@@ -1,6 +1,6 @@
 <coordinator-app xmlns="uri:oozie:coordinator:0.4"
         name="mobile_device_props-day"
-        frequency="${coord:day(1)}"
+        frequency="${coord:days(1)}"
         start="${jobStartDate}T00:15Z" end="${jobEndDate}T00:15Z" timezone="Universal">
         <!-- ongoing:   start="2013-04-15T00:15Z" end="2020-01-01T00:15Z" -->
         <!-- backfill:  start="2013-03-02T00:15Z" end="2013-04-15T00:15Z" -->
