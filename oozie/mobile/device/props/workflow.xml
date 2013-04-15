@@ -78,11 +78,11 @@
             <file>/libs/GeoIPRegion.dat</file>
             <file>/libs/GeoIPv6.dat</file>
         </pig>
-        <ok to="coalesce_hour"/>
+        <ok to="coalesce"/>
         <error to="kill"/>
     </action>
     
-    <action name="coalesce_day">
+    <action name="coalesce">
         <sub-workflow>
             <app-path>${krakenLibPath}/oozie/util/coalesce/coalesce-wf.xml</app-path>
             <configuration>
