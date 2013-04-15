@@ -70,8 +70,8 @@
             
             <argument>-p</argument><argument>input=${dataInput}</argument>
             <argument>-p</argument><argument>output=${dataOutput}</argument>
-            <argument>-p</argument><argument>date_bucket_format=yyyy-MM-dd_HH</argument>
-            <argument>-p</argument><argument>date_bucket_regex=${jobYear}-${jobMonth}-${jobDay}_${jobHour}</argument>
+            <argument>-p</argument><argument>date_bucket_format=yyyy-MM-dd</argument>
+            <argument>-p</argument><argument>date_bucket_regex=${jobYear}-${jobMonth}-${jobDay}</argument>
             
             <file>/libs/GeoIP.dat</file>
             <file>/libs/GeoIPCity.dat</file>
@@ -82,7 +82,7 @@
         <error to="kill"/>
     </action>
     
-    <action name="coalesce_hour">
+    <action name="coalesce_day">
         <sub-workflow>
             <app-path>${krakenLibPath}/oozie/util/coalesce/coalesce-wf.xml</app-path>
             <configuration>
@@ -96,69 +96,11 @@
                 </property>
                 <property>
                     <name>coalesceOutputDir</name>
-                    <value>${publicDir}/${jobYear}/${jobMonth}/${jobDay}</value>
+                    <value>${publicDir}/${jobYear}/${jobMonth}</value>
                 </property>
                 <property>
                     <name>coalesceOutputFile</name>
-                    <value>${outputFilePrefix}-hour-${jobYear}-${jobMonth}-${jobDay}.tsv</value>
-                </property>
-            </configuration>
-        </sub-workflow>
-        <ok to="rollup_day"/>
-        <error to="kill"/>
-    </action>
-    
-    <action name="rollup_day">
-        <sub-workflow>
-            <app-path>${krakenLibPath}/oozie/util/rollup/rollup-wf.xml</app-path>
-            <configuration>
-                <property><name>nameNode</name><value>${nameNode}</value></property>
-                <property><name>jobTracker</name><value>${jobTracker}</value></property>
-                <property><name>queueName</name><value>${queueName}</value></property>
-                
-                <property>
-                    <name>input</name>
-                    <value>${publicDir}/${jobYear}/${jobMonth}/${jobDay}/*-hour-*.tsv</value>
-                </property>
-                <property>
-                    <name>outputDir</name>
-                    <value>${publicDir}/${jobYear}/${jobMonth}/${jobDay}</value>
-                </property>
-                <property>
-                    <name>outputFile</name>
                     <value>${outputFilePrefix}-day-${jobYear}-${jobMonth}-${jobDay}.tsv</value>
-                </property>
-                
-                <!-- Define the rollup shape -->
-                <property>
-                    <name>inputFields</name>
-                    <value>timestamp:chararray,device_class:chararray,num:int</value>
-                </property>
-                <property>
-                    <name>rollupGroupFields</name>
-                    <value>device_class</value>
-                </property>
-                <property>
-                    <name>rollupSumField</name>
-                    <value>num</value>
-                </property>
-                
-                <!-- Define the rollup time window -->
-                <property>
-                    <name>dateInputField</name>
-                    <value>timestamp</value>
-                </property>
-                <property>
-                    <name>dateInputFormat</name>
-                    <value>yyyy-MM-dd_HH</value>
-                </property>
-                <property>
-                    <name>dateBucketFormat</name>
-                    <value>yyyy-MM-dd</value>
-                </property>
-                <property>
-                    <name>dateBucketRegex</name>
-                    <value>${jobYear}-${jobMonth}-${jobDay}</value>
                 </property>
             </configuration>
         </sub-workflow>
@@ -176,7 +118,7 @@
                 
                 <property>
                     <name>input</name>
-                    <value>${publicDir}/${jobYear}/${jobMonth}/*/*-day-*.tsv</value>
+                    <value>${publicDir}/${jobYear}/${jobMonth}/**/*-day-*.tsv</value>
                 </property>
                 <property>
                     <name>outputDir</name>
