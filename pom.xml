@@ -35,8 +35,8 @@
     
     <licenses>
         <license>
-            <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>GPL2</name>
+            <url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
         </license>
     </licenses>
 
