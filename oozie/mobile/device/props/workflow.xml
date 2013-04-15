@@ -118,7 +118,7 @@
                 
                 <property>
                     <name>input</name>
-                    <value>${publicDir}/${jobYear}/${jobMonth}/**/*-day-*.tsv</value>
+                    <value>${publicDir}/${jobYear}/${jobMonth}/${outputFilePrefix}-day-*.tsv</value>
                 </property>
                 <property>
                     <name>outputDir</name>
