@@ -132,11 +132,11 @@
                 <!-- Define the rollup shape -->
                 <property>
                     <name>inputFields</name>
-                    <value>timestamp:chararray,device_class:chararray,num:int</value>
+                    <value>timestamp:chararray,device_class:chararray,device_os:chararray,num:int</value>
                 </property>
                 <property>
                     <name>rollupGroupFields</name>
-                    <value>device_class</value>
+                    <value>device_class,device_os</value>
                 </property>
                 <property>
                     <name>rollupSumField</name>
