@@ -28,9 +28,8 @@ DEFINE ToDateBucket org.wikimedia.analytics.kraken.pig.ConvertDateFormat('$date_
 
 IMPORT 'include/load_webrequest.pig';
 log_fields = LOAD_WEBREQUEST('$input');
--- log_fields = FOREACH log_fields GENERATE ToDateBucket(timestamp) AS date_bucket:chararray, *;
 
-SPLIT $log_fields INTO
+SPLIT log_fields INTO
     bucket0 IF ToDateBucket(timestamp) MATCHES '$date_bucket_hour:(0\\d|1[0-4])',
     bucket1 IF ToDateBucket(timestamp) MATCHES '$date_bucket_hour:(1[5-9]|2\\d)',
     bucket2 IF ToDateBucket(timestamp) MATCHES '$date_bucket_hour:(3\\d|4[0-4])',
@@ -42,5 +41,5 @@ STORE bucket1 INTO '$output_bucket_dir/$date_bucket_hour.15.00' USING PigStorage
 STORE bucket2 INTO '$output_bucket_dir/$date_bucket_hour.30.00' USING PigStorage();
 STORE bucket3 INTO '$output_bucket_dir/$date_bucket_hour.45.00' USING PigStorage();
 
-STORE rest    INTO '$output_rest'         USING PigStorage();
+STORE rest    INTO '$output_rest'                               USING PigStorage();
 
