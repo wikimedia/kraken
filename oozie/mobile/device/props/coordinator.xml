@@ -1,5 +1,5 @@
 <coordinator-app xmlns="uri:oozie:coordinator:0.4"
-        name="mobile_device_props-day"
+        name="mobile_device_props-${jobName}"
         frequency="${coord:days(1)}"
         start="${jobStartDate}T00:15Z" end="${jobEndDate}T00:15Z" timezone="Universal">
         <!-- ongoing:   start="2013-04-15T00:15Z" end="2020-01-01T00:15Z" -->
@@ -16,8 +16,8 @@
             <value>${krakenLibPath}/oozie/mobile/device/props</value>
         </property>
         <property>
-            <name>queueName</name>
-            <value>adhoc</value>
+            <name>jobName</name>
+            <value>day</value>
         </property>
         <property>
             <name>jobStartDate</name>
@@ -26,6 +26,10 @@
         <property>
             <name>jobEndDate</name>
             <value>2020-01-01</value>
+        </property>
+        <property>
+            <name>queueName</name>
+            <value>adhoc</value>
         </property>
     </parameters>
     
@@ -67,6 +71,11 @@
                 <property><name>nameNode</name><value>${nameNode}</value></property>
                 <property><name>jobTracker</name><value>${jobTracker}</value></property>
                 <property><name>queueName</name><value>${queueName}</value></property>
+                
+                <property>
+                    <name>jobName</name>
+                    <value>mobile_device_props.pig@${jobName}</value>
+                </property>
                 
                 <!-- Hourly Processing -->
                 <property>
