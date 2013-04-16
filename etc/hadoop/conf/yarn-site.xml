@@ -92,11 +92,11 @@
 
   <!-- MapReduce intermediate compression -->
   <property>
-    <name>mapreduce.map.output.compress</name> 
+    <name>mapreduce.map.output.compress</name>
     <value>true</value>
   </property>
   <property>
-    <name>mapreduce.map.output.compress.codec</name> 
+    <name>mapreduce.map.output.compress.codec</name>
     <value>org.apache.hadoop.io.compress.SnappyCodec</value>
   </property>
   
@@ -111,17 +111,17 @@
 
   <!-- MapReduce final output compression -->
   <property>
-    <name>mapreduce.output.fileoutputformat.compress</name> 
+    <name>mapreduce.output.fileoutputformat.compress</name>
     <value>false</value>
   </property>
   <property>
-    <name>mapred.output.fileoutputformat.compress.codec</name> 
+    <name>mapred.output.fileoutputformat.compress.codec</name>
     <value>org.apache.hadoop.io.compress.SnappyCodec</value>
   </property>
   <property>
-    <name>mapreduce.output.fileoutputformat.compress.type</name> 
+    <name>mapreduce.output.fileoutputformat.compress.type</name>
     <value>BLOCK</value>
-  </property>  
+  </property>
 
   <property>
     <description>Classpath for typical applications.</description>
