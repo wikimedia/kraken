@@ -21,10 +21,8 @@ REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
                             --      hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-04-16_03.15.00
 --      date_bucket_hour    -- Date used to split data into buckets; format must match 'yyyy-MM-dd_HH'.
 --      output_rest         -- Output path for non-bucketed data.
--- Optional:
-%default date_input_format  'yyyy-MM-dd\'T\'HH:mm:ss';      -- Date format string used to parse input timestamps. [Default: ISO formatted]
 
-DEFINE ToDateBucket org.wikimedia.analytics.kraken.pig.ConvertDateFormat('$date_input_format', 'yyyy-MM-dd_HH:mm');
+DEFINE ToDateBucket org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd_HH:mm');
 
 IMPORT 'include/load_webrequest.pig';
 log_fields = LOAD_WEBREQUEST('$input');
