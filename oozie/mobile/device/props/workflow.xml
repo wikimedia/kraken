@@ -76,10 +76,9 @@
     <action name="process">
         <pig>
             <configuration>
-                <property>
-                    <name>job.name</name>
-                    <value>${jobName}</value>
-                </property>
+                <property><name>job.name</name><value>${jobName}</value></property>
+                <property><name>jobName</name><value>${jobName}</value></property>
+                <property><name>mapreduce.job.name</name><value>${jobName}</value></property>
             </configuration>
             
             <script>${krakenLibPath}/pig/mobile_device_props.pig</script>
