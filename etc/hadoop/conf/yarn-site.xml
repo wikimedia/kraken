@@ -115,7 +115,7 @@
     <value>false</value>
   </property>
   <property>
-    <name>mapred.output.fileoutputformat.compress.codec</name>
+    <name>mapreduce.output.fileoutputformat.compress.codec</name>
     <value>org.apache.hadoop.io.compress.SnappyCodec</value>
   </property>
   <property>
