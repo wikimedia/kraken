@@ -24,8 +24,31 @@ REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
 
 DEFINE ToDateBucket org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd_HH:mm');
 
-IMPORT 'include/load_webrequest.pig';
-log_fields = LOAD_WEBREQUEST('$input');
+-- FIXME: LOAD_WEBREQUEST declares kafka_byte_offset as a double, which usually truncates it to scientific
+-- notation in the output. This probably only matters in scripts where we want an exact copy, so whatever.
+-- IMPORT 'include/load_webrequest.pig';
+-- log_fields = LOAD_WEBREQUEST('$input');
+
+log_fields = LOAD '$input' AS (
+    kafka_byte_offset:chararray, -- <- boo double!
+    hostname:chararray,
+    sequence:long,
+    timestamp:chararray,
+    request_time:chararray,
+    remote_addr:chararray,
+    http_status:chararray,
+    bytes_sent:long,
+    request_method:chararray,
+    uri:chararray,
+    proxy_host:chararray,
+    content_type:chararray,
+    referer:chararray,
+    x_forwarded_for:chararray,
+    user_agent:chararray,
+    accept_language:chararray,
+    x_cs:chararray
+);
+
 
 SPLIT log_fields INTO
     bucket0 IF ToDateBucket(timestamp) MATCHES '$date_bucket_hour:(0\\d|1[0-4])',
