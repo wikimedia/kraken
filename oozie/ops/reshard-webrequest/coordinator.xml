@@ -1,0 +1,108 @@
+<coordinator-app xmlns="uri:oozie:coordinator:0.4"
+        name="reshard-webrequest-${jobName}"
+        frequency="${coord:hours(1)}"
+        start="${jobStart}" end="${jobEnd}" timezone="Universal">
+    
+    <parameters>
+        <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
+        <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
+        <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
+        
+        <!-- Coordinator App -->
+        <property>
+            <name>appPath</name>
+            <value>${krakenLibPath}/oozie/ops/reshard-webrequest</value>
+        </property>
+        <property>
+            <name>jobName</name>
+        </property>
+        <property>
+            <name>jobStart</name>
+            <value>2013-04-16T03:00Z</value>
+        </property>
+        <property>
+            <name>jobEnd</name>
+            <value>2013-04-16T07:00Z</value>
+        </property>
+        <property>
+            <name>queueName</name>
+            <value>adhoc</value>
+        </property>
+        
+        <!-- Data -->
+        <property>
+            <name>unshardedData</name>
+            <value>${nameNode}/wmf/data/webrequest/webrequest-wikipedia-mobile</value>
+        </property>
+        <property>
+            <name>bucketOutput</name>
+            <value>${nameNode}/wmf/raw/webrequest/webrequest-wikipedia-mobile</value>
+        </property>
+    </parameters>
+    
+    <datasets>
+        <dataset name="webrequest-unsharded"
+                frequency="${coord:minutes(15)}"
+                initial-instance="${jobStart}"
+                timezone="Universal">
+            <uri-template>${unshardedData}/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+            <done-flag></done-flag>
+        </dataset>
+    </datasets>
+    
+    <input-events>
+        <data-in name="INPUT" dataset="webrequest-unshareded">
+            <instance>${coord:current(0)}</instance>
+        </data-in>
+    </input-events>
+    
+    <output-events>
+        <data-out name="OUTPUT" dataset="webrequest-unsharded">
+            <instance>${coord:current(4)}</instance>
+        </data-out>
+    </output-events>
+    
+    <action>
+        <workflow>
+            <app-path>${appPath}/quarter-wf.xml</app-path>
+            <configuration>
+                <property><name>nameNode</name><value>${nameNode}</value></property>
+                <property><name>jobTracker</name><value>${jobTracker}</value></property>
+                <property><name>queueName</name><value>${queueName}</value></property>
+                
+                <!-- Hourly Processing -->
+                <property>
+                    <name>dataInput</name>
+                    <value>${coord:dataIn('INPUT')}</value>
+                </property>
+                <property>
+                    <name>dataOutput</name>
+                    <value>${coord:dataOut('OUTPUT')}</value>
+                </property>
+                <property>
+                    <name>bucketOutput</name>
+                    <value>${bucketOutput}</value>
+                </property>
+                
+                <!-- Processing Meta -->
+                <property>
+                    <name>jobHour</name>
+                    <value>${coord:formatTime(coord:nominalTime(), 'HH')}</value>
+                </property>
+                <property>
+                    <name>jobDay</name>
+                    <value>${coord:formatTime(coord:nominalTime(), 'dd')}</value>
+                </property>
+                <property>
+                    <name>jobMonth</name>
+                    <value>${coord:formatTime(coord:nominalTime(), 'MM')}</value>
+                </property>
+                <property>
+                    <name>jobYear</name>
+                    <value>${coord:formatTime(coord:nominalTime(), 'yyyy')}</value>
+                </property>
+                
+            </configuration>
+        </workflow>
+    </action>
+</coordinator-app>

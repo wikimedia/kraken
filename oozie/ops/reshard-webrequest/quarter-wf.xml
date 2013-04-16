@@ -1,0 +1,93 @@
+<workflow-app xmlns="uri:oozie:workflow:0.4"
+        name="quarter_wf">
+    
+    <parameters>
+        <!-- Job defaults -->
+        <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
+        <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
+        <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
+        <property><name>queueName</name><value>adhoc</value></property>
+        <property>
+            <name>jobName</name>
+            <value>quarter.pig</value>
+            <description>Overrides the job name.</description>
+        </property>
+        
+        <!-- Process data -->
+        <property>
+            <name>dataInput</name>
+            <description>HDFS path(s) naming the input dataset to be processed.</description>
+        </property>
+        <property>
+            <name>dataOutput</name>
+            <description>HDFS path to store the non-bucketed data.</description>
+        </property>
+        <property>
+            <name>bucketOutput</name>
+            <value>${nameNode}/wmf/raw/webrequest/webrequest-wikipedia-mobile</value>
+            <description>
+                Output data path; value should omit the datetime component as each split will 
+                append 'date_bucket_hour' and minute/second tokens to form the bucket's output dir.
+            </description>
+        </property>
+        
+        <!-- Processing Meta -->
+        <property>
+            <name>jobHour</name>
+            <description>Hour of current job.</description>
+        </property>
+        <property>
+            <name>jobDay</name>
+            <description>Day of current job.</description>
+        </property>
+        <property>
+            <name>jobMonth</name>
+            <description>Month of current job.</description>
+        </property>
+        <property>
+            <name>jobYear</name>
+            <description>Year of current job.</description>
+        </property>
+    </parameters>
+    
+    <global>
+       <job-tracker>${jobTracker}</job-tracker>
+       <name-node>${nameNode}</name-node>
+       <configuration>
+            <property>
+                <name>mapreduce.job.queuename</name>
+                <value>${queueName}</value>
+            </property>
+            <property>
+                <name>oozie.action.external.stats.write</name>
+                <value>true</value>
+            </property>
+        </configuration>
+    </global>
+    
+    <start to="quarter"/>
+    
+    <action name="quarter">
+        <pig>
+            <configuration>
+                <property><name>job.name</name><value>${jobName}</value></property>
+                <property><name>jobName</name><value>${jobName}</value></property>
+                <property><name>mapreduce.job.name</name><value>${jobName}</value></property>
+            </configuration>
+            
+            <script>${krakenLibPath}/oozie/ops/reshard-webrequest/quarter.pig</script>
+            
+            <argument>-p</argument><argument>input=${dataInput}</argument>
+            <argument>-p</argument><argument>output_rest=${dataOutput}</argument>
+            <argument>-p</argument><argument>output_bucket_dir=${bucketOutput}</argument>
+            <argument>-p</argument><argument>date_bucket_hour=${jobYear}-${jobMonth}-${jobDay}_${jobHour}</argument>
+        </pig>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
