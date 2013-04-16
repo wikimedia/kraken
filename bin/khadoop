@@ -2,11 +2,13 @@
 """Kraken Hadoop remote control
 
 Usage:
-  khadoop <service> <action> [NODES...]
-  khadoop logs [NODES...]
+  khadoop [options] <service> <action> [NODES...]
+  khadoop [options] logs [NODES...]
 
 Options:
-  -h --help             show this help message and exit
+  -h --help                 show this help message and exit
+  -g GROUP --group GROUP    set the dsh group for kraken nodes [default: k]
+  --no-drop-sig1            do not squelch 'Killed by signal 1' messages
 
 Examples:
   
@@ -39,7 +41,8 @@ import sys
 import os
 import time
 
-kraken_dsh_name = 'k'
+kraken_dsh_group = 'k'
+drop_killedbysig1 = True
 
 services = {
     'namenode':          'hadoop-hdfs-namenode',
@@ -56,12 +59,20 @@ worker_nodes = ['an11','an12','an13','an14','an15','an16','an17','an18','an19','
 
 
 def parse_dsh_nodes(nodes=None):
-    # print nodes
     if nodes:
         nodes = '-m ' + ' -m '.join(nodes)
     else:
-        nodes = ' -g ' + kraken_dsh_name
+        nodes = ' -g ' + kraken_dsh_group
     return nodes
+
+def dsh(cmd, quiet=False):
+    if not cmd.startswith('dsh '):
+        cmd = 'dsh ' + cmd
+    if not quiet:
+        print cmd
+    if drop_killedbysig1:
+        cmd += " 2>&1 | grep -v -e 'Killed by signal 1.' -"
+    return os.system(cmd)
 
 def master(action):
     service('resourcemanager', action, [master_node])
@@ -72,34 +83,34 @@ def workers(action):
     service('datanode',     action, worker_nodes)
 
 def service(name, action, nodes=None):
-    command = "dsh " + parse_dsh_nodes(nodes) + " \"sudo service %s %s\"" % (services[name], action)
-    print command
-    os.system(command)
+    dsh("%s 'sudo service %s %s'" % (parse_dsh_nodes(nodes), services[name], action))
 
 if __name__ == '__main__':
     # parse arguments
     arguments = docopt(__doc__)
     
+    # set options
+    kraken_dsh_group = arguments['--group']
+    drop_killedbysig1 = not arguments['--no-drop-sig1']
+    
     if arguments['logs']:
-        os.system("dsh " + parse_dsh_nodes(arguments['NODES']) + " \"sudo tail -f /var/log/hadoop*/*\"")
+        dsh(parse_dsh_nodes(arguments['NODES']) + " 'sudo tail -f /var/log/hadoop*/*'", quiet=True)
         exit()
-        
     
     if (arguments['<service>'] not in (services.keys() + ["all", "workers", "master"])):
         print "Error.  service must be one of " + ', '.join(services.keys() + ["all", "workers", "master"])
         exit(1)
-        
-
+    
     if arguments['<service>'] == 'all':
         master(arguments['<action>'])
         time.sleep(5)
         workers(arguments['<action>'])
-
+    
     elif arguments['<service>'] == 'master':
         master(arguments['<action>'])
-
+    
     elif arguments['<service>'] == 'workers':
         workers(arguments['<action>'])
-
+    
     else:
         service(arguments['<service>'], arguments['<action>'], arguments['NODES'])
