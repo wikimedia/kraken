@@ -75,14 +75,14 @@
     
     <action name="process">
         <pig>
-            <script>${krakenLibPath}/pig/mobile_device_props.pig</script>
-            
             <configuration>
                 <property>
                     <name>job.name</name>
                     <value>${jobName}</value>
                 </property>
             </configuration>
+            
+            <script>${krakenLibPath}/pig/mobile_device_props.pig</script>
             
             <argument>-p</argument><argument>input=${dataInput}</argument>
             <argument>-p</argument><argument>output=${dataOutput}</argument>
