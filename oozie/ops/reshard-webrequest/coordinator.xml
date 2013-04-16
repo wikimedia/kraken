@@ -51,7 +51,7 @@
     </datasets>
     
     <input-events>
-        <data-in name="INPUT" dataset="webrequest-unshareded">
+        <data-in name="INPUT" dataset="webrequest-unsharded">
             <instance>${coord:current(0)}</instance>
         </data-in>
     </input-events>
