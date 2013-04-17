@@ -31,26 +31,26 @@ import java.util.Map;
  */
 public class Anonymizer {
 
+    private static final Map<String, HashFunction> HASH_FUNCTIONS = new HashMap<String, HashFunction>();
+    static {
+        HASH_FUNCTIONS.put("md5", Hashing.md5());
+        HASH_FUNCTIONS.put("sha1", Hashing.sha1());
+        HASH_FUNCTIONS.put("sha256", Hashing.sha256());
+        HASH_FUNCTIONS.put("sha512", Hashing.sha512());
+        HASH_FUNCTIONS.put("murmur3_32", Hashing.murmur3_32());
+        HASH_FUNCTIONS.put("murmur3_128", Hashing.murmur3_128());
+    }
+
     private HashFunction hf;
     private Hasher hasher;
-
-    private Map<String, HashFunction> hashMapper = new HashMap<String, HashFunction>();
 
     /**
      *
      * @param hashFunction
      */
     public Anonymizer(final String hashFunction) {
-
-        hashMapper.put("md5", Hashing.md5());
-        hashMapper.put("sha1", Hashing.sha1());
-        hashMapper.put("sha256", Hashing.sha256());
-        hashMapper.put("sha512", Hashing.sha512());
-        hashMapper.put("murmur3_32", Hashing.murmur3_32());
-        hashMapper.put("murmur3_128", Hashing.murmur3_128());
-
-        this.hf = hashMapper.get(hashFunction);
-        this.hasher = hf.newHasher();
+        hf = HASH_FUNCTIONS.get(hashFunction);
+        hasher = hf.newHasher();
     }
 
     /**
