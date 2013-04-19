@@ -16,7 +16,7 @@
   </datasets>
   <input-events>
     <data-in name="INPUT" dataset="webrequest-all-sampled-1000">
-      <start-instance>${coord:current(-7)}</start-instance>
+      <start-instance>${coord:current(-8)}</start-instance>
       <end-instance>${coord:current(0)}</end-instance>
     </data-in>
   </input-events>
