@@ -29,7 +29,7 @@
     <workflow>
       <app-path>${wf_application_path}</app-path>
       <configuration>
-          <property
+          <property>
             <name>INPUT</name>
             <value>${coord:dataIn('INPUT')}</value>
           </property>
