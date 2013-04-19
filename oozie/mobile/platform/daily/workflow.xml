@@ -12,8 +12,21 @@
             <argument>-p</argument>
             <argument>day_regex=${DAY_REGEX}</argument>
         </pig>
-        <ok to="end"/>
+        <ok to="concat"/>
         <error to="kill"/>
+    </action>
+    <action name="concat">
+	<pig>
+	    <job-tracker>${jobTracker}</job-tracker>
+	    <name-node>${nameNode}</name-node>
+	    <script>/libs/kraken/pig/concat_sort.pig</script>
+	    <argument>-p</argument>
+	    <argument>input=${CONCAT_INPUT}</argument>
+	    <argument>-p</argument>
+	    <argument>dest=${DEST}</argument>
+	</pig>
+	<ok to="end"/>
+	<error to="kill"/>
     </action>
     <kill name="kill">
         <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
