@@ -1,12 +1,8 @@
 package org.wikimedia.analytics.kraken.pig;
 
-import com.google.common.base.Preconditions;
 import datafu.pig.util.SimpleEvalFunc;
-import org.apache.pig.data.Tuple;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,19 +10,19 @@ import java.util.Map;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 
-public class ToKV extends SimpleEvalFunc<Map<String, String>> {
+public class KVPairsToMap extends SimpleEvalFunc<Map<String, String>> {
     private final String itemSep;
     private final String kvSep;
     
-    public ToKV() {
+    public KVPairsToMap() {
         this("&", "=");
     }
     
-    public ToKV(String itemSep) {
+    public KVPairsToMap(String itemSep) {
         this(itemSep, "=");
     }
     
-    public ToKV(String itemSep, String kvSep) {
+    public KVPairsToMap(String itemSep, String kvSep) {
         this.itemSep = itemSep;
         this.kvSep = kvSep;
     }
