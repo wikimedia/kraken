@@ -34,7 +34,12 @@
         
         
         <!-- Misc -->
-        
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>14.0.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.kohsuke</groupId>
             <artifactId>geoip</artifactId>
@@ -43,7 +48,13 @@
         
         
         <!-- Hadoop, Pig -->
-        
+
+        <dependency>
+            <groupId>com.linkedin.datafu</groupId>
+            <artifactId>datafu</artifactId>
+            <version>0.0.9</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.pig</groupId>
             <artifactId>pig</artifactId>
