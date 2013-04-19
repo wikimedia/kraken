@@ -1,22 +1,22 @@
 <coordinator-app name="webrequest_mobile_platform_by_day_host"
   frequency="${coord:days(1)}"
-  start="2013-03-10T01:00Z" end="2020-01-01T23:00Z" timezone="Universal"
+  start="2013-04-13T00:00Z" end="2200-01-04T23:00Z" timezone="Universal"
   xmlns="uri:oozie:coordinator:0.1">
   <datasets>
-    <dataset name="webrequest-wikipedia-mobile" frequency="${coord:minutes(15)}"
-             initial-instance="2013-03-10T00:00Z" timezone="Universal">
+    <dataset name="webrequest-all-sampled" frequency="${coord:hours(4)}"
+             initial-instance="2013-04-13T00:00Z" timezone="Universal">
       <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/raw/webrequest/webrequest-all-sampled/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
       <done-flag></done-flag>
     </dataset>
     <dataset name="webrequest-wikipedia-mobile-platform-daily" frequency="${coord:days(1)}"
-             initial-instance="2013-03-10T00:00Z" timezone="Universal">
+             initial-instance="2013-04-13T00:00Z" timezone="Universal">
       <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/wikipedia-mobile-platform-daily/data/${YEAR}/${MONTH}/${DAY}</uri-template>
       <done-flag></done-flag>
     </dataset>
   </datasets>
   <input-events>
     <data-in name="INPUT" dataset="webrequest-wikipedia-mobile">
-      <start-instance>${coord:current(-97)}</start-instance>
+      <start-instance>${coord:current(-7)}</start-instance>
       <end-instance>${coord:current(0)}</end-instance>
     </data-in>
   </input-events>
