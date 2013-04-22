@@ -71,7 +71,7 @@ session_info = FOREACH (GROUP sessions BY (session_id, visitor_id)) {
         COUNT(special_pages)                AS special_pageviews:int,
         FLATTEN(first_session.uri)          AS (entry_uri:chararray),
         FLATTEN(first_session.referer)      AS (entry_referer:chararray),
-        FLATTEN(last_session.uri)           AS (exit_uri:chararray),
+        FLATTEN(last_session.uri)           AS (exit_uri:chararray)
         -- ((long)last_session.unixtime - (long)first_session.unixtime) as session_length:long
     ;
 };
