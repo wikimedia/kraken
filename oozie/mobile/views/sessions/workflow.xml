@@ -7,11 +7,6 @@
         <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
         <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
         <property><name>queueName</name><value>adhoc</value></property>
-        <property>
-            <name>jobName</name>
-            <value>sessions.pig</value>
-            <description>Overrides the job name.</description>
-        </property>
         
         <!-- Process data -->
         <property>
@@ -76,12 +71,6 @@
     
     <action name="process">
         <pig>
-            <configuration>
-                <property><name>job.name</name><value>${jobName}</value></property>
-                <property><name>jobName</name><value>${jobName}</value></property>
-                <property><name>mapreduce.job.name</name><value>${jobName}</value></property>
-            </configuration>
-            
             <script>${krakenLibPath}/pig/mobile_sessions.pig</script>
             
             <argument>-p</argument><argument>input=${dataInput}</argument>
