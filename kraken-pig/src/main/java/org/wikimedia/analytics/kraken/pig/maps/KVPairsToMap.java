@@ -1,4 +1,4 @@
-package org.wikimedia.analytics.kraken.pig;
+package org.wikimedia.analytics.kraken.pig.maps;
 
 import datafu.pig.util.SimpleEvalFunc;
 
