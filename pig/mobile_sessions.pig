@@ -1,5 +1,5 @@
 REGISTER 'hdfs:///user/oozie/share/lib/pig/joda-time-1.6.jar'
--- REGISTER 'hdfs:///libs/piggybank.jar';
+REGISTER 'hdfs:///libs/piggybank.jar';
 REGISTER 'hdfs:///libs/datafu-0.0.9.jar';
 REGISTER 'hdfs:///libs/geoip-1.2.9-patch-2-SNAPSHOT.jar'
 REGISTER 'hdfs:///libs/kraken-0.0.2/kraken-generic-0.0.2-SNAPSHOT-jar-with-dependencies.jar'
@@ -16,15 +16,14 @@ REGISTER 'hdfs:///libs/kraken-0.0.2/kraken-pig-0.0.2-SNAPSHOT.jar'
 %default date_bucket_format 'yyyy-MM-dd_HH';    -- Format applied to timestamps for aggregation into buckets. Default: hourly.
 %default date_bucket_regex  '.*';               -- Regex used to filter the formatted date_buckets; must match whole line. Default: no filtering.
 
+DEFINE ISOToUnix    org.apache.pig.piggybank.evaluation.datetime.convert.ISOToUnix();
 DEFINE ToDateBucket org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', '$date_bucket_format');
 DEFINE IsPageview   org.wikimedia.analytics.kraken.pig.PageViewFilterFunc();
-DEFINE GeoIP        org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
--- DEFINE ToKV         org.wikimedia.analytics.kraken.pig.KVPairsToMap(';', '=');
--- DEFINE ISOToUnix    org.apache.pig.piggybank.evaluation.datetime.convert.ISOToUnix();
+DEFINE KVToMap      org.wikimedia.analytics.kraken.pig.maps.KVPairsToMap(';', '=');
+-- DEFINE GeoIP        org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
 DEFINE Sessionize   datafu.pig.sessions.Sessionize('$session_length');
 DEFINE MD5          datafu.pig.hash.MD5();
 DEFINE First        datafu.pig.bags.FirstTupleFromBag();
--- DEFINE Last         org.apache.pig.piggybank.evaluation.ExtremalTupleByNthField('1', 'desc');
 
 IMPORT 'hdfs:///libs/kraken/pig/include/load_webrequest.pig';
 
@@ -40,40 +39,40 @@ views = FOREACH log_fields {
     ipua = (chararray) CONCAT((chararray)remote_addr, (chararray)user_agent);
     GENERATE
         timestamp,
-        MD5(ipua)                   AS visitor_id:chararray,
+        ISOToUnix(timestamp)    AS unixtime:long,
+        MD5(ipua)               AS visitor_id:chararray,
         uri,
-        FLATTEN(GeoIP(remote_addr)) AS (country:chararray),
+        -- FLATTEN(GeoIP(remote_addr)) AS (country:chararray),
         referer,
         x_cs
     ;
 };
 
 sessions = FOREACH (GROUP views BY visitor_id) {
-    ordered_views = ORDER views BY timestamp;
-    GENERATE FLATTEN(Sessionize(ordered_views)) as (timestamp, visitor_id, uri, country, referer, x_cs, session_id);
+    ordered_views = ORDER views BY unixtime ASC;
+    GENERATE FLATTEN(Sessionize(ordered_views)) as (timestamp, unixtime, visitor_id, uri, referer, x_cs, session_id);
 };
 
 session_info = FOREACH (GROUP sessions BY (session_id, visitor_id)) {
-    first_session = First(sessions);
-    sessions_desc = ORDER sessions BY timestamp DESC;
-    last_session = First(sessions_desc);
+    sessions_asc = ORDER sessions BY unixtime ASC;
+    first_session = LIMIT sessions_asc 1;
+    sessions_desc = ORDER sessions BY unixtime DESC;
+    last_session = LIMIT sessions_desc 1;
+    x_analytics = KVToMap( (chararray) First(first_session, NULL).x_cs );
+    special_pages = FILTER sessions BY (uri MATCHES 'https?://[^/]+/wiki/Special:.*');
     
-    -- x_analytics = ToKV(first_session.x_cs);
-    -- special_pages = FILTER sessions BY (uri MATCHES 'https?://[^/]+/wiki/Special:.*');
     GENERATE
-        MIN(sessions.timestamp)     AS session_start:chararray,
-        MAX(sessions.timestamp)     AS session_end:chararray,
+        FLATTEN(first_session.timestamp)    AS (session_start:chararray),
+        FLATTEN(last_session.timestamp)     AS (session_end:chararray),
         group.visitor_id,
         group.session_id,
-        -- x_analytics#'mf-m'          AS site_mode:chararray,
-        '-'                         AS site_mode:chararray,
-        COUNT(sessions)             AS pageviews:int,
-        -- COUNT(special_pages)        AS special_pageviews:int,
-        0                           AS special_pageviews:int,
-        first_session.uri           AS entry_uri:chararray,
-        first_session.referer       AS entry_referer:chararray,
-        last_session.uri            AS exit_uri:chararray
-        -- (ISOToUnix(MAX(timestamp)) - ISOToUnix(MIN(sessions.timestamp))) as session_length:long
+        x_analytics#'mf-m'                  AS site_mode:chararray,
+        COUNT(sessions)                     AS pageviews:int,
+        COUNT(special_pages)                AS special_pageviews:int,
+        FLATTEN(first_session.uri)          AS (entry_uri:chararray),
+        FLATTEN(first_session.referer)      AS (entry_referer:chararray),
+        FLATTEN(last_session.uri)           AS (exit_uri:chararray),
+        -- ((long)last_session.unixtime - (long)first_session.unixtime) as session_length:long
     ;
 };
 
