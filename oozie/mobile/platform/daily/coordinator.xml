@@ -1,15 +1,15 @@
 <coordinator-app name="webrequest_mobile_platform_by_day_host"
   frequency="${coord:days(1)}"
-  start="2013-04-14T00:00Z" end="2200-01-04T23:00Z" timezone="Universal"
+  start="2013-04-15T00:00Z" end="2200-01-04T23:00Z" timezone="Universal"
   xmlns="uri:oozie:coordinator:0.1">
   <datasets>
     <dataset name="webrequest-all-sampled-1000" frequency="${coord:hours(4)}"
-             initial-instance="2013-04-14T00:00Z" timezone="Universal">
+             initial-instance="2013-04-15T00:00Z" timezone="Universal">
       <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/raw/webrequest/webrequest-all-sampled-1000/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
       <done-flag></done-flag>
     </dataset>
     <dataset name="webrequest-wikipedia-mobile-platform-daily" frequency="${coord:days(1)}"
-             initial-instance="2013-04-14T00:00Z" timezone="Universal">
+             initial-instance="2013-04-15T00:00Z" timezone="Universal">
       <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/wikipedia-mobile-platform-daily/data/${YEAR}/${MONTH}/${DAY}</uri-template>
       <done-flag></done-flag>
     </dataset>
@@ -29,26 +29,26 @@
     <workflow>
       <app-path>${wf_application_path}</app-path>
       <configuration>
-          <property>
-            <name>INPUT</name>
-            <value>${coord:dataIn('INPUT')}</value>
-          </property>
-          <property>
-            <name>OUTPUT</name>
-            <value>${coord:dataOut('OUTPUT')}</value>
-          </property>
-          <property>
-            <name>DAY_REGEX</name>
-            <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'DAY'), 'yyyy-MM-dd')}</value>
-          </property>
-          <property>
-            <name>CONCAT_INPUT</name>
-            <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/wikipedia-mobile-platform-daily/data</value>
-          </property>
-          <property>
-            <name>DEST</name>
-            <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/wikipedia-mobile-platform-daily/wikipedia-mobile-platform-daily.tsv</value>
-          </property>
+        <property>
+          <name>INPUT</name>
+          <value>${coord:dataIn('INPUT')}</value>
+        </property>
+        <property>
+          <name>OUTPUT</name>
+          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/wikipedia-mobile-platform-daily/data/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'DAY'), 'yyyy/MM/dd')}</value>
+        </property>
+        <property>
+          <name>DAY_REGEX</name>
+          <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'DAY'), 'yyyy-MM-dd')}</value>
+        </property>
+        <property>
+          <name>CONCAT_INPUT</name>
+          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/wikipedia-mobile-platform-daily/data</value>
+        </property>
+        <property>
+          <name>DEST</name>
+          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/wikipedia-mobile-platform-daily/wikipedia-mobile-platform-daily.tsv</value>
+        </property>
       </configuration>
    </workflow>
   </action>
