@@ -59,7 +59,7 @@ session_info = FOREACH (GROUP sessions BY (session_id, visitor_id)) {
     sessions_desc = ORDER sessions BY unixtime DESC;
     last_session = LIMIT sessions_desc 1; -- TODO: Can be replaced with First() post-ORDER BY?
     x_analytics = KVToMap( (chararray) First(first_session, NULL).x_cs );
-    special_pages = FILTER sessions BY (uri MATCHES 'https?://[^/]+/wiki/Special:.*');
+    special_pages = FILTER sessions BY (uri MATCHES 'https?://[^/]+/wiki/[^/]+:.*');
     
     GENERATE
         FLATTEN(first_session.timestamp)    AS (session_start:chararray),
