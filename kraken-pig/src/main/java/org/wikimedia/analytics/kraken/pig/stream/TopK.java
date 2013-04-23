@@ -18,8 +18,16 @@ public class TopK extends EvalFunc<DataBag> implements Accumulator<DataBag> {
     protected StreamSummary<Tuple> summary;
 
 
+    public TopK(String k) {
+        this(Integer.parseInt(k));
+    }
+
     public TopK(int k) {
         this(k, k * 2);
+    }
+
+    public TopK(String k, String capacity) {
+        this(Integer.parseInt(k), Integer.parseInt(capacity));
     }
 
     public TopK(int k, int capacity) {

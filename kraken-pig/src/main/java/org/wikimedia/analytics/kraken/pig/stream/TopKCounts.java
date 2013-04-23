@@ -9,12 +9,24 @@ public class TopKCounts extends TopK {
     private boolean flatten = false;
 
 
+    public TopKCounts(String k) {
+        this(Integer.parseInt(k));
+    }
+
     public TopKCounts(int k) {
         this(k, null);
     }
 
+    public TopKCounts(String k, String optFlatten) {
+        this(Integer.parseInt(k), optFlatten);
+    }
+
     public TopKCounts(int k, String optFlatten) {
         this(k, optFlatten, k * 2);
+    }
+
+    public TopKCounts(String k, String optFlatten, String capacity) {
+        this(Integer.parseInt(k), optFlatten, Integer.parseInt(capacity));
     }
 
     public TopKCounts(int k, String optFlatten, int capacity) {
