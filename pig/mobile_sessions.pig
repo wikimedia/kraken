@@ -55,9 +55,9 @@ sessions = FOREACH (GROUP views BY visitor_id) {
 
 session_info = FOREACH (GROUP sessions BY (session_id, visitor_id)) {
     sessions_asc = ORDER sessions BY unixtime ASC;
-    first_session = LIMIT sessions_asc 1;
+    first_session = LIMIT sessions_asc 1; -- TODO: Can be replaced with First() post-ORDER BY?
     sessions_desc = ORDER sessions BY unixtime DESC;
-    last_session = LIMIT sessions_desc 1;
+    last_session = LIMIT sessions_desc 1; -- TODO: Can be replaced with First() post-ORDER BY?
     x_analytics = KVToMap( (chararray) First(first_session, NULL).x_cs );
     special_pages = FILTER sessions BY (uri MATCHES 'https?://[^/]+/wiki/Special:.*');
     
