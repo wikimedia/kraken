@@ -49,7 +49,7 @@
   
   <property>
     <name>mapreduce.job.reuse.jvm.num.tasks</name>
-    <value>-1</value>
+    <value>1</value>
   </property>
 
   <property>
