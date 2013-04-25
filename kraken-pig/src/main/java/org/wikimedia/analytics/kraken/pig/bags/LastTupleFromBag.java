@@ -4,6 +4,8 @@ import datafu.pig.util.SimpleEvalFunc;
 import org.apache.pig.data.DataBag;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
+import org.python.google.common.collect.Iterators;
+
 import java.io.IOException;
 
 /**
@@ -32,12 +34,7 @@ public class LastTupleFromBag extends SimpleEvalFunc<Tuple> {
     }
 
     public Tuple call(DataBag bag, Tuple defaultValue) throws IOException {
-        long lastIndex = bag.size() - 1;
-        long i = 0;
-        for (Tuple t : bag) {
-            if (i == lastIndex) return t;
-        }
-        return defaultValue;
+        return Iterators.getLast(bag.iterator(), defaultValue);
     }
 
     @Override
