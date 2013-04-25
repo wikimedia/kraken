@@ -31,9 +31,7 @@ public class TopKCounts extends TopK {
 
     public TopKCounts(int k, String optFlatten, int capacity) {
         super(k, capacity);
-        if (optFlatten != null && optFlatten.toLowerCase().equals("flatten")) {
-            flatten = true;
-        }
+        flatten = (optFlatten != null && optFlatten.toLowerCase().equals("flatten"));
     }
 
     @Override
