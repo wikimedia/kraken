@@ -39,11 +39,11 @@
             <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
         </dataset>
-        <dataset name="mobile_device_props"
+        <dataset name="mobile_sessions"
                 frequency="${coord:minutes(15)}"
                 initial-instance="2013-03-01T00:00Z"
                 timezone="Universal">
-            <uri-template>hdfs:///wmf/data/webrequest/mobile/views/sessions/${YEAR}/${MONTH}/${DAY}</uri-template>
+            <uri-template>hdfs:///wmf/data/webrequest/mobile/views/sessions/dt=${YEAR}-${MONTH}-${DAY}</uri-template>
             <done-flag></done-flag>
         </dataset>
     </datasets>
@@ -57,7 +57,7 @@
     </input-events>
     
     <output-events>
-        <data-out name="OUTPUT" dataset="mobile_device_props">
+        <data-out name="OUTPUT" dataset="mobile_sessions">
             <instance>${coord:current(-4 * 24)}</instance>
         </data-out>
     </output-events>
@@ -101,21 +101,6 @@
                     <name>jobYear</name>
                     <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'DAY'), 'yyyy')}</value>
                 </property>
-                
-                <!-- Rollup Output -->
-                <property>
-                    <name>dataDir</name>
-                    <value>${nameNode}/wmf/data/webrequest/mobile/views/sessions</value>
-                </property>
-                <property>
-                    <name>publicDir</name>
-                    <value>${nameNode}/wmf/public/webrequest/mobile/views/sessions</value>
-                </property>
-                <property>
-                    <name>outputFilePrefix</name>
-                    <value>mobile_sessions</value>
-                </property>
-                
             </configuration>
         </workflow>
     </action>
