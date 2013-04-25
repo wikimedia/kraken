@@ -74,12 +74,12 @@
   
   <property>
     <name>mapreduce.task.io.sort.mb</name>
-    <value>512</value>
+    <value>200</value>
   </property>
   
   <property>
     <name>mapreduce.task.io.sort.factor</name>
-    <value>100</value>
+    <value>10</value>
   </property>
   
   <property>
