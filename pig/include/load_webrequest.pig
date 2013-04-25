@@ -4,7 +4,7 @@
 
 DEFINE LOAD_WEBREQUEST(input_path) RETURNS WEBREQUEST_FIELDS {
   $WEBREQUEST_FIELDS = LOAD '$input_path' AS (
-    kafka_byte_offset:double,
+    kafka_byte_offset:double, -- TODO: test whether truncation is avoided as long
     hostname:chararray,
     sequence:long,
     timestamp:chararray,

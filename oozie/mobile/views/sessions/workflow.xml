@@ -7,11 +7,6 @@
         <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
         <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
         <property><name>queueName</name><value>adhoc</value></property>
-        <property>
-            <name>jobName</name>
-            <value>sessions.pig</value>
-            <description>Overrides the job name.</description>
-        </property>
         
         <!-- Process data -->
         <property>
@@ -42,19 +37,6 @@
             <description>Year of current job.</description>
         </property>
         
-        <!-- Rollup Output -->
-        <property>
-            <name>dataDir</name>
-            <value>${nameNode}/wmf/data/webrequest/mobile/views/sessions</value>
-        </property>
-        <property>
-            <name>publicDir</name>
-            <value>${nameNode}/wmf/public/webrequest/mobile/views/sessions</value>
-        </property>
-        <property>
-            <name>outputFilePrefix</name>
-            <value>mobile_sessions</value>
-        </property>
     </parameters>
     
     <global>
@@ -69,6 +51,10 @@
                 <name>oozie.action.external.stats.write</name>
                 <value>true</value>
             </property>
+            <property>
+                <name>mapreduce.job.end-notification.retry.attempts</name>
+                <value>10</value>
+            </property>
         </configuration>
     </global>
     
@@ -76,12 +62,6 @@
     
     <action name="process">
         <pig>
-            <configuration>
-                <property><name>job.name</name><value>${jobName}</value></property>
-                <property><name>jobName</name><value>${jobName}</value></property>
-                <property><name>mapreduce.job.name</name><value>${jobName}</value></property>
-            </configuration>
-            
             <script>${krakenLibPath}/pig/mobile_sessions.pig</script>
             
             <argument>-p</argument><argument>input=${dataInput}</argument>
@@ -95,32 +75,6 @@
             <file>/libs/GeoIPRegion.dat</file>
             <file>/libs/GeoIPv6.dat</file>
         </pig>
-        <ok to="coalesce"/>
-        <error to="kill"/>
-    </action>
-    
-    <action name="coalesce">
-        <sub-workflow>
-            <app-path>${krakenLibPath}/oozie/util/coalesce/coalesce-wf.xml</app-path>
-            <configuration>
-                <property><name>nameNode</name><value>${nameNode}</value></property>
-                <property><name>jobTracker</name><value>${jobTracker}</value></property>
-                <property><name>queueName</name><value>${queueName}</value></property>
-                
-                <property>
-                    <name>coalesceInput</name>
-                    <value>${dataDir}/${jobYear}/${jobMonth}/${jobDay}/**</value>
-                </property>
-                <property>
-                    <name>coalesceOutputDir</name>
-                    <value>${publicDir}/${jobYear}/${jobMonth}</value>
-                </property>
-                <property>
-                    <name>coalesceOutputFile</name>
-                    <value>${outputFilePrefix}-${jobYear}-${jobMonth}-${jobDay}.tsv</value>
-                </property>
-            </configuration>
-        </sub-workflow>
         <ok to="end"/>
         <error to="kill"/>
     </action>

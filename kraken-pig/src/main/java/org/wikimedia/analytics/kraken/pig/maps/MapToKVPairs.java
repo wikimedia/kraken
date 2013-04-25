@@ -1,6 +1,7 @@
-package org.wikimedia.analytics.kraken.pig;
+package org.wikimedia.analytics.kraken.pig.maps;
 
 import datafu.pig.util.SimpleEvalFunc;
+import org.wikimedia.analytics.kraken.utils.KVUtils;
 
 import java.util.Map;
 
@@ -22,9 +23,7 @@ public class MapToKVPairs extends SimpleEvalFunc<String> {
     }
 
     public String call(final Map<String, String> map) {
-        StringBuilder b = new StringBuilder();
-        
-        return b.toString();
+        return KVUtils.mapToKV(map, itemSep, kvSep);
     }
 
 }
