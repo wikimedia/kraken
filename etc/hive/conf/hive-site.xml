@@ -11,9 +11,13 @@
   <!-- users do not have to edit hadoop configuration files (that may be managed as a centralized -->
   <!-- resource).                                                                                 -->
 
-  <!-- Hive Execution Parameters -->
-
   <!-- Hive metastore configuration -->
+  <property>
+    <name>hive.metastore.local</name>
+    <value>true</value>
+    <description>This property was obsoleted in Hive 0.10, but Hue/Beeswax requires it to connect correctly.</description>
+  </property>
+
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
     <value>jdbc:mysql://localhost:3306/hive_metastore</value>
@@ -24,12 +28,6 @@
     <name>javax.jdo.option.ConnectionDriverName</name>
     <value>com.mysql.jdbc.Driver</value>
     <description>Driver class name for a JDBC metastore</description>
-  </property>
-
-  <property>
-    <name>hive.metastore.local</name>
-    <value>true</value>
-    <description>This property was obsoleted in Hive 0.10, but Hue/Beeswax requires it to connect correctly.</description>
   </property>
 
   <property>
@@ -52,11 +50,12 @@
     <value>true</value>
   </property>
 
-    <!-- Hive can use Zookeeper for table lock management -->
+
+  <!-- Hive can use Zookeeper for table lock management -->
   <property>
     <name>hive.support.concurrency</name>
-    <description>Enable Hive's Table Lock Manager Service</description>
     <value>true</value>
+    <description>Enable Hive's Table Lock Manager Service</description>
   </property>
 
   <property>
@@ -65,8 +64,25 @@
     <value>analytics1023.eqiad.wmnet,analytics1024.eqiad.wmnet,analytics1025.eqiad.wmnet</value>
   </property>
   
-
-
+  <property>
+    <name>hive.multi.insert.move.tasks.share.dependencies</name>
+    <value>false</value>
+    <description>
+      If this is set all move tasks for tables/partitions (not directories) at the end of a
+      multi-insert query will only begin once the dependencies for all these move tasks have been
+      met.
+      Advantages: If concurrency is enabled, the locks will only be released once the query has
+                  finished, so with this config enabled, the time when the table/partition is
+                  generated will be much closer to when the lock on it is released.
+      Disadvantages: If concurrency is not enabled, with this disabled, the tables/partitions which
+                     are produced by this query and finish earlier will be available for querying
+                     much earlier.  Since the locks are only released once the query finishes, this
+                     does not apply if concurrency is enabled.
+    </description>
+  </property>
+  
+  
+  <!-- Hive CLI -->
   <property>
     <name>hive.cli.print.current.db</name>
     <description>Whether to include the current database in the hive prompt.</description>
@@ -80,36 +96,47 @@
   </property>
 
 
+  <!-- Hive Execution Parameters -->
   <property>
     <name>hive.mapred.mode</name>
+    <value>nonstrict</value>
     <description>
       The mode in which the hive operations are being performed. 
-       In strict mode, some risky queries are not allowed to run. They include:
-       Cartesian Product.
-       No partition being picked up for a query.
-       Comparing bigints and strings.
-       Comparing bigints and doubles.
-       Orderby without limit.
+      In strict mode, some risky queries are not allowed to run. They include:
+       - Cartesian Product.
+       - No partition being picked up for a query.
+       - Comparing bigints and strings.
+       - Comparing bigints and doubles.
+       - Orderby without limit.
     </description>
-    <value>strict</value>
   </property>
 
   <property>
-    <name>hive.start.cleanup.scratchdir</name>
-    <description>To cleanup the hive scratchdir while starting the hive server.</description>
+    <name>hive.task.progress</name>
     <value>true</value>
+  </property>
+  
+  <property>
+    <name>hive.exec.dynamic.partition</name>
+    <value>true</value>
+    <description>Whether or not to allow dynamic partitions in DML/DDL.</description>
+  </property>
+  
+  <property>
+    <name>hive.exec.dynamic.partition.mode</name>
+    <value>nonstrict</value>
   </property>
 
   <property>
     <name>hive.error.on.empty.partition</name>
-    <description>Whether to throw an exception if dynamic partition insert generates empty results.</description>
-    <value>true</value>
+    <value>false</value>
+    <description>Whether to throw an excpetion if dynamic partition insert generates empty results.</description>
   </property>
 
   <property>
     <name>hive.insert.into.external.tables</name>
-    <description>https://issues.apache.org/jira/browse/HIVE-2837</description>
     <value>false</value>
+    <description>https://issues.apache.org/jira/browse/HIVE-2837</description>
   </property>
 
   <property>
@@ -120,10 +147,16 @@
   
   <property>
     <name>hive.exec.parallel.thread.number</name>
+    <value>8</value>
     <description>How many jobs at most can be executed in parallel</description>
-    <value></value>
   </property>
   
+  <property>
+    <name>hive.start.cleanup.scratchdir</name>
+    <description>To cleanup the hive scratchdir while starting the hive server.</description>
+    <value>true</value>
+  </property>
+
   <property>
     <name>hive.optimize.skewjoin</name>
     <value>false</value>
@@ -156,7 +189,7 @@
       to perform a fine grained control.
     </description> 
   </property>
-
+  
 
     <!-- Hive stats configuration -->
   <property>
@@ -203,7 +236,7 @@
 
   <property>
     <name>hive.stats.retries.max</name>
-    <value>0</value>
+    <value>1</value>
     <description>Maximum number of retries when stats publisher/aggregator got an exception updating intermediate database. Default is no tries on failures.</description>
   </property>
 
@@ -230,4 +263,4 @@
     </description>
   </property>
 
-  </configuration>
+</configuration>
