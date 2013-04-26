@@ -1,56 +1,117 @@
-
-<coordinator-app name="webrequest_loss_hour_host"
-  frequency="${coord:hours(1)}"
-  start="2013-03-10T01:00Z" end="2020-01-01T23:00Z" timezone="Universal"
-  xmlns="uri:oozie:coordinator:0.1">
-  <datasets>
-    <dataset name="webrequest-wikipedia-mobile" frequency="${coord:minutes(15)}"
-             initial-instance="2013-03-10T00:00Z" timezone="Universal">
-      <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/raw/webrequest/webrequest-wikipedia-mobile/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
-      <done-flag></done-flag>
-    </dataset>
-    <dataset name="webrequest_loss" frequency="${coord:minutes(15)}"
-             initial-instance="2013-03-10T00:00Z" timezone="Universal">
-      <uri-template>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/loss/data/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
-      <done-flag></done-flag>
-    </dataset>
-  </datasets>
-  <input-events>
-    <data-in name="INPUT" dataset="webrequest-wikipedia-mobile">
-      <start-instance>${coord:current(-5)}</start-instance>
-      <end-instance>${coord:current(0)}</end-instance>
-    </data-in>
-  </input-events>
-  <output-events>
-    <data-out name="OUTPUT" dataset="webrequest_loss">
-      <instance>${coord:current(-4)}</instance>
-    </data-out>
-  </output-events>
-  <action>
-    <workflow>
-      <app-path>${wf_application_path}</app-path>
-      <configuration>
-          <property>
-            <name>INPUT</name>
-            <value>${coord:dataIn('INPUT')}</value>
-          </property>
+<coordinator-app xmlns="uri:oozie:coordinator:0.4"
+        name="packetloss-${jobName}"
+        frequency="${coord:hours(1)}"
+        start="${jobStartDate}T01:00Z" end="${jobEndDate}T23:00Z" timezone="Universal">
+    
+    <parameters>
+        <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
+        <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
+        <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
+        
+        <!-- Coordinator App -->
         <property>
-          <name>OUTPUT</name>
-          <value>${coord:dataOut('OUTPUT')}</value>
+            <name>appPath</name>
+            <value>${krakenLibPath}/oozie/ops/packetloss</value>
         </property>
         <property>
-          <name>HOUR_REGEX</name>
-          <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy-MM-dd_HH')}</value>
+            <name>jobName</name>
+            <value>hour</value>
         </property>
         <property>
-          <name>CONCAT_INPUT</name>
-          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/loss/data</value>
+            <name>jobStartDate</name>
+            <value>2013-03-01</value>
         </property>
         <property>
-          <name>DEST</name>
-          <value>hdfs://analytics1010.eqiad.wmnet:8020/wmf/public/webrequest/loss/webrequest_loss.tsv</value>
+            <name>jobEndDate</name>
+            <value>2020-01-01</value>
         </property>
-      </configuration>
-   </workflow>
-  </action>
+        <property>
+            <name>queueName</name>
+            <value>adhoc</value>
+        </property>
+    </parameters>
+    
+    <datasets>
+        <dataset name="webrequest-wikipedia-mobile"
+                frequency="${coord:minutes(15)}"
+                initial-instance="2013-03-01T00:00Z"
+                timezone="Universal">
+            <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+            <done-flag></done-flag>
+        </dataset>
+        <dataset name="packetloss"
+                frequency="${coord:minutes(15)}"
+                initial-instance="2013-03-01T00:00Z"
+                timezone="Universal">
+            <uri-template>hdfs:///wmf/data/webrequest/loss/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+            <done-flag></done-flag>
+        </dataset>
+    </datasets>
+    
+    <input-events>
+        <data-in name="INPUT" dataset="webrequest-wikipedia-mobile">
+            <start-instance>${coord:current(-5)}</start-instance>
+            <end-instance>${coord:current(0)}</end-instance>
+        </data-in>
+    </input-events>
+    
+    <output-events>
+        <data-out name="OUTPUT" dataset="packetloss">
+            <instance>${coord:current(-4)}</instance>
+        </data-out>
+    </output-events>
+    
+    <action>
+        <workflow>
+            <app-path>${appPath}/workflow.xml</app-path>
+            <configuration>
+                <property><name>nameNode</name><value>${nameNode}</value></property>
+                <property><name>jobTracker</name><value>${jobTracker}</value></property>
+                <property><name>queueName</name><value>${queueName}</value></property>
+                
+                <!-- Hourly Processing -->
+                <property>
+                    <name>dataInput</name>
+                    <value>${coord:dataIn('INPUT')}</value>
+                </property>
+                <property>
+                    <name>dataOutput</name>
+                    <value>${coord:dataOut('OUTPUT')}</value>
+                </property>
+                
+                <!-- Processing Meta -->
+                <property>
+                    <name>jobHour</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'HH')}</value>
+                </property>
+                <property>
+                    <name>jobDay</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'dd')}</value>
+                </property>
+                <property>
+                    <name>jobMonth</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'MM')}</value>
+                </property>
+                <property>
+                    <name>jobYear</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy')}</value>
+                </property>
+                
+                <!-- Rollup Output -->
+                <property>
+                    <name>dataDir</name>
+                    <value>${nameNode}/wmf/data/webrequest/loss</value>
+                </property>
+                <property>
+                    <name>publicDir</name>
+                    <value>${nameNode}/wmf/public/webrequest/loss</value>
+                </property>
+                <property>
+                    <name>outputFilePrefix</name>
+                    <value>webrequest_loss</value>
+                </property>
+                
+            </configuration>
+        </workflow>
+    </action>
 </coordinator-app>

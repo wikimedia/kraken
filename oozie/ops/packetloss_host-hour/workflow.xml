@@ -1,34 +1,123 @@
-
-<workflow-app name="webrequest_loss_by_hour_workflow" xmlns="uri:oozie:workflow:0.4">
-    <start to="webrequest_loss_by_hour_action"/>
-    <action name="webrequest_loss_by_hour_action">
+<workflow-app xmlns="uri:oozie:workflow:0.4"
+        name="packetloss_wf">
+    
+    <parameters>
+        <!-- Job defaults -->
+        <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
+        <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
+        <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
+        <property><name>queueName</name><value>adhoc</value></property>
+        
+        <!-- Process data -->
+        <property>
+            <name>dataInput</name>
+            <description>HDFS path(s) naming the input dataset to be processed.</description>
+        </property>
+        <property>
+            <name>dataOutput</name>
+            <description>HDFS path to store the output dataset from processing.</description>
+        </property>
+        
+        <!-- Processing Meta -->
+        <property>
+            <name>jobHour</name>
+            <description>Hour of current job.</description>
+        </property>
+        <property>
+            <name>jobDay</name>
+            <description>Day of current job.</description>
+        </property>
+        <property>
+            <name>jobMonth</name>
+            <description>Month of current job.</description>
+        </property>
+        <property>
+            <name>jobYear</name>
+            <description>Year of current job.</description>
+        </property>
+        
+        <!-- Rollup Output -->
+        <property>
+            <name>dataDir</name>
+            <value>${nameNode}/wmf/data/webrequest/loss</value>
+        </property>
+        <property>
+            <name>publicDir</name>
+            <value>${nameNode}/wmf/public/webrequest/loss</value>
+        </property>
+        <property>
+            <name>outputFilePrefix</name>
+            <value>webrequest_loss</value>
+        </property>
+    </parameters>
+    
+    <global>
+       <job-tracker>${jobTracker}</job-tracker>
+       <name-node>${nameNode}</name-node>
+       <configuration>
+            <property>
+                <name>mapreduce.job.queuename</name>
+                <value>${queueName}</value>
+            </property>
+            <property>
+                <name>oozie.action.external.stats.write</name>
+                <value>true</value>
+            </property>
+        </configuration>
+    </global>
+    
+    <start to="process"/>
+    
+    <action name="process">
         <pig>
-            <job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-            <script>/libs/kraken/pig/webrequest_loss_hourly.pig</script>
-            <argument>-p</argument>
-            <argument>input=${INPUT}</argument>
-            <argument>-p</argument>
-            <argument>output=${OUTPUT}</argument>
-            <argument>-p</argument>
-            <argument>hour_regex=${HOUR_REGEX}</argument>
+            <configuration>
+                <property><name>job.name</name><value>${jobName}</value></property>
+                <property><name>jobName</name><value>${jobName}</value></property>
+                <property><name>mapreduce.job.name</name><value>${jobName}</value></property>
+            </configuration>
+            
+            <script>${krakenLibPath}/pig/webrequest_loss_hourly.pig</script>
+            
+            <argument>-p</argument><argument>input=${dataInput}</argument>
+            <argument>-p</argument><argument>output=${dataOutput}</argument>
+            <argument>-p</argument><argument>date_bucket_format=yyyy-MM-dd</argument>
+            <argument>-p</argument><argument>date_bucket_regex=${jobYear}-${jobMonth}-${jobDay}</argument>
+            
+            <file>/libs/GeoIP.dat</file>
+            <file>/libs/GeoIPCity.dat</file>
+            <file>/libs/GeoIPRegion.dat</file>
+            <file>/libs/GeoIPv6.dat</file>
         </pig>
-        <ok to="concat"/>
+        <ok to="coalesce"/>
         <error to="kill"/>
     </action>
-    <action name="concat">
-        <pig>
-            <job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-            <script>/libs/kraken/pig/concat_sort.pig</script>
-            <argument>-p</argument>
-            <argument>input=${CONCAT_INPUT}</argument>
-            <argument>-p</argument>
-            <argument>dest=${DEST}</argument>
-        </pig>
+    
+    <action name="coalesce">
+        <sub-workflow>
+            <app-path>${krakenLibPath}/oozie/util/coalesce/coalesce-wf.xml</app-path>
+            <configuration>
+                <property><name>nameNode</name><value>${nameNode}</value></property>
+                <property><name>jobTracker</name><value>${jobTracker}</value></property>
+                <property><name>queueName</name><value>${queueName}</value></property>
+                
+                <property>
+                    <name>coalesceInput</name>
+                    <value>${dataDir}/**</value>
+                </property>
+                <property>
+                    <name>coalesceOutputDir</name>
+                    <value>${publicDir}</value>
+                </property>
+                <property>
+                    <name>coalesceOutputFile</name>
+                    <value>${outputFilePrefix}.tsv</value>
+                </property>
+            </configuration>
+        </sub-workflow>
         <ok to="end"/>
         <error to="kill"/>
     </action>
+    
     <kill name="kill">
         <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
     </kill>

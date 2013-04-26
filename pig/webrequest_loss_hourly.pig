@@ -1,7 +1,5 @@
-REGISTER 'kraken-pig-0.0.1-SNAPSHOT.jar'
-
--- import LOAD_WEBREQUEST macro to load in webrequest log fields.
-IMPORT 'include/load_webrequest.pig';
+REGISTER 'kraken-generic-0.0.2-SNAPSHOT-jar-with-dependencies.jar'
+REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
 
 -- Setting this to 4 for now, since we are
 -- only importing logs from the 4 mobile varnish hosts.
@@ -9,28 +7,23 @@ IMPORT 'include/load_webrequest.pig';
 -- need 4 reducers.
 SET default_parallel 4;
 
-DEFINE TO_HOUR      org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd_HH');
-DEFINE EXTRACT      org.apache.pig.builtin.REGEX_EXTRACT_ALL();
+-- Script Parameters: pass via -p param_name=param_value, ex: -p date_bucket_regex=2013-03-24_00
+%default date_bucket_format 'yyyy-MM-dd_HH';    -- Format applied to timestamps for aggregation into buckets. Default: hourly.
+%default date_bucket_regex '.*';                -- Regex used to filter the formatted date_buckets; must match whole line. Default: no filtering.
 
--- Set this as a regular expression to filter for desired timestamps.
--- E.g. if you want to only compute stats for a given hour, then
---   -p hour_regex='2013-01-02_15'.
--- This will make your output only contain values for 15:00 on Jan 2.
--- If you want hourly output for an entire day, then:
---   -p hour_regex='2013-01-02_\d\d'
--- should do just fine.
--- The default is to match all hour timestamps.
-%default hour_regex '.*';
+DEFINE DATE_BUCKET  org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', '$date_bucket_format');
 
-LOG_FIELDS     = LOAD_WEBREQUEST('$input');
+
+IMPORT 'include/load_webrequest.pig';
+LOG_FIELDS = LOAD_WEBREQUEST('$input');
 
 LOG_FIELDS  = FOREACH LOG_FIELDS GENERATE
  hostname, 
  sequence,
  TO_HOUR(timestamp) AS day_hour:chararray;
 
--- only compute stats for hours that match $hour_regex;
-LOG_FIELDS    = FILTER LOG_FIELDS BY day_hour MATCHES '$hour_regex';
+-- only compute stats for hours that match $date_bucket_regex;
+LOG_FIELDS    = FILTER LOG_FIELDS BY day_hour MATCHES '$date_bucket_regex';
 
 
 LOG_FIELDS       = GROUP LOG_FIELDS BY (hostname,day_hour);
