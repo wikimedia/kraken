@@ -70,6 +70,10 @@
     
     <action name="process">
         <pig>
+            <prepare>
+                <delete path="${dataOutput}"/>
+            </prepare>
+            
             <configuration>
                 <property><name>job.name</name><value>${jobName}</value></property>
                 <property><name>jobName</name><value>${jobName}</value></property>
