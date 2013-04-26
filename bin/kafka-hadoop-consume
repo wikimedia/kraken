@@ -85,7 +85,7 @@ def standardized_timestamp(frequency, dt=None):
 def consume_topic(zookeeper_hosts, topic, group, output_dir, limit, frequency, queue_name, redirect_stderr=False):
     print "Consuming %s messages from topic '%s' in consumer group %s into %s..." % (limit, topic, group, output_dir)
     timestamp = standardized_timestamp(frequency)
-    output_path = "%s/%s/%s" % (output_dir, topic, timestamp)
+    output_path = "%s/%s/dt=%s" % (output_dir, topic, timestamp)
     os.system("/usr/bin/hadoop fs -mkdir %s" % output_path)
     command = "/usr/bin/kafka-hadoop-consumer -z %s -t %s -g %s -l %s -q %s -o %s" % (','.join(zookeeper_hosts), topic, group, limit, queue_name, output_path)
     # if specified, redirect the command's stderr
