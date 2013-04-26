@@ -76,7 +76,7 @@
                 <property><name>mapreduce.job.name</name><value>${jobName}</value></property>
             </configuration>
             
-            <script>${krakenLibPath}/pig/webrequest_loss_hourly.pig</script>
+            <script>${krakenLibPath}/pig/packetloss.pig</script>
             
             <argument>-p</argument><argument>input=${dataInput}</argument>
             <argument>-p</argument><argument>output=${dataOutput}</argument>
