@@ -1,38 +1,3 @@
-<workflow-app name="webrequest_mobile_platform_by_day_workflow" xmlns="uri:oozie:workflow:0.4">
-    <start to="webrequest_mobile_platform_by_day"/>
-    <action name="webrequest_mobile_platform_by_day">
-        <pig>
-            <job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-            <script>/libs/kraken/pig/webrequest_mobile_device_platform_daily.pig</script>
-            <argument>-p</argument>
-            <argument>input=${INPUT}</argument>
-            <argument>-p</argument>
-            <argument>output=${OUTPUT}</argument>
-            <argument>-p</argument>
-            <argument>day_regex=${DAY_REGEX}</argument>
-        </pig>
-        <ok to="concat"/>
-        <error to="kill"/>
-    </action>
-    <action name="concat">
-    <pig>
-        <job-tracker>${jobTracker}</job-tracker>
-        <name-node>${nameNode}</name-node>
-        <script>/libs/kraken/pig/concat_sort.pig</script>
-        <argument>-p</argument>
-        <argument>input=${CONCAT_INPUT}</argument>
-        <argument>-p</argument>
-        <argument>dest=${DEST}</argument>
-    </pig>
-    <ok to="end"/>
-    <error to="kill"/>
-    </action>
-    <kill name="kill">
-        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
-    </kill>
-    <end name="end"/>
-</workflow-app>
 <workflow-app xmlns="uri:oozie:workflow:0.4"
         name="mobile_platform_wf">
     
