@@ -80,8 +80,8 @@
             
             <argument>-p</argument><argument>input=${dataInput}</argument>
             <argument>-p</argument><argument>output=${dataOutput}</argument>
-            <argument>-p</argument><argument>date_bucket_format=yyyy-MM-dd</argument>
-            <argument>-p</argument><argument>date_bucket_regex=${jobYear}-${jobMonth}-${jobDay}</argument>
+            <argument>-p</argument><argument>date_bucket_format=yyyy-MM-dd_HH</argument>
+            <argument>-p</argument><argument>date_bucket_regex=${jobYear}-${jobMonth}-${jobDay}_${jobHour}</argument>
             
             <file>/libs/GeoIP.dat</file>
             <file>/libs/GeoIPCity.dat</file>
