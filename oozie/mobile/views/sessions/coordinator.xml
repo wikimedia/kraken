@@ -36,7 +36,7 @@
                 frequency="${coord:minutes(15)}"
                 initial-instance="2013-03-01T00:00Z"
                 timezone="Universal">
-            <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+            <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
         </dataset>
         <dataset name="mobile_sessions"

@@ -18,7 +18,7 @@ REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
                             --      date_bucket_hour=2013-04-16_03
                             --      output_bucket_dir=hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile
                             -- We will store the 15-29 minute-bucket at:
-                            --      hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-04-16_03.15.00
+                            --      hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=2013-04-16_03.15.00
 --      date_bucket_hour    -- Date used to split data into buckets; format must match 'yyyy-MM-dd_HH'.
 --      output_rest         -- Output path for non-bucketed data.
 

@@ -17,7 +17,7 @@
         
         <property>
             <name>coalesceInput</name>
-            <description>HDFS path(s) naming the input set to be merged and sorted. Ex: hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/2013-03-01_**</description>
+            <description>HDFS path(s) naming the input set to be merged and sorted. Ex: hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=2013-03-01_**</description>
         </property>
         <property>
             <name>coalesceOutputDir</name>
