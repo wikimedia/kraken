@@ -34,14 +34,14 @@
     <datasets>
         <dataset name="webrequest-wikipedia-mobile"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-03-01T00:00Z"
+                initial-instance="2013-02-01T00:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
         </dataset>
         <dataset name="mobile_sessions"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-03-01T00:00Z"
+                initial-instance="2013-02-01T00:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/data/webrequest/mobile/views/sessions/dt=${YEAR}-${MONTH}-${DAY}</uri-template>
             <done-flag></done-flag>
