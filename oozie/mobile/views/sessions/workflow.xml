@@ -51,10 +51,6 @@
                 <name>oozie.action.external.stats.write</name>
                 <value>true</value>
             </property>
-            <property>
-                <name>mapreduce.job.end-notification.retry.attempts</name>
-                <value>10</value>
-            </property>
         </configuration>
     </global>
     

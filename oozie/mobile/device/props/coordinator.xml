@@ -2,7 +2,7 @@
         name="mobile_device_props-${jobName}"
         frequency="${coord:days(1)}"
         start="${jobStartDate}T00:15Z" end="${jobEndDate}T00:15Z" timezone="Universal">
-        <!-- ongoing:   start="2013-04-15T00:15Z" end="2020-01-01T00:15Z" -->
+        <!-- ongoing:   start="2013-04-25T00:15Z" end="2020-01-01T00:15Z" -->
         <!-- backfill:  start="2013-03-02T00:15Z" end="2013-04-15T00:15Z" -->
     
     <parameters>
@@ -21,7 +21,7 @@
         </property>
         <property>
             <name>jobStartDate</name>
-            <value>2013-04-14</value>
+            <value>2013-04-25</value>
         </property>
         <property>
             <name>jobEndDate</name>
