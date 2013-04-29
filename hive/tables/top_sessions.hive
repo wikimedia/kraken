@@ -1,0 +1,19 @@
+CREATE EXTERNAL TABLE IF NOT EXISTS
+    top_sessions(
+        session_start string,
+        session_end string,
+        visitor_id string,
+        session_id string,
+        ip_address string,
+        site_mode string,
+        pageviews int,
+        special_pageviews int,
+        entry_uri string,
+        entry_referer string,
+        exit_uri string)
+ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+LOCATION
+    'hdfs:///user/dsc/data/top_sessions/2013-04-21'
+
