@@ -1,0 +1,34 @@
+#!/bin/bash
+
+WHOIS_INFO=`whois $1`
+shift
+FIELDS=$*
+
+
+
+check () {
+    grep -qiP "$1" <<< "$WHOIS_INFO"
+}
+
+check_field () {
+    key=$1
+    value="${2:-\S.*}"
+    check "^$key:\s+$value"
+}
+
+first_field () {
+    for field in $*; do
+        if check_field "$field"; then
+            grep -iP "^($field):" <<< "$WHOIS_INFO" | head -n1 | perl -pe 's/^\S+\s+(.*)$/\1/'
+            exit
+        fi
+    done
+}
+
+
+if [ "$FIELDS" ]; then
+    first_field $FIELDS
+else
+    check 'NetType' 'IANA Special Use' && first_field 'NetName'
+    first_field 'org-name' 'OrgName' 'organisation' 'org' 'owner' 'role' 'NetName'
+fi
