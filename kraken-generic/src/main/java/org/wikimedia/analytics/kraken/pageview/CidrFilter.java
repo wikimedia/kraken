@@ -37,6 +37,11 @@ public class CidrFilter {
      */
     public CidrFilter() {
         /**
+         * 10.x.x.x are internal IP addresses.
+         */
+        this.subnets.add(new SubnetUtils("10.0.0.0/8"));
+
+        /**
          * 208.80.152.0/22 && 91.198.174.0/24 are internal WMF office ranges and should be excluded from
          * pageview counts
          */
