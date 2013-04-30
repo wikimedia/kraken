@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS
+    mobile_article_views(
+        request_timestamp string,
+        kafka_byte_offset bigint,
+        title string,
+        action string,
+        uri string,
+        x_analytics string,
+        ip_address string,
+        http_status string,
+        cache_status string,
+        response_time string,
+        user_agent string,
+        referer string)
+PARTITIONED BY (
+    dt string)
+ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
