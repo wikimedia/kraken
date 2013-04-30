@@ -38,7 +38,7 @@ public class UserAgent {
     // Wikimedia Mobile Apps regular expressions
     // See: http://www.mediawiki.org/wiki/Mobile/User_agents
     private static final Pattern WMF_APP_ANDROID_UA_PAT     = Pattern.compile("WikipediaMobile/.*Android.*");
-    private static final Pattern WMF_APP_IOS                = Pattern.compile("Mozilla/5.0 \\(iPhone; CPU iPhone OS [0-9]_[0-9] like Mac OS X\\) AppleWebKit/[0-9]{3}\\.[0-9]{2} \\(KHTML, like Gecko\\) Mobile/.*");
+    private static final Pattern WMF_APP_IOS                = Pattern.compile("Mozilla/5\\.0 \\(iPhone; CPU iPhone OS [0-9_]* like Mac OS X\\) AppleWebKit/[0-9]{3}\\.[0-9]{2} \\(KHTML, like Gecko\\) Mobile/.*");
     //private static final Pattern WMF_APP_IOS                = Pattern.compile(Pattern.quote("Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B142"));
     private static final Pattern WMF_APP_FIREFOX_UA_PAT     = Pattern.compile(Pattern.quote("Mozilla/5.0 (Mobile; rv:18.0) Gecko/18.0 Firefox/18.0"));
     private static final Pattern WMF_APP_RIM_UA_PAT         = Pattern.compile("Mozilla/5.0 \\(PlayBook; U; RIM Tablet OS.*\\)");
