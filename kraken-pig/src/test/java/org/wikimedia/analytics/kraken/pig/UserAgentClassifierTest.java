@@ -95,6 +95,18 @@ public class UserAgentClassifierTest {
         Tuple output = ua.exec(input);
         assertEquals("iOS", output.get(7));
 
+        input.set(0, "Mozilla/5.0 (iPhone; CPU iPhone OS 6_1_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B142");
+        output = ua.exec(input);
+        assertEquals("iOS", output.get(7));
+
+        input.set(0, "WikipediaMobile/xyz Mozilla/5.0 (iPhone; CPU iPhone OS 6_1_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B142");
+        output = ua.exec(input);
+        assertEquals("iOS", output.get(7));
+
+        input.set(0, "Mozilla/5G0 (iPhone; CPU iPhone OS 6_1_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B142");
+        output = ua.exec(input);
+        assertEquals(null, output.get(7));
+
         input.set(0, "Mozilla/5.0 (iPhone; CPU Safari iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B142");
         output = ua.exec(input);
         assertEquals(null, output.get(7));
