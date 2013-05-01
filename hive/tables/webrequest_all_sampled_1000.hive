@@ -1,0 +1,27 @@
+CREATE EXTERNAL TABLE IF NOT EXISTS
+    webrequest_all_sampled_1000(
+        kafka_byte_offset bigint,
+        cache_host string,
+        sequence bigint,
+        request_timestamp string,
+        request_time string,
+        ip_geo string,
+        http_status string,
+        bytes_sent bigint,
+        request_method string,
+        uri string,
+        proxy_host string,
+        content_type string,
+        referer string,
+        x_forwarded_for string,
+        user_agent string,
+        accept_language string,
+        x_analytics string)
+PARTITIONED BY (
+    dt string)
+ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+LOCATION
+    'hdfs:///wmf/raw/webrequest/webrequest-all-sampled-1000'
+
