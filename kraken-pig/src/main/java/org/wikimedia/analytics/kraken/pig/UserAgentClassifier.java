@@ -102,7 +102,7 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
 
         UserAgent userAgent = new UserAgent(input.get(0).toString());
 
-        Tuple output = tupleFactory.newTuple(11);
+        Tuple output = tupleFactory.newTuple(12);
         output.set(0, userAgent.getParentId()); // XXX: should be vendor?
         output.set(1, userAgent.getModel());
         output.set(2, userAgent.getDeviceOs());
@@ -114,6 +114,7 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
         output.set(8, userAgent.getAjaxSupportJavascript());
         output.set(9, userAgent.getDisplayDimensions());
         output.set(10, userAgent.getInputDevices());
+        output.set(11, userAgent.getNonWMFMobileApp());
 
         return output;
     }
