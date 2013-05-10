@@ -48,13 +48,21 @@ public class UserAgent {
     //private static final Pattern WMF_APP_FIREFOX_UA_PAT   = Pattern.compile("Mozilla/5.0 \\(Mobile; rv:.*\\) Gecko/.* Firefox/.*");
     //private static final Pattern WMF_APP_WINDOWS_UA_PAT   = Pattern.compile("Mozilla/5.0 \\(compatible; MSIE 10.0; Windows NT.*\\)");
 
-    private static final Map<String, Pattern> WMF_APP_PATTERNS = new HashMap<String, Pattern>();
+    private static final Pattern NON_WMF_APP_IOS_UA_PAT     = Pattern.compile( "^.+CFNetwork/[0-9.]+Darwin/" );
+
+    private static final Map<String, Pattern>
+	    WMF_APP_PATTERNS = new HashMap<String, Pattern>(),
+	    NON_WMF_APP_PATTERNS = new HashMap<String, Pattern>();
     static {
+	    // WMF app
         WMF_APP_PATTERNS.put("Android",             WMF_APP_ANDROID_UA_PAT);
         WMF_APP_PATTERNS.put("Firefox OS",          WMF_APP_FIREFOX_UA_PAT);
         WMF_APP_PATTERNS.put("BlackBerry PlayBook", WMF_APP_RIM_UA_PAT);
         WMF_APP_PATTERNS.put("Windows 8",           WMF_APP_WINDOWS_UA_PAT);
         WMF_APP_PATTERNS.put("iOS",                 WMF_APP_IOS);
+
+	    // non-WMF app
+        NON_WMF_APP_PATTERNS.put("iOS non-WMF",  NON_WMF_APP_IOS_UA_PAT);
     }
 
 
@@ -66,6 +74,7 @@ public class UserAgent {
     private String deviceOsVersion;
     private String deviceClass;
     private String wmfMobileApp;
+    private String nonWmfMobileApp;
 
 
 
@@ -148,6 +157,13 @@ public class UserAgent {
                 return;
             }
         }
+        for (Map.Entry<String, Pattern> entry : NON_WMF_APP_PATTERNS.entrySet()) {
+            pattern = entry.getValue();
+            if (pattern.matcher(userAgent).find()) {
+                nonWmfMobileApp = entry.getKey();
+                return;
+            }
+        }
     }
 
 
@@ -209,6 +225,10 @@ public class UserAgent {
 
     public String getWMFMobileApp() {
         return wmfMobileApp;
+    }
+
+    public String getNonWMFMobileApp() {
+        return nonWmfMobileApp;
     }
 
     public String getInputDevices() {
