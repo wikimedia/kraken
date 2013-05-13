@@ -83,6 +83,7 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
         fields.add(new FieldSchema(null, DataType.BOOLEAN));        // hasJavaScript
         fields.add(new FieldSchema(null, DataType.CHARARRAY));      // displayDimensions: "WIDTH x HEIGHT"
         fields.add(new FieldSchema(null, DataType.CHARARRAY));      // Input Devices
+        fields.add(new FieldSchema(null, DataType.CHARARRAY));      // Non WMF Mobile App ID
         return new Schema(fields);
     }
 

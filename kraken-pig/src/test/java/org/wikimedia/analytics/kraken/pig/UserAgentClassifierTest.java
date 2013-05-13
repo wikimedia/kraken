@@ -121,31 +121,72 @@ public class UserAgentClassifierTest {
     }
 
     @Test
-    public void testIOSNonWikimediaApp() throws IOException, ParseException{
+    public void testIOSNonWikimediaAppWikipanion() throws IOException, ParseException{
         UserAgentClassifier ua = new UserAgentClassifier();
         Tuple input =  tupleFactory.newTuple(1);
 
-	final int id = 11;
+        final int id = 11;
         input.set(0, "Wikipanion/1.7.8.3.CFNetwork/609.1.4.Darwin/13.0.0");
         Tuple output = ua.exec(input);
-        assertEquals("iOS non-WMF", output.get(id));
-
-        input.set(0, ".Wikibot/2.0.2.CFNetwork/609.1.4.Darwin/13.0.0");
-        output = ua.exec(input);
-        assertEquals("iOS non-WMF", output.get(id));
-
-        input.set(0, ".OnThisDay/48.CFNetwork/609.1.4.Darwin/13.0.0");
-        output = ua.exec(input);
-        assertEquals("iOS non-WMF", output.get(id));
-
-        input.set(0, ".WikiHunt/1.7.CFNetwork/609.1.4.Darwin/13.0.0.");
-        output = ua.exec(input);
-        assertEquals("iOS non-WMF", output.get(id));
-
-        input.set(0, ".Articles/285.CFNetwork/609.1.4.Darwin/13.0.0");
-        output = ua.exec(input);
-        assertEquals("iOS non-WMF", output.get(id));
+        assertEquals("Wikipanion", output.get(id));
     }
+
+    @Test
+    public void testIOSNonWikimediaAppWikiBot() throws IOException, ParseException{
+        UserAgentClassifier ua = new UserAgentClassifier();
+        Tuple input =  tupleFactory.newTuple(1);
+
+        final int id = 11;
+        input.set(0, "Wikibot/2.0.2.CFNetwork/609.1.4.Darwin/13.0.0");
+        Tuple output = ua.exec(input);
+        assertEquals("WikiBot", output.get(id));
+    }
+
+    @Test
+    public void testIOSNonWikimediaAppOnThisDay() throws IOException, ParseException{
+        UserAgentClassifier ua = new UserAgentClassifier();
+        Tuple input =  tupleFactory.newTuple(1);
+
+        final int id = 11;
+        input.set(0, "OnThisDay/48.CFNetwork/609.1.4.Darwin/13.0.0");
+        Tuple output = ua.exec(input);
+        assertEquals("OnThisDay", output.get(id));
+    }
+
+    @Test
+    public void testIOSNonWikimediaAppWikihood() throws IOException, ParseException{
+        UserAgentClassifier ua = new UserAgentClassifier();
+        Tuple input =  tupleFactory.newTuple(1);
+
+        final int id = 11;
+        input.set(0, "Wikihood iPad/1.3.3");
+        Tuple output = ua.exec(input);
+        assertEquals("Wikihood", output.get(id));
+    }
+
+    @Test
+    public void testIOSNonWikimediaAppWikiHunt() throws IOException, ParseException{
+        UserAgentClassifier ua = new UserAgentClassifier();
+        Tuple input =  tupleFactory.newTuple(1);
+
+        final int id = 11;
+        input.set(0, "WikiHunt/1.7.CFNetwork/609.1.4.Darwin/13.0.0");
+        Tuple output = ua.exec(input);
+        assertEquals("WikiHunt", output.get(id));
+    }
+
+    @Test
+    public void testIOSNonWikimediaAppArticles() throws IOException, ParseException{
+        UserAgentClassifier ua = new UserAgentClassifier();
+        Tuple input =  tupleFactory.newTuple(1);
+
+        final int id = 11;
+        input.set(0, "Articles/285.CFNetwork/609.1.4.Darwin/13.0.0");
+        Tuple output = ua.exec(input);
+        assertEquals("Articles", output.get(id));
+    }
+
+
 
     @Test
     public void testIPhone5() throws IOException, ParseException{

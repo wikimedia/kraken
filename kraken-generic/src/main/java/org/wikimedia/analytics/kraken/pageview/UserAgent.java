@@ -38,31 +38,42 @@ public class UserAgent {
     // Wikimedia Mobile Apps regular expressions
     // See: http://www.mediawiki.org/wiki/Mobile/User_agents
     private static final Pattern WMF_APP_ANDROID_UA_PAT     = Pattern.compile("WikipediaMobile/.*Android.*");
-    private static final Pattern WMF_APP_IOS                = Pattern.compile("Mozilla/5\\.0 \\(iPhone; CPU iPhone OS [0-9_]* like Mac OS X\\) AppleWebKit/[0-9]{3}\\.[0-9]{2} \\(KHTML, like Gecko\\) Mobile/.*");
-    //private static final Pattern WMF_APP_IOS                = Pattern.compile(Pattern.quote("Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B142"));
-    private static final Pattern WMF_APP_FIREFOX_UA_PAT     = Pattern.compile(Pattern.quote("Mozilla/5.0 (Mobile; rv:18.0) Gecko/18.0 Firefox/18.0"));
-    private static final Pattern WMF_APP_RIM_UA_PAT         = Pattern.compile("Mozilla/5.0 \\(PlayBook; U; RIM Tablet OS.*\\)");
-    private static final Pattern WMF_APP_WINDOWS_UA_PAT     = Pattern.compile(Pattern.quote("Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MSAppHost/1.0)"));
-    // Poorly regarded attempts at making the regexes "smarter"
-    //private static final Pattern WMF_APP_IOS              = Pattern.compile("Mozilla/5.0(?!.*\\bSafari\\b).*iPhone(?!.*\\bSafari\\b).*");
-    //private static final Pattern WMF_APP_FIREFOX_UA_PAT   = Pattern.compile("Mozilla/5.0 \\(Mobile; rv:.*\\) Gecko/.* Firefox/.*");
-    //private static final Pattern WMF_APP_WINDOWS_UA_PAT   = Pattern.compile("Mozilla/5.0 \\(compatible; MSIE 10.0; Windows NT.*\\)");
+    private static final Pattern WMF_APP_IOS                = Pattern.compile("Mozilla/[0-9\\.]* \\((iPad|iPhone|iPod); CPU iPhone OS [0-9_]* like Mac OS X\\) AppleWebKit/[0-9\\.]* \\(KHTML, like Gecko\\) Mobile/.*");
+    private static final Pattern WMF_APP_FIREFOX_UA_PAT     = Pattern.compile("Mozilla/[0-9\\.]* \\(Mobile; rv:[0-9\\.]*\\) Gecko/[0-9\\.]* Firefox/[0-9\\.]*");
+    private static final Pattern WMF_APP_RIM_UA_PAT         = Pattern.compile("Mozilla/[0-9\\.]* \\(PlayBook; U; RIM Tablet OS.*\\)");
+    private static final Pattern WMF_APP_WINDOWS_UA_PAT     = Pattern.compile("Mozilla/[0-9\\.]* \\(.*MSIE.*MSAppHost.*\\)");
 
-    private static final Pattern NON_WMF_APP_IOS_UA_PAT     = Pattern.compile( "^.+CFNetwork/[0-9.]+Darwin/" );
+    // Non-Wikimedia Mobile Apps regular expressions
+    // See: http://www.mediawiki.org/wiki/Mobile/User_agents#Un-Official_Apps
+    private static final Pattern NON_WMF_APP_Wikipanion     = Pattern.compile("Wikipanion/.*CFNetwork/.*Darwin/.*"); // example: Wikipanion/1.7.8.3.CFNetwork/609.1.4.Darwin/13.0.0
+    private static final Pattern NON_WMF_APP_WikiBot        = Pattern.compile("Wikibot/.*CFNetwork/.*Darwin/.*"); // example: Wikibot/2.0.2.CFNetwork/609.1.4.Darwin/13.0.0
+    private static final Pattern NON_WMF_APP_OnThisDay      = Pattern.compile("OnThisDay/.*CFNetwork/.*Darwin/.*"); // example: OnThisDay/48.CFNetwork/609.1.4.Darwin/13.0.0
+    private static final Pattern NON_WMF_APP_Wikihood       = Pattern.compile("Wikihood (iPad|iPhone|iPod)/[0-9\\.]*"); // example: Wikihood iPad/1.3.3
+    private static final Pattern NON_WMF_APP_WikiHunt       = Pattern.compile("WikiHunt/.*CFNetwork/.*Darwin/.*"); // example: WikiHunt/1.7.CFNetwork/609.1.4.Darwin/13.0.0
+    private static final Pattern NON_WMF_APP_Articles       = Pattern.compile("Articles/.*CFNetwork/.*Darwin/.*"); // example: Articles/285.CFNetwork/609.1.4.Darwin/13.0.0
+    // private static final Pattern NON_WMF_APP_iPediaWiki     = NOTE: UA too generic // example: Mozilla/5.0.(iPod;.CPU.iPhone.OS.6_1_3.like.Mac.OS.X).AppleWebKit/536.26.(KHTML,.like.Gecko).Mobile/10B329
+    // private static final Pattern NON_WMF_APP_The Wiki game  = NOTE: UA too generic // example: Mozilla/5.0.(iPod;.CPU.iPhone.OS.6_1_3.like.Mac.OS.X).AppleWebKit/536.26.(KHTML,.like.Gecko).Mobile/10B329
+    //private static final Pattern NON_WMF_APP_WikiTap        = //Proxy - 207.154.19.129
+    //private static final Pattern NON_WMF_APP_Wapedia        = //Proxy - 82.147.11.31 - /en/Independence_Party_(Iceland)?applang=en&appsearchsite=en&appver=1.3.2&iapp_devtype=iPod%20touch&iapp_prefs=picturesize:on&iapp_res=6&sid=1493948423
 
     private static final Map<String, Pattern>
-	    WMF_APP_PATTERNS = new HashMap<String, Pattern>(),
-	    NON_WMF_APP_PATTERNS = new HashMap<String, Pattern>();
+        WMF_APP_PATTERNS = new HashMap<String, Pattern>(),
+        NON_WMF_APP_PATTERNS = new HashMap<String, Pattern>();
     static {
-	    // WMF app
+        // WMF apps
         WMF_APP_PATTERNS.put("Android",             WMF_APP_ANDROID_UA_PAT);
         WMF_APP_PATTERNS.put("Firefox OS",          WMF_APP_FIREFOX_UA_PAT);
         WMF_APP_PATTERNS.put("BlackBerry PlayBook", WMF_APP_RIM_UA_PAT);
         WMF_APP_PATTERNS.put("Windows 8",           WMF_APP_WINDOWS_UA_PAT);
         WMF_APP_PATTERNS.put("iOS",                 WMF_APP_IOS);
 
-	    // non-WMF app
-        NON_WMF_APP_PATTERNS.put("iOS non-WMF",  NON_WMF_APP_IOS_UA_PAT);
+        // non-WMF apps
+        NON_WMF_APP_PATTERNS.put("Wikipanion",      NON_WMF_APP_Wikipanion);
+        NON_WMF_APP_PATTERNS.put("WikiBot",         NON_WMF_APP_WikiBot);
+        NON_WMF_APP_PATTERNS.put("OnThisDay",       NON_WMF_APP_OnThisDay);
+        NON_WMF_APP_PATTERNS.put("Wikihood",        NON_WMF_APP_Wikihood);
+        NON_WMF_APP_PATTERNS.put("WikiHunt",        NON_WMF_APP_WikiHunt);
+        NON_WMF_APP_PATTERNS.put("Articles",        NON_WMF_APP_Articles);
     }
 
 
