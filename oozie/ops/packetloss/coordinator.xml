@@ -19,7 +19,7 @@
         </property>
         <property>
             <name>jobStartDate</name>
-            <value>2013-03-01</value>
+            <value>2013-05-14</value>
         </property>
         <property>
             <name>jobEndDate</name>
@@ -34,14 +34,14 @@
     <datasets>
         <dataset name="webrequest-mobile"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-05-14T17:00Z"
+                initial-instance="2013-05-14T16:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/raw/webrequest/webrequest-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
         </dataset>
         <dataset name="packetloss"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-05-14T17:00Z"
+                initial-instance="2013-05-14T16:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/data/webrequest/loss/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
