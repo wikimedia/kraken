@@ -28,6 +28,7 @@ log_fields = LOAD_WEBREQUEST('hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mo
 ************* Sampled ***************
 log_fields = LOAD_WEBREQUEST('hdfs:///wmf/raw/webrequest/webrequest-all-sampled-1000/dt=2013-04-15_12*');
 log_fields = LOAD_WEBREQUEST('hdfs:///wmf/raw/webrequest/webrequest-all-sampled-1000/dt=2013-04-15*');
+log_fields = LOAD_WEBREQUEST('hdfs:///wmf/raw/webrequest/webrequest-all-sampled-1000/dt=2013-04*');
 
 ************* Local *****************
 log_fields = LOAD_WEBREQUEST('pig.sample.webrequest.wikipedia.mobile*');
