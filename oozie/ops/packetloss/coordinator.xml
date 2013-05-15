@@ -1,7 +1,7 @@
 <coordinator-app xmlns="uri:oozie:coordinator:0.4"
         name="packetloss-${jobName}"
         frequency="${coord:hours(1)}"
-        start="${jobStartDate}T01:00Z" end="${jobEndDate}T23:00Z" timezone="Universal">
+        start="${jobStartDate}T15:00Z" end="${jobEndDate}T23:00Z" timezone="Universal">
     
     <parameters>
         <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
@@ -19,7 +19,7 @@
         </property>
         <property>
             <name>jobStartDate</name>
-            <value>2013-03-01</value>
+            <value>2013-05-14</value>
         </property>
         <property>
             <name>jobEndDate</name>
@@ -32,16 +32,16 @@
     </parameters>
     
     <datasets>
-        <dataset name="webrequest-wikipedia-mobile"
+        <dataset name="webrequest-mobile"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-01-01T00:00Z"
+                initial-instance="2013-05-14T15:00Z"
                 timezone="Universal">
-            <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+            <uri-template>hdfs:///wmf/raw/webrequest/webrequest-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
         </dataset>
         <dataset name="packetloss"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-01-01T00:00Z"
+                initial-instance="2013-05-14T15:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/data/webrequest/loss/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
@@ -49,7 +49,7 @@
     </datasets>
     
     <input-events>
-        <data-in name="INPUT" dataset="webrequest-wikipedia-mobile">
+        <data-in name="INPUT" dataset="webrequest-mobile">
             <start-instance>${coord:current(-5)}</start-instance>
             <end-instance>${coord:current(0)}</end-instance>
         </data-in>
