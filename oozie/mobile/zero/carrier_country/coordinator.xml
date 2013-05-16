@@ -44,10 +44,10 @@
     </input-events>
     
     <output-events>
-        <data-out name="CARRIER_OUTPUT" dataset="zero_carrier_carrier">
+        <data-out name="CARRIER_OUTPUT" dataset="zero_carrier">
             <instance>${coord:current(-4)}</instance>
         </data-out>
-        <data-out name="COUNTRY_OUTPUT" dataset="zero_carrier_country">
+        <data-out name="COUNTRY_OUTPUT" dataset="zero_country">
             <instance>${coord:current(-4)}</instance>
         </data-out>
     </output-events>
