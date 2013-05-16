@@ -1,29 +1,17 @@
 <coordinator-app xmlns="uri:oozie:coordinator:0.4"
         name="webrequest_zero_carrier_country"
         frequency="${coord:hours(1)}" start="2013-02-01T01:00Z" end="2020-01-01T23:00Z" timezone="Universal">
-    
+
     <parameters>
-        <property>
-            <name>nameNode</name>
-            <value>hdfs://analytics1010.eqiad.wmnet:8020</value>
-        </property>
-        <property>
-            <name>jobTracker</name>
-            <value>analytics1010.eqiad.wmnet:8032</value>
-        </property>
-        <property>
-            <name>krakenLibPath</name>
-            <value>${nameNode}/libs/kraken</value>
-        </property>
-        
+        <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
+        <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
+        <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
+        <property><name>queueName</name><value>standard</value></property>
+
         <!-- Coordinator App -->
         <property>
             <name>appPath</name>
             <value>${krakenLibPath}/oozie/mobile/zero/carrier_country</value>
-        </property>
-        <property>
-            <name>queueName</name>
-            <value>standard</value>
         </property>
     </parameters>
     
@@ -33,14 +21,12 @@
                 initial-instance="2013-02-01T00:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
-            <done-flag></done-flag>
         </dataset>
         <dataset name="zero_carrier_country"
                 frequency="${coord:minutes(15)}"
                 initial-instance="2013-02-01T00:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/public/webrequest/zero/carrier/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
-            <done-flag></done-flag>
         </dataset>
     </datasets>
     

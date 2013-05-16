@@ -1,6 +1,9 @@
 -- Usage:
 --   import 'include/load_webrequest';
 --   LOG_FIELDS = LOAD_WEBREQUEST('/path/to/logs');
+--
+-- ToDo:
+--   Rename x_cs to x_analytics.
 
 DEFINE LOAD_WEBREQUEST(input_path) RETURNS WEBREQUEST_FIELDS {
   $WEBREQUEST_FIELDS = LOAD '$input_path' AS (
