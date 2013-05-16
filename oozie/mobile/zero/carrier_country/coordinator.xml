@@ -1,6 +1,6 @@
 <coordinator-app xmlns="uri:oozie:coordinator:0.4"
         name="webrequest_zero_carrier_country"
-        frequency="${coord:hours(1)}" start="2013-02-01T01:00Z" end="2020-01-01T23:00Z" timezone="Universal">
+        frequency="${coord:hours(1)}" start="2013-04-25T21:00Z" end="2020-01-01T23:00Z" timezone="Universal">
 
     <parameters>
         <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
@@ -18,15 +18,21 @@
     <datasets>
         <dataset name="webrequest-wikipedia-mobile"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-02-01T00:00Z"
+                initial-instance="2013-04-25T21:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
         </dataset>
-        <dataset name="zero_carrier_country"
+        <dataset name="zero_carrier"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-02-01T00:00Z"
+                initial-instance="2013-04-25T21:00Z"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/public/webrequest/zero/carrier/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
+        </dataset>
+        <dataset name="zero_country"
+                frequency="${coord:minutes(15)}"
+                initial-instance="2013-04-25T21:00Z"
+                timezone="Universal">
+            <uri-template>hdfs:///wmf/public/webrequest/zero/country/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
         </dataset>
     </datasets>
     
@@ -38,7 +44,10 @@
     </input-events>
     
     <output-events>
-        <data-out name="OUTPUT" dataset="zero_carrier_country">
+        <data-out name="CARRIER_OUTPUT" dataset="zero_carrier_carrier">
+            <instance>${coord:current(-4)}</instance>
+        </data-out>
+        <data-out name="COUNTRY_OUTPUT" dataset="zero_carrier_country">
             <instance>${coord:current(-4)}</instance>
         </data-out>
     </output-events>
@@ -58,11 +67,11 @@
                 </property>
                 <property>
                     <name>carrierOutput</name>
-                    <value>${coord:dataOut('OUTPUT')}</value>
+                    <value>${coord:dataOut('CARRIER_OUTPUT')}</value>
                 </property>
                 <property>
                     <name>countryOutput</name>
-                    <value>hdfs:///wmf/public/webrequest/zero/country/${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy/MM/dd/HH.mm.00')}</value>
+                    <value>${coord:dataOut('COUNTRY_OUTPUT')}</value>
                 </property>
                 
                 <!-- Processing Meta -->
