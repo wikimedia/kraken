@@ -80,7 +80,7 @@ official_platform_info_group = GROUP official_platform_info BY (date_bucket, wmf
 official_platform_info_count = FOREACH official_platform_info_group GENERATE FLATTEN(group), COUNT(official_platform_info) * 1000;
 ordered_official_platform_info_count = ORDER official_platform_info_count BY date_bucket, wmf_mobile_app;
 
-STORE ordered_official_platform_info_count INTO '$output' USING PigStorage();
+STORE ordered_official_platform_info_count INTO '$output/official' USING PigStorage();
 
 unofficial_platform_info = FILTER platform_info BY non_wmf_mobile_app is not null;
 unofficial_platform_info = FOREACH unofficial_platform_info GENERATE date_bucket, non_wmf_mobile_app;
@@ -89,4 +89,4 @@ unofficial_platform_info_group = GROUP unofficial_platform_info BY (date_bucket,
 unofficial_platform_info_count = FOREACH unofficial_platform_info_group GENERATE FLATTEN(group), COUNT(unofficial_platform_info) * 1000;
 ordered_unofficial_platform_info_count = ORDER unofficial_platform_info_count BY date_bucket, non_wmf_mobile_app;
 
-STORE ordered_unofficial_platform_info_count INTO '$output' USING PigStorage();
+STORE ordered_unofficial_platform_info_count INTO '$output/unofficial' USING PigStorage();
