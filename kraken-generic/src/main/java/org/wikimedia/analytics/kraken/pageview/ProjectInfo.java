@@ -341,9 +341,14 @@ public class ProjectInfo {
         }
 
         // Add SLD+TLD which we skipped above
-        projectParts.add(domainParts[domainParts.length - 2]);
-        projectParts.add(domainParts[domainParts.length - 1]);
-        projectDomain = Joiner.on('.').skipNulls().join(projectParts);
+        if (domainParts.length > 1) {
+            projectParts.add(domainParts[domainParts.length - 2]);
+            projectParts.add(domainParts[domainParts.length - 1]);
+            projectDomain = Joiner.on('.').skipNulls().join(projectParts);
+        }
+        else {
+            projectDomain = Joiner.on('.').skipNulls().join(domainParts);
+        }
     }
 
     public String getHostname() {
