@@ -1,0 +1,16 @@
+mobile/zero/carrier_country
+
+The carrier_country/coordinator.xml file has been abstracted in a
+way that allows it to operate generically with any Wikipedia Zero related metric,
+so long as it operates as a single pig script which takes and input and an output
+argument.  The carrier vs. country coordinator.properties files only differ in the
+pig script and output path that they use, and so are able to use the exact same
+coordinator.xml and workflow.xml files.
+
+For organizational sanity, I've moved the differnent .properties into a subdirectory
+called 'properties/'.  If you need to add new Zero oozie coordinators that can use
+the same job xml definitions, feel free to add them there.
+
+I believe that I could abstract this Oozie Pig input/output pattern into a single
+reusable definition, decoupled from any particular metric at all.  One thing
+at a time though... :)

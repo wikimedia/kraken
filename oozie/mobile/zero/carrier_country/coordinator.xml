@@ -1,38 +1,33 @@
 <coordinator-app xmlns="uri:oozie:coordinator:0.4"
-        name="webrequest_zero_carrier_country"
-        frequency="${coord:hours(1)}" start="2013-04-25T20:00Z" end="2020-01-01T23:00Z" timezone="Universal">
+        name="zero_${metricName}-hour"
+        frequency="${coord:hours(1)}" start="${startTime}" end="${stopTime}" timezone="Universal">
 
     <parameters>
+        <!-- Default parameters.  These may be overridden in your coordinator.properties file -->
         <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
         <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
         <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
         <property><name>queueName</name><value>standard</value></property>
-
-        <!-- Coordinator App -->
-        <property>
-            <name>appPath</name>
-            <value>${krakenLibPath}/oozie/mobile/zero/carrier_country</value>
-        </property>
+        <property<name>appPath</name><value>${krakenLibPath}/oozie/mobile/zero/carrier_country</value></property>
+        <property><name>concurrencyLevel</name><value>1</value></property>
     </parameters>
-    
+
+    <controls>
+        <concurrency>${concurrencyLevel}</concurrency>
+    </controls>
+
     <datasets>
         <dataset name="webrequest-wikipedia-mobile"
                 frequency="${coord:minutes(15)}"
-                initial-instance="2013-04-25T20:00Z"
+                initial-instance="${startTime}"
                 timezone="Universal">
             <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
         </dataset>
-        <dataset name="zero_carrier"
-                frequency="${coord:minutes(15)}"
-                initial-instance="2013-04-25T20:00Z"
+        <dataset name="output-dataset"
+                frequency="${coord:hours(1)}"
+                initial-instance="${startTime}"
                 timezone="Universal">
-            <uri-template>hdfs:///wmf/public/webrequest/zero/carrier/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
-        </dataset>
-        <dataset name="zero_country"
-                frequency="${coord:minutes(15)}"
-                initial-instance="2013-04-25T20:00Z"
-                timezone="Universal">
-            <uri-template>hdfs:///wmf/public/webrequest/zero/country/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
+            <uri-template>${outputPath}/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
         </dataset>
     </datasets>
     
@@ -44,34 +39,32 @@
     </input-events>
     
     <output-events>
-        <data-out name="CARRIER_OUTPUT" dataset="zero_carrier">
-            <instance>${coord:current(-4)}</instance>
-        </data-out>
-        <data-out name="COUNTRY_OUTPUT" dataset="zero_country">
-            <instance>${coord:current(-4)}</instance>
+        <data-out name="OUTPUT" dataset="output-dataset">
+            <instance>${coord:current(-1)}</instance>
         </data-out>
     </output-events>
     
     <action>
         <workflow>
-            <app-path>${nameNode}/libs/kraken/oozie/mobile/zero/carrier_country/workflow.xml</app-path>
+            <app-path>${appPath}/workflow.xml</app-path>
             <configuration>
+
                 <property><name>nameNode</name><value>${nameNode}</value></property>
                 <property><name>jobTracker</name><value>${jobTracker}</value></property>
                 <property><name>queueName</name><value>${queueName}</value></property>
                 
                 <!-- Hourly Processing -->
                 <property>
+                    <name>pigScript</name>
+                    <value>${pigScript}</value>
+                </property>
+                <property>
                     <name>dataInput</name>
                     <value>${coord:dataIn('INPUT')}</value>
                 </property>
                 <property>
-                    <name>carrierOutput</name>
-                    <value>${coord:dataOut('CARRIER_OUTPUT')}</value>
-                </property>
-                <property>
-                    <name>countryOutput</name>
-                    <value>${coord:dataOut('COUNTRY_OUTPUT')}</value>
+                    <name>output</name>
+                    <value>${coord:dataOut('OUTPUT')}</value>
                 </property>
                 
                 <!-- Processing Meta -->
@@ -91,17 +84,7 @@
                     <name>jobYear</name>
                     <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy')}</value>
                 </property>
-                
-                <!-- XXX: unused
-                <property>
-                    <name>dataDir</name>
-                    <value>${nameNode}/wmf/data/webrequest/zero/carrier_country</value>
-                </property>
-                <property>
-                    <name>publicDir</name>
-                    <value>${nameNode}/wmf/public/webrequest/zero</value>
-                </property>
-                -->
+
             </configuration>
         </workflow>
     </action>
