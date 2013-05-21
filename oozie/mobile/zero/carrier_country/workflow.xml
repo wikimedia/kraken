@@ -14,10 +14,10 @@
             <description>HDFS path(s) naming the input dataset to be processed.</description>
         </property>
         <property>
-            <name>carrierOutput</name>
+            <name>output</name>
         </property>
         <property>
-            <name>countryOutput</name>
+            <name>pigScript</name>
         </property>
         
         <!-- Processing Meta -->
@@ -37,21 +37,7 @@
             <name>jobYear</name>
             <description>Year of current job.</description>
         </property>
-        
-        <!-- XXX: Unused
-        <property>
-            <name>dataDir</name>
-            <value>${nameNode}/wmf/data/webrequest/zero/carrier_country</value>
-        </property>
-        <property>
-            <name>publicDir</name>
-            <value>${nameNode}/wmf/public/webrequest/zero</value>
-        </property>
-        <property>
-            <name>outputFilePrefix</name>
-            <value>zero</value>
-        </property>
-        -->
+
     </parameters>
     
     <global>
@@ -69,11 +55,10 @@
     
     <action name="process">
         <pig>
-            <script>${krakenLibPath}/pig/webrequest_zero_hour_carrier_country.pig</script>
+            <script>${pigScript}</script>
             
             <argument>-p</argument><argument>input=${dataInput}</argument>
-            <argument>-p</argument><argument>carrier_output=${carrierOutput}</argument>
-            <argument>-p</argument><argument>country_output=${countryOutput}</argument>
+            <argument>-p</argument><argument>output=${output}</argument>
             <argument>-p</argument><argument>date_bucket_format=yyyy-MM-dd_HH</argument>
             <argument>-p</argument><argument>date_bucket_regex=${jobYear}-${jobMonth}-${jobDay}_${jobHour}</argument>
             
