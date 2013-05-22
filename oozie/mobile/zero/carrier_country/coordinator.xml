@@ -1,6 +1,6 @@
 <coordinator-app xmlns="uri:oozie:coordinator:0.4"
-        name="zero_${metricName}-hour"
-        frequency="${coord:hours(1)}" start="${startTime}" end="${stopTime}" timezone="Universal">
+        name="zero_${metricName}"
+        frequency="${coord:days(1)}" start="${startTime}" end="${stopTime}" timezone="Universal">
 
     <parameters>
         <!-- Default parameters.  These may be overridden in your coordinator.properties file -->
@@ -24,7 +24,7 @@
             <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
         </dataset>
         <dataset name="output-dataset"
-                frequency="${coord:hours(1)}"
+                frequency="${coord:days(1)}"
                 initial-instance="${startTime}"
                 timezone="Universal">
             <uri-template>${outputPath}/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>

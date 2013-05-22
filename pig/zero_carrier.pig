@@ -9,7 +9,7 @@ REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
 --      input                                   -- Input data paths.
 --      output                                  -- Output path for carrier data.
 
-%default date_bucket_format 'yyyy-MM-dd_HH';    -- Format applied to timestamps for aggregation into buckets. Default: hourly.
+%default date_bucket_format 'yyyy-MM-dd';       -- Format applied to timestamps for aggregation into buckets. Default: daily.
 %default date_bucket_regex '.*';                -- Regex used to filter the formatted date_buckets; must match whole line. Default: no filtering.
 
 DEFINE DATE_BUCKET  org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', '$date_bucket_format');

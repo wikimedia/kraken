@@ -1,5 +1,5 @@
 <workflow-app xmlns="uri:oozie:workflow:0.4"
-        name="zero_carrier_country_wf"> 
+        name="zero_${metricName}-wf"> 
     
     <parameters>
         <!-- Job defaults -->
@@ -59,8 +59,8 @@
             
             <argument>-p</argument><argument>input=${dataInput}</argument>
             <argument>-p</argument><argument>output=${output}</argument>
-            <argument>-p</argument><argument>date_bucket_format=yyyy-MM-dd_HH</argument>
-            <argument>-p</argument><argument>date_bucket_regex=${jobYear}-${jobMonth}-${jobDay}_${jobHour}</argument>
+            <argument>-p</argument><argument>date_bucket_format=yyyy-MM-dd</argument>
+            <argument>-p</argument><argument>date_bucket_regex=${jobYear}-${jobMonth}-${jobDay}</argument>
             
             <file>/libs/GeoIP.dat</file>
             <file>/libs/GeoIPCity.dat</file>
