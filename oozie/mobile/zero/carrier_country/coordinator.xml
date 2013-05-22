@@ -8,7 +8,7 @@
         <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
         <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
         <property><name>queueName</name><value>standard</value></property>
-        <property<name>appPath</name><value>${krakenLibPath}/oozie/mobile/zero/carrier_country</value></property>
+        <property><name>appPath</name><value>${krakenLibPath}/oozie/mobile/zero/carrier_country</value></property>
         <property><name>concurrencyLevel</name><value>1</value></property>
     </parameters>
 
