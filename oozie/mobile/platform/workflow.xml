@@ -100,7 +100,7 @@
                 
                 <property>
                     <name>coalesceInput</name>
-                    <value>${dataDir}/**</value>
+                    <value>${dataDir}/**/**</value>
                 </property>
                 <property>
                     <name>coalesceOutputDir</name>
