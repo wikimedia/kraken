@@ -52,21 +52,21 @@ def tunnel(ssh_host, bind_port, dest_host, dest_port, background=False, verbose=
     background_flag = 'f' if background else ''
     verbose_flag    = 'v' if verbose    else ''
     command = "ssh -N%s%s %s -L %i:%s:%i" % (background_flag, verbose_flag, ssh_host, bind_port, dest_host, dest_port)
-    print command
+    print(command)
     os.system(command)
     
 if __name__ == '__main__':
     # parse arguments
     arguments = docopt(__doc__)
-    # print arguments
+    # print(arguments)
 
     if (arguments['<service>'] not in services.keys()):
-        print "Error.  service must be one of " + ', '.join(services.keys())
+        print("Error.  service must be one of " + ', '.join(services.keys()))
         exit(1)
 
     ssh_host = arguments['<ssh_host>'] if arguments['<ssh_host>'] else default_ssh_address
 
     service = services[arguments['<service>']]
-    print "Tunneling to %s.  Tunnel will be available at http://localhost:%s\n" % (arguments['<service>'], service['port'])
+    print("Tunneling to %s.  Tunnel will be available at http://localhost:%s\n" % (arguments['<service>'], service['port']))
     tunnel(ssh_host, service['port'], service['host'], service['port'], arguments['--background'], arguments['--verbose'])
     
