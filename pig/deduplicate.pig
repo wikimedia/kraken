@@ -2,6 +2,7 @@
 -- hostname,sequence,timestamp and bytes_sent.
 -- We cannot use 'DISTINCT' since the Kafka Byte Offset may
 -- be different if the duplicates existed in Kafka.
+SET default_parallism 2;
 
 IMPORT 'include/load_webrequest.pig';
 
