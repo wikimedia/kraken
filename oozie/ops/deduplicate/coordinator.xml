@@ -1,0 +1,91 @@
+<coordinator-app xmlns="uri:oozie:coordinator:0.4"
+        name="deduplicate_webrequest"
+        frequency="${coord:minutes(15)}" start="${startTime}" end="${stopTime}" timezone="Universal">
+
+    <parameters>
+        <!-- Default parameters.  These may be overridden in your coordinator.properties file -->
+        <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
+        <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
+        <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
+        <property><name>queueName</name><value>standard</value></property>
+        <property><name>appPath</name><value>${krakenLibPath}/oozie/ops/deduplicate</value></property>
+        <property><name>concurrencyLevel</name><value>1</value></property>
+    </parameters>
+
+    <controls>
+        <concurrency>${concurrencyLevel}</concurrency>
+    </controls>
+
+    <datasets>
+        <dataset name="input-dataset"
+                frequency="${coord:minutes(15)}"
+                initial-instance="${startTime}"
+                timezone="Universal">
+            <uri-template>${inputPath}/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+        </dataset>
+        <dataset name="output-dataset"
+                frequency="${coord:minutes(15)}"
+                initial-instance="${startTime}"
+                timezone="Universal">
+            <uri-template>${outputPath}/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+        </dataset>
+    </datasets>
+    
+    <input-events>
+        <data-in name="INPUT" dataset="input-dataset">
+            <instance>${coord:current(0)}</instance>
+        </data-in>
+    </input-events>
+    
+    <output-events>
+        <data-out name="OUTPUT" dataset="output-dataset">
+            <instance>${coord:current(0)}</instance>
+        </data-out>
+    </output-events>
+    
+    <action>
+        <workflow>
+            <app-path>${appPath}/workflow.xml</app-path>
+            <configuration>
+
+                <property><name>nameNode</name><value>${nameNode}</value></property>
+                <property><name>jobTracker</name><value>${jobTracker}</value></property>
+                <property><name>queueName</name><value>${queueName}</value></property>
+                
+                <!-- Hourly Processing -->
+                <property>
+                    <name>pigScript</name>
+                    <value>${pigScript}</value>
+                </property>
+                <property>
+                    <name>dataInput</name>
+                    <value>${coord:dataIn('INPUT')}</value>
+                </property>
+                <property>
+                    <name>dataOutput</name>
+                    <value>${coord:dataOut('OUTPUT')}</value>
+                </property>
+                
+                <!-- Processing Meta -->
+                <property>
+                    <name>jobHour</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'HH')}</value>
+                </property>
+                <property>
+                    <name>jobDay</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'dd')}</value>
+                </property>
+                <property>
+                    <name>jobMonth</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'MM')}</value>
+                </property>
+                <property>
+                    <name>jobYear</name>
+                    <value>${coord:formatTime(coord:dateOffset(coord:nominalTime(), -1, 'HOUR'), 'yyyy')}</value>
+                </property>
+
+            </configuration>
+        </workflow>
+    </action>
+    
+</coordinator-app>

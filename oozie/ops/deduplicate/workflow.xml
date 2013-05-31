@@ -1,0 +1,52 @@
+<workflow-app xmlns="uri:oozie:workflow:0.4"
+        name="deduplicate_webrequest-wf"> 
+    
+    <parameters>
+        <!-- Job defaults -->
+        <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
+        <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
+        <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
+        <property><name>queueName</name><value>standard</value></property>
+        
+        <!-- Process data -->
+        <property>
+            <name>dataInput</name>
+            <description>HDFS path(s) naming the input dataset to be processed.</description>
+        </property>
+        <property>
+            <name>dataOutput</name>
+        </property>
+        <property>
+            <name>pigScript</name>
+        </property>
+    </parameters>
+    
+    <global>
+       <job-tracker>${jobTracker}</job-tracker>
+       <name-node>${nameNode}</name-node>
+       <configuration>
+            <property>
+                <name>mapreduce.job.queuename</name>
+                <value>${queueName}</value>
+            </property>
+        </configuration>
+    </global>
+    
+    <start to="process"/>
+    
+    <action name="process">
+        <pig>
+            <script>${pigScript}</script>
+            
+            <argument>-p</argument><argument>input=${dataInput}</argument>
+            <argument>-p</argument><argument>output=${dataOutput}</argument>
+        </pig>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
