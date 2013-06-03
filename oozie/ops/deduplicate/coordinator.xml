@@ -1,6 +1,6 @@
 <coordinator-app xmlns="uri:oozie:coordinator:0.4"
-        name="zero_${metricName}"
-        frequency="${coord:days(1)}" start="${startTime}" end="${stopTime}" timezone="Universal">
+        name="deduplicate_webrequest"
+        frequency="${coord:minutes(15)}" start="${startTime}" end="${stopTime}" timezone="Universal">
 
     <parameters>
         <!-- Default parameters.  These may be overridden in your coordinator.properties file -->
@@ -8,7 +8,7 @@
         <property><name>jobTracker</name><value>analytics1010.eqiad.wmnet:8032</value></property>
         <property><name>krakenLibPath</name><value>${nameNode}/libs/kraken</value></property>
         <property><name>queueName</name><value>standard</value></property>
-        <property><name>appPath</name><value>${krakenLibPath}/oozie/mobile/zero/carrier_country</value></property>
+        <property><name>appPath</name><value>${krakenLibPath}/oozie/ops/deduplicate</value></property>
         <property><name>concurrencyLevel</name><value>1</value></property>
     </parameters>
 
@@ -17,30 +17,29 @@
     </controls>
 
     <datasets>
-        <dataset name="webrequest-wikipedia-mobile"
+        <dataset name="input-dataset"
                 frequency="${coord:minutes(15)}"
                 initial-instance="${startTime}"
                 timezone="Universal">
-            <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+            <uri-template>${inputPath}/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
         </dataset>
         <dataset name="output-dataset"
-                frequency="${coord:days(1)}"
+                frequency="${coord:minutes(15)}"
                 initial-instance="${startTime}"
                 timezone="Universal">
-            <uri-template>${outputPath}/${YEAR}/${MONTH}/${DAY}/${HOUR}.${MINUTE}.00</uri-template>
+            <uri-template>${outputPath}/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
         </dataset>
     </datasets>
     
     <input-events>
-        <data-in name="INPUT" dataset="webrequest-wikipedia-mobile">
-            <start-instance>${coord:current(-5)}</start-instance>
-            <end-instance>${coord:current(0)}</end-instance>
+        <data-in name="INPUT" dataset="input-dataset">
+            <instance>${coord:current(0)}</instance>
         </data-in>
     </input-events>
     
     <output-events>
         <data-out name="OUTPUT" dataset="output-dataset">
-            <instance>${coord:current(-1)}</instance>
+            <instance>${coord:current(0)}</instance>
         </data-out>
     </output-events>
     
@@ -63,7 +62,7 @@
                     <value>${coord:dataIn('INPUT')}</value>
                 </property>
                 <property>
-                    <name>output</name>
+                    <name>dataOutput</name>
                     <value>${coord:dataOut('OUTPUT')}</value>
                 </property>
                 

@@ -25,32 +25,17 @@ import java.net.URL;
  * This clas defines the different types of pageviews on the Wikimedia properties.
  */
 public enum PageviewType {
-    /** A regular mobile pageview, url contains .m. but not api.php */
-    MOBILE,
-
-    /** A mobile pageview requested through the api, url contains .m. and also api.php */
-    MOBILE_API,
-
-    /** A mobile search request, url contains .m. and the string 'search' */
-    MOBILE_SEARCH,
-
-    /** A mobile zero request, url contains .zero. */
-    MOBILE_ZERO,
+    /** A regular api.php call */
+    API,
 
     /** A regular pageview */
-    DESKTOP,
-
-    /** A regular API request */
-    DESKTOP_API,
-
-    /** A regular search request */
-    DESKTOP_SEARCH,
+    REGULAR,
 
     /** A pageview on the blog */
     BLOG,
 
-    /** An image from commons or upload */
-    COMMONS_IMAGE,
+    /** An image from the commons or upload domain*/
+    IMAGE,
 
     /** A banner served from meta */
     BANNER,
@@ -61,7 +46,6 @@ public enum PageviewType {
     /** Not a valid webrequest */
     NONE;
 
-
     /**
      * Given a url, determine the pageview type (mobile, desktop, api, search and blog).
      */
@@ -69,35 +53,12 @@ public enum PageviewType {
         if (url != null) {
             if (url.getQuery() != null && url.getQuery().contains("bannerloader")) {
                 return PageviewType.BANNER;
-            } else if (url.getHost().contains("upload")) {
-                return PageviewType.COMMONS_IMAGE;
-            } else if (url.getHost().contains(".m.")) {
-                if (url.getPath().contains("api.php")) {
-                    if (url.getQuery() != null && url.getQuery().contains("opensearch")) {
-                        return PageviewType.MOBILE_SEARCH;
-                    } else {
-                        return PageviewType.MOBILE_API;
-                    }
-                } else if (url.getQuery() != null && url.getQuery().contains("search")) {
-                    return PageviewType.MOBILE_SEARCH;
-                } else {
-                    return PageviewType.MOBILE;
-                }
-            } else if (url.getHost().contains(".zero.")) {
-                return PageviewType.MOBILE_ZERO;
-            } else if (url.getHost().contains("wiki")) { // FIXME: obviously wrong
-                if (url.getPath().contains("api.php")) {
-                    if (url.getQuery() != null && url.getQuery().contains("opensearch")) {
-                        return PageviewType.DESKTOP_SEARCH;
-                    } else {
-                        return PageviewType.DESKTOP_API;
-                    }
-                } else if (url.getQuery() != null && url.getQuery().contains("search")) {
-                    return PageviewType.DESKTOP_SEARCH;
-                } else {
-                    return PageviewType.DESKTOP;
-                }
-
+            } else if (url.getPath().contains("api.php")) {
+                return PageviewType.API;
+            } else if (url.getPath().contains("/wiki/")) {
+                return PageviewType.REGULAR;
+            } else if (url.getPath().contains("/w/index.php")) {
+                return PageviewType.REGULAR;
             } else if (url.getHost().contains("wikimediafoundation") && url.getPath().contains("blog")) {
                 return PageviewType.BLOG;
             } else {
@@ -108,4 +69,3 @@ public enum PageviewType {
         }
     }
 }
-

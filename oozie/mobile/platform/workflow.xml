@@ -1,5 +1,5 @@
 <workflow-app xmlns="uri:oozie:workflow:0.4"
-        name="mobile_platform_wf">
+        name="mobile_platform-${jobName}-wf">
     
     <parameters>
         <!-- Job defaults -->
@@ -100,7 +100,7 @@
                 
                 <property>
                     <name>coalesceInput</name>
-                    <value>${dataDir}/**</value>
+                    <value>${dataDir}/**/**</value>
                 </property>
                 <property>
                     <name>coalesceOutputDir</name>

@@ -52,8 +52,9 @@ public class Pageview {
     private String ipAddress;
     private String mimeType;
     private String requestMethod;
-    //private String mode;
 
+    private boolean isMobileRequest;
+    private boolean isSearchRequest;
     private PageviewType pageviewType;
     private PageviewType pageviewTypeReferer;
     private PageviewFilter pageviewFilter;
@@ -98,9 +99,10 @@ public class Pageview {
         this.userAgent = userAgent;
         this.statusCode = statusCode.toLowerCase();
         this.ipAddress = ipAddress;
-        this.mimeType = mimeType.toLowerCase();
+        this.mimeType = mimeType;
         this.requestMethod = requestMethod.toLowerCase();
-        //this.mode = "new_definition";
+        this.isMobileRequest = isMobileRequest();
+        this.isSearchRequest = isSearchRequest();
 
         if (pageviewFilter == null || pageviewCanonical == null || cidrFilter == null) {
             pageviewFilter = new PageviewFilter();
@@ -109,102 +111,41 @@ public class Pageview {
         }
     }
 
-    /**
-     * Detailed business logic to determine per pageview type whether the visit should be counted as a pageview or not.
-     * @return true/false
-     */
-    public final boolean secondStepPageviewValidation() {
-        switch (pageviewType) {
-            case MOBILE:
-                return pageviewFilter.isValidMobilePageview(url);
 
-            case MOBILE_ZERO:
-                return pageviewFilter.isValidMobilePageview(url);
-
-            case MOBILE_API:
-                return pageviewFilter.isValidMobileAPIPageview(url, referer);
-
-            case MOBILE_SEARCH:
-                // Discard all search queries by default
-                return false;
-
-            case DESKTOP:
-                return pageviewFilter.isValidDesktopPageview(url);
-
-            case DESKTOP_API:
-                return true;
-
-            case DESKTOP_SEARCH:
-                // Discard all search queries by default
-                return false;
-
-            case COMMONS_IMAGE:
-                return true;
-
-            case BANNER:
-                // Discard all banner impressions by default
-                return false;
-
-            case BLOG:
-                return pageviewFilter.isValidBlogPageview(url);
-
-            case OTHER:
-                // Request that not match to any of the categories above should not be filtered but should show up
-                // so we can refine this categorization even further.
-                return true;
-
-            default:
-                // Request that not match to any of the categories above should not be filtered but should show up
-                // so we can refine this categorization even further.
-                return true;
-        }
-    }
 
     /**
      *
      * @return String containing the canonical title of the page visited
      */
-    public final void canonicalizeURL()  {
-        switch (pageviewType) {
-            case MOBILE:
-                pageviewCanonical.canonicalizeMobilePageview(url, pageviewType);
-
-            case MOBILE_API:
-                pageviewCanonical.canonicalizeMobilePageview(url, pageviewType);
-
-            case MOBILE_ZERO:
-                pageviewCanonical.canonicalizeMobilePageview(url, pageviewType);
-
-            case MOBILE_SEARCH:
-                pageviewCanonical.canonicalizeSearchQuery(url, pageviewType);
-
-            case DESKTOP:
-                pageviewCanonical.canonicalizeDesktopPageview(url, pageviewType);
-
-            case DESKTOP_API:
-                pageviewCanonical.canonicalizeApiRequest(url, pageviewType);
-
-            case DESKTOP_SEARCH:
-                pageviewCanonical.canonicalizeSearchQuery(url, pageviewType);
-
-            case COMMONS_IMAGE:
-                pageviewCanonical.canonicalizeImagePageview(url, pageviewType);
-
-            case BANNER:
-                //TODO: not yet implemented
-                break;
-
-            case BLOG:
-                pageviewCanonical.canonicalizeBlogPageview(url, pageviewType);
-                break;
-
-            default:
-                break;
-        }
-    }
-
-
-
+//    public final void canonicalizeURL()  {
+//        switch (pageviewType) {
+//            case API:
+//                pageviewCanonical.canonicalizeApiRequest(url, pageviewType);
+//
+//            case REGULAR:
+//                pageviewCanonical.canonicalizeDesktopPageview(url, pageviewType);
+//
+//            case MOBILE:
+//                pageviewCanonical.canonicalizeMobilePageview(url, pageviewType);
+//
+//            case SEARCH:
+//                pageviewCanonical.canonicalizeSearchQuery(url, pageviewType);
+//
+//            case IMAGE:
+//                pageviewCanonical.canonicalizeImagePageview(url, pageviewType);
+//
+//            case BANNER:
+//                //TODO: not yet implemented
+//                break;
+//
+//            case BLOG:
+//                pageviewCanonical.canonicalizeBlogPageview(url, pageviewType);
+//                break;
+//
+//            default:
+//                break;
+//        }
+//    }
 
     /**
      * @See https://raw.github.com/wikimedia/metrics/master/pageviews/new_mobile_pageviews_report/pageview_definition.png
@@ -212,11 +153,12 @@ public class Pageview {
      */
     public final boolean isWikistatsMobileReportPageview() {
         pageviewType = PageviewType.determinePageviewType(url);
-        pageviewTypeReferer =  PageviewType.determinePageviewType(referer);
-        return (pageviewFilter.isValidResponseCode(statusCode)
-                && pageviewFilter.isValidRequestMethod(requestMethod)
-                && pageviewFilter.isValidMimeType(pageviewType, mimeType)
-                && !pageviewFilter.refersToSameArticle(pageviewType, url, pageviewTypeReferer, referer));
+        pageviewTypeReferer = PageviewType.determinePageviewType(referer);
+        return (isValidURL()
+            && pageviewFilter.isValidResponseCode(statusCode)
+            && pageviewFilter.isValidRequestMethod(requestMethod)
+            && pageviewFilter.isValidMimeType(pageviewType, mimeType)
+            && pageviewFilter.callPageviewHandler(pageviewType, url, pageviewTypeReferer, referer));
     }
     /**
      * @See https://raw.github.com/wikimedia/metrics/master/pageviews/webstatscollector/pageview_definition.png
@@ -231,26 +173,22 @@ public class Pageview {
                 && this.url.getPath().contains("/wiki/");
     }
 
-    public final boolean isPageview() {
-        if (initialPageviewValidation()) {
-            pageviewType = PageviewType.determinePageviewType(url);
-            return secondStepPageviewValidation();
-        } else {
-            return false;
-        }
-    }
-
     /**
-     * Pageviewtype agnostic checks to determine whether request is pageview or not.
+     *
      * @return true/false
      */
-    public final boolean initialPageviewValidation() {
+    public final boolean isPageview() {
+        pageviewType = PageviewType.determinePageviewType(url);
+        pageviewTypeReferer = PageviewType.determinePageviewType(referer);
         return (isValidURL()
+                && !getIsSearchRequest()
                 && pageviewFilter.isNotBitsOrUploadDomain(url)
-                && pageviewFilter.isValidUserAgent(userAgent)
+                && pageviewFilter.isValidMimeType(pageviewType, mimeType)
                 && pageviewFilter.isValidResponseCode(statusCode)
                 && pageviewFilter.isValidRequestMethod(requestMethod)
-                && !cidrFilter.ipAddressFallsInRange(ipAddress));
+                && !cidrFilter.ipAddressFallsInRange(ipAddress)
+                && pageviewFilter.isValidUserAgent(userAgent)
+                && pageviewFilter.callPageviewHandler(pageviewType, url, pageviewTypeReferer, referer));
     }
 
     /**
@@ -261,8 +199,54 @@ public class Pageview {
         return url != null;
     }
 
+    /**
+     *
+     * @return true/false
+     */
+    public final boolean isSearchRequest() {
+        if (url != null && url.getQuery() != null) {
+            if (url.getQuery().contains("action=opensearch")
+                    || url.getQuery().contains("action=search")
+                    || url.getFile().contains("wiki?search")) {
+                return true;
+            } else {
+               return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     *
+     * @return true/false
+     */
+    public final boolean isMobileRequest() {
+        return url != null && (url.getHost().contains(".m.") || url.getHost().contains(".zero.")) ? true : false;
+    }
+
+    /**
+     *
+     * @return true/false
+     */
+    public final boolean getIsMobileRequest() {
+        return isMobileRequest;
+    }
+
+    /**
+     *
+     * @return true/false
+     */
+    public final boolean getIsSearchRequest() {
+        return isSearchRequest;
+    }
+
     public final PageviewType getPageviewType() {
         return pageviewType;
+    }
+
+    public final void setPageviewType(final PageviewType pageviewType) {
+        this.pageviewType = pageviewType;
     }
 
     public final PageviewFilter getPageviewFilter() {

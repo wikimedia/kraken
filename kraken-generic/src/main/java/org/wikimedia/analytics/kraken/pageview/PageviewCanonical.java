@@ -91,39 +91,12 @@ public class PageviewCanonical {
     }
 
     /**
-     * Determine the language, project of a pageview.
-     * @param url
-     * @param pageviewType
-     * @return
-     */
-    private String getProject(final URL url, final PageviewType pageviewType){
-        sb = new StringBuilder();
-        String[] hostname = url.getHost().split("\\.");
-        if (pageviewType == PageviewType.MOBILE || pageviewType == PageviewType.MOBILE_API) {
-            sb.append(hostname[0]);
-            sb.append(".");
-            sb.append(hostname[1]);
-            sb.append(".");
-            sb.append(hostname[2]);
-        }  else if (pageviewType == PageviewType.COMMONS_IMAGE) {
-            sb.append(hostname[0]);
-        } else {
-            sb.append(hostname[0]);
-            sb.append(".");
-            sb.append(hostname[1]);
-        }
-        return sb.toString();
-
-    }
-
-    /**
      *
      * @param url
      * @parm pageviewType
      * @return
      */
     public final void canonicalizeDesktopPageview(final URL url, final PageviewType pageviewType) {
-        this.project = getProject(url, pageviewType);
         String titleInput = url.getPath().replace("/wiki/", "");
         this.articleTitle = decodeURL(titleInput);
     }
@@ -135,7 +108,6 @@ public class PageviewCanonical {
      * @return
      */
     public final void canonicalizeMobilePageview(final URL url, final PageviewType pageviewType) {
-        this.project = getProject(url, pageviewType);
         String titleInput = url.getPath().replace("/wiki/", "");
         this.articleTitle = decodeURL(titleInput);
     }
@@ -146,8 +118,6 @@ public class PageviewCanonical {
      * @return
      */
     public final void canonicalizeApiRequest(final URL url, final PageviewType pageviewType) {
-        this.project = getProject(url, pageviewType);
-
         if (url.getQuery() != null) {
             try {
                  this.query = action.matcher(url.getQuery()).group(0);
@@ -189,7 +159,6 @@ public class PageviewCanonical {
      */
     public final void canonicalizeImagePageview(final URL url, final PageviewType pageviewType) {
         String path = parsePath(url);
-        this.project = getProject(url, pageviewType);
     }
 
     /**

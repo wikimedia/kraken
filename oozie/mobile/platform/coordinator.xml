@@ -36,7 +36,7 @@
     <datasets>
         <dataset name="webrequest-all-sampled-1000" 
                 frequency="${coord:hours(4)}"
-                initial-instance="2013-01-01T00:00Z"
+                initial-instance="2013-04-12T00:00Z"
                 timezone="Universal">
                 <uri-template>hdfs:///wmf/raw/webrequest/webrequest-all-sampled-1000/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
             <done-flag></done-flag>
