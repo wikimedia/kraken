@@ -18,6 +18,9 @@
  */
 package org.wikimedia.analytics.kraken.pageview;
 
+
+import java.net.URL;
+
 /**
  * This clas defines the different types of pageviews on the Wikimedia properties.
  */
@@ -53,5 +56,56 @@ public enum PageviewType {
     BANNER,
 
     /** Other type of request */
-    OTHER
+    OTHER,
+
+    /** Not a valid webrequest */
+    NONE;
+
+
+    /**
+     * Given a url, determine the pageview type (mobile, desktop, api, search and blog).
+     */
+    public static final PageviewType determinePageviewType(final URL url) {
+        if (url != null) {
+            if (url.getQuery() != null && url.getQuery().contains("bannerloader")) {
+                return PageviewType.BANNER;
+            } else if (url.getHost().contains("upload")) {
+                return PageviewType.COMMONS_IMAGE;
+            } else if (url.getHost().contains(".m.")) {
+                if (url.getPath().contains("api.php")) {
+                    if (url.getQuery() != null && url.getQuery().contains("opensearch")) {
+                        return PageviewType.MOBILE_SEARCH;
+                    } else {
+                        return PageviewType.MOBILE_API;
+                    }
+                } else if (url.getQuery() != null && url.getQuery().contains("search")) {
+                    return PageviewType.MOBILE_SEARCH;
+                } else {
+                    return PageviewType.MOBILE;
+                }
+            } else if (url.getHost().contains(".zero.")) {
+                return PageviewType.MOBILE_ZERO;
+            } else if (url.getHost().contains("wiki")) { // FIXME: obviously wrong
+                if (url.getPath().contains("api.php")) {
+                    if (url.getQuery() != null && url.getQuery().contains("opensearch")) {
+                        return PageviewType.DESKTOP_SEARCH;
+                    } else {
+                        return PageviewType.DESKTOP_API;
+                    }
+                } else if (url.getQuery() != null && url.getQuery().contains("search")) {
+                    return PageviewType.DESKTOP_SEARCH;
+                } else {
+                    return PageviewType.DESKTOP;
+                }
+
+            } else if (url.getHost().contains("wikimediafoundation") && url.getPath().contains("blog")) {
+                return PageviewType.BLOG;
+            } else {
+                return PageviewType.OTHER;
+            }
+        } else {
+            return PageviewType.NONE;
+        }
     }
+}
+

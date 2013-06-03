@@ -36,7 +36,7 @@ public class Cli {
         "     |:|  |        |:|::/  /       \\::/  /     |:|  |      \\:\\ \\:\\__\\       |:/:/  / \n" +
         "     |:|  |        |:|\\/__/        /:/  /      |:|  |       \\:\\ \\/__/       |::/  /  \n" +
         "     |:|  |        |:|  |         /:/  /       |:|  |        \\:\\__\\         /:/  /   \n" +
-        "     \\|__|         \\|__|         \\/__/         \\|__|         \\/__/         \\/__/  \n" +
+        "    \\|__|         \\|__|         \\/__/         \\|__|         \\/__/         \\/__/  \n" +
         "\n \n [-mode <local|kafka>] [-input <absolute path to file>] [-redis_host <host>] [-redisport <port>]";
     private static final String HEADER = "Kraken Storm - realtime ETL, Copyright 2012-2013 Wikimedia Foundation licensed under GPL2.\n.";
     private static final String FOOTER = "\nThis program was written by Diederik van Liere <dvanliere@wikimedia.org>\n";
@@ -44,6 +44,7 @@ public class Cli {
     private String file;
     private Boolean debug = true;
     private String mode = "kafka";
+    private Boolean dump = false;
 
     private String redisHost = "localhost";
     private String redisPort = "6379";
@@ -89,14 +90,11 @@ public class Cli {
         Option redisPort = OptionBuilder.withArgName("redisPort").hasArg()
                 .withDescription("Specify the Redis port to connect to.").create("redisPort");
 
-
         // Kafka related options
         Option kfServers = OptionBuilder.withArgName("kafkaServers").hasArg()
                 .withDescription("Specify the list of kafka servers, separated by comma.")
                 .create("kafkaServers");
 
-//        Option kafkaPartitions = OptionBuilder.withArgName("kafkaPartitions").hasArg()
-//                .withDescription("Specify the number of Kafka partitions.").create("kafkaPartitions");
 
         Option kafkaTopic = OptionBuilder.withArgName("kafkaTopic").hasArg()
                 .withDescription("Specify the Kafka topic.").create("kafkaTopic");
@@ -105,6 +103,9 @@ public class Cli {
         Option kafkaZookeeperPath = OptionBuilder.withArgName("kafkaZookeeperPath").hasArg()
                 .withDescription("Specify the Kafka topic.").create("kafkaZookeeperPath");
 
+        //        Option kafkaPartitions = OptionBuilder.withArgName("kafkaPartitions").hasArg()
+//                .withDescription("Specify the number of Kafka partitions.").create("kafkaPartitions");
+
 //        Option kafkaOffsetId = OptionBuilder.withArgName("kafkaOffsetId").hasArg()
 //                .withDescription("Specify the Kafka topic.").create("kafkaOffsetId");
 
@@ -112,36 +113,24 @@ public class Cli {
         Option kafkaProduct = OptionBuilder.withArgName("kafkaProduct").hasArg()
                 .withDescription("Specify the Kafka product code.").create("kafkaProduct");
 
-
+        Option dump = new Option("dump", "Write output to file in same format as webstatscollector.");
 
         mode.setRequired(true);
 //        redisHost.setRequired(true);
 //        redisPort.setRequired(true);
 
-//        OptionGroup groupLocal = new OptionGroup();
-//        groupLocal.addOption(inputFile);
-//
-//        OptionGroup groupKafka = new OptionGroup();
-//        groupKafka.addOption(kfServers);
-//        groupKafka.addOption(kafkaProduct);
-//        groupKafka.addOption(kafkaTopic);
-//        groupKafka.addOption(kafkaZookeeperPath);
-//        groupKafka.addOption(kafkaPartitions);
-//        groupKafka.addOption(kafkaOffsetId);
-
         options.addOption(mode);
-        options.addOption(redisHost);
-        options.addOption(redisPort);
         options.addOption(debug);
         options.addOption(help);
+        options.addOption(dump);
+
+        options.addOption(redisHost);
+        options.addOption(redisPort);
+
         options.addOption(kfServers);
         options.addOption(kafkaProduct);
         options.addOption(kafkaTopic);
         options.addOption(kafkaZookeeperPath);
-
-//        options.addOptionGroup(groupLocal);
-//        options.addOptionGroup(groupKafka);
-
 
         // automatically generate the help statement
         CommandLine line;
@@ -160,7 +149,6 @@ public class Cli {
             if (line.hasOption("kafkaServers")) {
                 cli.kafkaServers = line.getOptionValue("kafkaServers");
             }
-
             if (line.hasOption("kafkaTopic")) {
                 cli.kafkaTopic = line.getOptionValue("kafkaTopic");
             }
@@ -180,6 +168,9 @@ public class Cli {
             }
             if (line.hasOption("redisPort")) {
                 cli.redisPort = line.getOptionValue("redisport", "6379");
+            }
+            if (line.hasOption("dump")) {
+                cli.dump = Boolean.parseBoolean(line.getOptionValue("dump", "false"));
             }
             if (line.hasOption("debug")) {
                 cli.debug = Boolean.parseBoolean(line.getOptionValue("debug", "false"));
@@ -211,11 +202,17 @@ public class Cli {
             conf.put("kafkaTopic", cli.kafkaTopic);
             conf.put("kafkaZookeeperPath", cli.kafkaZookeeperPath);
             conf.put("kafkaProduct", cli.kafkaProduct);
-//            conf.put("kafkaPartitions", cli.kafkaPartitions);
-            //conf.put("kafkaOffsetId", cli.kafkaOffsetId);
         }
-        KrakenTopology topology = new KrakenTopology(conf);
-        topology.start();
+
+        if (cli.dump != null && !cli.dump) {
+            KrakenTopology topology = new KrakenTopology(conf);
+            topology.start();
+        } else {
+            DatasetWriter dw = new DatasetWriter();
+            dw.prepare();
+            dw.run();
+        }
+
     }
 
     /**

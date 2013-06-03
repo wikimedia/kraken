@@ -20,6 +20,9 @@ package org.wikimedia.analytics.kraken.pageview;
 
 import org.junit.Test;
 
+import java.net.URL;
+import java.net.MalformedURLException;
+
 import static org.junit.Assert.*;
 
 public class PageviewTest {
@@ -35,120 +38,322 @@ public class PageviewTest {
     }
 
     @Test
-    public void testMobileApiRequest() {
-        pageview = new Pageview("http://de.m.wikipedia.org/w/api.php?action=mobileview&page=mobiletoken&override=1&format=xml", "-", "useragent", "200", "0.0.0.0", "text", "get");
-        pageview.determinePageviewType();
+    public void testMobileApiRequest() throws MalformedURLException{
+        String url = "http://de.m.wikipedia.org/w/api.php?action=mobileview&page=mobiletoken&override=1&format=xml";
+        String referer = "-";
+        String userAgent = "useragent";
+        String statusCode = "200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text";
+        String requestMethod = "get";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        PageviewType.determinePageviewType(new URL(url));
         assertEquals(PageviewType.MOBILE_API, pageview.getPageviewType());
         assertTrue(pageview.isPageview());
+        assertFalse(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
-    public void testDropMobileSearchRequest1() {
-        pageview = new Pageview("http://fr.m.wikipedia.org/w/api.php?action=opensearch&limit=15&namespace=0&format=xml&search=kacey%20jor", "-", "useragent", "200", "0.0.0.0", "text", "get");
-        pageview.determinePageviewType();
+    public void testDropMobileSearchRequest1() throws MalformedURLException {
+        String url = "http://fr.m.wikipedia.org/w/api.php?action=opensearch&limit=15&namespace=0&format=xml&search=kacey%20jor";
+        String referer = "-";
+        String userAgent = "useragent";
+        String statusCode = "200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text";
+        String requestMethod = "get";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        PageviewType.determinePageviewType(new URL(url));
         assertEquals(PageviewType.MOBILE_SEARCH, pageview.getPageviewType());
         assertFalse(pageview.isPageview());
+        assertFalse(pageview.isWebstatscollectorPageview());
+        assertFalse(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
     /**
      *  test r4 in fast-field-parser-xs/PageViews-FieldParser/t/01-get-wikiproject-for-url.t
      */
-    public void testDropMobileSearchRequest2()  {
-        pageview = new Pageview("http://en.m.wikipedia.org/wiki?search=Waylon%20Smithers", "-", "useragent", "200", "0.0.0.0", "text/html", "get");
-        pageview.determinePageviewType();
+    public void testDropMobileSearchRequest2() throws MalformedURLException {
+        String url = "http://en.m.wikipedia.org/wiki?search=Waylon%20Smithers";
+        String referer = "-";
+        String userAgent = "useragent";
+        String statusCode = "200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html";
+        String requestMethod = "get";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        PageviewType.determinePageviewType(new URL(url));
         assertEquals(PageviewType.MOBILE_SEARCH, pageview.getPageviewType());
         assertFalse(pageview.isPageview());
+        assertFalse(pageview.isWebstatscollectorPageview());
+        assertFalse(pageview.isWikistatsMobileReportPageview());
     }
 
 
     @Test
-    public void testZeroRequest() {
-        pageview = new Pageview("http://th.zero.wikipedia.org/wiki/", "-", "useragent", "302", "0.0.0.0", "text/html", "GET");
-        pageview.determinePageviewType();
+    public void testZeroRequest() throws MalformedURLException {
+        String url = "http://th.zero.wikipedia.org/wiki/";
+        String referer = "-";
+        String userAgent = "useragent";
+        String statusCode = "302";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html";
+        String requestMethod = "GET";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        PageviewType.determinePageviewType(new URL(url));
         assertEquals(PageviewType.MOBILE_ZERO, pageview.getPageviewType());
         assertTrue(pageview.isPageview());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
     public void testMobileSpecialPage() {
-        pageview = new Pageview("http://en.m.wikipedia.org/wiki/Special:MobileMenu","http://fr.m.wikipedia.org/", "useragent", "304", "0.0.0.0", "text/html; charset=UTF-8", "GET");
+        String url = "http://en.m.wikipedia.org/wiki/Special:MobileMenu";
+        String referer = "http://fr.m.wikipedia.org/";
+        String userAgent = "useragent";
+        String statusCode = "304";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html; charset=UTF-8";
+        String requestMethod = "GET";
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         assertFalse(pageview.isPageview());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
 
     @Test
-    public void testZeroBannerRequest() {
-        pageview = new Pageview("http://fr.m.wikipedia.org/wiki/Folklore?zeropartner=1006&renderZeroRatedBanner=true","http://fr.m.wikipedia.org/", "useragent", "304", "0.0.0.0", "text/html; charset=UTF-8", "GET");
+    public void testZeroBannerRequest() throws MalformedURLException {
+        String url = "http://fr.m.wikipedia.org/wiki/Folklore?zeropartner=1006&renderZeroRatedBanner=true";
+        String referer = "http://fr.m.wikipedia.org/";
+        String userAgent = "useragent";
+        String statusCode = "304";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html; charset=UTF-8";
+        String requestMethod = "GET";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        assertEquals(PageviewType.MOBILE, PageviewType.determinePageviewType(new URL(url)));
         assertTrue(pageview.isPageview());
-        assertEquals(PageviewType.MOBILE, pageview.getPageviewType());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
     public void testZeroBannerRequest2() {
-        pageview = new Pageview("http://fr.m.wikipedia.org/wiki/Folklore?zeropartner=1006&renderZeroRatedBanner=true","http://fr.m.wikipedia.org/", "useragent", "miss/200", "0.0.0.0", "text/vnd.wap.wml", "GET");
+        String url = "http://fr.m.wikipedia.org/wiki/Folklore?zeropartner=1006&renderZeroRatedBanner=true";
+        String referer = "http://fr.m.wikipedia.org/";
+        String userAgent = "useragent";
+        String statusCode = "miss/200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/vnd.wap.wml";
+        String requestMethod = "GET";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         assertTrue(pageview.isPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
     public void testBannerLoader() {
-        pageview = new Pageview("http://en.wikipedia.org/wiki/notSureAboutThis?BannerLoader=1", "http://www.google.com", "useragent", "200", "0.0.0.0", "text/html", "GET");
+        String url = "http://en.wikipedia.org/wiki/notSureAboutThis?BannerLoader=1";
+        String referer = "http://www.google.com";
+        String userAgent = "useragent";
+        String statusCode = "200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html";
+        String requestMethod = "GET";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         assertFalse(pageview.isPageview()); // TODO: when banner impressions are pageviews, turn this back on
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
-    public void testMobilePageview2() {
-        pageview = new Pageview("http://ar.m.wikipedia.org/wiki/%D9%85%D9%84%D9%81:Saudi_Ranks.JPG","http://fr.m.wikipedia.org/", "useragent", "miss/200", "0.0.0.0", "text/html; charset=UTF-8", "GET");
+    public void testMobilePageview2() throws MalformedURLException {
+        String url = "http://ar.m.wikipedia.org/wiki/%D9%85%D9%84%D9%81:Saudi_Ranks.JPG";
+        String referer = "http://fr.m.wikipedia.org/";
+        String userAgent = "useragent";
+        String statusCode = "miss/200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html; charset=UTF-8";
+        String requestMethod = "GET";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        assertEquals(PageviewType.MOBILE, PageviewType.determinePageviewType(new URL(url)));
         assertTrue(pageview.isPageview());
-        assertEquals(PageviewType.MOBILE, pageview.getPageviewType());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
+
     }
 
     @Test
     public void testNullURL() {
-        pageview = new Pageview(null, "http://en.wikipedia.org/wiki/Sinkhole", "useragent", "200", "0.0.0.0", "text/html", "GET");
+        String url = null;
+        String referer = "http://en.wikipedia.org/wiki/Sinkhole";
+        String userAgent = "useragent";
+        String statusCode = "200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html";
+        String requestMethod = "GET";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         assertFalse(pageview.isPageview());
+        assertFalse(pageview.isWebstatscollectorPageview());
+        assertFalse(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
     public void testNullReferer() {
-        pageview = new Pageview("http://en.wikipedia.org/wiki/Sinkhole", null, "useragent", "200", "0.0.0.0", "text/html", "GET");
+        String url = "http://en.wikipedia.org/wiki/Sinkhole";
+        String referer = null;
+        String userAgent = "useragent";
+        String statusCode = "200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html";
+        String requestMethod = "GET";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         assertTrue(pageview.isPageview());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
     public void testNullUseragent() {
-        pageview = new Pageview("http://en.wikipedia.org/wiki/Sinkhole", "http://www.google.com", null, "200", "0.0.0.0", "text/html", "GET");
+        String url = "http://en.wikipedia.org/wiki/Sinkhole";
+        String referer = "http://www.google.com";
+        String userAgent = null;
+        String statusCode = "200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html";
+        String requestMethod = "GET";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         assertTrue(pageview.isPageview());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
     public void testNullStatusCode() {
-        pageview = new Pageview("http://en.wikipedia.org/wiki/Sinkhole", "http://www.google.com", "useragent", null, "0.0.0.0", "text/html", "GET");
-        assertFalse(pageview.isPageview());
+        String url = "http://en.wikipedia.org/wiki/Sinkhole";
+        String referer = "http://www.google.com";
+        String userAgent = "useragent";
+        String statusCode = null;
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html";
+        String requestMethod = "GET";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        assertTrue(pageview.isPageview());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
     public void testNullIPAddress() {
-        pageview = new Pageview("http://en.wikipedia.org/wiki/Sinkhole", "http://www.google.com", "useragent", "200", null, "text/html", "GET");
+        String url = "http://en.wikipedia.org/wiki/Sinkhole";
+        String referer = "http://www.google.com";
+        String userAgent = "useragent";
+        String statusCode = "200";
+        String ipAddress = null;
+        String mimeType = "text/html";
+        String requestMethod = "GET";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         assertTrue(pageview.isPageview());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
     public void testNullMimeType() {
-        pageview = new Pageview("http://en.wikipedia.org/wiki/Sinkhole", "http://www.google.com", "useragent", "200", "0.0.0.0", null, "GET");
+        String url = "http://en.wikipedia.org/wiki/Sinkhole";
+        String referer = "http://www.google.com";
+        String userAgent = "useragent";
+        String statusCode = "200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = null;
+        String requestMethod = "GET";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         assertTrue(pageview.isPageview());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertFalse(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
     public void testNullRequestMethod() {
-        pageview = new Pageview("http://en.wikipedia.org/wiki/Sinkhole", "http://www.google.com", "useragent", "200", "0.0.0.0", "text/html", null);
-        assertFalse(pageview.isPageview());
+        String url = "http://en.wikipedia.org/wiki/Sinkhole";
+        String referer = "http://www.google.com";
+        String userAgent = "useragent";
+        String statusCode = "200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html";
+        String requestMethod = null;
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        assertTrue(pageview.isPageview());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
 
     @Test
     public void testSampleMobileLogLine() {
-        pageview = new Pageview("http://fr.m.wikipedia.org/w/api.php?action=opensearch&search=balbutier+&format=json", "-", "WikipediaMobile/ something Android something", "miss/200", "0.0.0.0", "application/json; charset=utf-8", "GET");
+        String url = "http://fr.m.wikipedia.org/w/api.php?action=opensearch&search=balbutier+&format=json";
+        String referer = "-";
+        String userAgent = "WikipediaMobile/ something Android something";
+        String statusCode = "200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "application/json; charset=utf-8";
+        String requestMethod = "GET";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         assertFalse(pageview.isPageview());
+        assertFalse(pageview.isWebstatscollectorPageview());
+        assertFalse(pageview.isWikistatsMobileReportPageview());
+    }
+
+    @Test
+    public void testRefererPageview1() {
+        String url = "https://en.m.wikipedia.org/w/api.php?format=json&action=mobileview&page=Tornado&variant=en&redirects=yes&prop=sections%7Ctext&noheadings=yes&sectionprop=level%7Cline%7Canchor&sections=all";
+        String referer = "https://en.m.wikipedia.org/wiki/Tropical_cyclone";
+        String userAgent = "Mozilla/5.0%20(Linux;%20Android%204.1.1;%20DROID%20RAZR%20HD%20Build/9.8.1Q_39)%20AppleWebKit/535.19%20(KHTML,%20like%20Gecko)%20Chrome/18.0.1025.166%20Mobile%20Safari/535.19";
+        String statusCode = "200";
+        String ipAddress = "127.0.0.1";
+        String mimeType = "text/html";
+        String requestMethod = "GET";
+
+        Pageview pageview =  new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        assertTrue(pageview.isPageview());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
+    }
+
+    @Test
+    public void testRefererPageview2() {
+        String url = "https://en.m.wikipedia.org/w/api.php?format=json&action=query&prop=langlinks&llurl=true&lllimit=max&titles=Tropical+cyclone";
+        String referer = "https://en.m.wikipedia.org/wiki/Tropical_cyclone";
+        String userAgent = "Mozilla/5.0%20(Linux;%20Android%204.1.1;%20DROID%20RAZR%20HD%20Build/9.8.1Q_39)%20AppleWebKit/535.19%20(KHTML,%20like%20Gecko)%20Chrome/18.0.1025.166%20Mobile%20Safari/535.19";
+        String statusCode = "200";
+        String ipAddress = "127.0.0.1";
+        String mimeType = "text/html";
+        String requestMethod = "GET";
+
+        Pageview pageview =  new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        assertFalse(pageview.isPageview());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertFalse(pageview.isWikistatsMobileReportPageview());
     }
 }

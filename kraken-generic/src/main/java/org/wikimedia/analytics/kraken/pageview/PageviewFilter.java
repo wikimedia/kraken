@@ -20,13 +20,22 @@ package org.wikimedia.analytics.kraken.pageview;
 
 
 import com.google.common.net.MediaType;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Locale;
 
 
 /**
  * The general Pageview filter class for all jobs running on Kraken.
  */
 public class PageviewFilter {
+
+    private Charset charset = Charset.defaultCharset();
     /**
      *
      */
@@ -94,6 +103,55 @@ public class PageviewFilter {
         );
     }
 
+    private String extractMediawikiRegularTitle(final URL url) {
+        String title = null;
+        if (url != null && url.getPath() != null) {
+            title = url.getPath().replaceAll("/wiki/", "");
+        }
+        return title;
+    }
+
+    private String extractMediawikiApiTitle(final URL url) {
+        String title = null;
+        if (url != null && url.getQuery() != null) {
+            List<NameValuePair> qparams = URLEncodedUtils.parse(url.getQuery(), charset);
+            ListIterator<NameValuePair> it = qparams.listIterator();
+            while (it.hasNext()) {
+                NameValuePair nvp = it.next();
+                if (nvp.getName().equals("page") || nvp.getName().equals("titles")) {
+                    title = convertApiTitleToRegularArticleTitle(nvp.getValue());
+                    break;
+                }
+            }
+        }
+        return title;
+    }
+
+    private String convertApiTitleToRegularArticleTitle(final String apiTitle) {
+        return apiTitle.replaceAll(" ", "_");
+    }
+
+    public final boolean refersToSameArticle(final PageviewType pageviewTypeUrl, final URL url, final PageviewType pageviewTypeReferer, final URL referer) {
+        String urlTitle = null;
+        String refererTitle = null;
+        if (pageviewTypeUrl.equals(PageviewType.DESKTOP_API) || pageviewTypeUrl.equals(PageviewType.MOBILE_API)) {
+            urlTitle =  extractMediawikiApiTitle(url);
+        } else {
+            urlTitle =  extractMediawikiRegularTitle(url);
+        }
+
+        if (pageviewTypeReferer.equals(PageviewType.DESKTOP_API) || pageviewTypeReferer.equals(PageviewType.MOBILE_API)) {
+            refererTitle =  extractMediawikiApiTitle(referer);
+        }  else {
+            refererTitle =  extractMediawikiRegularTitle(referer);
+        }
+        if (urlTitle == null || refererTitle == null) {
+            return false;
+        } else {
+            return urlTitle.equals(refererTitle) ? true : false;
+        }
+    }
+
     /**
      *
      * @param pageviewType
@@ -136,9 +194,13 @@ public class PageviewFilter {
      * @return
      */
     private boolean isValidDesktopPageviewMimeType(final String mimeType) {
-        MediaType mediaType = MediaType.parse(mimeType);
-        return ((mediaType.type().equals("text") && (mediaType.subtype().equals("html"))
-                || (mediaType.type().equals("application") && mediaType.subtype().equals("json"))));
+        try {
+            MediaType mediaType = MediaType.parse(mimeType);
+            return ((mediaType.type().equals("text") && (mediaType.subtype().equals("html"))
+                    || (mediaType.type().equals("application") && mediaType.subtype().equals("json"))));
+        } catch (java.lang.IllegalArgumentException e) {
+            return false;
+        }
     }
 
     /**

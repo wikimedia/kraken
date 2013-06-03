@@ -131,4 +131,22 @@ public class PageviewFilterTest {
         assertTrue(pageviewFilter.isValidBlogPageview(url));
     }
 
+
+    @Test
+    public void testRefersToSameArticle1() throws MalformedURLException {
+        URL url = new URL("https://en.m.wikipedia.org/w/api.php?format=json&action=query&prop=langlinks&llurl=true&lllimit=max&titles=Tropical+cyclone");
+        URL referer = new URL("https://en.m.wikipedia.org/wiki/Tropical_cyclone");
+        PageviewType pageviewTypeUrl = PageviewType.determinePageviewType(url);
+        PageviewType pageviewTypeReferer = PageviewType.determinePageviewType(referer);
+        assertTrue(pageviewFilter.refersToSameArticle(pageviewTypeUrl, url, pageviewTypeReferer, referer));
+    }
+
+    @Test
+    public void testRefersToSameArticle2() throws MalformedURLException {
+        URL url = new URL("https://en.m.wikipedia.org/w/api.php?format=json&action=mobileview&page=Tornado&variant=en&redirects=yes&prop=sections%7Ctext&noheadings=yes&sectionprop=level%7Cline%7Canchor&sections=all");
+        URL referer = new URL("https://en.m.wikipedia.org/wiki/Tropical_cyclone");
+        PageviewType pageviewTypeUrl = PageviewType.determinePageviewType(url);
+        PageviewType pageviewTypeReferer = PageviewType.determinePageviewType(referer);
+        assertFalse(pageviewFilter.refersToSameArticle(pageviewTypeUrl, url, pageviewTypeReferer, referer));
+    }
 }
