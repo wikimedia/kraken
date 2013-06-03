@@ -52,40 +52,14 @@ public class Pageview {
     private String ipAddress;
     private String mimeType;
     private String requestMethod;
-    private String mode;
+    //private String mode;
 
     private PageviewType pageviewType;
+    private PageviewType pageviewTypeReferer;
     private PageviewFilter pageviewFilter;
     private PageviewCanonical pageviewCanonical;
     private ProjectInfo projectInfo;
     private CidrFilter cidrFilter;
-
-
-    /**
-     *
-     * @param url page visited
-     * @param ipAddress ipaddress of the visitor
-    public Pageview(String url, String ipAddress) {
-
-        // null coalesce all the fields to empty string
-        url = url == null ? "" : url;
-        ipAddress = ipAddress == null ? "0.0.0.0" : ipAddress;
-
-        try {
-            this.url = new URL(url.toLowerCase());
-        } catch (MalformedURLException e) {
-            this.url = null;
-        }
-
-        this.ipAddress = ipAddress;
-        this.mode = "webstatscollector";
-
-        if (pageviewFilter == null || cidrFilter == null) {
-            pageviewFilter = new PageviewFilter();
-            cidrFilter = new CidrFilter();
-        }
-    }
-     */
 
     /**
      * All passed in strings will be converted to lowercase and stored to this instance
@@ -121,12 +95,12 @@ public class Pageview {
             this.referer = null;
         }
 
-        this.userAgent = userAgent.toLowerCase();
+        this.userAgent = userAgent;
         this.statusCode = statusCode.toLowerCase();
         this.ipAddress = ipAddress;
         this.mimeType = mimeType.toLowerCase();
         this.requestMethod = requestMethod.toLowerCase();
-        this.mode = "new_definition";
+        //this.mode = "new_definition";
 
         if (pageviewFilter == null || pageviewCanonical == null || cidrFilter == null) {
             pageviewFilter = new PageviewFilter();
@@ -229,63 +203,25 @@ public class Pageview {
         }
     }
 
-    /**
-     * Given a url, determine the pageview type (mobile, desktop, api, search and blog).
-     */
-    public final void determinePageviewType() {
-        if (url.getQuery() != null && url.getQuery().contains("bannerloader")) {
-            pageviewType = PageviewType.BANNER;
-        } else if (url.getHost().contains("commons")) { // FIXME: obviously wrong
-            pageviewType = PageviewType.COMMONS_IMAGE;
-        } else if (url.getHost().contains(".m.")) {
-            pageviewType = PageviewType.MOBILE;
-            determineMobileSubPageviewType();
-        } else if (url.getHost().contains(".zero.")) {
-            pageviewType = PageviewType.MOBILE_ZERO;
-        } else if (url.getHost().contains("wiki")) { // FIXME: obviously wrong
-            pageviewType = PageviewType.DESKTOP;
-            determineDesktopSubPageviewType();
-        } else if (url.getHost().contains("blog")) { // FIXME: obviously wrong
-            pageviewType = PageviewType.BLOG;
-        } else {
-            pageviewType = PageviewType.OTHER;
-        }
-    }
+
+
 
     /**
-     *
+     * @See https://raw.github.com/wikimedia/metrics/master/pageviews/new_mobile_pageviews_report/pageview_definition.png
+     * @return boolean indicating whether this webrequest should be counted as a pageview or not.
      */
-    private void determineDesktopSubPageviewType() {
-        if (url.getPath().contains("api.php")) {
-            if (url.getQuery() != null && url.getQuery().contains("opensearch")) {
-                pageviewType = PageviewType.DESKTOP_SEARCH;
-            } else {
-                pageviewType = PageviewType.DESKTOP_API;
-            }
-        } else if (url.getQuery() != null && url.getQuery().contains("search")) {
-            pageviewType = PageviewType.DESKTOP_SEARCH;
-        }
+    public final boolean isWikistatsMobileReportPageview() {
+        pageviewType = PageviewType.determinePageviewType(url);
+        pageviewTypeReferer =  PageviewType.determinePageviewType(referer);
+        return (pageviewFilter.isValidResponseCode(statusCode)
+                && pageviewFilter.isValidRequestMethod(requestMethod)
+                && pageviewFilter.isValidMimeType(pageviewType, mimeType)
+                && !pageviewFilter.refersToSameArticle(pageviewType, url, pageviewTypeReferer, referer));
     }
-
-    /**
-     *
-     */
-    private void determineMobileSubPageviewType() {
-        if (url.getPath().contains("api.php")) {
-            if (url.getQuery() != null && url.getQuery().contains("opensearch")) {
-                pageviewType = PageviewType.MOBILE_SEARCH;
-            }  else {
-                pageviewType = PageviewType.MOBILE_API;
-            }
-        } else if (url.getQuery() != null && url.getQuery().contains("search")) {
-            pageviewType = PageviewType.MOBILE_SEARCH;
-        }
-    }
-
-
     /**
      * @See https://raw.github.com/wikimedia/metrics/master/pageviews/webstatscollector/pageview_definition.png
      * XXX: For now leave out project stuff
+     * @return boolean indicating whether this webrequest should be counted as a pageview or not.
      */
     public final boolean isWebstatscollectorPageview() {
         return (isValidURL()
@@ -297,7 +233,7 @@ public class Pageview {
 
     public final boolean isPageview() {
         if (initialPageviewValidation()) {
-            determinePageviewType();
+            pageviewType = PageviewType.determinePageviewType(url);
             return secondStepPageviewValidation();
         } else {
             return false;
@@ -326,7 +262,6 @@ public class Pageview {
     }
 
     public final PageviewType getPageviewType() {
-        // if (pageviewType == null) determinePageviewType();
         return pageviewType;
     }
 
