@@ -1,5 +1,5 @@
 <workflow-app xmlns="uri:oozie:workflow:0.4"
-        name="zero_${metricName}-wf"> 
+        name="deduplicate_webrequest-wf"> 
     
     <parameters>
         <!-- Job defaults -->
@@ -14,30 +14,11 @@
             <description>HDFS path(s) naming the input dataset to be processed.</description>
         </property>
         <property>
-            <name>output</name>
+            <name>dataOutput</name>
         </property>
         <property>
             <name>pigScript</name>
         </property>
-        
-        <!-- Processing Meta -->
-        <property>
-            <name>jobHour</name>
-            <description>Hour of current job.</description>
-        </property>
-        <property>
-            <name>jobDay</name>
-            <description>Day of current job.</description>
-        </property>
-        <property>
-            <name>jobMonth</name>
-            <description>Month of current job.</description>
-        </property>
-        <property>
-            <name>jobYear</name>
-            <description>Year of current job.</description>
-        </property>
-
     </parameters>
     
     <global>
@@ -58,14 +39,7 @@
             <script>${pigScript}</script>
             
             <argument>-p</argument><argument>input=${dataInput}</argument>
-            <argument>-p</argument><argument>output=${output}</argument>
-            <argument>-p</argument><argument>date_bucket_format=yyyy-MM-dd</argument>
-            <argument>-p</argument><argument>date_bucket_regex=${jobYear}-${jobMonth}-${jobDay}</argument>
-            
-            <file>/libs/GeoIP.dat</file>
-            <file>/libs/GeoIPCity.dat</file>
-            <file>/libs/GeoIPRegion.dat</file>
-            <file>/libs/GeoIPv6.dat</file>
+            <argument>-p</argument><argument>output=${dataOutput}</argument>
         </pig>
         <ok to="end"/>
         <error to="kill"/>
