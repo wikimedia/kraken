@@ -208,9 +208,10 @@ public class Cli {
             KrakenTopology topology = new KrakenTopology(conf);
             topology.start();
         } else {
-            DatasetWriter dw = new DatasetWriter();
-            dw.prepare();
-            dw.run();
+            //TODO: once DatasetWriter is committed, put this back
+            //DatasetWriter dw = new DatasetWriter();
+            //dw.prepare();
+            //dw.run();
         }
 
     }
