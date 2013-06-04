@@ -72,6 +72,22 @@ import java.util.List;
  * </code>
  */
 public class PageViewFilterFunc extends FilterFunc {
+    private String modus = null;
+
+    /**
+     *
+     */
+    public PageViewFilterFunc() {
+        this.modus = "default";
+    }
+
+    /**
+     *
+     * @param modus
+     */
+    public PageViewFilterFunc(final String modus) {
+        this.modus = modus;
+    }
     /**
      *
      * @param input tuple containing url, referer, userAgent, statusCode, ipAddress, mimeType and requestMethod.
@@ -92,7 +108,16 @@ public class PageViewFilterFunc extends FilterFunc {
         String requestMethod = (input.get(6) != null ? (String) input.get(6) : "-");
 
         Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimeType, requestMethod);
-        return pageview.isPageview();
+        if (modus.equals("default")) {
+            return pageview.isPageview();
+        } else if (modus.equals("webstatscollector")) {
+            return pageview.isWebstatscollectorPageview();
+        } else if (modus.equals("wikistats")) {
+            return pageview.isWikistatsMobileReportPageview();
+        } else {
+            throw new RuntimeException(
+                    "Modus should be either null, default, webstatscollector or wikistats.");
+        }
     }
 
     /**
