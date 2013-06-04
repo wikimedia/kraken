@@ -44,15 +44,15 @@ public class PageviewTest {
         String userAgent = "useragent";
         String statusCode = "200";
         String ipAddress = "0.0.0.0";
-        String mimeType = "text";
+        String mimeType = "text"; //This is why it causes the test to fail for isPageview and isWikistatsMobileReportPageview
         String requestMethod = "get";
 
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
-        PageviewType.determinePageviewType(new URL(url));
-        assertEquals(PageviewType.MOBILE_API, pageview.getPageviewType());
-        assertTrue(pageview.isPageview());
+        pageview.setPageviewType(PageviewType.determinePageviewType(new URL(url)));
+        assertEquals(PageviewType.API, pageview.getPageviewType());
+        assertFalse(pageview.isPageview());
         assertFalse(pageview.isWebstatscollectorPageview());
-        assertTrue(pageview.isWikistatsMobileReportPageview());
+        assertFalse(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
@@ -66,8 +66,9 @@ public class PageviewTest {
         String requestMethod = "get";
 
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
-        PageviewType.determinePageviewType(new URL(url));
-        assertEquals(PageviewType.MOBILE_SEARCH, pageview.getPageviewType());
+        pageview.setPageviewType(PageviewType.determinePageviewType(new URL(url)));
+        assertEquals(PageviewType.API, pageview.getPageviewType());
+        assertTrue(pageview.isSearchRequest());
         assertFalse(pageview.isPageview());
         assertFalse(pageview.isWebstatscollectorPageview());
         assertFalse(pageview.isWikistatsMobileReportPageview());
@@ -87,8 +88,10 @@ public class PageviewTest {
         String requestMethod = "get";
 
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
-        PageviewType.determinePageviewType(new URL(url));
-        assertEquals(PageviewType.MOBILE_SEARCH, pageview.getPageviewType());
+        pageview.setPageviewType(PageviewType.determinePageviewType(new URL(url)));
+        assertEquals(PageviewType.OTHER, pageview.getPageviewType());
+        assertTrue(pageview.isMobileRequest());
+        assertTrue(pageview.isSearchRequest());
         assertFalse(pageview.isPageview());
         assertFalse(pageview.isWebstatscollectorPageview());
         assertFalse(pageview.isWikistatsMobileReportPageview());
@@ -106,8 +109,9 @@ public class PageviewTest {
         String requestMethod = "GET";
 
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
-        PageviewType.determinePageviewType(new URL(url));
-        assertEquals(PageviewType.MOBILE_ZERO, pageview.getPageviewType());
+        pageview.setPageviewType(PageviewType.determinePageviewType(new URL(url)));
+        assertEquals(PageviewType.REGULAR, pageview.getPageviewType());
+        assertTrue(pageview.isMobileRequest());
         assertTrue(pageview.isPageview());
         assertTrue(pageview.isWebstatscollectorPageview());
         assertTrue(pageview.isWikistatsMobileReportPageview());
@@ -122,8 +126,9 @@ public class PageviewTest {
         String ipAddress = "0.0.0.0";
         String mimeType = "text/html; charset=UTF-8";
         String requestMethod = "GET";
+
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
-        assertFalse(pageview.isPageview());
+        assertTrue(pageview.isPageview());
         assertTrue(pageview.isWebstatscollectorPageview());
         assertTrue(pageview.isWikistatsMobileReportPageview());
     }
@@ -140,7 +145,8 @@ public class PageviewTest {
         String requestMethod = "GET";
 
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
-        assertEquals(PageviewType.MOBILE, PageviewType.determinePageviewType(new URL(url)));
+        assertEquals(PageviewType.REGULAR, PageviewType.determinePageviewType(new URL(url)));
+        assertTrue(pageview.isMobileRequest());
         assertTrue(pageview.isPageview());
         assertTrue(pageview.isWebstatscollectorPageview());
         assertTrue(pageview.isWikistatsMobileReportPageview());
@@ -158,7 +164,7 @@ public class PageviewTest {
 
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         assertTrue(pageview.isPageview());
-        assertTrue(pageview.isWikistatsMobileReportPageview());
+        assertTrue(pageview.isWebstatscollectorPageview());
         assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
@@ -175,7 +181,7 @@ public class PageviewTest {
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         assertFalse(pageview.isPageview()); // TODO: when banner impressions are pageviews, turn this back on
         assertTrue(pageview.isWebstatscollectorPageview());
-        assertTrue(pageview.isWikistatsMobileReportPageview());
+        assertFalse(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
@@ -189,7 +195,7 @@ public class PageviewTest {
         String requestMethod = "GET";
 
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
-        assertEquals(PageviewType.MOBILE, PageviewType.determinePageviewType(new URL(url)));
+        assertEquals(PageviewType.REGULAR, PageviewType.determinePageviewType(new URL(url)));
         assertTrue(pageview.isPageview());
         assertTrue(pageview.isWebstatscollectorPageview());
         assertTrue(pageview.isWikistatsMobileReportPageview());
@@ -255,9 +261,9 @@ public class PageviewTest {
         String requestMethod = "GET";
 
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
-        assertTrue(pageview.isPageview());
+        assertFalse(pageview.isPageview());
         assertTrue(pageview.isWebstatscollectorPageview());
-        assertTrue(pageview.isWikistatsMobileReportPageview());
+        assertFalse(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test
@@ -287,7 +293,7 @@ public class PageviewTest {
         String requestMethod = "GET";
 
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
-        assertTrue(pageview.isPageview());
+        assertFalse(pageview.isPageview());
         assertTrue(pageview.isWebstatscollectorPageview());
         assertFalse(pageview.isWikistatsMobileReportPageview());
     }
@@ -303,9 +309,9 @@ public class PageviewTest {
         String requestMethod = null;
 
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
-        assertTrue(pageview.isPageview());
+        assertFalse(pageview.isPageview());
         assertTrue(pageview.isWebstatscollectorPageview());
-        assertTrue(pageview.isWikistatsMobileReportPageview());
+        assertFalse(pageview.isWikistatsMobileReportPageview());
     }
 
 
@@ -326,18 +332,19 @@ public class PageviewTest {
     }
 
     @Test
-    public void testRefererPageview1() {
+    public void testRefererPageview1() throws MalformedURLException {
         String url = "https://en.m.wikipedia.org/w/api.php?format=json&action=mobileview&page=Tornado&variant=en&redirects=yes&prop=sections%7Ctext&noheadings=yes&sectionprop=level%7Cline%7Canchor&sections=all";
         String referer = "https://en.m.wikipedia.org/wiki/Tropical_cyclone";
         String userAgent = "Mozilla/5.0%20(Linux;%20Android%204.1.1;%20DROID%20RAZR%20HD%20Build/9.8.1Q_39)%20AppleWebKit/535.19%20(KHTML,%20like%20Gecko)%20Chrome/18.0.1025.166%20Mobile%20Safari/535.19";
         String statusCode = "200";
         String ipAddress = "127.0.0.1";
-        String mimeType = "text/html";
+        String mimeType = "application/json; charset=utf-8";
         String requestMethod = "GET";
 
         Pageview pageview =  new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        assertEquals(PageviewType.API, PageviewType.determinePageviewType(new URL(url)));
         assertTrue(pageview.isPageview());
-        assertTrue(pageview.isWebstatscollectorPageview());
+        assertFalse(pageview.isWebstatscollectorPageview());
         assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
@@ -348,12 +355,12 @@ public class PageviewTest {
         String userAgent = "Mozilla/5.0%20(Linux;%20Android%204.1.1;%20DROID%20RAZR%20HD%20Build/9.8.1Q_39)%20AppleWebKit/535.19%20(KHTML,%20like%20Gecko)%20Chrome/18.0.1025.166%20Mobile%20Safari/535.19";
         String statusCode = "200";
         String ipAddress = "127.0.0.1";
-        String mimeType = "text/html";
+        String mimeType = "application/json; charset=utf-8";
         String requestMethod = "GET";
 
         Pageview pageview =  new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
-        assertFalse(pageview.isPageview());
-        assertTrue(pageview.isWebstatscollectorPageview());
-        assertFalse(pageview.isWikistatsMobileReportPageview());
+        assertTrue(pageview.isPageview());
+        assertFalse(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 }

@@ -43,7 +43,7 @@ import java.util.List;
  * the carrier name and the ISO-3316 country code.
  */
 
-public class Zero extends EvalFunc<Tuple> {
+public class ZeroEvalFunc extends EvalFunc<Tuple> {
 
     /** Map containing x-cs keys and mobile carrier information*/
     private HashMap<String, Schema> mccMncMap = new HashMap<String, Schema>();
@@ -91,7 +91,7 @@ public class Zero extends EvalFunc<Tuple> {
             output.set(0, carrier.getName());
             output.set(1, carrier.getISO());
         } else {
-            warn("Key was not found in MccMnc Map: "+mcc, PigWarning.UDF_WARNING_1);
+            warn("Key was not found in MccMnc Map: " + mcc, PigWarning.UDF_WARNING_1);
             output.set(0, mcc);
             output.set(1, null);
         }

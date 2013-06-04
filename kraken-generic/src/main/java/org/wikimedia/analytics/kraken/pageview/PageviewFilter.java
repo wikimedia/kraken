@@ -27,7 +27,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Locale;
+
 
 
 /**
@@ -55,54 +55,97 @@ public class PageviewFilter {
                 || userAgent.contains("http")
                 || userAgent.contains("crawler"));
     }
+
+    /**
+     *
+     * @param pageviewTypeUrl
+     * @param url
+     * @param pageviewTypeReferer
+     * @param referer
+     */
+    public final boolean callPageviewHandler(final PageviewType pageviewTypeUrl, final URL url,
+                                     final PageviewType pageviewTypeReferer, final URL referer) {
+        switch (pageviewTypeUrl) {
+            case API:
+                return isApiPageview(pageviewTypeUrl, url, pageviewTypeReferer, referer);
+
+            case REGULAR:
+                return isValidRegularPageview(url);
+
+            default:
+                return false;
+        }
+    }
+
     /**
      *
      * @param url
      * @return
      */
-    public final boolean isValidDesktopPageview(final URL url) {
-        if (url.getPath().contains("special:")) {
-            return false;
-        } else if (url.getPath().contains("wiki/")
-                || url.getPath().contains("w/index.php?")
-                || url.getPath().contains("w/api.php?")) {
+    public final boolean isValidRegularPageview(final URL url) {
+       if (url.getPath().contains("/wiki/")
+                || url.getPath().contains("/w/index.php?")) {
             return true;
         }
         return false;
     }
 
     /**
-     *
+     * @param pageviewTypeUrl
      * @param url
-     * @return
+     * @param pageviewTypeReferer
+     * @param referer
+     * @return true/false
      */
-    public final boolean isValidMobilePageview(final URL url) {
-        //for now, the logic is the same but this is likely to change in the future
-        return isValidDesktopPageview(url);
+    public final boolean isApiPageview(final PageviewType pageviewTypeUrl, final URL url,
+                                       final PageviewType pageviewTypeReferer, final URL referer) {
+        boolean resultMainRequest = isApiPageviewRequest(url);
+        if (referer == null) {
+            return resultMainRequest;
+        } else {
+            boolean resultRefererRequest = isApiPageviewRequest(referer);
+            if (resultRefererRequest) {
+                return refersToDifferentArticle(pageviewTypeUrl, url, pageviewTypeReferer,  referer);
+            } else {
+                return true;
+            }
+        }
     }
 
     /**
      *
      * @param url
-     * @param referer
      * @return
      */
-    public final boolean isValidMobileAPIPageview(final URL url, final URL referer) {
-        //Start with simple logic, if referer is another Wiki* api call then ignore this url else accept it
-        return !(referer != null
-              && referer.getPath() != null
-              && referer.getQuery() != null
-              && referer.getHost() != null
-              && referer.getPath().contains("/w/api.php")
-              // TODO: remove contains("wiki") after implementing proper domain matching as here:
-              // https://raw.github.com/wikimedia/metrics/master/pageviews/kraken/pageview_base.png
-              && referer.getHost().contains("wiki")
-              && ( referer.getQuery().contains("action=mobileview")
-                || referer.getQuery().contains("action=view")
-              )
-        );
+   private boolean isApiPageviewRequest(final URL url) {
+        return (url.getPath().contains("/w/api.php")
+                && url.getQuery() != null
+                && (url.getQuery().contains("action=view")
+                    || url.getQuery().contains("action=mobileview")
+                    || url.getQuery().contains("action=query")));
     }
 
+    /**
+     *
+     * @param url
+     * @param pageviewType
+     * @return
+     */
+    private String extractTitle(final URL url, final PageviewType pageviewType) {
+        String title = null;
+        if (pageviewType.equals(PageviewType.API)) {
+            title = extractMediawikiApiTitle(url);
+        } else {
+            title = extractMediawikiRegularTitle(url);
+        }
+        return title;
+    }
+
+    /**
+     *
+     * @param url
+     * @return
+     */
     private String extractMediawikiRegularTitle(final URL url) {
         String title = null;
         if (url != null && url.getPath() != null) {
@@ -111,6 +154,11 @@ public class PageviewFilter {
         return title;
     }
 
+    /**
+     *
+     * @param url
+     * @return
+     */
     private String extractMediawikiApiTitle(final URL url) {
         String title = null;
         if (url != null && url.getQuery() != null) {
@@ -127,28 +175,32 @@ public class PageviewFilter {
         return title;
     }
 
+    /**
+     *
+     * @param apiTitle
+     * @return
+     */
     private String convertApiTitleToRegularArticleTitle(final String apiTitle) {
         return apiTitle.replaceAll(" ", "_");
     }
 
-    public final boolean refersToSameArticle(final PageviewType pageviewTypeUrl, final URL url, final PageviewType pageviewTypeReferer, final URL referer) {
-        String urlTitle = null;
-        String refererTitle = null;
-        if (pageviewTypeUrl.equals(PageviewType.DESKTOP_API) || pageviewTypeUrl.equals(PageviewType.MOBILE_API)) {
-            urlTitle =  extractMediawikiApiTitle(url);
-        } else {
-            urlTitle =  extractMediawikiRegularTitle(url);
-        }
+    /**
+     *
+     * @param pageviewTypeUrl
+     * @param url
+     * @param pageviewTypeReferer
+     * @param referer
+     * @return
+     */
+    public final boolean refersToDifferentArticle(final PageviewType pageviewTypeUrl, final URL url,
+                                                  final PageviewType pageviewTypeReferer, final URL referer) {
+        String urlTitle = extractTitle(url, pageviewTypeUrl);
+        String refererTitle = extractTitle(referer, pageviewTypeReferer);
 
-        if (pageviewTypeReferer.equals(PageviewType.DESKTOP_API) || pageviewTypeReferer.equals(PageviewType.MOBILE_API)) {
-            refererTitle =  extractMediawikiApiTitle(referer);
-        }  else {
-            refererTitle =  extractMediawikiRegularTitle(referer);
-        }
         if (urlTitle == null || refererTitle == null) {
-            return false;
+            return true;
         } else {
-            return urlTitle.equals(refererTitle) ? true : false;
+            return urlTitle.equals(refererTitle) ? false : true;
         }
     }
 
@@ -159,58 +211,27 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidMimeType(final PageviewType pageviewType, final String mimeType) {
-        switch (pageviewType) {
-
-            case COMMONS_IMAGE:
-                return isValidCommonsImageMimeType(mimeType);
-
-            case MOBILE:
-            case MOBILE_API:
-            case MOBILE_SEARCH:
-            case MOBILE_ZERO:
-                return isValidMobilePageviewMimeType(mimeType);
-
-            default:
-                return isValidDesktopPageviewMimeType(mimeType);
-        }
-    }
-
-    /**
-     *
-     * @param mimeType
-     * @return
-     */
-    private boolean isValidMobilePageviewMimeType(final String mimeType) {
-        MediaType mediaType = MediaType.parse(mimeType);
-        return ((mediaType.type().equals("text")
-                && ((mediaType.subtype().equals("html") || mediaType.subtype().equals("vnd.wap.wml")))
-                || (mediaType.type().equals("application") && mediaType.subtype().equals("json"))));
-    }
-
-
-    /**
-     *
-     * @param mimeType
-     * @return
-     */
-    private boolean isValidDesktopPageviewMimeType(final String mimeType) {
+        MediaType mediaType;
         try {
-            MediaType mediaType = MediaType.parse(mimeType);
-            return ((mediaType.type().equals("text") && (mediaType.subtype().equals("html"))
-                    || (mediaType.type().equals("application") && mediaType.subtype().equals("json"))));
+             mediaType = MediaType.parse(mimeType);
         } catch (java.lang.IllegalArgumentException e) {
             return false;
         }
-    }
 
-    /**
-     *
-     * @param mimeType
-     * @return
-     */
-    private boolean isValidCommonsImageMimeType(final String mimeType) {
-        MediaType mediaType = MediaType.parse(mimeType);
-        return (mediaType.type().contains("image"));
+        switch (pageviewType) {
+            case IMAGE:
+                return (mediaType.type().contains("image"));
+
+            case API:
+                return (mediaType.type().equals("application") && mediaType.subtype().equals("json"));
+
+            case REGULAR:
+                return (mediaType.type().equals("text") && ((mediaType.subtype().equals("html"))
+                || mediaType.subtype().equals("vnd.wap.wml")));
+
+            default:
+                return (mediaType.type().equals("text") && (mediaType.subtype().equals("html")));
+        }
     }
 
     /**

@@ -65,17 +65,17 @@ public class PageviewFilterTest {
 
     @Test
     public void testValidMimeType() {
-        assertTrue(pageviewFilter.isValidMimeType(PageviewType.DESKTOP, "text/html"));
+        assertTrue(pageviewFilter.isValidMimeType(PageviewType.REGULAR, "text/html"));
     }
 
     @Test
     public void testValidMimeType2() {
-        assertTrue(pageviewFilter.isValidMimeType(PageviewType.DESKTOP, "text/html; charset=UTF-8"));
+        assertTrue(pageviewFilter.isValidMimeType(PageviewType.REGULAR, "text/html; charset=UTF-8"));
     }
 
     @Test
     public void testInvalidMimeType() {
-        assertTrue(pageviewFilter.isValidMimeType(PageviewType.COMMONS_IMAGE, "image/png"));
+        assertTrue(pageviewFilter.isValidMimeType(PageviewType.IMAGE, "image/png"));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class PageviewFilterTest {
      */
     public void testValidMobileDesktopView() throws MalformedURLException {
         URL url = new URL("http://en.m.wikipedia.org/wiki/Earth");
-        assertTrue(pageviewFilter.isValidMobilePageview(url));
+        assertTrue(pageviewFilter.isValidRegularPageview(url));
     }
     @Test
     /**
@@ -93,7 +93,9 @@ public class PageviewFilterTest {
     public void testInvalidMobileApiPageview() throws MalformedURLException {
         URL url = new URL("http://en.m.wikipedia.org/w/api.php");
         URL referer = new URL("http://en.m.wikipedia.org");
-        assertTrue(pageviewFilter.isValidMobileAPIPageview(url, referer));
+        PageviewType pageviewType = PageviewType.determinePageviewType(url);
+        PageviewType pageviewTypeReferer = PageviewType.determinePageviewType(referer);
+        assertTrue(pageviewFilter.isApiPageview(pageviewType, url, pageviewTypeReferer, referer));
     }
 
     @Test
@@ -102,7 +104,7 @@ public class PageviewFilterTest {
      */
     public void testInvalidMobilePageview() throws MalformedURLException {
         URL url = new URL("http://en.m.wikipedia.org/wiki");
-        assertFalse(pageviewFilter.isValidMobilePageview(url));
+        assertFalse(pageviewFilter.isValidRegularPageview(url));
     }
 
 
@@ -138,7 +140,7 @@ public class PageviewFilterTest {
         URL referer = new URL("https://en.m.wikipedia.org/wiki/Tropical_cyclone");
         PageviewType pageviewTypeUrl = PageviewType.determinePageviewType(url);
         PageviewType pageviewTypeReferer = PageviewType.determinePageviewType(referer);
-        assertTrue(pageviewFilter.refersToSameArticle(pageviewTypeUrl, url, pageviewTypeReferer, referer));
+        assertFalse(pageviewFilter.refersToDifferentArticle(pageviewTypeUrl, url, pageviewTypeReferer, referer));
     }
 
     @Test
@@ -147,6 +149,6 @@ public class PageviewFilterTest {
         URL referer = new URL("https://en.m.wikipedia.org/wiki/Tropical_cyclone");
         PageviewType pageviewTypeUrl = PageviewType.determinePageviewType(url);
         PageviewType pageviewTypeReferer = PageviewType.determinePageviewType(referer);
-        assertFalse(pageviewFilter.refersToSameArticle(pageviewTypeUrl, url, pageviewTypeReferer, referer));
+        assertTrue(pageviewFilter.refersToDifferentArticle(pageviewTypeUrl, url, pageviewTypeReferer, referer));
     }
 }
