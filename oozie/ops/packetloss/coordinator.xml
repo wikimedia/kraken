@@ -1,7 +1,7 @@
 <coordinator-app xmlns="uri:oozie:coordinator:0.4"
         name="packetloss-${jobName}"
         frequency="${coord:hours(1)}"
-        start="${jobStartDate}T15:00Z" end="${jobEndDate}T23:00Z" timezone="Universal">
+        start="${jobStartDate}T01:00Z" end="${jobEndDate}T00:00Z" timezone="Universal">
     
     <parameters>
         <property><name>nameNode</name><value>hdfs://analytics1010.eqiad.wmnet:8020</value></property>
