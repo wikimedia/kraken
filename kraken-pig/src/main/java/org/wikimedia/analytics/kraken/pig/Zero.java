@@ -91,7 +91,7 @@ public class Zero extends EvalFunc<Tuple> {
             output.set(0, carrier.getName());
             output.set(1, carrier.getISO());
         } else {
-            warn("Key was not found in MccMnc Map: "+mcc, PigWarning.UDF_WARNING_1);
+            warn("Key was not found in MccMnc Map: " + mcc, PigWarning.UDF_WARNING_1);
             output.set(0, mcc);
             output.set(1, null);
         }

@@ -140,7 +140,7 @@ public class PageviewFilterTest {
         URL referer = new URL("https://en.m.wikipedia.org/wiki/Tropical_cyclone");
         PageviewType pageviewTypeUrl = PageviewType.determinePageviewType(url);
         PageviewType pageviewTypeReferer = PageviewType.determinePageviewType(referer);
-        assertTrue(pageviewFilter.refersToDifferentArticle(pageviewTypeUrl, url, pageviewTypeReferer, referer));
+        assertFalse(pageviewFilter.refersToDifferentArticle(pageviewTypeUrl, url, pageviewTypeReferer, referer));
     }
 
     @Test
@@ -149,6 +149,6 @@ public class PageviewFilterTest {
         URL referer = new URL("https://en.m.wikipedia.org/wiki/Tropical_cyclone");
         PageviewType pageviewTypeUrl = PageviewType.determinePageviewType(url);
         PageviewType pageviewTypeReferer = PageviewType.determinePageviewType(referer);
-        assertFalse(pageviewFilter.refersToDifferentArticle(pageviewTypeUrl, url, pageviewTypeReferer, referer));
+        assertTrue(pageviewFilter.refersToDifferentArticle(pageviewTypeUrl, url, pageviewTypeReferer, referer));
     }
 }
