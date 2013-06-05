@@ -1,7 +1,9 @@
 REGISTER 'geoip-1.2.9-patch-2-SNAPSHOT.jar'
 REGISTER 'kraken-generic-0.0.2-SNAPSHOT-jar-with-dependencies.jar'
-REGISTER 'kraken-dclass-0.0.2-SNAPSHOT.jar'
 REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
+
+-- setting this to 10 because we have 10 worker nodes
+SET default_parallel 10;
 
 -- Script Parameters
 --      Pass via `-p param_name=param_value`. Ex: pig myscript.pig -p date_bucket_regex=2013-03-24_00
@@ -15,8 +17,6 @@ REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
 DEFINE DATE_BUCKET  org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', '$date_bucket_format');
 DEFINE GEO          org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
 DEFINE ZERO         org.wikimedia.analytics.kraken.pig.Zero();
-DEFINE IS_PAGEVIEW  org.wikimedia.analytics.kraken.pig.PageViewFilterFunc();
-DEFINE PAGEVIEW     org.wikimedia.analytics.kraken.pig.PageViewEvalFunc();
 
 IMPORT 'include/load_webrequest.pig'; -- See include/load_webrequest.pig
 log_fields = LOAD_WEBREQUEST('$input');
@@ -32,20 +32,16 @@ log_fields = LOAD_WEBREQUEST('$input');
 */
 log_fields = FILTER log_fields
     BY (    (x_cs IS NOT NULL) AND (x_cs != '') AND (x_cs != '-')
-        AND (x_cs MATCHES '(\\d\\d\\d-\\d.*|.*?\\bzero=\\d\\d\\d-\\d.*)')
         AND (DATE_BUCKET(timestamp) MATCHES '$date_bucket_regex')
-        AND (uri MATCHES 'https?://([^/]+?\\.)?wikipedia\\.org/.*')
-        AND IS_PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method)
+        AND (uri MATCHES '.*\\.org/wiki/.*')
     );
 
 log_fields = FOREACH log_fields
     GENERATE
         DATE_BUCKET(timestamp)      AS date_bucket:chararray,
-        FLATTEN(PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method))
-                                    AS (language:chararray, project:chararray, site_version:chararray, article_title:chararray),
         FLATTEN(GEO(remote_addr))   AS (country:chararray),
         FLATTEN(ZERO(x_cs))         AS (carrier:chararray, carrier_iso:chararray);
 
-carrier_count = FOREACH (GROUP log_fields BY (date_bucket, language, project, site_version, country, carrier))
+carrier_count = FOREACH (GROUP log_fields BY (date_bucket, country, carrier))
     GENERATE FLATTEN($0), COUNT($1) AS num:int;
 STORE carrier_count INTO '$output' USING PigStorage();
