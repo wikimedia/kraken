@@ -42,6 +42,10 @@ log_fields = FOREACH log_fields
         FLATTEN(GEO(remote_addr))   AS (country:chararray),
         FLATTEN(ZERO(x_cs))         AS (carrier:chararray, carrier_iso:chararray);
 
+log_fields = FILTER log_fields
+    BY (    (carrier IS NOT NULL) AND (carrier != '')
+    );
+
 carrier_count = FOREACH (GROUP log_fields BY (date_bucket, country, carrier))
     GENERATE FLATTEN($0), COUNT($1) AS num:int;
 STORE carrier_count INTO '$output' USING PigStorage();
