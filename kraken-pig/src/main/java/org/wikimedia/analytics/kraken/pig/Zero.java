@@ -56,7 +56,7 @@ public class ZeroEvalFunc extends EvalFunc<Tuple> {
      * @throws JsonMappingException
      * @throws JsonParseException
      */
-    public Zero() throws JsonMappingException, JsonParseException {
+    public ZeroEvalFunc() throws JsonMappingException, JsonParseException {
         JsonToClassConverter converter = new JsonToClassConverter();
         mccMncMap = converter.construct("org.wikimedia.analytics.kraken.schemas.MccMnc", "mcc_mnc.json", "getMCC_MNC");
     }
@@ -73,7 +73,7 @@ public class ZeroEvalFunc extends EvalFunc<Tuple> {
                 return kvpair.split("=")[1];
             }
         }
-        return kvpairs[0];
+        return null;
     }
 
     /** {@inheritDoc} */
