@@ -23,9 +23,12 @@ import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
+import org.wikimedia.analytics.kraken.zero.ZeroConfig;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.HashMap;
 
 
 /**
@@ -34,27 +37,47 @@ import java.net.URL;
 public class ZeroFilterFunc extends FilterFunc {
 
     private String mode = null;
+    private HashMap<String, ZeroConfig> config;
 
     /**
      *
      */
     public ZeroFilterFunc() {
         this.mode = "default";
+        this.config = new HashMap<String, ZeroConfig>();
+
+        config.put("zero-orange-uganda", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 12), true, false, new String[]{"en", "fr", "ko", "de", "zh", "sw", "rw", "ar", "hi", "es"}, null));
+        config.put("zero-orange-tunesia", new ZeroConfig("Tunisia", "Orange", createStartDate(2012, 3, 24), true, false, new String[]{"ar", "en", "fr", "es", "de", "it", "ru", "jp", "zh"}, null));
+        config.put("zero-digi-malaysia", new ZeroConfig("Malaysia", "Digi", createStartDate(2012, 4, 21), false, true, new String[]{}, new String[]{"opera"}));
+        config.put("zero-orange-niger", new ZeroConfig("Niger", "Orange", createStartDate(2012, 6, 2), true, false, new String[]{}, null));
+        config.put("zero-orange-kenya", new ZeroConfig("Kenya", "Orange", createStartDate(2012, 6, 26), true, false, new String[]{}, null));
+        config.put("zero-telenor-montenegro", new ZeroConfig("Montenegro", "Telenor", createStartDate(2012, 7, 10), true, true, new String[]{}, null));
+        config.put("zero-orange-cameroon", new ZeroConfig("Cameroon", "Orange", createStartDate(2012, 7, 16), true, false, new String[]{"fr", "en", "es", "de", "zh", "ar", "ha", "ln", "yo", "eo"}, null));
+        config.put("zero-orange-ivory-coast", new ZeroConfig("Ivory Coast", "Orange", createStartDate(2012, 8, 28), true, false, new String[]{}, null));
+        config.put("zero-dtac-thailand", new ZeroConfig("Thailand", "dtac", createStartDate(2012, 9, 11), false, true, new String[]{}, null));
+        config.put("zero-saudi-telecom", new ZeroConfig("Saudi Arabia", "STC", createStartDate(2012, 9, 14), true, true, new String[]{}, null));
+        config.put("zero-orange-congo", new ZeroConfig("Democractic Republic of Congo", "Orange", createStartDate(2012, 11, 6), true, false, new String[]{}, null));
+        config.put("zero-orange-botswana", new ZeroConfig("Botswana", "Orange", createStartDate(2013, 1, 8), true, false, new String[]{}, null));
+        config.put("zero-beeline-russia", new ZeroConfig("Russia", "Beeline", createStartDate(2013, 2, 28), true, true, new String[]{"ru", "en"}, null));
+        config.put("zero-xl-axiata-indonesia", new ZeroConfig("Indonesia", "XL Axiata", createStartDate(2013, 3, 1), false, true, new String[] {"id", "en", "zh", "ar", "hi", "ms", "jv", "su"}, null));
+        config.put("zero-mobilink-pakistan", new ZeroConfig("Pakistan", "Mobilink", createStartDate(2013, 4, 31), true, true, new String[] {"en", "ur"}, null));
+        // add a default setting in case we cannot find a carrier
+        config.put("default", new ZeroConfig("default", "default", createStartDate(1990, 0, 1), true, true, new String[] {}, null));
     }
 
     /**
      *
-     * @param modus
+     * @param mode
      */
     public ZeroFilterFunc(final String mode) {
+        this();
         if (mode.equals("legacy") || mode.equals("default")) {
             this.mode = mode;
         } else {
-            throw new RuntimeException(
-                    "Expected mode is 'default' or 'legacy'. ");
+            throw new RuntimeException("Expected mode is 'default' or 'legacy'. ");
         }
-
     }
+
     /**
      *
      * @param input tuple xCS header
@@ -70,7 +93,9 @@ public class ZeroFilterFunc extends FilterFunc {
             String xCS = (String) input.get(0);
             return containsXcsValue(xCS);
         } else {
-           return isLegacyZeroRequest((String) input.get(0));
+           String filename = simplifyFilename((String) input.get(1));
+           ZeroConfig zeroConfig = getZeroConfig(filename);
+           return isLegacyZeroRequest((String) input.get(0), zeroConfig);
         }
     }
 
@@ -80,10 +105,16 @@ public class ZeroFilterFunc extends FilterFunc {
      * @return
      */
     public final Schema outputSchema(final Schema input) {
-        // Check that we were a single field
-        if (input.size() != 1) {
-            throw new RuntimeException(
-                    "Expected (chararray), input has more than 1 fields.");
+        if (mode.equals("default")) {
+            if (input.size() != 1) {
+                throw new RuntimeException(
+                    "Expected url (chararray), input should be exactly 1 field.");
+        } else if (mode.equals("legacy")) {
+                if (input.size() != 2) {
+                    throw new RuntimeException(
+                     "Expected url (chararray) and filename (chararray),  input should be exactly 2 fields.");
+                }
+            }
         }
 
         try {
@@ -122,16 +153,34 @@ public class ZeroFilterFunc extends FilterFunc {
     /**
      *
      * @param requestedURL
+     * @param zeroConfig
      * @return
      */
-    private boolean isLegacyZeroRequest(final String requestedURL) {
+    private boolean isLegacyZeroRequest(final String requestedURL, final ZeroConfig zeroConfig) {
         try {
             URL url = new URL(requestedURL);
             return url.getPath().contains("/wiki/")
-                && !url.getHost().contains("meta")
-                && (url.getHost().contains(".m.") || url.getHost().contains(".zero."));
+                && url.getHost().contains("wikipedia")
+                && hasValidSubDomain(url, zeroConfig)
+                && (zeroConfig.isMobileDomainFree() && url.getHost().contains(".m."))
+                && (zeroConfig.isZeroDomainFree() && url.getHost().contains(".zero."));
         } catch (MalformedURLException e) {
             return false;
+        }
+    }
+
+    /**
+     *
+     * @param url
+     * @param zeroConfig
+     * @return
+     */
+    private boolean hasValidSubDomain(final URL url, final ZeroConfig zeroConfig) {
+        if (zeroConfig.isMobileDomainFree() && zeroConfig.isZeroDomainFree()) {
+           return url.getHost().contains(".m.") || url.getHost().contains(".zero.");
+        } else {
+            return (zeroConfig.isMobileDomainFree() && url.getHost().contains(".m."))
+            || (zeroConfig.isZeroDomainFree() && url.getHost().contains(".zero."));
         }
     }
 
@@ -141,5 +190,37 @@ public class ZeroFilterFunc extends FilterFunc {
      */
     public final String getMode() {
         return mode;
+    }
+
+    /**
+     *
+     * @param year
+     * @param month
+     * @param day
+     * @return
+     */
+    private Calendar createStartDate(final int year, final int month, final int day) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, day);
+        return cal;
+    }
+
+    /**
+     *
+     * @param filename
+     * @return
+     */
+    private String simplifyFilename(final String filename) {
+        // This will remove all the file extensions and timestamp information from the filename.
+        return filename.substring(0, filename.indexOf("."));
+    }
+
+    /**
+     *
+     * @param filename
+     * @return
+     */
+    public final ZeroConfig getZeroConfig(final String filename) {
+        return ((filename != null) && config.containsKey(filename)) ? config.get(filename) : config.get("default");
     }
 }
