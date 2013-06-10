@@ -23,10 +23,12 @@ import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
+import org.wikimedia.analytics.kraken.pageview.ProjectInfo;
 import org.wikimedia.analytics.kraken.zero.ZeroConfig;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -93,9 +95,9 @@ public class ZeroFilterFunc extends FilterFunc {
             String xCS = (String) input.get(0);
             return containsXcsValue(xCS);
         } else {
-           String filename = simplifyFilename((String) input.get(1));
-           ZeroConfig zeroConfig = getZeroConfig(filename);
-           return isLegacyZeroRequest((String) input.get(0), zeroConfig);
+            String simpleFilename = simplifyFilename((String) input.get(1));
+            ZeroConfig zeroConfig = getZeroConfig(simpleFilename);
+            return isLegacyZeroRequest((String) input.get(0), zeroConfig);
         }
     }
 
@@ -162,8 +164,7 @@ public class ZeroFilterFunc extends FilterFunc {
             return url.getPath().contains("/wiki/")
                 && url.getHost().contains("wikipedia")
                 && hasValidSubDomain(url, zeroConfig)
-                && (zeroConfig.isMobileDomainFree() && url.getHost().contains(".m."))
-                && (zeroConfig.isZeroDomainFree() && url.getHost().contains(".zero."));
+                && hasValidLanguage(url, zeroConfig);
         } catch (MalformedURLException e) {
             return false;
         }
@@ -181,6 +182,21 @@ public class ZeroFilterFunc extends FilterFunc {
         } else {
             return (zeroConfig.isMobileDomainFree() && url.getHost().contains(".m."))
             || (zeroConfig.isZeroDomainFree() && url.getHost().contains(".zero."));
+        }
+    }
+
+    /**
+     *
+     * @param url
+     * @param zeroConfig
+     * @return
+     */
+    private boolean hasValidLanguage(final URL url, final ZeroConfig zeroConfig) {
+        ProjectInfo proj = new ProjectInfo(url.getHost());
+        if (zeroConfig.getLanguages().length == 0 ) {
+            return true;
+        } else {
+            return Arrays.asList(zeroConfig.getLanguages()).contains(proj.getLanguage());
         }
     }
 
@@ -212,7 +228,7 @@ public class ZeroFilterFunc extends FilterFunc {
      */
     private String simplifyFilename(final String filename) {
         // This will remove all the file extensions and timestamp information from the filename.
-        return filename.substring(0, filename.indexOf("."));
+        return filename != null ? filename.substring(0, filename.indexOf(".")) : "";
     }
 
     /**

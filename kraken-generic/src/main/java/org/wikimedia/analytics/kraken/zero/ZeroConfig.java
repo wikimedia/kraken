@@ -20,7 +20,6 @@ package org.wikimedia.analytics.kraken.zero;
 
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *

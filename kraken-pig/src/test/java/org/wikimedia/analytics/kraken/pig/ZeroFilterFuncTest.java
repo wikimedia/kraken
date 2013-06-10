@@ -52,7 +52,7 @@ public class ZeroFilterFuncTest {
 
     @Test
     public void testZeroLegacy() throws IOException {
-        Tuple input = tupleFactory.newTuple(1);
+        Tuple input = tupleFactory.newTuple(2);
         input.set(0, "http://en.m.wikipedia.org/wiki/Californication_(TV_series)");
         ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
         assertTrue(zero.exec(input));
@@ -60,41 +60,84 @@ public class ZeroFilterFuncTest {
 
     @Test
     public void testZeroLegacy2() throws IOException {
-        Tuple input = tupleFactory.newTuple(1);
+        Tuple input = tupleFactory.newTuple(2);
         input.set(0, "http://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Red_pog.svg/8px-Red_pog.svg.png");
+        input.set(1, "default.tab");
         ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
         assertFalse(zero.exec(input));
     }
 
     @Test
     public void testZeroLegacy3() throws IOException {
-        Tuple input = tupleFactory.newTuple(1);
+        Tuple input = tupleFactory.newTuple(2);
         input.set(0, "http://meta.wikimedia.org/wiki/Special:RecordImpression?result=hide&reason=empty&country=KE&userlang=en&project=wikipedia&db=enwiki&bucket=0&anonymous=true&device=desktop");
+        input.set(1, "default.tab");
         ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
         assertFalse(zero.exec(input));
     }
 
     @Test
     public void testZeroLegacy4() throws IOException {
-        Tuple input = tupleFactory.newTuple(1);
+        Tuple input = tupleFactory.newTuple(2);
         input.set(0, "http://en.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "default.tab");
         ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
         assertFalse(zero.exec(input));
     }
 
     @Test
     public void testZeroLegacy5() throws IOException {
-        Tuple input = tupleFactory.newTuple(1);
+        Tuple input = tupleFactory.newTuple(2);
         input.set(0, "http://en.zero.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "default.tab");
         ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
         assertTrue(zero.exec(input));
     }
 
     @Test
     public void testZeroLegacy6() throws IOException {
-        Tuple input = tupleFactory.newTuple(1);
+        Tuple input = tupleFactory.newTuple(2);
         input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "default.tab");
         ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
         assertTrue(zero.exec(input));
     }
+
+    @Test
+    public void testCountZeroDomain() throws IOException {
+        Tuple input = tupleFactory.newTuple(2);
+        input.set(0, "http://en.zero.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "zero-orange-tunesia.tab");
+        ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
+        assertFalse(zero.exec(input));
+
+    }
+
+    @Test
+    public void testCountMobileDomain()  throws IOException {
+        Tuple input = tupleFactory.newTuple(2);
+        input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "zero-orange-tunesia.tab");
+        ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
+        assertTrue(zero.exec(input));
+    }
+
+    @Test
+    public void testCountEitherMobileOrZeroDomainMobile()  throws IOException {
+        Tuple input = tupleFactory.newTuple(2);
+        input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "zero-saudi-telecom.tab");
+        ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
+        assertTrue(zero.exec(input));
+    }
+
+    @Test
+    public void testCountEitherMobileOrZeroDomainZero()  throws IOException {
+        Tuple input = tupleFactory.newTuple(2);
+        input.set(0, "http://en.zero.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "zero-saudi-telecom.tab");
+        ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
+        assertTrue(zero.exec(input));
+    }
+
 }
