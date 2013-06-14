@@ -110,7 +110,6 @@ public class ZeroFilterFuncTest {
         input.set(1, "zero-orange-tunesia.tab");
         ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
         assertFalse(zero.exec(input));
-
     }
 
     @Test
@@ -123,7 +122,7 @@ public class ZeroFilterFuncTest {
     }
 
     @Test
-    public void testCountEitherMobileOrZeroDomainMobile()  throws IOException {
+    public void testCountEitherMobileOrZeroDomainMobile() throws IOException {
         Tuple input = tupleFactory.newTuple(2);
         input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram");
         input.set(1, "zero-saudi-telecom.tab");
@@ -132,11 +131,84 @@ public class ZeroFilterFuncTest {
     }
 
     @Test
-    public void testCountEitherMobileOrZeroDomainZero()  throws IOException {
+    public void testCountEitherMobileOrZeroDomainZero() throws IOException {
         Tuple input = tupleFactory.newTuple(2);
         input.set(0, "http://en.zero.wikipedia.org/wiki/James_Ingram");
         input.set(1, "zero-saudi-telecom.tab");
         ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
+        assertTrue(zero.exec(input));
+    }
+
+    @Test
+    public void testXCSZeroConfigLookup1() throws IOException {
+        Tuple input = tupleFactory.newTuple(2);
+        input.set(0, "http://en.zero.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "zero=612-03;");
+        ZeroFilterFunc zero = new ZeroFilterFunc("default");
+        assertFalse(zero.exec(input));
+
+    }
+
+    @Test
+    public void testXCSZeroConfigLookup2() throws IOException {
+        Tuple input = tupleFactory.newTuple(2);
+        input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "zero=612-03;");
+        ZeroFilterFunc zero = new ZeroFilterFunc("default");
+        assertTrue(zero.exec(input));
+    }
+
+    @Test
+    public void testXCSZeroConfigLookup3() throws IOException {
+        Tuple input = tupleFactory.newTuple(2);
+        input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram");
+        input.set(1, null);
+        ZeroFilterFunc zero = new ZeroFilterFunc("default");
+        assertFalse(zero.exec(input));
+    }
+
+    @Test
+    public void testXCSZeroConfigLookup4() throws IOException {
+        Tuple input = tupleFactory.newTuple(2);
+        input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "-");
+        ZeroFilterFunc zero = new ZeroFilterFunc("default");
+        assertFalse(zero.exec(input));
+    }
+
+    @Test
+    public void testXCSWithoutKey() throws IOException {
+        Tuple input = tupleFactory.newTuple(2);
+        input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "250-99");
+        ZeroFilterFunc zero = new ZeroFilterFunc("legacy");
+        assertTrue(zero.exec(input));
+    }
+
+    @Test
+    public void testXCSWithoutKey2() throws IOException {
+        Tuple input = tupleFactory.newTuple(2);
+        input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "250-99");
+        ZeroFilterFunc zero = new ZeroFilterFunc("default");
+        assertTrue(zero.exec(input));
+    }
+
+    @Test
+    public void testXCSWithoutLanguageCode() throws IOException {
+        Tuple input = tupleFactory.newTuple(2);
+        input.set(0, "http://m.wikipedia.org/wiki/James_Ingram");
+        input.set(1, "250-99");
+        ZeroFilterFunc zero = new ZeroFilterFunc("default");
+        assertTrue(zero.exec(input));
+    }
+
+    @Test
+    public void testZeroRequestWitKeyWithoutSemiColon() throws IOException {
+        Tuple input = tupleFactory.newTuple(2);
+        input.set(0, "http://en.m.wikipedia.org/wiki/The_Slave_Hunters");
+        input.set(1, "zero=420-01");
+        ZeroFilterFunc zero = new ZeroFilterFunc("default");
         assertTrue(zero.exec(input));
     }
 
