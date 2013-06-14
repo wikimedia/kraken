@@ -18,14 +18,19 @@
  */
 package org.wikimedia.analytics.kraken.pig;
 
-import org.apache.pig.builtin.PigStorage;
-import org.apache.pig.data.Tuple;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.RecordReader;
-import org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigSplit;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
+import org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigSplit;
+import org.apache.pig.builtin.PigStorage;
+import org.apache.pig.data.Tuple;
+
 import java.io.IOException;
 
+/**
+ *
+ */
+@Deprecated
 public class PigStorageWithInputPath extends PigStorage {
     Path path = null;
 

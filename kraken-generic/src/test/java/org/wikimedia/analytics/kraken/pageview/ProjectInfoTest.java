@@ -1,19 +1,21 @@
 package org.wikimedia.analytics.kraken.pageview;
 
-import static com.google.common.collect.ImmutableList.of;
-import static org.junit.Assert.*;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.junit.Test;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
+
+import static com.google.common.collect.ImmutableList.of;
+import static org.junit.Assert.assertEquals;
 
 public class ProjectInfoTest {
 
     private static List<ImmutableList<String>> TESTS = Lists.newArrayList(
             // testHostname                       projectDomain                      language        siteVersion
-            of("mediawiki.org",                   "mediawiki.org",                   "null",          "X"),
+            of("mediawiki.org",                   "mediawiki.org",                   "",              "X"),
             of("en.wikipedia.org",                "wikipedia.org",                   "en",            "X"),
             of("simple.wikipedia.org",            "wikipedia.org",                   "simple",        "X"),
             of("be-x-old.wikipedia.org",          "wikipedia.org",                   "be-x-old",      "X"),

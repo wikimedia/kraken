@@ -19,12 +19,10 @@
 
 package org.wikimedia.analytics.kraken.funnel;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import com.google.gson.JsonObject;
-import org.apache.commons.lang3.tuple.Pair;
-import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
 public class FunnelPath implements Iterable<Pair<FunnelNode, FunnelNode>> {
 

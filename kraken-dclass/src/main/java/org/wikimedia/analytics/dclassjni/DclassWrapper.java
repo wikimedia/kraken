@@ -18,9 +18,9 @@
 package org.wikimedia.analytics.dclassjni;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.io.File;
 
 public class DclassWrapper {
     /**

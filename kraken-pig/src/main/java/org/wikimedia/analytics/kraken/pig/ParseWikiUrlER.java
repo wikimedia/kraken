@@ -32,29 +32,25 @@ import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.Map;
-import java.util.List;
+import java.util.*;
 
 /**
  * In these comments I may refer to any part of the host separated by '.' a
  * subdomain for example: in en.m.wikipedia.org, the subdomains are 'en', 'm',
  * 'wikipedia'.
  */
+@Deprecated
 public class ParseWikiUrlER extends EvalFunc<Tuple> {
     private static Set<String> languages;
     private static Map<String, String> versions;
     private static Tuple defaultOutput;
 
-    // 	public ParseWikiUrlER() {
-    // 		this("src/main/resources/languages.txt");
-    // 	}
+    //public ParseWikiUrlER() {
+    //this("src/main/resources/languages.txt");
+    //}
 
     /** {@inheritDoc} */
-    public Tuple exec(final Tuple input) throws ExecException {
+    public final Tuple exec(final Tuple input) throws ExecException {
         /** Method exec() takes a tuple containing a Wikimedia URL and returns
          *  a tuple containing (if possible) it's language, boolean on whether
          *  it's a mobile site, and it's domain name.

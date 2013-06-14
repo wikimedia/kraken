@@ -1,14 +1,13 @@
 package org.wikimedia.analytics.kraken.pageview;
 
-import org.wikimedia.analytics.dclassjni.DeviceClassification;
-import org.wikimedia.analytics.kraken.schemas.AppleUserAgent;
-import org.wikimedia.analytics.kraken.schemas.Schema;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import org.wikimedia.analytics.dclassjni.DeviceClassification;
+import org.wikimedia.analytics.kraken.schemas.AppleUserAgent;
 import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
+import org.wikimedia.analytics.kraken.schemas.Schema;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;

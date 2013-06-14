@@ -20,8 +20,8 @@ package org.wikimedia.analytics.kraken.pageview;
 
 import org.junit.Test;
 
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 import static org.junit.Assert.*;
 

@@ -18,12 +18,12 @@
  */
 package org.wikimedia.analytics.kraken.funnel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class Analysis {
 

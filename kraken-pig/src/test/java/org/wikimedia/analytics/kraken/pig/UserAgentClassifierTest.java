@@ -26,7 +26,6 @@ import org.junit.Test;
 import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
 
 
 public class UserAgentClassifierTest {

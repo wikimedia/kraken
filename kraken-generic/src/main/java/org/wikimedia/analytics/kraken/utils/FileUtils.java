@@ -19,12 +19,7 @@
 
 package org.wikimedia.analytics.kraken.utils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.zip.GZIPInputStream;
 
 public class FileUtils {

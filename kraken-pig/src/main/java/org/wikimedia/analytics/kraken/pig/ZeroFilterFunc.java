@@ -19,6 +19,7 @@
 package org.wikimedia.analytics.kraken.pig;
 
 import org.apache.pig.FilterFunc;
+import org.apache.pig.PigWarning;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;

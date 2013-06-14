@@ -25,9 +25,6 @@ import org.apache.pig.data.Tuple;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.wikimedia.analytics.kraken.pageview.Pageview;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Entry point for the Pig UDF class that uses the Pageview filter logic.
  * This is a simple Pig script that illustrates how to use this Pig UDF.

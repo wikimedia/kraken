@@ -25,13 +25,13 @@
 
 package org.wikimedia.analytics.kraken.pig;
 
+import org.apache.pig.EvalFunc;
+import org.apache.pig.data.Tuple;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.apache.pig.EvalFunc;
-import org.apache.pig.data.Tuple;
 public class ConvertDateFormat extends EvalFunc<String> {
 
     public static enum ERRORS { DateParseError };

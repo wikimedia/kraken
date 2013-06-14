@@ -22,23 +22,16 @@
  */
 package org.wikimedia.analytics.kraken.funnel;
 
+import com.google.gson.JsonObject;
+import org.jgrapht.DirectedGraph;
+import org.jgrapht.alg.CycleDetector;
+import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.PatternSyntaxException;
-
-import org.jgrapht.DirectedGraph;
-import org.jgrapht.alg.CycleDetector;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.traverse.DepthFirstIterator;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-
-import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * Funnel fun!.

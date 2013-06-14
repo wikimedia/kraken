@@ -19,19 +19,16 @@
 
 package org.wikimedia.analytics.kraken.funnel;
 
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Map;
-import java.util.HashMap;
-
 import com.google.gson.JsonObject;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
-
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
+
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class DemoFunnel {
     //private Map<String, String> nodeDefinition = new HashMap<String, String>();

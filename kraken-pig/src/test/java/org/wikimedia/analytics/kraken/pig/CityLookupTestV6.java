@@ -18,7 +18,11 @@
 package org.wikimedia.analytics.kraken.pig;
 /* CityLookupTest.java */
 
-import com.maxmind.geoip.*;
+import com.maxmind.geoip.Location;
+import com.maxmind.geoip.LookupService;
+import com.maxmind.geoip.regionName;
+import com.maxmind.geoip.timeZone;
+
 import java.io.IOException;
 
 /* sample of how to use the GeoIP Java API with GeoIP City database */

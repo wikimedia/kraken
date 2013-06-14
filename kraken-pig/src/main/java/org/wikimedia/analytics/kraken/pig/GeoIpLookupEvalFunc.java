@@ -26,7 +26,6 @@ import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
-import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.wikimedia.analytics.kraken.geo.GeoIpLookup;
 import org.wikimedia.analytics.kraken.geo.GeoIpLookupField;
 

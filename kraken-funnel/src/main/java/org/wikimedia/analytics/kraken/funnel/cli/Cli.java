@@ -1,33 +1,21 @@
 package org.wikimedia.analytics.kraken.funnel.cli;
 
-import java.net.MalformedURLException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-
-
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.apache.commons.cli.*;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
-
 import org.wikimedia.analytics.kraken.exceptions.MalformedFunnelException;
 import org.wikimedia.analytics.kraken.funnel.Funnel;
 import org.wikimedia.analytics.kraken.funnel.Node;
 import org.wikimedia.analytics.kraken.utils.DateUtils;
 import org.wikimedia.analytics.kraken.utils.FileUtils;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class Cli {
 	private static final String USAGE = "[-input <absolute path>] [-schema <schema>] [-node <node definition>] [-funnel <funnel definition>]";

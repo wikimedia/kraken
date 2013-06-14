@@ -21,7 +21,8 @@ package org.wikimedia.analytics.kraken.pig;
 /* Only works with GeoIP Country Edition */
 /* For Geoip City Edition, use CityLookupTest.java */
 
-import com.maxmind.geoip.*;
+import com.maxmind.geoip.LookupService;
+
 import java.io.IOException;
 
 class CountryLookupTest {
