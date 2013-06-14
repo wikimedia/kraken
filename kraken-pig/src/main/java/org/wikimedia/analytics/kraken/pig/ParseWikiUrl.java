@@ -87,7 +87,7 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
      * containing (if possible) it's language, boolean on whether it's a mobile
      * site, and it's domain name.
      */
-    public Tuple exec(Tuple input) throws ExecException {
+    public final Tuple exec(Tuple input) throws ExecException {
         String language = "N/A";
         Boolean isMobile = null;
         String domain = "N/A";
@@ -97,7 +97,7 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
             return defaultOutput;
         }
 
-        if(defaultOutput == null) {
+        if (defaultOutput == null) {
             defaultOutput = TupleFactory.getInstance().newTuple(3);
             defaultOutput.set(0, language);
             defaultOutput.set(1, null);
@@ -114,7 +114,7 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
             return defaultOutput;
         }
 
-        if(urlString == null) {
+        if (urlString == null) {
             warn("null input", PigWarning.UDF_WARNING_1);
             return defaultOutput;
         }
@@ -135,13 +135,13 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 
 
         //if subdomains has less than two elements then can't find domain so return
-        if(subdomains.length < 2) {
+        if (subdomains.length < 2) {
             warn("host name: " + host + " has less than two subdomains", PigWarning.UDF_WARNING_1);
             return defaultOutput;
         }
 
         //add language codes from languageFile to a hash set
-        if(languages == null) {
+        if (languages == null) {
             languages = new HashSet<String>();
             languages.add("en");
             languages.add("de");
@@ -432,7 +432,7 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
 
         //takes the first subdomain and check if it is a language code
         String firstSubDomain = subdomains[0];
-        if(languages.contains(firstSubDomain)) {
+        if (languages.contains(firstSubDomain)) {
             language = firstSubDomain;
         }
 
@@ -443,10 +443,10 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
         isMobile = false;
 
         //iterate through each subdomain from the 2nd subdomain to the 3rd to the last subdomain
-        //	to look for 'm'
-        for(int i = 1; i < subdomains.length-2 ; i++) {;
+        //to look for 'm'
+        for (int i = 1; i < subdomains.length - 2 ; i++) {;
             //if this subdomain is 'm' set isMobile flag to true
-            if(subdomains[i].equals("m")) {
+            if (subdomains[i].equals("m")) {
                 isMobile = true;
                 break;
             }
@@ -461,7 +461,7 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
     }
 
     /** {@inheritDoc} */
-    public Schema outputSchema(final Schema input) {
+    public final Schema outputSchema(final Schema input) {
         Schema inputModel = new Schema(new FieldSchema(null, DataType.CHARARRAY));
         if (!Schema.equals(inputModel, input, true, true)) {
             String msg = "";
@@ -479,5 +479,4 @@ public class ParseWikiUrl extends EvalFunc<Tuple> {
             throw new RuntimeException(e);
         }
     }
-
 }

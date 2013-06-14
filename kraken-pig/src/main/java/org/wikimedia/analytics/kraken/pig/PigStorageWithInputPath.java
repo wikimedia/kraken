@@ -43,7 +43,7 @@ public class PigStorageWithInputPath extends PigStorage {
      * <p>Constructor for PigStorageWithInputPath.</p>
      */
     public PigStorageWithInputPath() {
-        super(" ");
+        super("\t");
     }
 
     /** {@inheritDoc} */
