@@ -327,11 +327,12 @@ public class ProjectInfo {
         LANGUAGES.add("hz");
     }
 
-
     private String hostname; // Provided hostname
 
     private String language = null;
+
     private String siteVersion = "X";
+
     private String projectDomain;
 
     // TODO: work out the actual space of project names and assign them canonical IDs.
@@ -339,10 +340,14 @@ public class ProjectInfo {
     // private String projectName;      // Human-readable name of this project
 
 
+    /**
+     *
+     * @param hostname
+     */
     public ProjectInfo(String hostname) {
-        this.hostname = hostname;
+        this.hostname = fixVarnishNCSALoggingBug(hostname);
 
-        String[] domainParts = hostname.split("\\.");
+        String[] domainParts = this.hostname.split("\\.");
         List<String> projectParts = Lists.newArrayListWithExpectedSize(domainParts.length);
 
         // Ignore SLD+TLD, as language/version are always before (andalso country TLDs look like languages)
@@ -370,19 +375,53 @@ public class ProjectInfo {
         }
     }
 
-    public String getHostname() {
+    /**
+     * A Varnish bug in 3.0.x causes the the protocol and host header to be  simply
+     * concatenated to the request URI. This results in log entries in the form of
+     * http://upload.wikimedia.orghttp://upload.wikimedia.org/foo
+     * This function strips away the http part from the TLD.
+     * This function can be disabled once we have migrated to Varnish 4.x
+     * see also https://www.varnish-cache.org/trac/ticket/1255
+     * @param hostname
+     * @return
+     */
+    private String fixVarnishNCSALoggingBug(final String hostname) {
+        if (hostname != null && hostname.endsWith("http")) {
+            return hostname.substring(0, hostname.length() - 4);
+        } else {
+           return hostname;
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final String getHostname() {
         return hostname;
     }
 
-    public String getLanguage() {
-        return language;
+    /**
+     *
+     * @return
+     */
+    public final String getLanguage() {
+        return language != null ? language : "";
     }
 
-    public String getSiteVersion() {
+    /**
+     *
+     * @return
+     */
+    public final String getSiteVersion() {
         return siteVersion;
     }
 
-    public String getProjectDomain() {
+    /**
+     *
+     * @return
+     */
+    public final String getProjectDomain() {
         return projectDomain;
     }
 }
