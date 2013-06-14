@@ -80,10 +80,14 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
     /** Factory to generate Pig tuples */
     private TupleFactory tupleFactory = TupleFactory.getInstance();
 
+    private Tuple output;
+
+    private URL url;
+
     /**
      *
-     * @param input tuple containing url, referer, userAgent, statusCode, ip and mimeType.
-     * @return (language, project, site_version, article_title)
+     * @param tuple containing url
+     * @return (language, project, site_version)
      * @throws ExecException
      */
     public final Tuple exec(final Tuple input) throws ExecException {
@@ -91,27 +95,20 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
             return null;
         }
 
-        String url = (String) input.get(0);
-        String referer = (String) input.get(1);
-        String userAgent = (input.get(2) != null ? (String) input.get(2) : "-");
-        String statusCode = (input.get(3) != null ? (String) input.get(3) : "-");
-        String ip = (input.get(4) != null ? (String) input.get(4) : "-");
-        String mimeType = (input.get(5) != null ? (String) input.get(5) : "-");
-        String requestMethod = (input.get(6) != null ? (String) input.get(6) : "-");
-
-        Tuple output;
-        Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimeType, requestMethod);
-
-        if (pageview.isPageview()) {
-            output = tupleFactory.newTuple(4);
-            output.set(0, pageview.getProjectInfo().getLanguage());
-            output.set(1, pageview.getProjectInfo().getProjectDomain());
-            output.set(2, pageview.getProjectInfo().getSiteVersion());
-            output.set(3, pageview.getPageviewCanonical().getArticleTitle());
-        } else {
-            output = null;
+        try {
+            url = new URL((String) input.get(0));
+        } catch (MalformedURLException e) {
+            return null;
         }
-    return output;
+
+        ProjectInfo projectInfo = new ProjectInfo(url.getHost());
+
+        output = tupleFactory.newTuple(3);
+        output.set(0, projectInfo.getLanguage());
+        output.set(1, projectInfo.getProjectDomain());
+        output.set(2, projectInfo.getSiteVersion());
+
+        return output;
     }
 
     /**
@@ -121,36 +118,18 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
      */
     public final Schema outputSchema(final Schema input) {
         // Check that we were passed two fields
-        if (input.size() != 7) {
+        if (input.size() != 1) {
             throw new RuntimeException(
-                    "Expected (chararray), input does not have 7 fields");
+                    "Expected (chararray), input does not have 1 field.");
         }
 
         try {
             // Get the types for the column and check them.  If it's
             // wrong figure out what type was passed and give a good error
             // message.
-            if (input.getField(0).type != DataType.CHARARRAY
-                || input.getField(1).type != DataType.CHARARRAY
-                || input.getField(2).type != DataType.CHARARRAY
-                || input.getField(3).type != DataType.CHARARRAY
-                || input.getField(4).type != DataType.CHARARRAY
-                || input.getField(5).type != DataType.CHARARRAY
-                || input.getField(6).type != DataType.CHARARRAY) {
-                String msg = "Expected input (chararray,chararray,chararray,chararray,chararray,chararray,chararray), received schema (";
+            if (input.getField(0).type != DataType.CHARARRAY) {
+                String msg = "Expected input (chararray), received schema (";
                 msg += DataType.findTypeName(input.getField(0).type);
-                msg += ", ";
-                msg += DataType.findTypeName(input.getField(1).type);
-                msg += ", ";
-                msg += DataType.findTypeName(input.getField(2).type);
-                msg += ", ";
-                msg += DataType.findTypeName(input.getField(3).type);
-                msg += ", ";
-                msg += DataType.findTypeName(input.getField(4).type);
-                msg += ", ";
-                msg += DataType.findTypeName(input.getField(5).type);
-                msg += ", ";
-                msg += DataType.findTypeName(input.getField(6).type);
                 msg += ")";
                 throw new RuntimeException(msg);
             }
@@ -162,7 +141,6 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));   // language
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));   // project
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));   // site_version
-        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));   // article_title
         return new Schema(fields);
     }
 }
