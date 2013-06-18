@@ -167,10 +167,10 @@ public class Pageview {
      */
     public final boolean isWebstatscollectorPageview() {
         return (isValidURL()
-                && !cidrFilter.ipAddressFallsInRange(this.ipAddress))
-                && this.url.getHost().endsWith(".org")
                 && this.url.getPath() != null
-                && this.url.getPath().contains("/wiki/");
+                && this.url.getPath().contains("/wiki/")
+                && (!cidrFilter.ipAddressFallsInRange(ipAddress))
+                && this.url.getHost().endsWith(".org"));
     }
 
     /**
@@ -205,13 +205,10 @@ public class Pageview {
      */
     public final boolean isSearchRequest() {
         if (url != null && url.getQuery() != null) {
-            if (url.getQuery().contains("action=opensearch")
+            return (url.getQuery().contains("action=opensearch")
                     || url.getQuery().contains("action=search")
-                    || url.getFile().contains("wiki?search")) {
-                return true;
-            } else {
-               return false;
-            }
+                    || url.getFile().contains("wiki?search")
+                    || url.getQuery().contains("title=Special%3ASearch&search"));
         } else {
             return false;
         }

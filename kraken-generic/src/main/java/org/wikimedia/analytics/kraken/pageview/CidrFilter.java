@@ -75,7 +75,8 @@ public class CidrFilter {
             }
             return false;
         } else {
-            return true;
+            //TODO: IPv6 Range checking is not yet implemented
+            return false;
         }
     }
 

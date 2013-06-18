@@ -363,4 +363,36 @@ public class PageviewTest {
         assertFalse(pageview.isWebstatscollectorPageview());
         assertTrue(pageview.isWikistatsMobileReportPageview());
     }
+
+    @Test
+    public void testIPv6WebRequest() {
+        String url = "http://en.wikipedia.org/wiki/Sinkhole";
+        String referer = "http://www.google.com";
+        String userAgent = "useragent";
+        String statusCode = "200";
+        String ipAddress = "2600:100f:b01b:fd1a::103";
+        String mimeType = "text/html";
+        String requestMethod = "get";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        assertTrue(pageview.isPageview());
+        assertTrue(pageview.isWebstatscollectorPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
+    }
+
+    @Test
+    public void testSearchWebRequest() {
+        String url = "http://ru.m.wikipedia.org/w/index.php?title=Special%3ASearch&search=foo";
+        String referer = "http://www.google.com";
+        String userAgent = "useragent";
+        String statusCode = "200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html";
+        String requestMethod = "get";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        assertFalse(pageview.isPageview());
+        assertFalse(pageview.isWebstatscollectorPageview());
+        assertFalse(pageview.isWikistatsMobileReportPageview());
+    }
 }

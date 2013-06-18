@@ -25,25 +25,28 @@ import java.net.URL;
  * This clas defines the different types of pageviews on the Wikimedia properties.
  */
 public enum PageviewType {
-    /** A regular api.php call */
+    /** A regular api.php call. */
     API,
 
-    /** A regular pageview */
+    /** A regular pageview. */
     REGULAR,
 
-    /** A pageview on the blog */
+    /** A pageview on the blog. */
     BLOG,
 
-    /** An image from the commons or upload domain*/
+    /** An image from the commons or upload domain. */
     IMAGE,
 
-    /** A banner served from meta */
+    /** A banner served from meta. */
     BANNER,
 
-    /** Other type of request */
+    /** A search request. */
+    SEARCH,
+
+    /** Other type of request. */
     OTHER,
 
-    /** Not a valid webrequest */
+    /** Not a valid webrequest. */
     NONE;
 
     /**
