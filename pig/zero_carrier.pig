@@ -14,9 +14,11 @@ SET default_parallel 10;
 %default date_bucket_format 'yyyy-MM-dd';       -- Format applied to timestamps for aggregation into buckets. Default: daily.
 %default date_bucket_regex '.*';                -- Regex used to filter the formatted date_buckets; must match whole line. Default: no filtering.
 
-DEFINE DATE_BUCKET  org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', '$date_bucket_format');
-DEFINE GEO          org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
-DEFINE ZERO         org.wikimedia.analytics.kraken.pig.Zero();
+DEFINE DATE_BUCKET    org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd');
+DEFINE GEO            org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
+DEFINE ZERO           org.wikimedia.analytics.kraken.pig.Zero();
+DEFINE ZERO_PAGEVIEW  org.wikimedia.analytics.kraken.pig.ZeroFilterFunc('default');
+DEFINE PAGEVIEW_TYPE  org.wikimedia.analytics.kraken.pig.PageViewEvalFunc();
 
 IMPORT 'include/load_webrequest.pig'; -- See include/load_webrequest.pig
 log_fields = LOAD_WEBREQUEST('$input');
@@ -27,25 +29,26 @@ log_fields = LOAD_WEBREQUEST('$input');
      - timestamp matches $date_bucket_format
      - host matches *.wikipedia.org
      - request is a pageview
-    
+
     Note: We push the filter up as far as possible to minimize the data we compute on.
 */
-log_fields = FILTER log_fields
-    BY (    (x_cs IS NOT NULL) AND (x_cs != '') AND (x_cs != '-')
-        AND (DATE_BUCKET(timestamp) MATCHES '$date_bucket_regex')
-        AND (uri MATCHES '.*\\.org/wiki/.*')
-    );
 
-log_fields = FOREACH log_fields
+log_fields = FILTER log_fields BY ZERO_PAGEVIEW(uri, x_cs);
+
+zero_fields = FOREACH log_fields
     GENERATE
         DATE_BUCKET(timestamp)      AS date_bucket:chararray,
         FLATTEN(GEO(remote_addr))   AS (country:chararray),
+        FLATTEN(PAGEVIEW_TYPE(uri)) AS (language:chararray, project:chararray, site:chararray),
         FLATTEN(ZERO(x_cs))         AS (carrier:chararray, carrier_iso:chararray);
 
-log_fields = FILTER log_fields
-    BY (    (carrier IS NOT NULL) AND (carrier != '')
-    );
+count_group = GROUP zero_fields BY (date_bucket, language, project, site, country, carrier);
+
+count = FOREACH count_group GENERATE FLATTEN(group), COUNT(zero_fields) AS num:long;
 
 carrier_count = FOREACH (GROUP log_fields BY (date_bucket, country, carrier))
     GENERATE FLATTEN($0), COUNT($1) AS num:int;
-STORE carrier_count INTO '$output' USING PigStorage();
+
+-- save results into $output
+STORE count INTO '$output' USING PigStorage();
+--DUMP count;
