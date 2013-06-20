@@ -1,3 +1,4 @@
+-- This setting prevents weird Java heap space errors.
 set io.sort.mb 10;
 
 log_fields    = LOAD 'input' USING PigStorage('\t') AS (

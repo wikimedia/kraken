@@ -23,7 +23,6 @@ package org.wikimedia.analytics.kraken.pig;
 import com.google.common.io.LineReader;
 import org.apache.pig.pigunit.PigTest;
 import org.apache.pig.tools.parameters.ParseException;
-import org.junit.After;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -91,10 +90,5 @@ public class ComparePageviewDefinitionsTest {
 
         String[] input = new String[logLines.size()];
         return logLines.toArray(input);
-    }
-
-    @After
-    public void tearDown() {
-        System.gc();
     }
 }
