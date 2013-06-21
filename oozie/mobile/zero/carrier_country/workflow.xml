@@ -51,22 +51,68 @@
         </configuration>
     </global>
     
+    <!--
+    This main workflow.xml is made up of two sub-workflow actions:
+    'process' and 'coalesce'.  These have been separated out into
+    their own workflow files in order to reuse them separately.
+    For example, if you would like to run a backfill coordinator
+    that does not coalesce the generated data, you may submit
+    a coordinator .properties file with workflowPath=process-wf.xml
+    (instead of this workflow.xml), and your coordinator will run with
+    only the process workflow, and not coalesce.
+    -->
     <start to="process"/>
-    
+
     <action name="process">
-        <pig>
-            <script>${pigScript}</script>
-            
-            <argument>-p</argument><argument>input=${dataInput}</argument>
-            <argument>-p</argument><argument>output=${output}</argument>
-            <argument>-p</argument><argument>date_bucket_format=yyyy-MM-dd</argument>
-            <argument>-p</argument><argument>date_bucket_regex=${jobYear}-${jobMonth}-${jobDay}</argument>
-            
-            <file>/libs/GeoIP.dat</file>
-            <file>/libs/GeoIPCity.dat</file>
-            <file>/libs/GeoIPRegion.dat</file>
-            <file>/libs/GeoIPv6.dat</file>
-        </pig>
+        <sub-workflow>
+            <app-path>${appPath}/process-wf.xml</app-path>
+            <configuration>
+
+                <property><name>metricName</name><value>${metricName}</value></property>
+
+                <property><name>nameNode</name><value>${nameNode}</value></property>
+                <property><name>jobTracker</name><value>${jobTracker}</value></property>
+                <property><name>queueName</name><value>${queueName}</value></property>
+
+                <!-- Process data -->
+                <property><name>dataInput</name><value>${dataInput}</value></property>
+                <property><name>output</name><value>${output}</value></property>
+                <property><name>pigScript</name><value>${pigScript}</value></property>
+
+                <!--Processing Meta-->
+                <property><name>jobHour</name><value>${jobHour}</value></property>
+                <property><name>jobDay</name><value>${jobDay}</value></property>
+                <property><name>jobMonth</name><value>${jobMonth}</value></property>
+                <property><name>jobYear</name><value>${jobYear}</value></property>
+           </configuration>
+        </sub-workflow>
+        <ok to="coalesce"/>
+        <error to="kill"/>
+    </action>
+
+    <action name="coalesce">
+        <sub-workflow>
+            <app-path>${krakenLibPath}/oozie/util/coalesce/coalesce-wf.xml</app-path>
+            <configuration>
+                <property><name>nameNode</name><value>${nameNode}</value></property>
+                <property><name>jobTracker</name><value>${jobTracker}</value></property>
+                <property><name>queueName</name><value>${queueName}</value></property>
+                
+                <property>
+                    <name>coalesceInput</name>
+                    <!-- ${dataDir}/year/month/day/hour -->
+                    <value>${dataDir}/**/**/**/**</value>
+                </property>
+                <property>
+                    <name>coalesceOutputDir</name>
+                    <value>${publicDir}</value>
+                </property>
+                <property>
+                    <name>coalesceOutputFile</name>
+                    <value>${outputFilePrefix}-daily.tsv</value>
+                </property>
+            </configuration>
+        </sub-workflow>
         <ok to="end"/>
         <error to="kill"/>
     </action>
