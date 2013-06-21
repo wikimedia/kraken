@@ -109,7 +109,7 @@
                 </property>
                 <property>
                     <name>coalesceOutputFile</name>
-                    <value>${outputFilePrefix}-hourly.tsv</value>
+                    <value>${outputFilePrefix}-daily.tsv</value>
                 </property>
             </configuration>
         </sub-workflow>
