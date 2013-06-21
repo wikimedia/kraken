@@ -38,7 +38,7 @@ import java.util.ArrayList;
  */
 public class ComparePageviewDefinitionsTest {
 
-    private static final String PIG_SCRIPT = "kraken-pig/src/test/resources/compare_pageviews.pig";
+    private static final String PIG_SCRIPT = "src/test/resources/compare_pageviews.pig";
 
     @Test
     public void testDesktopPageviewCount() throws IOException, ParseException {

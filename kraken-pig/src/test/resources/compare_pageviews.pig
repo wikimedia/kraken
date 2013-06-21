@@ -1,3 +1,6 @@
+-- This setting prevents weird Java heap space errors.
+set io.sort.mb 10;
+
 log_fields    = LOAD 'input' USING PigStorage('\t') AS (
     hostname:chararray,
     sequence:long,
@@ -18,14 +21,7 @@ log_fields    = LOAD 'input' USING PigStorage('\t') AS (
 );
 
 counts = FOREACH log_fields GENERATE
-    FLATTEN(org.wikimedia.analytics.kraken.pig.ComparePageviewDefinitions(uri,
-                                                                          referer,
-                                                                          user_agent,
-                                                                          http_status,
-                                                                          remote_addr,
-                                                                          content_type,
-                                                                          request_method))
-    AS (strict:int, webstatscollector:int, wikistats:int);
+    FLATTEN(org.wikimedia.analytics.kraken.pig.ComparePageviewDefinitions(uri,referer,user_agent,http_status,remote_addr,content_type,request_method)) AS (strict:int, webstatscollector:int, wikistats:int);
 
 grouped_counts = GROUP counts ALL;
 
