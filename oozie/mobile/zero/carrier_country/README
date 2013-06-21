@@ -11,6 +11,16 @@ For organizational sanity, I've moved the differnent .properties into a subdirec
 called 'properties/'.  If you need to add new Zero oozie coordinators that can use
 the same job xml definitions, feel free to add them there.
 
-I believe that I could abstract this Oozie Pig input/output pattern into a single
+I have also separated out the main process action of the workflow into its own
+process-wf.xml file.  The main workflow.xml file uses process-wf.xml and
+coalesce-wf.xml as a sub-workflow actions.  The process-wf.xml configs could be
+in the main workflow.xml file as a normal action type, but separating it out
+into its own file allows us to run backfill coordinators without having
+to coalesce the output after every backfill workflow process.  This speeds up
+the backfilling process.  See the backfill coordinator .properties files for an
+example where workflowPath=process-wf.xml.
+
+I believe that I could abstract this subworkflow +  Oozie Pig input/output pattern into a single
 reusable definition, decoupled from any particular metric at all.  One thing
 at a time though... :)
+
