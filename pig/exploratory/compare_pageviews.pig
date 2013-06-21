@@ -28,27 +28,21 @@ log_fields    = LOAD '/wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=2013-05
 
 log_fields = FOREACH log_fields GENERATE
     DATE_BUCKET(timestamp) AS date_bucket:chararray,
-    *;
+    FLATTEN(COMPARE(uri,
+            referer,
+            user_agent,
+            http_status,
+            remote_addr,
+            content_type,
+            request_method)) AS (strict:int, webstatscollector:int, wikistats:int);
 
 log_fields = GROUP log_fields BY date_bucket;
 
-counts = FOREACH log_fields GENERATE
-    date_bucket,
-    FLATTEN(COMPARE(uri,
-                    referer,
-                    user_agent,
-                    http_status,
-                    remote_addr,
-                    content_type,
-                    request_method))
-        AS (strict:int, webstatscollector:int, wikistats:int);
-
-
-grouped_counts = FOREACH counts GENERATE
-    date_bucket,
-    SUM(strict) as sum_strict:int,
-    SUM(webstatscollector) as sum_webstatscollector:int,
-    SUM(wikistats) as sum_wikistats:int;
+grouped_counts = FOREACH log_fields GENERATE
+    group,
+    SUM(log_fields.strict) as sum_strict:int,
+    SUM(log_fields.webstatscollector) as sum_webstatscollector:int,
+    SUM(log_fields.wikistats) as sum_wikistats:int;
 
 
 DUMP grouped_counts;
