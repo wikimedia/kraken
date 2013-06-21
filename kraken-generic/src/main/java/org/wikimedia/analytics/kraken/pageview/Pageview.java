@@ -196,7 +196,7 @@ public class Pageview {
      * @return true/false
      */
     public final boolean isValidURL() {
-        return url != null;
+        return url != null && url.getHost().contains("wiki");
     }
 
     /**
