@@ -12,10 +12,10 @@ REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
 %default date_bucket_format 'yyyy-MM-dd';       -- Format applied to timestamps for aggregation into buckets. Default: daily.
 %default date_bucket_regex '.*';                -- Regex used to filter the formatted date_buckets; must match whole line. Default: no filtering.
 
-DEFINE DATE_BUCKET  org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', '$date_bucket_format');
-DEFINE GEO          org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
-DEFINE IS_PAGEVIEW  org.wikimedia.analytics.kraken.pig.PageViewFilterFunc();
-DEFINE PAGEVIEW     org.wikimedia.analytics.kraken.pig.PageViewEvalFunc();
+DEFINE DATE_BUCKET    org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', '$date_bucket_format');
+DEFINE GEO            org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
+DEFINE IS_PAGEVIEW    org.wikimedia.analytics.kraken.pig.PageViewFilterFunc();
+DEFINE PAGEVIEW_TYPE  org.wikimedia.analytics.kraken.pig.PageViewEvalFunc();
 
 IMPORT 'include/load_webrequest.pig'; -- See include/load_webrequest.pig
 log_fields = LOAD_WEBREQUEST('$input');
@@ -35,8 +35,7 @@ log_fields = FILTER log_fields
 log_fields = FOREACH log_fields
     GENERATE
         DATE_BUCKET(timestamp)      AS date_bucket:chararray,
-        FLATTEN(PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method))
-                                    AS (language:chararray, project:chararray, site_version:chararray, article_title:chararray),
+        FLATTEN(PAGEVIEW_TYPE(uri)) AS (language:chararray, project:chararray, site_version:chararray),
         FLATTEN(GEO(remote_addr))   AS (country:chararray);
 
 country_count = FOREACH (GROUP log_fields BY (date_bucket, language, project, site_version, country))

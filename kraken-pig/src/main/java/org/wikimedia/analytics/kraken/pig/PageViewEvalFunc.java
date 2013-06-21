@@ -117,7 +117,7 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
      * @return
      */
     public final Schema outputSchema(final Schema input) {
-        // Check that we were passed two fields
+        // Check that we were passed one fields
         if (input.size() != 1) {
             throw new RuntimeException(
                     "Expected (chararray), input does not have 1 field.");
