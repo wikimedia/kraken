@@ -34,7 +34,7 @@ log_fields = LOAD_WEBREQUEST('$input');
 */
 
 log_fields = FILTER log_fields BY
-    ( DATE_BUCKET(timestamp) MATCHES '$date_bucket_regex') 
+    ( ( DATE_BUCKET(timestamp) MATCHES '$date_bucket_regex')
       AND IS_ZERO_PAGEVIEW(uri, x_cs)
     );
 
