@@ -14,11 +14,11 @@ SET default_parallel 10;
 %default date_bucket_format 'yyyy-MM-dd';       -- Format applied to timestamps for aggregation into buckets. Default: daily.
 %default date_bucket_regex '.*';                -- Regex used to filter the formatted date_buckets; must match whole line. Default: no filtering.
 
-DEFINE DATE_BUCKET    org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd');
-DEFINE GEO            org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
-DEFINE ZERO           org.wikimedia.analytics.kraken.pig.Zero();
-DEFINE ZERO_PAGEVIEW  org.wikimedia.analytics.kraken.pig.ZeroFilterFunc('default');
-DEFINE PAGEVIEW_TYPE  org.wikimedia.analytics.kraken.pig.PageViewEvalFunc();
+DEFINE DATE_BUCKET       org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', 'yyyy-MM-dd');
+DEFINE GEO               org.wikimedia.analytics.kraken.pig.GeoIpLookupEvalFunc('countryCode', 'GeoIPCity');
+DEFINE ZERO              org.wikimedia.analytics.kraken.pig.Zero();
+DEFINE IS_ZERO_PAGEVIEW  org.wikimedia.analytics.kraken.pig.ZeroFilterFunc('default');
+DEFINE PAGEVIEW_TYPE     org.wikimedia.analytics.kraken.pig.PageViewEvalFunc();
 
 IMPORT 'include/load_webrequest.pig'; -- See include/load_webrequest.pig
 log_fields = LOAD_WEBREQUEST('$input');
@@ -33,7 +33,10 @@ log_fields = LOAD_WEBREQUEST('$input');
     Note: We push the filter up as far as possible to minimize the data we compute on.
 */
 
-log_fields = FILTER log_fields BY ZERO_PAGEVIEW(uri, x_cs);
+log_fields = FILTER log_fields BY
+    ( DATE_BUCKET(timestamp) MATCHES '$date_bucket_regex') 
+      AND IS_ZERO_PAGEVIEW(uri, x_cs)
+    );
 
 zero_fields = FOREACH log_fields
     GENERATE
