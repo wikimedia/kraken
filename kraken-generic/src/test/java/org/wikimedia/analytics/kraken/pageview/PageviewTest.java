@@ -395,4 +395,20 @@ public class PageviewTest {
         assertFalse(pageview.isWebstatscollectorPageview());
         assertFalse(pageview.isWikistatsMobileReportPageview());
     }
+
+    @Test
+    public void testIpAsHostRequest() {
+        String url = "http://202.46.200.191/wiki/Albert_Einstein";
+        String referer = "http://www.google.com";
+        String userAgent = "useragent";
+        String statusCode = "200";
+        String ipAddress = "0.0.0.0";
+        String mimeType = "text/html";
+        String requestMethod = "get";
+
+        pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
+        assertFalse(pageview.isPageview());
+        assertFalse(pageview.isWebstatscollectorPageview());
+        assertFalse(pageview.isWikistatsMobileReportPageview());
+    }
 }
