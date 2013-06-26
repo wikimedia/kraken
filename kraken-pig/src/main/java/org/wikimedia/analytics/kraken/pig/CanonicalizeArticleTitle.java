@@ -23,6 +23,7 @@ import org.apache.pig.EvalFunc;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 import org.wikimedia.analytics.kraken.pageview.PageviewCanonical;
+import org.wikimedia.analytics.kraken.pageview.ProjectInfo;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -41,21 +42,45 @@ public class CanonicalizeArticleTitle extends EvalFunc<Tuple> {
 
     private PageviewCanonical pageviewCanonical;
 
+    private String mode;
+
+    /**
+     *
+     */
+    public CanonicalizeArticleTitle() {
+        this.mode = "default";
+    }
+
+    /**
+     *
+     * @param mode
+     */
+    public CanonicalizeArticleTitle(String mode) {
+        // Acceptable values are "default" and "webstatscollector"
+        this.mode = mode;
+    }
+
+
     @Override
     public Tuple exec(final Tuple input) throws IOException {
         if (input == null || input.get(0) == null) {
             return null;
         }
 
-        output = tupleFactory.newTuple(1);
+        output = tupleFactory.newTuple(3);
+        ProjectInfo projectInfo;
         try {
             url = new URL((String) input.get(0));
             pageviewCanonical = new PageviewCanonical(url);
-            pageviewCanonical.canonicalize();
+            pageviewCanonical.canonicalize(mode);
+            projectInfo = new ProjectInfo(url.getHost());
+
         } catch (MalformedURLException e) {
             return null;
         }
         output.set(0, pageviewCanonical.getArticleTitle());
+        output.set(1, projectInfo.getLanguage());
+        output.set(2, projectInfo.getProjectDomain());
         return output;
     }
 }
