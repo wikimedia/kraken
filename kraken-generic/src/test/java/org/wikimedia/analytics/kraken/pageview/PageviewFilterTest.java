@@ -62,18 +62,21 @@ public class PageviewFilterTest {
     }
 
     @Test
-    public void testValidMimeType() {
-        assertTrue(pageviewFilter.isValidMimeType(PageviewType.REGULAR, "text/html"));
+    public void testValidMimeType() throws MalformedURLException{
+        URL url = new URL("http://en.m.wikipedia.org/wiki/Earth");
+        assertTrue(pageviewFilter.isValidMimeType(url, "text/html"));
     }
 
     @Test
-    public void testValidMimeType2() {
-        assertTrue(pageviewFilter.isValidMimeType(PageviewType.REGULAR, "text/html; charset=UTF-8"));
+    public void testValidMimeType2() throws MalformedURLException {
+        URL url = new URL("http://en.m.wikipedia.org/wiki/Earth");
+        assertTrue(pageviewFilter.isValidMimeType(url, "text/html; charset=UTF-8"));
     }
 
     @Test
-    public void testInvalidMimeType() {
-        assertTrue(pageviewFilter.isValidMimeType(PageviewType.IMAGE, "image/png"));
+    public void testInvalidMimeType() throws MalformedURLException {
+        URL url = new URL("http://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/CC-BY-SA_icon.svg/100px-CC-BY-SA_icon.svg.png");
+        assertTrue(pageviewFilter.isValidMimeType(url, "image/png"));
     }
 
     @Test
@@ -91,9 +94,7 @@ public class PageviewFilterTest {
     public void testInvalidMobileApiPageview() throws MalformedURLException {
         URL url = new URL("http://en.m.wikipedia.org/w/api.php");
         URL referer = new URL("http://en.m.wikipedia.org");
-        PageviewType pageviewType = PageviewType.determinePageviewType(url);
-        PageviewType pageviewTypeReferer = PageviewType.determinePageviewType(referer);
-        assertTrue(pageviewFilter.isApiPageview(pageviewType, url, pageviewTypeReferer, referer));
+        assertTrue(pageviewFilter.isApiPageview(url, referer));
     }
 
     @Test
@@ -136,17 +137,13 @@ public class PageviewFilterTest {
     public void testRefersToSameArticle1() throws MalformedURLException {
         URL url = new URL("https://en.m.wikipedia.org/w/api.php?format=json&action=query&prop=langlinks&llurl=true&lllimit=max&titles=Tropical+cyclone");
         URL referer = new URL("https://en.m.wikipedia.org/wiki/Tropical_cyclone");
-        PageviewType pageviewTypeUrl = PageviewType.determinePageviewType(url);
-        PageviewType pageviewTypeReferer = PageviewType.determinePageviewType(referer);
-        assertFalse(pageviewFilter.refersToDifferentArticle(pageviewTypeUrl, url, pageviewTypeReferer, referer));
+        assertFalse(pageviewFilter.refersToDifferentArticle(url, referer));
     }
 
     @Test
     public void testRefersToSameArticle2() throws MalformedURLException {
         URL url = new URL("https://en.m.wikipedia.org/w/api.php?format=json&action=mobileview&page=Tornado&variant=en&redirects=yes&prop=sections%7Ctext&noheadings=yes&sectionprop=level%7Cline%7Canchor&sections=all");
         URL referer = new URL("https://en.m.wikipedia.org/wiki/Tropical_cyclone");
-        PageviewType pageviewTypeUrl = PageviewType.determinePageviewType(url);
-        PageviewType pageviewTypeReferer = PageviewType.determinePageviewType(referer);
-        assertTrue(pageviewFilter.refersToDifferentArticle(pageviewTypeUrl, url, pageviewTypeReferer, referer));
+        assertTrue(pageviewFilter.refersToDifferentArticle(url, referer));
     }
 }

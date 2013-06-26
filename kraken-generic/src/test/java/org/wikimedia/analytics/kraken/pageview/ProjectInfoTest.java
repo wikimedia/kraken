@@ -39,7 +39,8 @@ public class ProjectInfoTest {
             of("www.wikivoyage.org",              "wikivoyage.org",                  "",              "X"),
             of("www.wikimedia.com",               "wikimedia.com",                   "",              "X"),
             of("en.labs.wikimedia.org",           "labs.wikimedia.org",              "en",            "X"),
-            of("flaggedrevs.labs.wikimedia.org",  "flaggedrevs.labs.wikimedia.org",  "",              "X")
+            of("flaggedrevs.labs.wikimedia.org",  "flaggedrevs.labs.wikimedia.org",  "",              "X"),
+            of("127.0.0.1",                       "127.0.0.1",                       "",              "X")
         );
 
     static private String get(ImmutableList<String> test, int idx) {
