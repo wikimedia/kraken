@@ -18,11 +18,11 @@
     </controls>
 
     <datasets>
-        <dataset name="webrequest-wikipedia-mobile"
+        <dataset name="webrequest-mobile"
                 frequency="${coord:minutes(15)}"
                 initial-instance="${startTime}"
                 timezone="Universal">
-            <uri-template>hdfs:///wmf/raw/webrequest/webrequest-wikipedia-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
+            <uri-template>hdfs:///wmf/raw/webrequest/webrequest-mobile/dt=${YEAR}-${MONTH}-${DAY}_${HOUR}.${MINUTE}.00</uri-template>
         </dataset>
         <dataset name="output-dataset"
                 frequency="${coord:days(1)}"
@@ -33,7 +33,7 @@
     </datasets>
     
     <input-events>
-        <data-in name="INPUT" dataset="webrequest-wikipedia-mobile">
+        <data-in name="INPUT" dataset="webrequest-mobile">
             <!-- 96 15 minute intervals in 24, look at the last 97 to get any overlaps. -->
             <start-instance>${coord:current(-97)}</start-instance>
             <end-instance>${coord:current(0)}</end-instance>

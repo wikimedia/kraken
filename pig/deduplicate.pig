@@ -8,7 +8,7 @@ IMPORT 'include/load_webrequest.pig';
 
 LOG_FIELDS = LOAD_WEBREQUEST('$input');
 
-GROUPED = GROUP LOG_FIELDS BY (hostname,sequence,timestamp,bytes_sent);
+GROUPED = GROUP LOG_FIELDS BY (hostname,sequence,timestamp,bytes_sent,uri);
 
 FILTERED =  FOREACH GROUPED {
        LINE = LIMIT LOG_FIELDS 1;
