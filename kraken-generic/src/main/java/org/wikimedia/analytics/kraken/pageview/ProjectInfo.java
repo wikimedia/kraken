@@ -345,33 +345,41 @@ public class ProjectInfo {
      * @param hostname
      */
     public ProjectInfo(String hostname) {
-        this.hostname = fixVarnishNCSALoggingBug(hostname);
+        // TODO: The try clause should be much more specific,
+        // however due to time constraints this is the easy way to make
+        // it not error. When index is -1 it throws a ArrayIndexOutOfBoundsException
+        // not sure under what conditions this happens.
+        try {
+            this.hostname = fixVarnishNCSALoggingBug(hostname);
 
-        String[] domainParts = this.hostname.split("\\.");
-        List<String> projectParts = Lists.newArrayListWithExpectedSize(domainParts.length);
+            String[] domainParts = this.hostname.split("\\.");
+            List<String> projectParts = Lists.newArrayListWithExpectedSize(domainParts.length);
 
-        // Ignore SLD+TLD, as language/version are always before (andalso country TLDs look like languages)
-        for (int i = 0; i < domainParts.length - 2; i++) {
-            String part = domainParts[i];
-            if (part.equalsIgnoreCase("www")) {
-                continue;
-            } else if (language == null && LANGUAGES.contains(part)) {
-                language = part;
-            } else if (SITE_VERSIONS.containsKey(part)) {
-                siteVersion = SITE_VERSIONS.get(part);
-            } else {
-                projectParts.add(part);
+            // Ignore SLD+TLD, as language/version are always before (and also country TLDs look like languages)
+            for (int i = 0; i < domainParts.length - 2; i++) {
+                String part = domainParts[i];
+                if (part.equalsIgnoreCase("www")) {
+                    continue;
+                } else if (language == null && LANGUAGES.contains(part)) {
+                    language = part;
+                } else if (SITE_VERSIONS.containsKey(part)) {
+                    siteVersion = SITE_VERSIONS.get(part);
+                } else {
+                    projectParts.add(part);
+                }
             }
-        }
 
-        // Add SLD+TLD which we skipped above
-        if (domainParts.length > 1) {
-            projectParts.add(domainParts[domainParts.length - 2]);
-            projectParts.add(domainParts[domainParts.length - 1]);
-            projectDomain = Joiner.on('.').skipNulls().join(projectParts);
-        }
-        else {
-            projectDomain = Joiner.on('.').skipNulls().join(domainParts);
+            // Add SLD+TLD which we skipped above
+            if (domainParts.length > 1) {
+                projectParts.add(domainParts[domainParts.length - 2]);
+                projectParts.add(domainParts[domainParts.length - 1]);
+                projectDomain = Joiner.on('.').skipNulls().join(projectParts);
+            }
+            else {
+                projectDomain = Joiner.on('.').skipNulls().join(domainParts);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+                projectDomain = hostname;
         }
     }
 
