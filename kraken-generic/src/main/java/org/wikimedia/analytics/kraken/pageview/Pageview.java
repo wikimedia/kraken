@@ -56,7 +56,6 @@ public class Pageview {
     private boolean isMobileRequest;
     private boolean isSearchRequest;
     private PageviewType pageviewType;
-    private PageviewType pageviewTypeReferer;
     private PageviewFilter pageviewFilter;
     private PageviewCanonical pageviewCanonical;
     private ProjectInfo projectInfo;
@@ -85,13 +84,13 @@ public class Pageview {
         requestMethod = requestMethod == null ? "" : requestMethod;
 
         try {
-            this.url = new URL(url.toLowerCase());
+            this.url = new URL(url);
         } catch (MalformedURLException e) {
             this.url = null;
         }
 
         try {
-            this.referer = new URL(referer.toLowerCase());
+            this.referer = new URL(referer);
         }  catch (MalformedURLException e) {
             this.referer = null;
         }
@@ -107,59 +106,22 @@ public class Pageview {
         if (pageviewFilter == null || pageviewCanonical == null || cidrFilter == null) {
             pageviewFilter = new PageviewFilter();
             cidrFilter = new CidrFilter();
-            pageviewCanonical = new PageviewCanonical();
+            pageviewCanonical = new PageviewCanonical(this.url);
         }
     }
-
-
-
-    /**
-     *
-     * @return String containing the canonical title of the page visited
-     */
-//    public final void canonicalizeURL()  {
-//        switch (pageviewType) {
-//            case API:
-//                pageviewCanonical.canonicalizeApiRequest(url, pageviewType);
-//
-//            case REGULAR:
-//                pageviewCanonical.canonicalizeDesktopPageview(url, pageviewType);
-//
-//            case MOBILE:
-//                pageviewCanonical.canonicalizeMobilePageview(url, pageviewType);
-//
-//            case SEARCH:
-//                pageviewCanonical.canonicalizeSearchQuery(url, pageviewType);
-//
-//            case IMAGE:
-//                pageviewCanonical.canonicalizeImagePageview(url, pageviewType);
-//
-//            case BANNER:
-//                //TODO: not yet implemented
-//                break;
-//
-//            case BLOG:
-//                pageviewCanonical.canonicalizeBlogPageview(url, pageviewType);
-//                break;
-//
-//            default:
-//                break;
-//        }
-//    }
 
     /**
      * @See https://raw.github.com/wikimedia/metrics/master/pageviews/new_mobile_pageviews_report/pageview_definition.png
      * @return boolean indicating whether this webrequest should be counted as a pageview or not.
      */
     public final boolean isWikistatsMobileReportPageview() {
-        pageviewType = PageviewType.determinePageviewType(url);
-        pageviewTypeReferer = PageviewType.determinePageviewType(referer);
         return (isValidURL()
             && pageviewFilter.isValidResponseCode(statusCode)
             && pageviewFilter.isValidRequestMethod(requestMethod)
-            && pageviewFilter.isValidMimeType(pageviewType, mimeType)
-            && pageviewFilter.callPageviewHandler(pageviewType, url, pageviewTypeReferer, referer));
+            && pageviewFilter.isValidMimeType(url, mimeType)
+            && pageviewFilter.callPageviewHandler(url, referer));
     }
+
     /**
      * @See https://raw.github.com/wikimedia/metrics/master/pageviews/webstatscollector/pageview_definition.png
      * XXX: For now leave out project stuff
@@ -169,6 +131,7 @@ public class Pageview {
         return (isValidURL()
                 && this.url.getPath() != null
                 && this.url.getPath().contains("/wiki/")
+                && this.ipAddress != null
                 && (!cidrFilter.ipAddressFallsInRange(ipAddress))
                 && this.url.getHost().endsWith(".org"));
     }
@@ -178,17 +141,15 @@ public class Pageview {
      * @return true/false
      */
     public final boolean isPageview() {
-        pageviewType = PageviewType.determinePageviewType(url);
-        pageviewTypeReferer = PageviewType.determinePageviewType(referer);
         return (isValidURL()
                 && !getIsSearchRequest()
                 && pageviewFilter.isNotBitsOrUploadDomain(url)
-                && pageviewFilter.isValidMimeType(pageviewType, mimeType)
+                && pageviewFilter.isValidMimeType(url, mimeType)
                 && pageviewFilter.isValidResponseCode(statusCode)
                 && pageviewFilter.isValidRequestMethod(requestMethod)
                 && !cidrFilter.ipAddressFallsInRange(ipAddress)
                 && pageviewFilter.isValidUserAgent(userAgent)
-                && pageviewFilter.callPageviewHandler(pageviewType, url, pageviewTypeReferer, referer));
+                && pageviewFilter.callPageviewHandler(url, referer));
     }
 
     /**
