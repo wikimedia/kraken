@@ -20,15 +20,11 @@
 package org.wikimedia.analytics.kraken.pig;
 
 
-import com.google.common.io.LineReader;
 import org.apache.pig.pigunit.PigTest;
 import org.apache.pig.tools.parameters.ParseException;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 /**
  * Unit tests using the PigUnit library. It is very important to remember:
@@ -46,10 +42,10 @@ public class ComparePageviewDefinitionsTest {
 
         String fileName = "/testdata_desktop.csv";
 
-        String[] input = loadLocalWebRequestTestFile(fileName);
+        String[] input = LocalWebRequestTestFile.load(fileName);
 
         String[] output = {
-                "(1,5,1)"
+                "(1,5,2)"
         };
 
         test.assertOutput("log_fields", input, "grouped_counts", output);
@@ -62,33 +58,12 @@ public class ComparePageviewDefinitionsTest {
 
         String fileName = "/testdata_mobile.csv";
 
-        String[] input = loadLocalWebRequestTestFile(fileName);
+        String[] input = LocalWebRequestTestFile.load(fileName);
 
         String[] output = {
-                "(14,16,17)"
+                "(14,16,18)"
         };
 
         test.assertOutput("log_fields", input, "grouped_counts", output);
-    }
-
-    private String[] loadLocalWebRequestTestFile(final String fileName) throws IOException {
-        InputStream inputStream =
-                ComparePageviewDefinitionsTest.class.getResourceAsStream(fileName);
-        InputStreamReader reader = new InputStreamReader(inputStream);
-        LineReader lineReader = new LineReader(reader);
-
-        ArrayList<String> logLines = new ArrayList<String>();
-
-        while(true) {
-            String logLine = lineReader.readLine();
-            if (logLine != null) {
-                logLines.add(logLine + "\\n");
-            } else {
-                break;
-            }
-        }
-
-        String[] input = new String[logLines.size()];
-        return logLines.toArray(input);
     }
 }

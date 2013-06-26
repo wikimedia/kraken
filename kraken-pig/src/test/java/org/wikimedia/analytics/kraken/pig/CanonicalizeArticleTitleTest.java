@@ -20,11 +20,15 @@
 
 package org.wikimedia.analytics.kraken.pig;
 
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,6 +41,25 @@ public class CanonicalizeArticleTitleTest {
     private Tuple output;
 
     private CanonicalizeArticleTitle canonicalizeArticleTitle = new CanonicalizeArticleTitle();
+
+    @Test
+    public void testSemiColonInUri() throws URISyntaxException, MalformedURLException {
+        // A bug in Apache HttpComponents 4.0.x means
+        // that it is not properly handling semicolons to separate key/values
+        // in a query String. The solution is to replace the semicolon with an
+        // ampersand.
+
+        String urlString = "http://m.heise.de/newsticker/meldung/TomTom-baut-um-1643641.html?mrw_channel=ho;mrw_channel=ho;from-classic=1";
+        URL url = new URL(urlString.replace(";", "&"));
+        URLEncodedUtils.parse(url.toURI(), "utf-8");
+    }
+
+    @Test
+    public void test()  throws URISyntaxException, MalformedURLException {
+        //URL url = new URL("http://en.wikipedia.org/w/index.php?search=symptoms+of+vitamin+d+deficiency&title=Special%3ASearch");
+        URL url = new URL("http://en.wikipedia.org/w/index.php?");
+        URLEncodedUtils.parse(url.toURI(), "utf-8");
+    }
 
     @Test
     public void testSimpleTitle() throws IOException {
