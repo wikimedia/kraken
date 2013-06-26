@@ -69,21 +69,21 @@ import org.wikimedia.analytics.kraken.pageview.Pageview;
  * </code>
  */
 public class PageViewFilterFunc extends FilterFunc {
-    private String modus = null;
+    private String mode = null;
 
     /**
      *
      */
     public PageViewFilterFunc() {
-        this.modus = "default";
+        this.mode = "default";
     }
 
     /**
      *
-     * @param modus
+     * @param mode
      */
-    public PageViewFilterFunc(final String modus) {
-        this.modus = modus;
+    public PageViewFilterFunc(final String mode) {
+        this.mode = mode;
     }
     /**
      *
@@ -105,11 +105,11 @@ public class PageViewFilterFunc extends FilterFunc {
         String requestMethod = (input.get(6) != null ? (String) input.get(6) : "-");
 
         Pageview pageview = new Pageview(url, referer, userAgent, statusCode, ip, mimeType, requestMethod);
-        if (modus.equals("default")) {
+        if (mode.equals("default")) {
             return pageview.isPageview();
-        } else if (modus.equals("webstatscollector")) {
+        } else if (mode.equals("webstatscollector")) {
             return pageview.isWebstatscollectorPageview();
-        } else if (modus.equals("wikistats")) {
+        } else if (mode.equals("wikistats")) {
             return pageview.isWikistatsMobileReportPageview();
         } else {
             throw new RuntimeException(

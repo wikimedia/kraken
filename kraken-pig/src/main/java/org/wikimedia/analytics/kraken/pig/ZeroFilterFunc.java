@@ -105,7 +105,7 @@ public class ZeroFilterFunc extends FilterFunc {
         xCSCarrierMap.put("405-0*", "zero-tata-india"); // Tata
         xCSCarrierMap.put("470-01", "zero-grameenphone-bangladesh"); // Grameenphone Bangladesh
         xCSCarrierMap.put("604-00", "zero-orange-morocco"); // Orange Meditel Morocco
-        xCSCarrierMap.put("623-01", "zero-orange-central-african-republic"); // Orange Central African Republic
+        xCSCarrierMap.put("623-03", "zero-orange-central-african-republic"); // Orange Central African Republic
         // Carriers without specific filtering logic
         xCSCarrierMap.put("639-02", "default"); // Safaricom Kenya
     }

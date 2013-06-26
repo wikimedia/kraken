@@ -20,13 +20,8 @@ package org.wikimedia.analytics.kraken.pageview;
 
 
 import com.google.common.net.MediaType;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.List;
-import java.util.ListIterator;
 
 
 
@@ -35,7 +30,11 @@ import java.util.ListIterator;
  */
 public class PageviewFilter {
 
-    private Charset charset = Charset.defaultCharset();
+
+    private PageviewCanonical pageviewCanonicalTitle;
+
+    private PageviewCanonical pageviewCanonicalReferer;
+
     /**
      *
      */
@@ -58,16 +57,14 @@ public class PageviewFilter {
 
     /**
      *
-     * @param pageviewTypeUrl
      * @param url
-     * @param pageviewTypeReferer
      * @param referer
      */
-    public final boolean callPageviewHandler(final PageviewType pageviewTypeUrl, final URL url,
-                                     final PageviewType pageviewTypeReferer, final URL referer) {
-        switch (pageviewTypeUrl) {
+    public final boolean callPageviewHandler(final URL url, final URL referer) {
+        PageviewType pageviewType = PageviewType.determinePageviewType(url);
+        switch (pageviewType) {
             case API:
-                return isApiPageview(pageviewTypeUrl, url, pageviewTypeReferer, referer);
+                return isApiPageview(url, referer);
 
             case REGULAR:
                 return isValidRegularPageview(url);
@@ -83,29 +80,28 @@ public class PageviewFilter {
      * @return
      */
     public final boolean isValidRegularPageview(final URL url) {
-       if (url.getPath().contains("/wiki/")
-                || url.getPath().contains("/w/index.php?")) {
-            return true;
-        }
-        return false;
+        return (url.getPath().contains("/wiki/")
+                || url.getPath().contains("/w/index.php"));
+//        if (url.getPath().contains("/wiki/")
+//                || url.getPath().contains("/w/index.php")) {
+//            return true;
+//        }
+//        return false;
     }
 
     /**
-     * @param pageviewTypeUrl
      * @param url
-     * @param pageviewTypeReferer
      * @param referer
      * @return true/false
      */
-    public final boolean isApiPageview(final PageviewType pageviewTypeUrl, final URL url,
-                                       final PageviewType pageviewTypeReferer, final URL referer) {
+    public final boolean isApiPageview(final URL url, final URL referer) {
         boolean resultMainRequest = isApiPageviewRequest(url);
         if (referer == null) {
             return resultMainRequest;
         } else {
             boolean resultRefererRequest = isApiPageviewRequest(referer);
             if (resultRefererRequest) {
-                return refersToDifferentArticle(pageviewTypeUrl, url, pageviewTypeReferer,  referer);
+                return refersToDifferentArticle(url, referer);
             } else {
                 return true;
             }
@@ -125,92 +121,35 @@ public class PageviewFilter {
                     || url.getQuery().contains("action=query")));
     }
 
-    /**
-     *
-     * @param url
-     * @param pageviewType
-     * @return
-     */
-    private String extractTitle(final URL url, final PageviewType pageviewType) {
-        String title = null;
-        if (pageviewType.equals(PageviewType.API)) {
-            title = extractMediawikiApiTitle(url);
-        } else {
-            title = extractMediawikiRegularTitle(url);
-        }
-        return title;
-    }
+
 
     /**
      *
      * @param url
-     * @return
-     */
-    private String extractMediawikiRegularTitle(final URL url) {
-        String title = null;
-        if (url != null && url.getPath() != null) {
-            title = url.getPath().replaceAll("/wiki/", "");
-        }
-        return title;
-    }
-
-    /**
-     *
-     * @param url
-     * @return
-     */
-    private String extractMediawikiApiTitle(final URL url) {
-        String title = null;
-        if (url != null && url.getQuery() != null) {
-            List<NameValuePair> qparams = URLEncodedUtils.parse(url.getQuery(), charset);
-            ListIterator<NameValuePair> it = qparams.listIterator();
-            while (it.hasNext()) {
-                NameValuePair nvp = it.next();
-                if (nvp.getName().equals("page") || nvp.getName().equals("titles")) {
-                    title = convertApiTitleToRegularArticleTitle(nvp.getValue());
-                    break;
-                }
-            }
-        }
-        return title;
-    }
-
-    /**
-     *
-     * @param apiTitle
-     * @return
-     */
-    private String convertApiTitleToRegularArticleTitle(final String apiTitle) {
-        return apiTitle.replaceAll(" ", "_");
-    }
-
-    /**
-     *
-     * @param pageviewTypeUrl
-     * @param url
-     * @param pageviewTypeReferer
      * @param referer
      * @return
      */
-    public final boolean refersToDifferentArticle(final PageviewType pageviewTypeUrl, final URL url,
-                                                  final PageviewType pageviewTypeReferer, final URL referer) {
-        String urlTitle = extractTitle(url, pageviewTypeUrl);
-        String refererTitle = extractTitle(referer, pageviewTypeReferer);
+    public final boolean refersToDifferentArticle(final URL url, final URL referer) {
+        pageviewCanonicalTitle = new PageviewCanonical(url);
+        pageviewCanonicalReferer = new PageviewCanonical(referer);
+        pageviewCanonicalTitle.canonicalize("default");
+        pageviewCanonicalReferer.canonicalize("default");
 
-        if (urlTitle == null || refererTitle == null) {
+        if (pageviewCanonicalTitle.getArticleTitle() == null || pageviewCanonicalReferer.getArticleTitle() == null) {
             return true;
         } else {
-            return urlTitle.equals(refererTitle) ? false : true;
+            return pageviewCanonicalTitle.getArticleTitle().equals(pageviewCanonicalReferer.getArticleTitle()) ? false : true;
         }
     }
 
     /**
      *
-     * @param pageviewType
+     * @param url
      * @param mimeType
      * @return
      */
-    public final boolean isValidMimeType(final PageviewType pageviewType, final String mimeType) {
+    public final boolean isValidMimeType(final URL url, final String mimeType) {
+        PageviewType pageviewType = PageviewType.determinePageviewType(url);
         MediaType mediaType;
         try {
              mediaType = MediaType.parse(mimeType);

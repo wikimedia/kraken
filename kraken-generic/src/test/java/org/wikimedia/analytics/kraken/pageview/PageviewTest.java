@@ -393,7 +393,7 @@ public class PageviewTest {
         pageview = new Pageview(url, referer, userAgent, statusCode, ipAddress, mimeType, requestMethod);
         assertFalse(pageview.isPageview());
         assertFalse(pageview.isWebstatscollectorPageview());
-        assertFalse(pageview.isWikistatsMobileReportPageview());
+        assertTrue(pageview.isWikistatsMobileReportPageview());
     }
 
     @Test

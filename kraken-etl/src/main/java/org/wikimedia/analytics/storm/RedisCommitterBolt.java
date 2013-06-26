@@ -91,7 +91,8 @@ public class RedisCommitterBolt implements IRichBolt {
             String timestamp = parseTimestamp(tuple.getString(2));
             //TODO: canonicalize no longer exists pageview.canonicalizeURL();
             //TODO: this needs to be refined.
-            String key = pageview.getPageviewCanonical().getLanguage() + pageview.getPageviewCanonical().getProject() + pageview.getPageviewCanonical().getArticleTitle();
+            //TODO: right now all titles across projects are piled together, not good.
+            String key = pageview.getPageviewCanonical().getArticleTitle();
             jedis.hincrBy(key, timestamp, 1);
         }
     }

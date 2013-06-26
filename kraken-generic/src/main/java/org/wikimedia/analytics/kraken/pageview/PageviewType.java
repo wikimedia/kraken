@@ -54,7 +54,7 @@ public enum PageviewType {
      */
     public static final PageviewType determinePageviewType(final URL url) {
         if (url != null) {
-            if (url.getQuery() != null && url.getQuery().contains("bannerloader")) {
+            if (url.getQuery() != null && url.getQuery().contains("BannerLoader")) {
                 return PageviewType.BANNER;
             } else if (url.getPath().contains("api.php")) {
                 return PageviewType.API;
@@ -62,6 +62,9 @@ public enum PageviewType {
                 return PageviewType.REGULAR;
             } else if (url.getPath().contains("/w/index.php")) {
                 return PageviewType.REGULAR;
+            } else if (url.getHost().contains("upload") && url.getPath().contains("thumb")) {
+                //TODO: More image formats need to be supported but there are no use cases yet.
+                return PageviewType.IMAGE;
             } else if (url.getHost().contains("wikimediafoundation") && url.getPath().contains("blog")) {
                 return PageviewType.BLOG;
             } else {
