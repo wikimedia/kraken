@@ -86,7 +86,7 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
 
     /**
      *
-     * @param tuple containing url
+     * @param input containing url
      * @return (language, project, site_version)
      * @throws ExecException
      */
@@ -95,19 +95,17 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
             return null;
         }
 
+        output = tupleFactory.newTuple(3);
         try {
             url = new URL((String) input.get(0));
+
+            ProjectInfo projectInfo = new ProjectInfo(url.getHost());
+            output.set(0, projectInfo.getLanguage());
+            output.set(1, projectInfo.getProjectDomain());
+            output.set(2, projectInfo.getSiteVersion());
         } catch (MalformedURLException e) {
             return null;
         }
-
-        ProjectInfo projectInfo = new ProjectInfo(url.getHost());
-
-        output = tupleFactory.newTuple(3);
-        output.set(0, projectInfo.getLanguage());
-        output.set(1, projectInfo.getProjectDomain());
-        output.set(2, projectInfo.getSiteVersion());
-
         return output;
     }
 
