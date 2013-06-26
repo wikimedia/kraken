@@ -18,12 +18,17 @@
  */
 package org.wikimedia.analytics.kraken.pageview;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.ListIterator;
 
 
 /**
@@ -31,33 +36,143 @@ import java.util.regex.Pattern;
  * of the page.
  */
 public class PageviewCanonical {
-    private StringBuilder sb;
-    private Pattern action = Pattern.compile("action=[a-z]*");
-    private Matcher matcher;
 
-    private String language;
+    private Charset charset = Charset.defaultCharset();
+
+    private URL url;
+
+    private PageviewType pageviewType;
+
     private String articleTitle;
-    private String project;
-    private String query;
+
+    /**
+     *
+     * @param url
+     */
+    public PageviewCanonical(final URL url) {
+        this.url = url;
+        pageviewType = PageviewType.determinePageviewType(url);
+    }
+
+    /**
+     *
+     */
+    public final void canonicalize(final String mode) {
+        switch (pageviewType) {
+
+            case API:
+                extractMediawikiApiTitle(mode);
+
+            case REGULAR:
+                extractMediawikiRegularTitle(mode);
+
+            case BLOG:
+                canonicalizeBlogPageview();
+
+            case IMAGE:
+                canonicalizeImagePageview();
+
+            case BANNER:
+                break;
+
+            case SEARCH:
+                canonicalizeSearchQuery();
+
+            case OTHER:
+                break;
+
+            case NONE:
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    private void extractMediawikiRegularTitle(final String mode) {
+        if (url != null && url.getPath() != null) {
+            if (url.getPath().contains("/wiki/")) {
+                this.articleTitle = url.getPath().replaceAll("/wiki/", "");
+            } else if (url.getQuery() != null && url.getPath().contains("index.php")) {
+                String[] keys = {"title"};
+                if (mode.equals("default")) {
+                    this.articleTitle = searchQueryAction(keys);
+                } else {
+                 this.articleTitle = url.getPath();
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param url
+     * @return
+     * @throws MalformedURLException
+     */
+    private URL fixApacheHttpComponentBug(final URL url) throws MalformedURLException {
+        return new URL(url.toString().replace(";", "&"));
+    }
+
+    /**
+     * Enter one or more keys to search for, this list of keys is
+     * interpreted as key1 or key2; this function is not intended
+     * to retrieve the values of multiple keys. In that case,
+     * call this function multiple times.
+     * @param keys
+     * @return
+     */
+    private String searchQueryAction(final String[] keys) {
+        try {
+            URL pURL = fixApacheHttpComponentBug(url);
+
+            List<NameValuePair> qparams = URLEncodedUtils.parse(pURL.toURI(), "utf-8");
+            ListIterator<NameValuePair> it = qparams.listIterator();
+            while (it.hasNext()) {
+                NameValuePair nvp = it.next();
+                for (String key : keys) {
+                    if (nvp.getName().equals(key)) {
+                        return nvp.getValue();
+                    }
+                }
+            }
+        } catch (URISyntaxException e) {
+            return "key.not.found";
+        } catch (MalformedURLException e) {
+            return "malformed.url";
+        }
+        return "key.not.found";
+    }
+
+    /**
+     * @return
+     */
+    private void extractMediawikiApiTitle(final String mode) {
+        if (url != null && url.getQuery() != null) {
+                if (mode.equals("default")) {
+                    String[] keys = {"page", "titles"};
+                    String tempTitle = searchQueryAction(keys);
+                    this.articleTitle = convertApiTitleToRegularArticleTitle(tempTitle);
+                } else {
+                    this.articleTitle = url.getPath();
+                }
+            }
+        }
 
 
     /**
      *
-     * @param titleInput an UTF-8 encoded String containing the article title
-     * @return the decoded article title
-     * @throws UnsupportedEncodingException
+     * @param apiTitle
+     * @return
      */
-    private String decodeURL(final String titleInput)  {
-        String title = null;
-        try {
-            title = URLDecoder.decode(titleInput, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            // do nothing, this will never happen
-        } catch (IllegalArgumentException e) {
-            return titleInput;
-        }
-        return title;
+    private String convertApiTitleToRegularArticleTitle(final String apiTitle) {
+        return apiTitle.replaceAll(" ", "_");
     }
+
     /**
      * This function is specifically written for PageviewType.IMAGE pageviews.
      * @param url
@@ -92,60 +207,17 @@ public class PageviewCanonical {
 
     /**
      *
-     * @param url
-     * @parm pageviewType
      * @return
      */
-    public final void canonicalizeDesktopPageview(final URL url, final PageviewType pageviewType) {
-        String titleInput = url.getPath().replace("/wiki/", "");
-        this.articleTitle = decodeURL(titleInput);
-    }
-
-    /**
-     *
-     * @param url
-     * @parm pageviewType
-     * @return
-     */
-    public final void canonicalizeMobilePageview(final URL url, final PageviewType pageviewType) {
-        String titleInput = url.getPath().replace("/wiki/", "");
-        this.articleTitle = decodeURL(titleInput);
-    }
-
-    /**
-     *
-     * @param url
-     * @return
-     */
-    public final void canonicalizeApiRequest(final URL url, final PageviewType pageviewType) {
-        if (url.getQuery() != null) {
-            try {
-                 this.query = action.matcher(url.getQuery()).group(0);
-            } catch (IllegalStateException e) {
-                this.query = "unknown.api.action";
-            }
-        } else {
-            this.query = "unknown.api.action";
-        }
-    }
-
-    /**
-     *
-     * @param url
-     * @parm pageviewType
-     * @return
-     */
-    public final void canonicalizeBlogPageview(final URL url, final PageviewType pageviewType) {
+    private void canonicalizeBlogPageview() {
         //TODO not yet implemented
     }
 
     /**
      *
-     * @param url
-     * @parm pageviewType
      * @return
      */
-    public final void canonicalizeSearchQuery(final URL url, final PageviewType pageviewType) {
+    private void canonicalizeSearchQuery() {
         //TODO not yet implemented
     }
 
@@ -153,20 +225,11 @@ public class PageviewCanonical {
      * This function canonicalizes an imageview as follows:
      * Given thumbail view https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Acueducto_de_Segovia_01.jpg/600px-Acueducto_de_Segovia_01.jpg
      * that becomes upload Acueducto_de_Segovia_01.jpg
-     * @param url
-     * @parm pageviewType
      * @return
      */
-    public final void canonicalizeImagePageview(final URL url, final PageviewType pageviewType) {
+    public final void canonicalizeImagePageview() {
+        //TODO implementation not yet finished.
         String path = parsePath(url);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public final String getLanguage() {
-        return language;
     }
 
     /**
@@ -175,21 +238,5 @@ public class PageviewCanonical {
      */
     public final String getArticleTitle() {
         return articleTitle;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public final String getProject() {
-        return project;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public final String getQuery() {
-        return query;
     }
 }
