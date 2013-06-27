@@ -1,0 +1,87 @@
+#!/usr/bin/env python
+"""Time Buckets webrequest HDFS data.
+
+Usage:
+  time-bucket [options] <input> <output> <time_bucket_interval>
+
+Arguments:
+  <input>                   HDFS path to input data
+  <output>                  HDFS path to where time bucket directories will be created and data stored
+  <time_bucket_interval>    Size of time bucket in minutes.  60 would be an hourly bucket
+
+Options:
+  -h --help                 show this help message and exit
+
+Examples:
+  
+  Time bucket webrequest-mobile data into 15 minute intervals:
+    time-bucket /wmf/raw/webrequest/webrequest-mobile /wmf/raw/webreqest/webrequest-mobile/bucketed 15
+
+"""
+
+from docopt import docopt
+import sys
+import os
+from os.path import dirname, basename
+import subprocess
+import datetime
+
+pig_script = dirname(dirname(dirname(os.path.abspath(__file__)))) + '/pig/time_bucket.pig'
+
+def sh(command):
+    print(command)
+    return subprocess.check_output(command, shell=True)
+
+def hdfs_directories(hdfs_path):
+    """Returns a list of hdfs directories in hdfs_path"""
+    hadoop_cmd = 'hadoop fs -ls'
+    if '*' in hdfs_path:
+        hadoop_cmd += ' -d'
+    dirs = sh("%s %s | sed -e '1d' | grep -vP '^Found .+ items' | awk '{print $NF}'" % (hadoop_cmd, hdfs_path)).strip(' \t\n\r').split('\n')
+    dirs.sort()
+    return dirs
+
+def hdfs_path_to_datetime(hdfs_path, format='%Y-%m-%d_%H.%M.%S'):
+    """Returns a datetime object based on the timestamp in the given HDFS path."""
+    return datetime.datetime.strptime(basename(hdfs_path)[3:], format)
+
+
+def get_directory_time_bounds(hdfs_directories):
+    """Gets lower and upper timestamp bounds out of hdfs directory paths. Returns a tuple of datetime objects."""
+    return (hdfs_path_to_datetime(hdfs_directories[0]), hdfs_path_to_datetime(hdfs_directories[-1]))
+
+def get_next_time_bound(current_time, time_bucket_interval):
+    return current_time + datetime.timedelta(minutes=int(time_bucket_interval))
+
+def time_bucket(input_path, output_path, lower_time_bound, upper_time_bound):
+    
+    output_path += '/dt=' + lower_time_bound.strftime('%Y-%m-%d_%H.%M.%S')
+    command = "sudo -u hdfs pig -f %s -p input=%s -p output=%s -p lower_time_bound=%s -p upper_time_bound=%s" % (pig_script, input_path, output_path, lower_time_bound.strftime('%Y-%m-%d_%H.%M.%S'), upper_time_bound.strftime('%Y-%m-%d_%H.%M.%S'))
+    print("Processing input for time_bucket %s through %s" % (lower_time_bound.strftime('%Y-%m-%d_%H.%M.%S'), upper_time_bound.strftime('%Y-%m-%d_%H.%M.%S')))
+    sh(command)
+
+def time_bucket_all(input_path, output_path, time_bucket_interval):
+    dirs = hdfs_directories(input_path)
+    (start_time, end_time) = get_directory_time_bounds(dirs)
+    
+    lower_time_bound = start_time
+    while (lower_time_bound <= end_time):
+        upper_time_bound = get_next_time_bound(lower_time_bound, time_bucket_interval)
+        time_bucket(input_path, output_path, lower_time_bound, upper_time_bound)
+        lower_time_bound = upper_time_bound
+    
+    
+ 
+if __name__ == '__main__':
+    # parse arguments
+    arguments = docopt(__doc__)
+    
+    # set options
+    input_path           = arguments['<input>']
+    output_path          = arguments['<output>']
+    time_bucket_interval = arguments['<time_bucket_interval>']
+    
+    print("Time bucketing all data in %s into %s minute intervals, storing output at %s..." % (input_path, output_path, time_bucket_interval))
+    time_bucket_all(input_path, output_path, time_bucket_interval)
+
+    
