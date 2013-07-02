@@ -77,6 +77,7 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("zero-grameenphone-bangladesh", new ZeroConfig("Bangladesh", "Grameenphone", createStartDate(2000, 1, 1), false, true, new String[] {"bn", ""}, null));
         config.put("zero-orange-morocco", new ZeroConfig("Morocco", "Orange Meditel", createStartDate(2000, 1, 1), true, false, new String[] {"fr", "ar", "en", "es", "de", "it", "nl", "pt", "ru", "zh", ""}, null));
         config.put("zero-orange-central-african-republic", new ZeroConfig("Central African Republic", "Orange", createStartDate(2000, 1, 1), true, false, new String[] {"fr", "ar", "sg", "en", "es", "zh", "ha", "ln", "eo", ""}, null));
+        config.put("zero-aircel-india", new ZeroConfig("India", "Aircel", createStartDate(2013, 6, 1), true, true, new String[] {"en", "hi", "ta"}, null));
 
         // add a default setting in case we cannot find a carrier
         config.put("default", new ZeroConfig("default", "default", createStartDate(2000, 0, 1), true, true, new String[] {}, null));
