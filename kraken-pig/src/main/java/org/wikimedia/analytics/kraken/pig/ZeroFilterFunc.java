@@ -55,6 +55,7 @@ public class ZeroFilterFunc extends FilterFunc {
         this.config = new HashMap<String, ZeroConfig>();
 
         // Information is obtained from https://wikimediafoundation.org/wiki/Mobile_partnerships
+        // see also the Zero namespace on meta: http://meta.wikimedia.org/wiki/Zero:410-01 for example
         config.put("zero-orange-uganda", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 12), true, false, new String[] {"en", "fr", "ko", "de", "zh", "sw", "rw", "ar", "hi", "es", ""}, null));
         config.put("zero-orange-tunesia", new ZeroConfig("Tunisia", "Orange", createStartDate(2012, 3, 24), true, false, new String[] {"ar", "en", "fr", "es", "de", "it", "ru", "jp", "zh", ""}, null));
         config.put("zero-digi-malaysia", new ZeroConfig("Malaysia", "Digi", createStartDate(2012, 4, 21), false, true, new String[] {}, new String[] {"opera"}));
