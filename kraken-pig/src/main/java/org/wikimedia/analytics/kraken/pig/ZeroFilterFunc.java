@@ -55,6 +55,7 @@ public class ZeroFilterFunc extends FilterFunc {
         this.config = new HashMap<String, ZeroConfig>();
 
         // Information is obtained from https://wikimediafoundation.org/wiki/Mobile_partnerships
+        // see also the Zero namespace on meta: http://meta.wikimedia.org/wiki/Zero:410-01 for example
         config.put("zero-orange-uganda", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 12), true, false, new String[] {"en", "fr", "ko", "de", "zh", "sw", "rw", "ar", "hi", "es", ""}, null));
         config.put("zero-orange-tunesia", new ZeroConfig("Tunisia", "Orange", createStartDate(2012, 3, 24), true, false, new String[] {"ar", "en", "fr", "es", "de", "it", "ru", "jp", "zh", ""}, null));
         config.put("zero-digi-malaysia", new ZeroConfig("Malaysia", "Digi", createStartDate(2012, 4, 21), false, true, new String[] {}, new String[] {"opera"}));
@@ -77,6 +78,7 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("zero-grameenphone-bangladesh", new ZeroConfig("Bangladesh", "Grameenphone", createStartDate(2000, 1, 1), false, true, new String[] {"bn", ""}, null));
         config.put("zero-orange-morocco", new ZeroConfig("Morocco", "Orange Meditel", createStartDate(2000, 1, 1), true, false, new String[] {"fr", "ar", "en", "es", "de", "it", "nl", "pt", "ru", "zh", ""}, null));
         config.put("zero-orange-central-african-republic", new ZeroConfig("Central African Republic", "Orange", createStartDate(2000, 1, 1), true, false, new String[] {"fr", "ar", "sg", "en", "es", "zh", "ha", "ln", "eo", ""}, null));
+        config.put("zero-aircel-india", new ZeroConfig("India", "Aircel", createStartDate(2013, 6, 1), true, true, new String[] {"en", "hi", "ta"}, null));
 
         // add a default setting in case we cannot find a carrier
         config.put("default", new ZeroConfig("default", "default", createStartDate(2000, 0, 1), true, true, new String[] {}, null));
