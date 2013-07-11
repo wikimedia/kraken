@@ -1,5 +1,6 @@
 <workflow-app xmlns="uri:oozie:workflow:0.4"
-        name="coalesce-wf">
+              xmlns:xi="http://www.w3.org/2001/XInclude"
+              name="coalesce-wf">
     
     <parameters>
         <property>
@@ -99,7 +100,8 @@
     </action>
     
     <kill name="kill">
-        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+        <xi:include href="../../include/send-error-notification.xml" />
+        <!-- <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message> -->
     </kill>
     <end name="end"/>
 </workflow-app>

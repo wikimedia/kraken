@@ -1,0 +1,9 @@
+<action name="sendErrorNotifications">
+    <email xmlns="uri:oozie:email-action:0.1">
+        <to>dvanliere@wikimedia.org</to>
+        <subject>[OOZIE] Job execution failed ${wf:id()}</subject>
+        <body>Job execution failed, error message: [${wf:errorMessage(wf:lastErrorNode())}]</body>
+    </email>
+    <ok to="fail" />
+    <error to="fail" />
+</action>
