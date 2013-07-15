@@ -27,14 +27,13 @@ import org.apache.pig.PigWarning;
 import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
+import org.apache.pig.impl.logicalLayer.FrontendException;
 import org.wikimedia.analytics.kraken.schemas.JsonToClassConverter;
 import org.wikimedia.analytics.kraken.schemas.MccMnc;
 import org.wikimedia.analytics.kraken.schemas.Schema;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**
@@ -132,11 +131,15 @@ public class Zero extends EvalFunc<Tuple> {
             throw new RuntimeException(e);
         }
 
-
-        List<org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema> fields = new ArrayList<org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema>();
-        // Carrier and ISO country are chararrays
-        fields.add(new org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema(null, DataType.CHARARRAY));
-        fields.add(new org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema(null, DataType.CHARARRAY));
-        return new org.apache.pig.impl.logicalLayer.schema.Schema(fields);
+        org.apache.pig.impl.logicalLayer.schema.Schema tupleSchema = new org.apache.pig.impl.logicalLayer.schema.Schema();
+        tupleSchema.add(new org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema("carrier", DataType.CHARARRAY));
+        tupleSchema.add(new org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema("iso", DataType.CHARARRAY));
+        org.apache.pig.impl.logicalLayer.schema.Schema ret;
+        try {
+          ret = new org.apache.pig.impl.logicalLayer.schema.Schema(new org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema(null,tupleSchema, DataType.TUPLE));
+        } catch (FrontendException e) {
+          throw new RuntimeException(e);
+        }
+        return ret;
     }
 }
