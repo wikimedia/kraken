@@ -23,13 +23,12 @@ import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
+import org.apache.pig.impl.logicalLayer.FrontendException;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.wikimedia.analytics.kraken.pageview.ProjectInfo;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Entry point for the Pig UDF class that uses the Pageview filter logic.
@@ -135,10 +134,16 @@ public class PageViewEvalFunc extends EvalFunc<Tuple> {
             throw new RuntimeException(e);
         }
 
-        List<Schema.FieldSchema> fields = new ArrayList<Schema.FieldSchema>();
-        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));   // language
-        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));   // project
-        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));   // site_version
-        return new Schema(fields);
+        Schema tupleSchema = new Schema();
+        tupleSchema.add(new Schema.FieldSchema("language", DataType.CHARARRAY));
+        tupleSchema.add(new Schema.FieldSchema("project", DataType.CHARARRAY));
+        tupleSchema.add(new Schema.FieldSchema("site_version", DataType.CHARARRAY));
+        Schema ret;
+        try {
+          ret = new Schema(new Schema.FieldSchema("page_view", tupleSchema, DataType.TUPLE));
+        } catch (FrontendException e) {
+          throw new RuntimeException(e);
+        }
+        return ret;
     }
 }
