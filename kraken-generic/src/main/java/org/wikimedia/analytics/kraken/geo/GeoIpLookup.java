@@ -209,7 +209,9 @@ public class GeoIpLookup {
     }
 
     /**
-     *
+     * Gets the location for an Ip address.
+     * <p>
+     * For IPv6 addresses, only countryCode and countryName are set.
      * @param ip
      * @return location object
      */
@@ -221,7 +223,24 @@ public class GeoIpLookup {
                 location = ip4Lookup.getLocation(ip);
                 break;
             case 6:
-                location = ip6Lookup.getLocationV6(ip);
+                // Since we do not have access to a GeoIPCityv6.dat, we cannot
+                // determine the Location for IPv6 addresses.
+                // Trying to call
+                //
+                //   location = ip6Lookup.getLocation(ip);
+                //
+                // with only GeoIPv6.dat results in
+                //   IO Exception while seting up segments
+                // errors. However, we have access to GeoIPv6.dat which allows
+                // to at least get the country information. As some pig scripts
+                // rely on doGeoLookup (e.g.: pig/pageviews.pig), to arrive at
+                // a countryCode, we do the best we can to get transparent
+                // handling of that use case, and at least fill the
+                // country fields in the returned Location instance.
+                location = new Location();
+                com.maxmind.geoip.Country country = ip6Lookup.getCountryV6(ip);
+                location.countryCode = country.getCode();
+                location.countryName = country.getName();
                 break;
             default:
                 break;

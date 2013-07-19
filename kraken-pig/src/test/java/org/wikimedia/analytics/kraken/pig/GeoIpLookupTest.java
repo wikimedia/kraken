@@ -143,4 +143,18 @@ public class GeoIpLookupTest {
         String countryCode = (String) output.get(0);
         assertEquals("IN", countryCode);
     }
+
+    /**
+     * Test country code for IPv6 address
+     * @throws IOException
+     */
+    @Test
+    public void testIpv6CountryCode() throws IOException {
+        GeoIpLookupEvalFunc geo = new GeoIpLookupEvalFunc("countryCode", "GeoIPCity", "LOCAL");
+        this.input.set(0, "2001:ab0:abcd:1234::2222"); // Arbitrary IPv6 address in Germany
+        Tuple output = geo.exec(this.input);
+        assertNotNull("Returned tuple is null", output);
+        assertEquals("Returned tuple element cound does not contain match", 1, output.size());
+        assertEquals("Returned tuple's value does not match", "DE", output.get(0));
+    }
 }
