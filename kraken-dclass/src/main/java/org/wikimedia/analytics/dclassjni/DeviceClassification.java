@@ -21,6 +21,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 
+import dclass.dClass;
+
+
 /**
  * The class dClassParsedResult. This class is a mapping of the results from
  * dclass_keyvalue data structure to a Java data structure :)
@@ -40,12 +43,12 @@ import java.util.Map;
  *
  */
 public class DeviceClassification {
-
+    public final static String dtree_path = "/usr/share/libdclass/openddr.dtree";
     /**
      * Only initialize the dClass JNI wrapper on-demand (and only once),
      * as doing so loads 2+ MB of dtree data into memory from disk.
      */
-    private static boolean isDClassInitialized = false;
+
 
     /**
      * Wrapper subclass to release the dtree data when the singleton is
@@ -53,24 +56,11 @@ public class DeviceClassification {
      * happen without imminent JVM termination, such as in IOC containers,
      * like Spring).
      */
-    final private static DclassWrapper dClass = new DclassWrapper() {
-        @Override
-        protected void finalize() {
-            if (isDClassInitialized) destroyUA();
-        }
-    };
+    final private static dClass dClass = new dClass(dtree_path);
 
-    /**
-     * Initializing the dClass JNI wrapper loads the dtree data (~2MB) into memory.
-     * By using a static wrapper we avoid reloading the db, but we must synchronize
-     * access to settle a race during classification.
-     */
     synchronized private static Map classifyUA(String ua) {
-        if (!isDClassInitialized) {
-            dClass.initUA();
-            isDClassInitialized = true;
-        }
-        return dClass.classifyUA(ua);
+
+        return dClass.classify(ua);
     }
 
 

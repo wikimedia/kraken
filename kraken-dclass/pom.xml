@@ -17,13 +17,6 @@
     </parent>
     
     <dependencies>
-        <!--
-        <dependency>
-            <groupId>org.apache.devicemap</groupId>
-            <artifactId>openddr-java</artifactId>
-            <version>0.9.9-SNAPSHOT</version>
-        </dependency>
-        -->
     </dependencies>
     
     <properties>

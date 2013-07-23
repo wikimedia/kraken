@@ -38,7 +38,7 @@ Run the following command to create a kraken subdirectory in the current folder 
 
 ### Debian-like systems
 
-If your an a Debian system, you can probably just grab the most recent .deb files of libdclass0 and libdclassjni0 for your architecture from [garage-coding](http://garage-coding.com/releases/libdclass-dev/) and install them using dpkg and can proceed to the next step.
+If your an a Debian system, you can probably just grab the most recent .deb files of libdclass0 and libdclass-jni for your architecture from [Wikimedia's apt repository](http://apt.wikimedia.org/wikimedia/pool/main/d/dclass/) and install them using dpkg and can proceed to the next step.
 
 ### Non-Debian-like systems
 
@@ -46,7 +46,7 @@ If your not on a Debian system, you can try getting the needed files by hand or 
 
 #### Getting files by hand
 
-For an amd64 system with the most recent version being 2.0.14,
+For an amd64 system with the most recent version being 2.2.0,
 that would be:
 
     mkdir dclass
@@ -54,19 +54,19 @@ that would be:
 
     mkdir libdclass0
     cd libdclass0
-    wget http://garage-coding.com/releases/libdclass-dev/libdclass0_2.0.14_amd64.deb
-    ar x libdclass0_2.0.14_amd64.deb
+    wget http://apt.wikimedia.org/wikimedia/pool/main/d/dclass/libdclass0_2.2.2-1_amd64.deb
+    ar x libdclass0_2.2.2-1_amd64.deb
     tar -xzvf data.tar.gz
-    sudo mv usr/lib/libdclass.so.0.0.0 /usr/lib/libdclass.so.0
+    sudo mv usr/lib/x86_64-linux-gnu/libdclass.so.0.0.0 /usr/lib/libdclass.so.0
     sudo chmod +x /usr/lib/libdclass.so.0
     cd ..
 
-    mkdir libdclassjni0
-    cd libdclassjni0
-    wget http://garage-coding.com/releases/libdclass-dev/libdclassjni0_2.0.14_amd64.deb
-    ar x libdclassjni0_2.0.14_amd64.deb
+    mkdir libdclass-jni
+    cd libdclass-jni
+    wget http://apt.wikimedia.org/wikimedia/pool/main/d/dclass/libdclass-jni_2.2.2-1_amd64.deb
+    ar x libdclass-jni_2.2.2-1_amd64.deb
     tar -xzvf data.tar.gz
-    sudo mv usr/lib/libdclassjni.so.0.0.0 /usr/lib/libdclassjni.so
+    sudo mv usr/lib/x86_64-linux-gnu/jni/libdclassjni.so.0.0.0 /usr/lib/libdclassjni.so
     sudo chmod +x /usr/lib/libdclassjni.so
     cd ..
 
@@ -104,9 +104,9 @@ https://github.com/wikimedia/dClass/blob/package/README
 
 ## openddr.dtree file
 
-Get a openddr.dtree file from an [Analytics Team member](http://www.mediawiki.org/wiki/Analytics), and store it as
+Get a openddr.dtree file (version 1.13) from an [Analytics Team member](http://www.mediawiki.org/wiki/Analytics), and store it as
 
-    /usr/share/libdclass/dtrees/openddr.dtree
+    /usr/share/libdclass/openddr.dtree
 
 ## GeoIP files
 

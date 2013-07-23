@@ -17,17 +17,29 @@
  */
 package org.wikimedia.analytics.dclassjni;
 
+import static org.junit.Assert.*;
+
+import java.util.Map;
+
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
+import dclass.dClass;
 
 
-public class DclassLoaderTest {
+
+public class DclassWrapperTest {
+
+    public final String dtree_path = "/usr/share/libdclass/openddr.dtree";
     @Test
-    public void testDclassLoader() {
-        DclassWrapper dw = new DclassWrapper();
-        dw.initUA();
-        assertNotNull(dw);
+    public void testDclassWrapper() {
+        String userAgentSample = "Mozilla/5.0 (Linux; U; Android 2.2; en; HTC Aria A6380 Build/ERE27) AppleWebKit/540.13+ (KHTML, like Gecko) Version/3.1 Mobile Safari/524.15.0";
+        dClass dw = new dClass(dtree_path);
+        Map<String, String> c = dw.classify(userAgentSample);
+        assertEquals("Vendor as expected", "HTC"  , c.get("vendor"));
+        assertEquals("Model as expected" , "A6380", c.get("model"));
+        assertEquals("device_os as expected","Android",c.get("device_os"));
+        assertEquals("is_tablet as expected","false",c.get("is_tablet"));
+        
     }
 
 }
