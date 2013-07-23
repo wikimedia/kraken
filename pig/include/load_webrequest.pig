@@ -64,7 +64,7 @@ DEFINE LOAD_WEBREQUEST_GEOCODED(input_path) RETURNS WEBREQUEST_FIELDS {
     request_time,
     -- remote_addr_country will look like <ip_address>|<country_code>.
     -- Here we extract it to two sepearte fields: remote_addr and country.
-    FLATTEN(EXTRACT_ALL(remote_addr_country, '(.+)\\|(\\w+)')) AS (remote_addr:chararray, country:chararray),
+    FLATTEN(EXTRACT_ALL(remote_addr_country, '(.+)\\|([\\w-]+)')) AS (remote_addr:chararray, country:chararray),
     http_status,
     bytes_sent,
     request_method,
