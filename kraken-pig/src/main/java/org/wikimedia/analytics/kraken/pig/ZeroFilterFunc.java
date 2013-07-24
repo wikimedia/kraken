@@ -22,10 +22,12 @@ import org.apache.pig.FilterFunc;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
+import org.apache.pig.impl.logicalLayer.FrontendException;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
 import org.wikimedia.analytics.kraken.pageview.ProjectInfo;
 import org.wikimedia.analytics.kraken.zero.ZeroConfig;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -33,7 +35,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 /**
- *
+ * Check whether or not a tuple constitutes a free Wikipedia Zero page view.
  */
 public class ZeroFilterFunc extends FilterFunc {
 
@@ -42,6 +44,8 @@ public class ZeroFilterFunc extends FilterFunc {
     private HashMap<String, ZeroConfig> config;
 
     private HashMap<String, String> xCSCarrierMap;
+
+    private FilterFunc pageViewFilterFunc;
 
     /**
      *
@@ -105,6 +109,8 @@ public class ZeroFilterFunc extends FilterFunc {
         xCSCarrierMap.put("623-03", "zero-orange-central-african-republic"); // Orange Central African Republic
         // Carriers without specific filtering logic
         xCSCarrierMap.put("639-02", "default"); // Safaricom Kenya
+
+        this.pageViewFilterFunc = new PageViewFilterFunc();
     }
 
     /**
@@ -113,16 +119,17 @@ public class ZeroFilterFunc extends FilterFunc {
      * @return true/false
      * @throws ExecException
      */
-    public final Boolean exec(final Tuple input) throws ExecException {
+    public final Boolean exec(final Tuple input) throws IOException {
         if (input == null || input.get(0) == null) {
             return false;
         }
 
-        String xCS = (String) input.get(1);
+        String xCS = (String) input.get(7);
         if (containsXcsValue(xCS)) {
             String carrierName = xCSCarrierMap.get(this.xCS);
             ZeroConfig zeroConfig = carrierName != null ? getZeroConfig(carrierName) : getZeroConfig("default");
-            return isValidZeroRequest((String) input.get(0), zeroConfig);
+            return isValidZeroRequest((String) input.get(0), zeroConfig)
+                    && pageViewFilterFunc.exec(input);
         } else {
             return false;
         }
@@ -134,23 +141,57 @@ public class ZeroFilterFunc extends FilterFunc {
      * @return
      */
     public final Schema outputSchema(final Schema input) {
-        if (input.size() != 2) {
-            throw new RuntimeException(
-                    "Expected url (chararray) and x-cs header (chararray), input should be exactly 2 fields.");
+        byte expectedFieldTypes[] = new byte[] {
+            DataType.CHARARRAY,
+            DataType.CHARARRAY,
+            DataType.CHARARRAY,
+            DataType.CHARARRAY,
+            DataType.CHARARRAY,
+            DataType.CHARARRAY,
+            DataType.CHARARRAY,
+            DataType.CHARARRAY
+        };
+
+        if (input == null) {
+            throw new RuntimeException("No input schema given");
         }
 
-        try {
-            // Get the types for the column and check them.  If it's
-            // wrong figure out what type was passed and give a good error
-            // message.
-            if (input.getField(0).type != DataType.CHARARRAY) {
-                String msg = "Expected input chararray, received schema (";
-                msg += DataType.findTypeName(input.getField(0).type);
-                msg += ")";
-                throw new RuntimeException(msg);
+        if (expectedFieldTypes.length != input.size()) {
+            throw new RuntimeException("Expected schema of size "
+                    + expectedFieldTypes.length + ", but input schema is of "
+                    + "size " + input.size());
+        }
+
+        boolean schemaMatches = true;
+        for (int idx = 0; idx < expectedFieldTypes.length && schemaMatches; idx++) {
+            try {
+                schemaMatches &= expectedFieldTypes[idx] == input.getField(idx).type;
+            } catch (FrontendException e) {
+                throw new RuntimeException("Could not get type for field #" + idx, e);
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        }
+
+        if (!schemaMatches) {
+            String expectedSchemaStr = "";
+            String actualSchemaStr = "";
+            for (int idx = 0; idx < expectedFieldTypes.length; idx++) {
+                byte expectedFieldType = expectedFieldTypes[idx];
+                byte actualFieldType;
+                try {
+                    actualFieldType = input.getField(idx).type;
+                } catch (FrontendException e) {
+                    throw new RuntimeException("Could not get type for field #" + idx, e);
+                }
+                if (idx > 0) {
+                    expectedSchemaStr += ", ";
+                    actualSchemaStr += ", ";
+                }
+                expectedSchemaStr += DataType.findTypeName(expectedFieldType);
+                actualSchemaStr += DataType.findTypeName(actualFieldType);
+            }
+            throw new RuntimeException("Input schema (" + actualSchemaStr
+                    + ") does not match the expected schema ("
+                    + expectedSchemaStr + ")");
         }
 
         // output is boolean
@@ -199,9 +240,7 @@ public class ZeroFilterFunc extends FilterFunc {
     private boolean isValidZeroRequest(final String requestedURL, final ZeroConfig zeroConfig) {
         try {
             URL url = new URL(requestedURL);
-            return url.getPath().contains("/wiki/")
-                    && url.getHost().contains("wikipedia")
-                    && hasValidSubDomain(url, zeroConfig)
+            return hasValidSubDomain(url, zeroConfig)
                     && hasValidLanguage(url, zeroConfig);
         } catch (MalformedURLException e) {
             return false;
@@ -263,5 +302,11 @@ public class ZeroFilterFunc extends FilterFunc {
      */
     public final ZeroConfig getZeroConfig(final String key) {
         return ((key != null) && config.containsKey(key)) ? config.get(key) : config.get("default");
+    }
+
+    @Override
+    public void finish() {
+        // cleaning up delegation filter
+        pageViewFilterFunc.finish();
     }
 }
