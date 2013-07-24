@@ -19,7 +19,6 @@
 package org.wikimedia.analytics.kraken.pig;
 
 import org.apache.pig.FilterFunc;
-import org.apache.pig.PigWarning;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
@@ -38,8 +37,6 @@ import java.util.HashMap;
  */
 public class ZeroFilterFunc extends FilterFunc {
 
-    private String mode = null;
-
     private String xCS = null;
 
     private HashMap<String, ZeroConfig> config;
@@ -50,8 +47,6 @@ public class ZeroFilterFunc extends FilterFunc {
      *
      */
     public ZeroFilterFunc() {
-        this.mode = "default";
-
         this.config = new HashMap<String, ZeroConfig>();
 
         // Information is obtained from https://wikimediafoundation.org/wiki/Mobile_partnerships
@@ -114,19 +109,6 @@ public class ZeroFilterFunc extends FilterFunc {
 
     /**
      *
-     * @param mode
-     */
-    public ZeroFilterFunc(final String mode) {
-        this();
-        if (mode.equals("legacy") || mode.equals("default")) {
-            this.mode = mode;
-        } else {
-            throw new RuntimeException("Expected mode is 'default' or 'legacy'. ");
-        }
-    }
-
-    /**
-     *
      * @param input tuple xCS header
      * @return true/false
      * @throws ExecException
@@ -136,19 +118,13 @@ public class ZeroFilterFunc extends FilterFunc {
             return false;
         }
 
-        if (mode.equals("default")) {
-            String xCS = (String) input.get(1);
-            if (containsXcsValue(xCS)) {
-                String carrierName = xCSCarrierMap.get(this.xCS);
-                ZeroConfig zeroConfig = carrierName != null ? getZeroConfig(carrierName) : getZeroConfig("default");
-                return isValidZeroRequest((String) input.get(0), zeroConfig);
-            } else {
-                return false;
-            }
-        } else {
-            String simpleFilename = simplifyFilename((String) input.get(1));
-            ZeroConfig zeroConfig = getZeroConfig(simpleFilename);
+        String xCS = (String) input.get(1);
+        if (containsXcsValue(xCS)) {
+            String carrierName = xCSCarrierMap.get(this.xCS);
+            ZeroConfig zeroConfig = carrierName != null ? getZeroConfig(carrierName) : getZeroConfig("default");
             return isValidZeroRequest((String) input.get(0), zeroConfig);
+        } else {
+            return false;
         }
     }
 
@@ -158,16 +134,9 @@ public class ZeroFilterFunc extends FilterFunc {
      * @return
      */
     public final Schema outputSchema(final Schema input) {
-        if (mode.equals("default")) {
-            if (input.size() != 2) {
-                throw new RuntimeException(
-                        "Expected url (chararray) and x-cs header (chararray), input should be exactly 2 fields.");
-            } else if (mode.equals("legacy")) {
-                if (input.size() != 2) {
-                    throw new RuntimeException(
-                            "Expected url (chararray) and filename (chararray),  input should be exactly 2 fields.");
-                }
-            }
+        if (input.size() != 2) {
+            throw new RuntimeException(
+                    "Expected url (chararray) and x-cs header (chararray), input should be exactly 2 fields.");
         }
 
         try {
@@ -276,14 +245,6 @@ public class ZeroFilterFunc extends FilterFunc {
 
     /**
      *
-     * @return String: the mode in which ZeroFilterFunc is running
-     */
-    public final String getMode() {
-        return mode;
-    }
-
-    /**
-     *
      * @param year
      * @param month
      * @param day
@@ -293,21 +254,6 @@ public class ZeroFilterFunc extends FilterFunc {
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day);
         return cal;
-    }
-
-    /**
-     *
-     * @param filename
-     * @return
-     */
-    private String simplifyFilename(final String filename) {
-        // This will remove all the file extensions and timestamp information from the filename.
-        try {
-            return filename != null ? filename.substring(0, filename.indexOf(".")) : "";
-        } catch (StringIndexOutOfBoundsException e) {
-            warn("Could not simplify filename: " + filename, PigWarning.UDF_WARNING_1);
-            return filename;
-        }
     }
 
     /**

@@ -13,7 +13,7 @@ REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
 
 DEFINE DATE_BUCKET       org.wikimedia.analytics.kraken.pig.ConvertDateFormat('yyyy-MM-dd\'T\'HH:mm:ss', '$date_bucket_format');
 DEFINE PAGEVIEW_TYPE     org.wikimedia.analytics.kraken.pig.PageViewEvalFunc();
-DEFINE IS_ZERO_PAGEVIEW  org.wikimedia.analytics.kraken.pig.ZeroFilterFunc('default');
+DEFINE IS_ZERO_PAGEVIEW  org.wikimedia.analytics.kraken.pig.ZeroFilterFunc();
 DEFINE ZERO              org.wikimedia.analytics.kraken.pig.Zero();
 
 IMPORT 'include/load_webrequest.pig'; -- See include/load_webrequest.pig
