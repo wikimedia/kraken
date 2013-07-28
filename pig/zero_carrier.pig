@@ -31,7 +31,7 @@ log_fields = LOAD_WEBREQUEST_GEOCODED('$input');
 
 log_fields = FILTER log_fields BY (
   DATE_BUCKET(timestamp) MATCHES '$date_bucket_regex' AND
-  IS_ZERO_PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method, x_analytics)
+  IS_ZERO_PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method, x_analytics, timestamp)
 );
 
 zero_fields = FOREACH log_fields GENERATE

@@ -37,7 +37,7 @@ public class ZeroFilterFuncTest extends TestCase {
     private TupleFactory tupleFactory = TupleFactory.getInstance();
 
     public void testExecProperRequest() throws IOException {
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -46,6 +46,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=Some-Partner-MCC-MNC;"); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -55,7 +56,7 @@ public class ZeroFilterFuncTest extends TestCase {
     }
 
     public void testExecProperRequestWithoutKey() throws IOException {
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -64,6 +65,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "639-02;"); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -73,7 +75,7 @@ public class ZeroFilterFuncTest extends TestCase {
     }
 
     public void testExecProperRequestWithoutLanguage() throws IOException {
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://m.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -82,6 +84,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "639-02;"); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -91,7 +94,7 @@ public class ZeroFilterFuncTest extends TestCase {
     }
 
     public void testExecProperRequestWithoutSemicolon() throws IOException {
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -100,6 +103,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=Some-Partner-MCC-MNC"); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -109,7 +113,7 @@ public class ZeroFilterFuncTest extends TestCase {
     }
 
     public void testExecAnalyticsEmpty() throws IOException {
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://en.zero.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -118,6 +122,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, ""); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -127,7 +132,7 @@ public class ZeroFilterFuncTest extends TestCase {
     }
 
     public void testExecAnalyticsNull() throws IOException {
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://en.zero.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -136,6 +141,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, null); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -145,7 +151,7 @@ public class ZeroFilterFuncTest extends TestCase {
     }
 
     public void testExecAnalyticsDash() throws IOException {
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://en.zero.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -154,6 +160,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "-"); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -166,7 +173,7 @@ public class ZeroFilterFuncTest extends TestCase {
         // For this test to work, assure that for the zero partner with
         // MCC-MNC 612-03 requests to the m domain are not free.
 
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://en.zero.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -175,6 +182,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=612-03;"); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -188,7 +196,7 @@ public class ZeroFilterFuncTest extends TestCase {
         // MCC-MNC 612-03 requests to the zero domain are not free, but
         // requests to the m domain are free.
 
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -197,6 +205,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=612-03;"); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -209,7 +218,7 @@ public class ZeroFilterFuncTest extends TestCase {
         // For this test to work, assure that for the zero partner with
         // MCC-MNC 520-18 requests to the m domain are not free.
 
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -218,6 +227,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=520-18;"); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -231,7 +241,7 @@ public class ZeroFilterFuncTest extends TestCase {
         // MCC-MNC 520-18 requests to the zero domain are not free, but
         // requests to the m domain are free.
 
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://en.zero.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -240,6 +250,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=520-18;"); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -249,7 +260,7 @@ public class ZeroFilterFuncTest extends TestCase {
     }
 
     public void testExecNonMobileNonZeroDomain() throws IOException {
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://en.DifferentDomain.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -258,6 +269,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=Some-Partner-MCC-MNC;"); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -270,7 +282,7 @@ public class ZeroFilterFuncTest extends TestCase {
         // For this test to work, assure that for the zero partner with
         // MCC-MNC 624-02 requests to "eo" language are free for the "m".
 
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://eo.m.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -279,6 +291,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=624-02;"); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -291,7 +304,7 @@ public class ZeroFilterFuncTest extends TestCase {
         // For this test to work, assure that for the zero partner with
         // MCC-MNC 624-02 requests to "it" language are not free for the "m" domain.
 
-        Tuple input = tupleFactory.newTuple(8);
+        Tuple input = tupleFactory.newTuple(9);
         input.set(0, "http://it.m.wikipedia.org/wiki/James_Ingram"); // uri
         input.set(1, "-"); // referrer
         input.set(2, "-"); // user agent
@@ -300,6 +313,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=624-02;"); // analytics
+        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -308,8 +322,47 @@ public class ZeroFilterFuncTest extends TestCase {
         assertFalse("Zero page view, although it should not be", isZeroPageView);
     }
 
+    public void testExecZeitVorher() throws IOException {
+        Tuple input = tupleFactory.newTuple(9);
+        input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram"); // uri
+        input.set(1, "-"); // referrer
+        input.set(2, "-"); // user agent
+        input.set(3, "hit/200"); // http status
+        input.set(4, "209.34.2.203"); // remote_addr (random)
+        input.set(5, "text/html; charset=UTF-8"); // content type
+        input.set(6, "GET"); // request-method
+        input.set(7, "zero=404-01;"); // analytics
+        input.set(8, "2013-07-25T04:57:08.096"); // timestamp
+
+        ZeroFilterFunc zero = new ZeroFilterFunc();
+
+        boolean isZeroPageView = zero.exec(input);
+
+        assertFalse("Zero page view, although it should not be", isZeroPageView);
+    }
+
+    public void testExecZeitNachher() throws IOException {
+        Tuple input = tupleFactory.newTuple(9);
+        input.set(0, "http://en.m.wikipedia.org/wiki/James_Ingram"); // uri
+        input.set(1, "-"); // referrer
+        input.set(2, "-"); // user agent
+        input.set(3, "hit/200"); // http status
+        input.set(4, "209.34.2.203"); // remote_addr (random)
+        input.set(5, "text/html; charset=UTF-8"); // content type
+        input.set(6, "GET"); // request-method
+        input.set(7, "zero=404-01;"); // analytics
+        input.set(8, "2013-07-25T04:59:08.096"); // timestamp
+
+        ZeroFilterFunc zero = new ZeroFilterFunc();
+
+        boolean isZeroPageView = zero.exec(input);
+
+        assertTrue("No zero page view, although it should be", isZeroPageView);
+    }
+
     public void testOutputSchemaMatch() throws IOException {
-        List<Schema.FieldSchema> fields = new ArrayList<Schema.FieldSchema>(8);
+        List<Schema.FieldSchema> fields = new ArrayList<Schema.FieldSchema>(9);
+        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
@@ -356,12 +409,13 @@ public class ZeroFilterFuncTest extends TestCase {
     }
 
     public void testOutputSchemaInputWrongType() throws IOException {
-        List<Schema.FieldSchema> fields = new ArrayList<Schema.FieldSchema>(8);
+        List<Schema.FieldSchema> fields = new ArrayList<Schema.FieldSchema>(9);
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
         fields.add(new Schema.FieldSchema(null, DataType.BOOLEAN));
+        fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));

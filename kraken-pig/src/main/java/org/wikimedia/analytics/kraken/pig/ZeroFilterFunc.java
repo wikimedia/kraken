@@ -30,9 +30,13 @@ import org.wikimedia.analytics.kraken.zero.ZeroConfig;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 /**
  * Check whether or not a tuple constitutes a free Wikipedia Zero page view.
@@ -57,7 +61,7 @@ public class ZeroFilterFunc extends FilterFunc {
         // see also the Zero namespace on meta: http://meta.wikimedia.org/wiki/Zero:410-01 for example
         config.put("250-99/Beeline/Vimpelcom Beeline", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {"en", "ru", ""}, null));
         config.put("297-01/Telenor Montenegro/Telenor Montenegro", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {}, null));
-        config.put("404-01/Aircel/Aircel India", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {}, null));
+        config.put("404-01/Aircel/Aircel India", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 25, 4, 58), true, true, new String[] {}, null));
         config.put("410-01/Mobilink/Vimpelcom Mobilink Pakistan", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {"en", "ur", ""}, null));
         config.put("413-02/Dialog Sri Lanka/Dialog Sri Lanka", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"en", "si", "simple", "ta", ""}, null));
         config.put("420-01/Saudi Telecom STC/Saudi Telecom", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {"ar", "bn", "en", "tl", "ur", ""}, null));
@@ -113,7 +117,7 @@ public class ZeroFilterFunc extends FilterFunc {
      * @throws ExecException
      */
     public final Boolean exec(final Tuple input) throws IOException {
-        if (input == null || input.get(0) == null) {
+        if (input == null || input.get(0) == null || input.get(8) == null) {
             return false;
         }
 
@@ -121,7 +125,7 @@ public class ZeroFilterFunc extends FilterFunc {
         if (containsXcsValue(xCS)) {
             String carrierName = xCSCarrierMap.get(this.xCS);
             ZeroConfig zeroConfig = carrierName != null ? getZeroConfig(carrierName) : getZeroConfig("default");
-            return isValidZeroRequest((String) input.get(0), zeroConfig)
+            return isValidZeroRequest((String) input.get(0), (String) input.get(8), zeroConfig)
                     && pageViewFilterFunc.exec(input);
         } else {
             return false;
@@ -135,6 +139,7 @@ public class ZeroFilterFunc extends FilterFunc {
      */
     public final Schema outputSchema(final Schema input) {
         byte expectedFieldTypes[] = new byte[] {
+            DataType.CHARARRAY,
             DataType.CHARARRAY,
             DataType.CHARARRAY,
             DataType.CHARARRAY,
@@ -230,11 +235,33 @@ public class ZeroFilterFunc extends FilterFunc {
      * @param zeroConfig
      * @return
      */
-    private boolean isValidZeroRequest(final String requestedURL, final ZeroConfig zeroConfig) {
+    private boolean isValidZeroRequest(final String requestedURL, String time, final ZeroConfig zeroConfig) {
         try {
+            boolean ret = true;
             URL url = new URL(requestedURL);
-            return hasValidSubDomain(url, zeroConfig)
-                    && hasValidLanguage(url, zeroConfig);
+            if (ret) {
+                ret &= hasValidSubDomain(url, zeroConfig);
+            }
+            if (ret) {
+                ret &= hasValidLanguage(url, zeroConfig);
+            }
+            if (ret) {
+                if (time != null && time.length() > 0) {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                    format.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    Date requestDate;
+                    try {
+                        requestDate = format.parse(time);
+                        ret &= zeroConfig.getStartDate().getTime().before(requestDate);
+                    } catch (ParseException e) {
+                        System.err.print("Cannot parse date " + time);
+                        ret = false;
+                    }
+                } else {
+                    ret = false;
+                }
+            }
+            return ret;
         } catch (MalformedURLException e) {
             return false;
         }
@@ -285,6 +312,12 @@ public class ZeroFilterFunc extends FilterFunc {
     private Calendar createStartDate(final int year, final int month, final int day) {
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day);
+        return cal;
+    }
+
+    private Calendar createStartDate(final int year, final int month, final int day, int hour, int minutes) {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        cal.set(year, month, day, hour, minutes);
         return cal;
     }
 
