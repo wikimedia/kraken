@@ -247,15 +247,36 @@ public class ZeroFilterFunc extends FilterFunc {
             }
             if (ret) {
                 if (time != null && time.length() > 0) {
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                    Date requestDate = null;
+                    SimpleDateFormat format;
+                    format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
                     format.setTimeZone(TimeZone.getTimeZone("GMT"));
-                    Date requestDate;
                     try {
                         requestDate = format.parse(time);
-                        ret &= zeroConfig.getStartDate().getTime().before(requestDate);
                     } catch (ParseException e) {
-                        System.err.print("Cannot parse date " + time);
-                        ret = false;
+                        format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS");
+                        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+                        try {
+                            requestDate = format.parse(time);
+                        } catch (ParseException e2) {
+                            format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
+                            format.setTimeZone(TimeZone.getTimeZone("GMT"));
+                            try {
+                                requestDate = format.parse(time);
+                            } catch (ParseException e3) {
+                                format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                                format.setTimeZone(TimeZone.getTimeZone("GMT"));
+                                try {
+                                    requestDate = format.parse(time);
+                                } catch (ParseException e4) {
+                                    System.err.print("Cannot parse date " + time);
+                                    ret = false;
+                                }
+                            }
+                        }
+                    }
+                    if (ret) {
+                        ret &= zeroConfig.getStartDate().getTime().before(requestDate);
                     }
                 } else {
                     ret = false;
