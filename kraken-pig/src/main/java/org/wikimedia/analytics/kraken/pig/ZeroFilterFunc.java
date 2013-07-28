@@ -124,9 +124,13 @@ public class ZeroFilterFunc extends FilterFunc {
         String xCS = (String) input.get(7);
         if (containsXcsValue(xCS)) {
             String carrierName = xCSCarrierMap.get(this.xCS);
-            ZeroConfig zeroConfig = carrierName != null ? getZeroConfig(carrierName) : getZeroConfig("default");
-            return isValidZeroRequest((String) input.get(0), (String) input.get(8), zeroConfig)
-                    && pageViewFilterFunc.exec(input);
+            if (carrierName != null) {
+                ZeroConfig zeroConfig = getZeroConfig(carrierName);
+                return isValidZeroRequest((String) input.get(0), (String) input.get(8), zeroConfig)
+                        && pageViewFilterFunc.exec(input);
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -222,7 +226,8 @@ public class ZeroFilterFunc extends FilterFunc {
         // which mobile carrier an ip address belongs to. No fancy processing
         // was required.
         if (rawString.matches("\\d{3}.*")) {
-            this.xCS = rawString;
+            String[] split = rawString.split(";");
+            this.xCS = split[0];
             return true;
         } else {
             return false;

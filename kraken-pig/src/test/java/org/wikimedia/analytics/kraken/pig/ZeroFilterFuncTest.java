@@ -45,7 +45,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(4, "209.34.2.203"); // remote_addr (random)
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
-        input.set(7, "zero=Some-Partner-MCC-MNC;"); // analytics
+        input.set(7, "zero=639-07;"); // analytics
         input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
@@ -64,7 +64,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(4, "209.34.2.203"); // remote_addr (random)
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
-        input.set(7, "639-02;"); // analytics
+        input.set(7, "639-07;"); // analytics
         input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
@@ -83,7 +83,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(4, "209.34.2.203"); // remote_addr (random)
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
-        input.set(7, "639-02;"); // analytics
+        input.set(7, "zero=639-07;"); // analytics
         input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
@@ -102,7 +102,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(4, "209.34.2.203"); // remote_addr (random)
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
-        input.set(7, "zero=Some-Partner-MCC-MNC"); // analytics
+        input.set(7, "zero=639-07"); // analytics
         input.set(8, "2013-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
