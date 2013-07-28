@@ -55,60 +55,53 @@ public class ZeroFilterFunc extends FilterFunc {
 
         // Information is obtained from https://wikimediafoundation.org/wiki/Mobile_partnerships
         // see also the Zero namespace on meta: http://meta.wikimedia.org/wiki/Zero:410-01 for example
-        config.put("zero-orange-uganda", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 12), true, false, new String[] {"en", "fr", "ko", "de", "zh", "sw", "rw", "ar", "hi", "es", ""}, null));
-        config.put("zero-orange-tunesia", new ZeroConfig("Tunisia", "Orange", createStartDate(2012, 3, 24), true, false, new String[] {"ar", "en", "fr", "es", "de", "it", "ru", "jp", "zh", ""}, null));
-        config.put("zero-digi-malaysia", new ZeroConfig("Malaysia", "Digi", createStartDate(2012, 4, 21), false, true, new String[] {}, new String[] {"opera"}));
-        config.put("zero-orange-niger", new ZeroConfig("Niger", "Orange", createStartDate(2012, 6, 2), true, false, new String[] {}, null));
-        config.put("zero-orange-kenya", new ZeroConfig("Kenya", "Orange", createStartDate(2012, 6, 26), true, false, new String[] {}, null));
-        config.put("zero-telenor-montenegro", new ZeroConfig("Montenegro", "Telenor", createStartDate(2012, 7, 10), true, true, new String[] {"en", "ru", ""}, null));
-        config.put("zero-orange-cameroon", new ZeroConfig("Cameroon", "Orange", createStartDate(2012, 7, 16), true, false, new String[] {"fr", "en", "es", "de", "zh", "ar", "ha", "ln", "yo", "eo", ""}, null));
-        config.put("zero-orange-ivory-coast", new ZeroConfig("Ivory Coast", "Orange", createStartDate(2012, 8, 28), true, false, new String[] {}, null));
-        config.put("zero-dtac-thailand", new ZeroConfig("Thailand", "dtac", createStartDate(2012, 9, 11), false, true, new String[] {}, null));
-        config.put("zero-saudi-telecom", new ZeroConfig("Saudi Arabia", "STC", createStartDate(2012, 9, 14), true, true, new String[] {"ar", "bn", "en", "tl", "ur", ""}, null));
-        config.put("zero-orange-congo", new ZeroConfig("Democratic Republic of Congo", "Orange", createStartDate(2012, 11, 6), true, false, new String[] {}, null));
-        config.put("zero-orange-botswana", new ZeroConfig("Botswana", "Orange", createStartDate(2013, 1, 8), true, false, new String[] {}, null));
-        config.put("zero-beeline-russia", new ZeroConfig("Russia", "Beeline", createStartDate(2013, 2, 28), true, true, new String[] {"ru", "en", ""}, null));
-        config.put("zero-xl-axiata-indonesia", new ZeroConfig("Indonesia", "XL Axiata", createStartDate(2013, 3, 1), false, true, new String[] {"id", "en", "zh", "ar", "hi", "ms", "jv", "su", ""}, null));
-        config.put("zero-mobilink-pakistan", new ZeroConfig("Pakistan", "Mobilink", createStartDate(2013, 4, 31), true, true, new String[] {"en", "ur", ""}, null));
-        config.put("zero-dialog-sri-lanka", new ZeroConfig("Sri Lanka", "Dialog", createStartDate(2000, 1, 1), false, true, new String[] {"en", "ta", "si", ""}, null));
-        config.put("zero-hello-cambodia", new ZeroConfig("Cambodia", "Hello", createStartDate(2000, 1, 1), false, true, new String[] {}, null));
-        config.put("zero-celcom-malaysia", new ZeroConfig("Malaysia", "Celcom", createStartDate(2000, 1, 1), false, true, new String[] {}, null));
-        config.put("zero-tata-india", new ZeroConfig("India", "TATA", createStartDate(2000, 1, 1), false, true, new String[] {}, null));
-        config.put("zero-grameenphone-bangladesh", new ZeroConfig("Bangladesh", "Grameenphone", createStartDate(2000, 1, 1), false, true, new String[] {"bn", ""}, null));
-        config.put("zero-orange-morocco", new ZeroConfig("Morocco", "Orange Meditel", createStartDate(2000, 1, 1), true, false, new String[] {"fr", "ar", "en", "es", "de", "it", "nl", "pt", "ru", "zh", ""}, null));
-        config.put("zero-orange-central-african-republic", new ZeroConfig("Central African Republic", "Orange", createStartDate(2000, 1, 1), true, false, new String[] {"fr", "ar", "sg", "en", "es", "zh", "ha", "ln", "eo", ""}, null));
-        config.put("zero-aircel-india", new ZeroConfig("India", "Aircel", createStartDate(2013, 6, 1), true, true, new String[] {"en", "hi", "ta"}, null));
+        config.put("250-99/Beeline/Vimpelcom Beeline", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {"en", "ru", ""}, null));
+        config.put("297-01/Telenor Montenegro/Telenor Montenegro", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {}, null));
+        config.put("404-01/Aircel/Aircel India", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {}, null));
+        config.put("410-01/Mobilink/Vimpelcom Mobilink Pakistan", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {"en", "ur", ""}, null));
+        config.put("413-02/Dialog Sri Lanka/Dialog Sri Lanka", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"en", "si", "simple", "ta", ""}, null));
+        config.put("420-01/Saudi Telecom STC/Saudi Telecom", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {"ar", "bn", "en", "tl", "ur", ""}, null));
+        config.put("456-02/Hello Cambodia/Hello Cambodia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
+        config.put("470-01/Grameenphone Bangladesh/Grameenphone Bangladesh", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"bn", ""}, null));
+        config.put("502-13/Celcom Malaysia/Celcom Malaysia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
+        config.put("502-16/Digi/DIGI Malaysia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
+        config.put("510-11/XL Axiata/XL Axiata Indonesia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"ar", "en", "hi", "id", "jv", "ms", "su", "zh", ""}, null));
+        config.put("520-18/DTAC Thailand/DTAC", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
+        config.put("605-01/Orange/Orange Tunisia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {"ar", "de", "en", "es", "fr", "it", "ja", "ru", "zh", ""}, null));
+        config.put("612-03/Orange/Orange Ivory Coast", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {}, null));
+        config.put("614-04/Orange/Orange Niger", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {}, null));
+        config.put("624-02/Orange Cameroon/Orange Cameroon", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {"ar", "de", "en", "eo", "es", "fr", "ha", "ln", "yo", "zh", ""}, null));
+        config.put("630-86/Orange Congo/Orange Congo", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {}, null));
+        config.put("639-07/Orange/Orange Kenya", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {}, null));
+        config.put("641-14/Orange/Orange Uganda", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {"ar", "de", "en", "es", "fr", "hi", "ko", "rw", "sw", "zh", ""}, null));
+        config.put("652-02/Orange/Orange Botswana", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {}, null));
+        config.put("WMF/Wikimedia/Test Configuration", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"en", ""}, null));
 
         // add a default setting in case we cannot find a carrier
         config.put("default", new ZeroConfig("default", "default", createStartDate(2000, 0, 1), true, true, new String[] {}, null));
 
         this.xCSCarrierMap = new HashMap<String, String>();
-        xCSCarrierMap.put("641-14", "zero-orange-uganda");
-        xCSCarrierMap.put("605-01", "zero-orange-tunesia");
-        xCSCarrierMap.put("502-16", "zero-digi-malaysia");
-        xCSCarrierMap.put("614-04", "zero-orange-niger");
-        xCSCarrierMap.put("639-07", "zero-orange-kenya");
-        xCSCarrierMap.put("297-01", "zero-telenor-montenegro");
-        xCSCarrierMap.put("624-02", "zero-orange-cameroon");
-        xCSCarrierMap.put("612-03", "zero-orange-ivory-coast");
-        xCSCarrierMap.put("520-18", "zero-dtac-thailand");
-        xCSCarrierMap.put("420-01", "zero-saudi-telecom");
-        xCSCarrierMap.put("630-86", "zero-orange-congo");
-        xCSCarrierMap.put("652-02", "zero-orange-botswana");
-        xCSCarrierMap.put("250-99", "zero-beeline-russia");
-        xCSCarrierMap.put("510-11", "zero-xl-axiata-indonesia");
-        xCSCarrierMap.put("410-01", "zero-mobilink-pakistan");
-        xCSCarrierMap.put("456-02", "zero-hello-cambodia"); // Hello Cambodia
-        xCSCarrierMap.put("502-13", "zero-celcom-malaysia"); // Celcom Malaysia
-        xCSCarrierMap.put("413-02", "zero-dialog-sri-lanka"); // Dialog Sri Lanka
-        xCSCarrierMap.put("405-0", "zero-tata-india");  // Tata
-        xCSCarrierMap.put("405-0%2A", "zero-tata-india"); // Tata
-        xCSCarrierMap.put("405-0*", "zero-tata-india"); // Tata
-        xCSCarrierMap.put("470-01", "zero-grameenphone-bangladesh"); // Grameenphone Bangladesh
-        xCSCarrierMap.put("604-00", "zero-orange-morocco"); // Orange Meditel Morocco
-        xCSCarrierMap.put("623-03", "zero-orange-central-african-republic"); // Orange Central African Republic
-        // Carriers without specific filtering logic
-        xCSCarrierMap.put("639-02", "default"); // Safaricom Kenya
+        xCSCarrierMap.put("250-99", "250-99/Beeline/Vimpelcom Beeline");
+        xCSCarrierMap.put("297-01", "297-01/Telenor Montenegro/Telenor Montenegro");
+        xCSCarrierMap.put("404-01", "404-01/Aircel/Aircel India");
+        xCSCarrierMap.put("410-01", "410-01/Mobilink/Vimpelcom Mobilink Pakistan");
+        xCSCarrierMap.put("413-02", "413-02/Dialog Sri Lanka/Dialog Sri Lanka");
+        xCSCarrierMap.put("420-01", "420-01/Saudi Telecom STC/Saudi Telecom");
+        xCSCarrierMap.put("456-02", "456-02/Hello Cambodia/Hello Cambodia");
+        xCSCarrierMap.put("470-01", "470-01/Grameenphone Bangladesh/Grameenphone Bangladesh");
+        xCSCarrierMap.put("502-13", "502-13/Celcom Malaysia/Celcom Malaysia");
+        xCSCarrierMap.put("502-16", "502-16/Digi/DIGI Malaysia");
+        xCSCarrierMap.put("510-11", "510-11/XL Axiata/XL Axiata Indonesia");
+        xCSCarrierMap.put("520-18", "520-18/DTAC Thailand/DTAC");
+        xCSCarrierMap.put("605-01", "605-01/Orange/Orange Tunisia");
+        xCSCarrierMap.put("612-03", "612-03/Orange/Orange Ivory Coast");
+        xCSCarrierMap.put("614-04", "614-04/Orange/Orange Niger");
+        xCSCarrierMap.put("624-02", "624-02/Orange Cameroon/Orange Cameroon");
+        xCSCarrierMap.put("630-86", "630-86/Orange Congo/Orange Congo");
+        xCSCarrierMap.put("639-07", "639-07/Orange/Orange Kenya");
+        xCSCarrierMap.put("641-14", "641-14/Orange/Orange Uganda");
+        xCSCarrierMap.put("652-02", "652-02/Orange/Orange Botswana");
+        xCSCarrierMap.put("WMF", "WMF/Wikimedia/Test Configuration");
 
         this.pageViewFilterFunc = new PageViewFilterFunc();
     }
