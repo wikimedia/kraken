@@ -32,7 +32,7 @@ squid_log = LOAD '$input' AS (
 -- adding geolocation
 squid_log_geocoded = FOREACH squid_log GENERATE
     *,
-    FLATTEN(GEO(remote_addr)) AS country:chararray
+    FLATTEN(GEO(remote_addr, x_forwarded_for)) AS country:chararray
   ;
 
 -- filtering lines without country information. Either those lines contained
