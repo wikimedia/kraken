@@ -59,27 +59,34 @@ public class ZeroFilterFunc extends FilterFunc {
 
         // Information is obtained from https://wikimediafoundation.org/wiki/Mobile_partnerships
         // see also the Zero namespace on meta: http://meta.wikimedia.org/wiki/Zero:410-01 for example
-        config.put("250-99/Beeline/Vimpelcom Beeline", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {"en", "ru", ""}, null));
-        config.put("297-01/Telenor Montenegro/Telenor Montenegro", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {}, null));
-        config.put("404-01/Aircel/Aircel India", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 25, 4, 58), true, true, new String[] {}, null));
-        config.put("410-01/Mobilink/Vimpelcom Mobilink Pakistan", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {"en", "ur", ""}, null));
-        config.put("413-02/Dialog Sri Lanka/Dialog Sri Lanka", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"en", "si", "simple", "ta", ""}, null));
-        config.put("420-01/Saudi Telecom STC/Saudi Telecom", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, true, new String[] {"ar", "bn", "en", "tl", "ur", ""}, null));
-        config.put("456-02/Hello Cambodia/Hello Cambodia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
-        config.put("470-01/Grameenphone Bangladesh/Grameenphone Bangladesh", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"bn", ""}, null));
-        config.put("502-13/Celcom Malaysia/Celcom Malaysia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
-        config.put("502-16/Digi/DIGI Malaysia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
-        config.put("510-11/XL Axiata/XL Axiata Indonesia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"ar", "en", "hi", "id", "jv", "ms", "su", "zh", ""}, null));
-        config.put("520-18/DTAC Thailand/DTAC", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
-        config.put("605-01/Orange/Orange Tunisia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {"ar", "de", "en", "es", "fr", "it", "ja", "ru", "zh", ""}, null));
-        config.put("612-03/Orange/Orange Ivory Coast", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {}, null));
-        config.put("614-04/Orange/Orange Niger", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {}, null));
-        config.put("624-02/Orange Cameroon/Orange Cameroon", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {"ar", "de", "en", "eo", "es", "fr", "ha", "ln", "yo", "zh", ""}, null));
-        config.put("630-86/Orange Congo/Orange Congo", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {}, null));
-        config.put("639-07/Orange/Orange Kenya", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {}, null));
-        config.put("641-14/Orange/Orange Uganda", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {"ar", "de", "en", "es", "fr", "hi", "ko", "rw", "sw", "zh", ""}, null));
-        config.put("652-02/Orange/Orange Botswana", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), true, false, new String[] {}, null));
+        //
+        // Dates as of 20:51, 8 August 2013‎ (oldid=93082)
+        // Config from 2013-08-11 21:28 UTC
+        config.put("641-14/Orange/Orange Uganda", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 4), true, false, new String[] {"ar", "de", "en", "es", "fr", "hi", "ko", "rw", "sw", "zh", ""}, null));
+        config.put("605-01/Orange/Orange Tunisia", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 24), true, false, new String[] {"ar", "de", "en", "es", "fr", "it", "ja", "ru", "zh", ""}, null));
+        config.put("502-16/Digi/DIGI Malaysia", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 4, 21), false, true, new String[] {}, null)); // Opera
+        config.put("614-04/Orange/Orange Niger", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 6, 2), true, false, new String[] {}, null));
+        config.put("639-07/Orange/Orange Kenya", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 6, 26), true, false, new String[] {}, null));
+        config.put("297-01/Telenor Montenegro/Telenor Montenegro", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 7, 10), true, true, new String[] {}, null));
+        config.put("624-02/Orange Cameroon/Orange Cameroon", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 7, 16), true, false, new String[] {"ar", "de", "en", "eo", "es", "fr", "ha", "ln", "yo", "zh", ""}, null));
+        config.put("612-03/Orange/Orange Ivory Coast", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 8, 28), true, false, new String[] {}, null));
+        config.put("520-18/DTAC Thailand/DTAC", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 9, 11), false, true, new String[] {}, null));
+        config.put("420-01/Saudi Telecom STC/Saudi Telecom", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 9, 14), true, true, new String[] {"ar", "bn", "en", "tl", "ur", ""}, null));
+        config.put("630-86/Orange Congo/Orange Congo", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 11, 6), true, false, new String[] {}, null));
+        config.put("652-02/Orange/Orange Botswana", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 1, 8), true, false, new String[] {}, null));
+        config.put("250-99/Beeline/Vimpelcom Beeline", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 2, 28), true, true, new String[] {"en", "ru", ""}, null));
+        config.put("510-11/XL Axiata/XL Axiata Indonesia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 3, 1), false, true, new String[] {"ar", "en", "hi", "id", "jv", "ms", "su", "zh", ""}, null));
+        config.put("410-01/Mobilink/Vimpelcom Mobilink Pakistan", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 4, 31), true, true, new String[] {"en", "ur", ""}, null));
+        config.put("413-02/Dialog Sri Lanka/Dialog Sri Lanka", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 5, 25), false, true, new String[] {"en", "si", "simple", "ta", ""}, null));
+        config.put("404-01/Aircel/Aircel India", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 25), true, true, new String[] {}, null));
+
         config.put("WMF/Wikimedia/Test Configuration", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"en", ""}, null));
+
+
+        // Unused
+        //config.put("456-02/Hello Cambodia/Hello Cambodia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
+        //config.put("470-01/Grameenphone Bangladesh/Grameenphone Bangladesh", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"bn", ""}, null));
+        //config.put("502-13/Celcom Malaysia/Celcom Malaysia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
 
         // add a default setting in case we cannot find a carrier
         config.put("default", new ZeroConfig("default", "default", createStartDate(2000, 0, 1), true, true, new String[] {}, null));
@@ -91,9 +98,9 @@ public class ZeroFilterFunc extends FilterFunc {
         xCSCarrierMap.put("410-01", "410-01/Mobilink/Vimpelcom Mobilink Pakistan");
         xCSCarrierMap.put("413-02", "413-02/Dialog Sri Lanka/Dialog Sri Lanka");
         xCSCarrierMap.put("420-01", "420-01/Saudi Telecom STC/Saudi Telecom");
-        xCSCarrierMap.put("456-02", "456-02/Hello Cambodia/Hello Cambodia");
-        xCSCarrierMap.put("470-01", "470-01/Grameenphone Bangladesh/Grameenphone Bangladesh");
-        xCSCarrierMap.put("502-13", "502-13/Celcom Malaysia/Celcom Malaysia");
+        //Unused //xCSCarrierMap.put("456-02", "456-02/Hello Cambodia/Hello Cambodia");
+        //Unused //xCSCarrierMap.put("470-01", "470-01/Grameenphone Bangladesh/Grameenphone Bangladesh");
+        //Unused //xCSCarrierMap.put("502-13", "502-13/Celcom Malaysia/Celcom Malaysia");
         xCSCarrierMap.put("502-16", "502-16/Digi/DIGI Malaysia");
         xCSCarrierMap.put("510-11", "510-11/XL Axiata/XL Axiata Indonesia");
         xCSCarrierMap.put("520-18", "520-18/DTAC Thailand/DTAC");
@@ -255,22 +262,22 @@ public class ZeroFilterFunc extends FilterFunc {
                     Date requestDate = null;
                     SimpleDateFormat format;
                     format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-                    format.setTimeZone(TimeZone.getTimeZone("GMT"));
+                    format.setTimeZone(TimeZone.getTimeZone("UTC"));
                     try {
                         requestDate = format.parse(time);
                     } catch (ParseException e) {
                         format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS");
-                        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+                        format.setTimeZone(TimeZone.getTimeZone("UTC"));
                         try {
                             requestDate = format.parse(time);
                         } catch (ParseException e2) {
                             format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
-                            format.setTimeZone(TimeZone.getTimeZone("GMT"));
+                            format.setTimeZone(TimeZone.getTimeZone("UTC"));
                             try {
                                 requestDate = format.parse(time);
                             } catch (ParseException e3) {
                                 format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                                format.setTimeZone(TimeZone.getTimeZone("GMT"));
+                                format.setTimeZone(TimeZone.getTimeZone("UTC"));
                                 try {
                                     requestDate = format.parse(time);
                                 } catch (ParseException e4) {
@@ -281,7 +288,8 @@ public class ZeroFilterFunc extends FilterFunc {
                         }
                     }
                     if (ret) {
-                        ret &= zeroConfig.getStartDate().getTime().before(requestDate);
+                        Date zeroStartDate = zeroConfig.getStartDate().getTime();
+                        ret &= zeroStartDate.before(requestDate);
                     }
                 } else {
                     ret = false;
@@ -337,13 +345,9 @@ public class ZeroFilterFunc extends FilterFunc {
      */
     private Calendar createStartDate(final int year, final int month, final int day) {
         Calendar cal = Calendar.getInstance();
-        cal.set(year, month, day);
-        return cal;
-    }
-
-    private Calendar createStartDate(final int year, final int month, final int day, int hour, int minutes) {
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-        cal.set(year, month, day, hour, minutes);
+        cal.clear();
+        cal.setTimeZone(TimeZone.getTimeZone("UTC"));
+        cal.set(year, month, day, 0, 0, 0);
         return cal;
     }
 
