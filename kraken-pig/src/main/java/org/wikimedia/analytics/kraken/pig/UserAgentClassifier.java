@@ -21,13 +21,11 @@ import org.apache.pig.EvalFunc;
 import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.data.TupleFactory;
+import org.apache.pig.impl.logicalLayer.FrontendException;
 import org.apache.pig.impl.logicalLayer.schema.Schema;
-import org.apache.pig.impl.logicalLayer.schema.Schema.FieldSchema;
 import org.wikimedia.analytics.kraken.pageview.UserAgent;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class uses the dClass mobile device user agent decision tree to determine vendor/version of a mobile device.
@@ -71,20 +69,26 @@ public class UserAgentClassifier extends EvalFunc<Tuple> {
             throw new RuntimeException(e);
         }
 
-        List<FieldSchema> fields = new ArrayList<FieldSchema>();
-        fields.add(new FieldSchema(null, DataType.CHARARRAY));      // Device Vendor
-        fields.add(new FieldSchema(null, DataType.CHARARRAY));      // Device Model
-        fields.add(new FieldSchema(null, DataType.CHARARRAY));      // Device OS
-        fields.add(new FieldSchema(null, DataType.CHARARRAY));      // Device OS Version
-        fields.add(new FieldSchema(null, DataType.CHARARRAY));      // Device Class
-        fields.add(new FieldSchema(null, DataType.CHARARRAY));      // Browser
-        fields.add(new FieldSchema(null, DataType.CHARARRAY));      // Browser Version
-        fields.add(new FieldSchema(null, DataType.CHARARRAY));      // WMF Mobile App ID
-        fields.add(new FieldSchema(null, DataType.BOOLEAN));        // hasJavaScript
-        fields.add(new FieldSchema(null, DataType.CHARARRAY));      // displayDimensions: "WIDTH x HEIGHT"
-        fields.add(new FieldSchema(null, DataType.CHARARRAY));      // Input Devices
-        fields.add(new FieldSchema(null, DataType.CHARARRAY));      // Non WMF Mobile App ID
-        return new Schema(fields);
+        Schema tupleSchema = new Schema();
+        tupleSchema.add(new Schema.FieldSchema("vendor", DataType.CHARARRAY));
+        tupleSchema.add(new Schema.FieldSchema("model", DataType.CHARARRAY));
+        tupleSchema.add(new Schema.FieldSchema("device_os", DataType.CHARARRAY));
+        tupleSchema.add(new Schema.FieldSchema("device_os_version", DataType.CHARARRAY));
+        tupleSchema.add(new Schema.FieldSchema("device_class", DataType.CHARARRAY));
+        tupleSchema.add(new Schema.FieldSchema("browser", DataType.CHARARRAY));
+        tupleSchema.add(new Schema.FieldSchema("browser_version", DataType.CHARARRAY));
+        tupleSchema.add(new Schema.FieldSchema("wmf_mobile_app", DataType.CHARARRAY));
+        tupleSchema.add(new Schema.FieldSchema("has_javascript", DataType.BOOLEAN));
+        tupleSchema.add(new Schema.FieldSchema("display_dimensions", DataType.CHARARRAY));
+        tupleSchema.add(new Schema.FieldSchema("input_device", DataType.CHARARRAY));
+        tupleSchema.add(new Schema.FieldSchema("non_wmf_mobile_app", DataType.CHARARRAY));
+        Schema ret;
+        try {
+            ret = new Schema(new Schema.FieldSchema("dclass", tupleSchema, DataType.TUPLE));
+        } catch (FrontendException e) {
+            throw new RuntimeException(e);
+        }
+        return ret;
     }
 
 
