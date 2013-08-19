@@ -19,7 +19,7 @@ log_fields = FILTER log_fields
         AND IS_PAGEVIEW(uri, referer, user_agent, http_status, remote_addr, content_type, request_method)
     );
 
-device_info = FOREACH log_fields
+device_info_with_non_wmf = FOREACH log_fields
     GENERATE
         DATE_BUCKET(timestamp)      AS date_bucket:chararray,
         FLATTEN(DCLASS(user_agent)) AS (
@@ -33,8 +33,25 @@ device_info = FOREACH log_fields
             wmf_mobile_app:chararray,
             has_javascript:boolean,
             display_dimensions:chararray,
-            input_device:chararray
+            input_device:chararray,
+            non_wmf_mobile_app:chararray
         );
+
+device_info = FOREACH device_info_with_non_wmf
+    GENERATE
+        date_bucket,
+        vendor,
+        model,
+        device_os,
+        device_os_version,
+        device_class,
+        browser,
+        browser_version,
+        wmf_mobile_app,
+        has_javascript,
+        display_dimensions,
+        input_device
+    ;
 
 device_info_count = FOREACH (GROUP device_info BY (date_bucket, device_class, device_os))
     GENERATE FLATTEN($0), COUNT($1) AS num:int;
