@@ -1,0 +1,59 @@
+#!/bin/bash
+set -e
+
+usage="$0 [teragen|terasort|teravalidate]"
+
+. $(dirname $0)/../hadoop-version.sh
+
+jar=/usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples-${HADOOP_VERSION}.jar
+
+now=$(date -u +"%Y-%m-%dT%H.%M.%S")
+action=${1:-all}
+# Only doing a gigabyte by default for faster benchmarking
+size=${2:-10000000}
+logfile=./$(basename $0).${action}.${now}_${size}.log
+terabench_basedir=/benchmarks/terabench/${now}_${size}
+
+
+user=hdfs
+group=hadoop
+sudo chgrp hadoop .
+sudo chmod 775    .
+
+function terabench {
+    case $1 in
+        teragen )
+            echo hadoop jar ${jar} teragen ${size} ${terabench_basedir}/input                                       2>&1 | tee -a $logfile
+            sudo -u $user hadoop jar ${jar} teragen ${size} ${terabench_basedir}/input                              2>&1 | tee -a $logfile
+            ;;
+        terasort )
+            echo hadoop jar ${jar} terasort ${terabench_basedir}/input ${terabench_basedir}/output                  2>&1 | tee -a $logfile
+            sudo -u $user hadoop jar ${jar} terasort ${terabench_basedir}/input ${terabench_basedir}/output         2>&1 | tee -a $logfile
+            ;;
+        teravalidate )
+            echo hadoop jar ${jar} teravalidate ${terabench_basedir}/output ${terabench_basedir}/validate           2>&1 | tee -a $logfile
+            sudo -u $user hadoop jar ${jar} teravalidate ${terabench_basedir}/output ${terabench_basedir}/validate  2>&1 | tee -a $logfile
+            ;;
+        clean )
+            echo hadoop fs -rm -r ${terabench_basedir}                                                              2>&1 | tee -a $logfile
+            sudo -u $user hadoop fs -rm -r ${terabench_basedir}                                                     2>&1 | tee -a $logfile
+            ;;
+        * )
+            echo "Invalid action for terabench: '$1'."; exit 1;
+    esac
+}
+
+
+echo "Terabench $action run stated at $(date) using:
+$(hadoop version)
+${JAVA_VERSION}
+" >> $logfile
+
+if [ "${action}" == "all" ]; then
+    terabench teragen && terabench terasort && terabench teravalidate
+else
+    terabench "${action}"
+fi
+
+# we always clean up after terabench
+terabench clean

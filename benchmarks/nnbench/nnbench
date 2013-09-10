@@ -1,0 +1,34 @@
+#!/bin/bash
+set -e
+
+. $(dirname $0)/../hadoop-version.sh
+
+jar=/usr/lib/hadoop-mapreduce/hadoop-mapreduce-client-jobclient-${HADOOP_VERSION}-tests.jar
+
+action=${1:-all}
+logfile=./$(basename $0).`hostname -s`.$(date -u +"%Y-%m-%dT%H.%M.%S").log
+
+user=hdfs
+group=hadoop
+sudo chgrp hadoop .
+sudo chmod 775    .
+
+function nnbench {
+    echo hadoop jar ${jar} nnbench -operation create_write \
+        -maps 12 -reduces 6 -blockSize 1 -bytesToWrite 0 -numberOfFiles 1000 \
+        -replicationFactorPerFile 3 -readFileAfterOpen true \
+        -baseDir /benchmarks/NNBench-`hostname -s` 2>&1 | tee -a $logfile
+
+    sudo -u $user hadoop jar ${jar} nnbench -operation create_write \
+        -maps 12 -reduces 6 -blockSize 1 -bytesToWrite 0 -numberOfFiles 1000 \
+        -replicationFactorPerFile 3 -readFileAfterOpen true \
+        -baseDir /benchmarks/NNBench-`hostname -s` 2>&1 | tee -a $logfile
+}
+
+
+echo "NNBench run stated at $(date) using:
+$(hadoop version)
+${JAVA_VERSION}
+" >> $logfile
+
+nnbench

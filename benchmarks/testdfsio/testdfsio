@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+
+usage="$0 [write|read|clean]"
+
+. $(dirname $0)/../hadoop-version.sh
+
+jar=/usr/lib/hadoop-mapreduce/hadoop-mapreduce-client-jobclient-${HADOOP_VERSION}-tests.jar
+
+action=${1:-all}
+logfile=./$(basename $0).${action}.$(date -u +"%Y-%m-%dT%H.%M.%S").log
+
+user=hdfs
+group=hadoop
+sudo chgrp hadoop .
+sudo chmod 775    .
+
+function testdfsio {
+    echo hadoop jar ${jar} TestDFSIO -${1} -nrFiles 10 -fileSize 1000          2>&1 | tee -a $logfile
+    sudo -u $user hadoop jar ${jar} TestDFSIO -${1} -nrFiles 10 -fileSize 1000  2>&1 | tee -a $logfile
+}
+
+
+echo "TestDFSIO $action run stated at $(date) using:
+$(hadoop version)
+${JAVA_VERSION}
+" >> $logfile
+
+if [ "${action}" == "all" ]; then
+    testdfsio 'write' && testdfsio 'read'
+else
+    testdfsio ${action}
+fi

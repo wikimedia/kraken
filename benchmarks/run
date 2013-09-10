@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+basedir=$(dirname $0)
+
+$basedir/testdfsio/testdfsio
+$basedir/terabench/terabench
+$basedir/nnbench/nnbench
+$basedir/mrbench/mrbench
