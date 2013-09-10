@@ -14,8 +14,8 @@ sudo chgrp hadoop .
 sudo chmod 775    .
 
 function mrbench {
-    echo hadoop jar ${jar} mrbench -numRuns 50          2>&1 | tee -a $logfile
-    sudo -u $user hadoop jar ${jar} mrbench -numRuns 50 2>&1 | tee -a $logfile
+    echo hadoop jar ${jar} mrbench -numRuns 20          2>&1 | tee -a $logfile
+    sudo -u $user hadoop jar ${jar} mrbench -numRuns 20 2>&1 | tee -a $logfile
 }
 
 
