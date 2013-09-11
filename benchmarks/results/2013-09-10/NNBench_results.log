@@ -1,0 +1,30 @@
+-------------- NNBench -------------- : 
+                               Version: NameNode Benchmark 0.4
+                           Date & time: 2013-09-10 23:14:31,191
+
+                        Test Operation: create_write
+                            Start time: 2013-09-10 23:14:21,563
+                           Maps to run: 12
+                        Reduces to run: 6
+                    Block Size (bytes): 1
+                        Bytes to write: 0
+                    Bytes per checksum: 1
+                       Number of files: 1000
+                    Replication factor: 3
+            Successful file operations: 0
+
+        # maps that missed the barrier: 0
+                          # exceptions: 0
+
+               TPS: Create/Write/Close: 0
+Avg exec time (ms): Create/Write/Close: 0.0
+            Avg Lat (ms): Create/Write: NaN
+                   Avg Lat (ms): Close: NaN
+
+                 RAW DATA: AL Total #1: 0
+                 RAW DATA: AL Total #2: 0
+              RAW DATA: TPS Total (ms): 0
+       RAW DATA: Longest Map Time (ms): 0.0
+                   RAW DATA: Late maps: 0
+             RAW DATA: # of exceptions: 0
+

@@ -1,0 +1,1351 @@
+MRBench run stated at Wed Sep 11 17:39:10 UTC 2013 using:
+Hadoop 2.0.0-cdh4.3.1
+Subversion file:///var/lib/jenkins/workspace/generic-package-ubuntu64-12-04/CDH4.3.1-Packaging-Hadoop-2013-08-14_02-07-38/hadoop-2.0.0+1367-1.cdh4.3.1.p0.69~precise/src/hadoop-common-project/hadoop-common -r cf5b2749156df2e458f11aa708a8e89f1d80725d
+Compiled by jenkins on Wed Aug 14 02:50:11 PDT 2013
+From source with checksum 18fa7cdadba5ce1d1ce1771d83da9a94
+This command was run using /usr/lib/hadoop/hadoop-common-2.0.0-cdh4.3.1.jar
+java version "1.6.0_32"
+Java(TM) SE Runtime Environment (build 1.6.0_32-b05)
+Java HotSpot(TM) 64-Bit Server VM (build 20.7-b02, mixed mode)
+
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-client-jobclient-2.0.0-cdh4.3.1-tests.jar mrbench -numRuns 20
+MRBenchmark.0.0.2
+13/09/11 17:39:12 INFO mapred.MRBench: creating control file: 1 numLines, ASCENDING sortOrder
+13/09/11 17:39:12 INFO mapred.MRBench: created control file: /benchmarks/MRBench/mr_input/input_-1575779839.txt
+13/09/11 17:39:12 INFO mapred.MRBench: Running job 0: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_1544383607
+13/09/11 17:39:12 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:39:12 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:39:12 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:39:12 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:39:12 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:39:13 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:39:13 WARN conf.Configuration: mapred.jar is deprecated. Instead, use mapreduce.job.jar
+13/09/11 17:39:13 WARN conf.Configuration: mapred.reduce.tasks is deprecated. Instead, use mapreduce.job.reduces
+13/09/11 17:39:13 WARN conf.Configuration: mapred.output.value.class is deprecated. Instead, use mapreduce.job.output.value.class
+13/09/11 17:39:13 WARN conf.Configuration: mapred.mapoutput.value.class is deprecated. Instead, use mapreduce.map.output.value.class
+13/09/11 17:39:13 WARN conf.Configuration: mapred.job.name is deprecated. Instead, use mapreduce.job.name
+13/09/11 17:39:13 WARN conf.Configuration: mapred.input.dir is deprecated. Instead, use mapreduce.input.fileinputformat.inputdir
+13/09/11 17:39:13 WARN conf.Configuration: mapred.output.dir is deprecated. Instead, use mapreduce.output.fileoutputformat.outputdir
+13/09/11 17:39:13 WARN conf.Configuration: mapred.map.tasks is deprecated. Instead, use mapreduce.job.maps
+13/09/11 17:39:13 WARN conf.Configuration: mapred.mapoutput.key.class is deprecated. Instead, use mapreduce.map.output.key.class
+13/09/11 17:39:13 WARN conf.Configuration: mapred.working.dir is deprecated. Instead, use mapreduce.job.working.dir
+13/09/11 17:39:13 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0503
+13/09/11 17:39:13 INFO client.YarnClientImpl: Submitted application application_1377635260170_0503 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:39:13 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0503/
+13/09/11 17:39:13 INFO mapreduce.Job: Running job: job_1377635260170_0503
+13/09/11 17:39:21 INFO mapreduce.Job: Job job_1377635260170_0503 running in uber mode : false
+13/09/11 17:39:21 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:39:25 INFO mapreduce.Job:  map 50% reduce 0%
+13/09/11 17:39:26 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:39:30 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:39:30 INFO mapreduce.Job: Job job_1377635260170_0503 completed successfully
+13/09/11 17:39:30 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232222
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=12624
+		Total time spent by all reduces in occupied slots (ms)=9714
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3340
+		Physical memory (bytes) snapshot=985976832
+		Virtual memory (bytes) snapshot=7243149312
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:39:30 INFO mapred.MRBench: Running job 1: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_-2083961279
+13/09/11 17:39:30 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:39:30 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:39:30 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:39:30 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:39:30 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:39:31 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:39:31 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0504
+13/09/11 17:39:31 INFO client.YarnClientImpl: Submitted application application_1377635260170_0504 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:39:31 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0504/
+13/09/11 17:39:31 INFO mapreduce.Job: Running job: job_1377635260170_0504
+13/09/11 17:39:37 INFO mapreduce.Job: Job job_1377635260170_0504 running in uber mode : false
+13/09/11 17:39:37 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:39:42 INFO mapreduce.Job:  map 50% reduce 0%
+13/09/11 17:39:43 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:39:47 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:39:47 INFO mapreduce.Job: Job job_1377635260170_0504 completed successfully
+13/09/11 17:39:47 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232225
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=14088
+		Total time spent by all reduces in occupied slots (ms)=10338
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3480
+		Physical memory (bytes) snapshot=981336064
+		Virtual memory (bytes) snapshot=7248990208
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:39:47 INFO mapred.MRBench: Running job 2: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_2015189092
+13/09/11 17:39:47 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:39:47 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:39:47 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:39:47 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:39:48 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:39:48 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:39:48 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0505
+13/09/11 17:39:48 INFO client.YarnClientImpl: Submitted application application_1377635260170_0505 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:39:48 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0505/
+13/09/11 17:39:48 INFO mapreduce.Job: Running job: job_1377635260170_0505
+13/09/11 17:39:55 INFO mapreduce.Job: Job job_1377635260170_0505 running in uber mode : false
+13/09/11 17:39:55 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:40:00 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:40:05 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:40:05 INFO mapreduce.Job: Job job_1377635260170_0505 completed successfully
+13/09/11 17:40:05 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232222
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=12408
+		Total time spent by all reduces in occupied slots (ms)=10326
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3470
+		Physical memory (bytes) snapshot=988246016
+		Virtual memory (bytes) snapshot=7246069760
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:40:05 INFO mapred.MRBench: Running job 3: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_-11821900
+13/09/11 17:40:05 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:40:05 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:40:05 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:40:05 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:40:05 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:40:05 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:40:05 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0506
+13/09/11 17:40:05 INFO client.YarnClientImpl: Submitted application application_1377635260170_0506 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:40:05 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0506/
+13/09/11 17:40:05 INFO mapreduce.Job: Running job: job_1377635260170_0506
+13/09/11 17:40:12 INFO mapreduce.Job: Job job_1377635260170_0506 running in uber mode : false
+13/09/11 17:40:12 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:40:18 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:40:23 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:40:23 INFO mapreduce.Job: Job job_1377635260170_0506 completed successfully
+13/09/11 17:40:23 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232219
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=14664
+		Total time spent by all reduces in occupied slots (ms)=11580
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=4300
+		Physical memory (bytes) snapshot=993083392
+		Virtual memory (bytes) snapshot=7246069760
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:40:23 INFO mapred.MRBench: Running job 4: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_-1254524289
+13/09/11 17:40:23 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:40:23 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:40:23 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:40:23 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:40:23 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:40:24 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:40:24 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0507
+13/09/11 17:40:24 INFO client.YarnClientImpl: Submitted application application_1377635260170_0507 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:40:24 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0507/
+13/09/11 17:40:24 INFO mapreduce.Job: Running job: job_1377635260170_0507
+13/09/11 17:40:30 INFO mapreduce.Job: Job job_1377635260170_0507 running in uber mode : false
+13/09/11 17:40:30 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:40:35 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:40:40 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:40:40 INFO mapreduce.Job: Job job_1377635260170_0507 completed successfully
+13/09/11 17:40:40 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232225
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=13636
+		Total time spent by all reduces in occupied slots (ms)=10062
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3620
+		Physical memory (bytes) snapshot=985473024
+		Virtual memory (bytes) snapshot=7248990208
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:40:40 INFO mapred.MRBench: Running job 5: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_1206389350
+13/09/11 17:40:40 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:40:40 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:40:40 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:40:40 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:40:41 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:40:41 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:40:41 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0508
+13/09/11 17:40:41 INFO client.YarnClientImpl: Submitted application application_1377635260170_0508 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:40:41 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0508/
+13/09/11 17:40:41 INFO mapreduce.Job: Running job: job_1377635260170_0508
+13/09/11 17:40:48 INFO mapreduce.Job: Job job_1377635260170_0508 running in uber mode : false
+13/09/11 17:40:48 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:40:53 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:41:02 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:41:02 INFO mapreduce.Job: Job job_1377635260170_0508 completed successfully
+13/09/11 17:41:02 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232222
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=12324
+		Total time spent by all reduces in occupied slots (ms)=20091
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3930
+		Physical memory (bytes) snapshot=993517568
+		Virtual memory (bytes) snapshot=7243149312
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:41:02 INFO mapred.MRBench: Running job 6: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_1665767252
+13/09/11 17:41:02 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:41:02 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:41:02 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:41:02 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:41:02 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:41:02 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:41:02 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0509
+13/09/11 17:41:02 INFO client.YarnClientImpl: Submitted application application_1377635260170_0509 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:41:02 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0509/
+13/09/11 17:41:02 INFO mapreduce.Job: Running job: job_1377635260170_0509
+13/09/11 17:41:10 INFO mapreduce.Job: Job job_1377635260170_0509 running in uber mode : false
+13/09/11 17:41:10 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:41:14 INFO mapreduce.Job:  map 50% reduce 0%
+13/09/11 17:41:15 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:41:20 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:41:20 INFO mapreduce.Job: Job job_1377635260170_0509 completed successfully
+13/09/11 17:41:20 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232222
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=13444
+		Total time spent by all reduces in occupied slots (ms)=11127
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=4190
+		Physical memory (bytes) snapshot=983687168
+		Virtual memory (bytes) snapshot=7246069760
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:41:20 INFO mapred.MRBench: Running job 7: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_-1906038375
+13/09/11 17:41:20 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:41:20 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:41:20 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:41:20 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:41:20 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:41:20 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:41:20 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0510
+13/09/11 17:41:21 INFO client.YarnClientImpl: Submitted application application_1377635260170_0510 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:41:21 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0510/
+13/09/11 17:41:21 INFO mapreduce.Job: Running job: job_1377635260170_0510
+13/09/11 17:41:28 INFO mapreduce.Job: Job job_1377635260170_0510 running in uber mode : false
+13/09/11 17:41:28 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:41:32 INFO mapreduce.Job:  map 50% reduce 0%
+13/09/11 17:41:33 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:41:38 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:41:38 INFO mapreduce.Job: Job job_1377635260170_0510 completed successfully
+13/09/11 17:41:38 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232225
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=12866
+		Total time spent by all reduces in occupied slots (ms)=10248
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3940
+		Physical memory (bytes) snapshot=963854336
+		Virtual memory (bytes) snapshot=7243149312
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:41:38 INFO mapred.MRBench: Running job 8: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_1942140593
+13/09/11 17:41:38 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:41:38 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:41:38 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:41:38 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:41:38 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:41:39 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:41:39 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0511
+13/09/11 17:41:39 INFO client.YarnClientImpl: Submitted application application_1377635260170_0511 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:41:39 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0511/
+13/09/11 17:41:39 INFO mapreduce.Job: Running job: job_1377635260170_0511
+13/09/11 17:41:45 INFO mapreduce.Job: Job job_1377635260170_0511 running in uber mode : false
+13/09/11 17:41:45 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:41:50 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:41:56 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:41:56 INFO mapreduce.Job: Job job_1377635260170_0511 completed successfully
+13/09/11 17:41:57 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232222
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=12130
+		Total time spent by all reduces in occupied slots (ms)=11490
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=4060
+		Physical memory (bytes) snapshot=974954496
+		Virtual memory (bytes) snapshot=7243149312
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:41:57 INFO mapred.MRBench: Running job 9: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_-1262217411
+13/09/11 17:41:57 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:41:57 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:41:57 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:41:57 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:41:57 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:41:57 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:41:57 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0512
+13/09/11 17:41:57 INFO client.YarnClientImpl: Submitted application application_1377635260170_0512 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:41:57 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0512/
+13/09/11 17:41:57 INFO mapreduce.Job: Running job: job_1377635260170_0512
+13/09/11 17:42:04 INFO mapreduce.Job: Job job_1377635260170_0512 running in uber mode : false
+13/09/11 17:42:04 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:42:09 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:42:15 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:42:15 INFO mapreduce.Job: Job job_1377635260170_0512 completed successfully
+13/09/11 17:42:15 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232225
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=13592
+		Total time spent by all reduces in occupied slots (ms)=11754
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3940
+		Physical memory (bytes) snapshot=985694208
+		Virtual memory (bytes) snapshot=7246069760
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:42:15 INFO mapred.MRBench: Running job 10: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_-507216486
+13/09/11 17:42:15 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:42:15 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:42:15 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:42:15 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:42:15 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:42:15 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:42:15 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0513
+13/09/11 17:42:15 INFO client.YarnClientImpl: Submitted application application_1377635260170_0513 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:42:15 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0513/
+13/09/11 17:42:15 INFO mapreduce.Job: Running job: job_1377635260170_0513
+13/09/11 17:42:22 INFO mapreduce.Job: Job job_1377635260170_0513 running in uber mode : false
+13/09/11 17:42:22 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:42:26 INFO mapreduce.Job:  map 50% reduce 0%
+13/09/11 17:42:27 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:42:32 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:42:32 INFO mapreduce.Job: Job job_1377635260170_0513 completed successfully
+13/09/11 17:42:32 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232222
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=12506
+		Total time spent by all reduces in occupied slots (ms)=10527
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3670
+		Physical memory (bytes) snapshot=981213184
+		Virtual memory (bytes) snapshot=7248990208
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:42:32 INFO mapred.MRBench: Running job 11: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_-827999460
+13/09/11 17:42:32 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:42:32 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:42:32 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:42:32 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:42:32 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:42:33 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:42:33 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0514
+13/09/11 17:42:33 INFO client.YarnClientImpl: Submitted application application_1377635260170_0514 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:42:33 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0514/
+13/09/11 17:42:33 INFO mapreduce.Job: Running job: job_1377635260170_0514
+13/09/11 17:42:39 INFO mapreduce.Job: Job job_1377635260170_0514 running in uber mode : false
+13/09/11 17:42:39 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:42:45 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:42:50 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:42:50 INFO mapreduce.Job: Job job_1377635260170_0514 completed successfully
+13/09/11 17:42:50 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232222
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=13330
+		Total time spent by all reduces in occupied slots (ms)=10251
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3950
+		Physical memory (bytes) snapshot=974594048
+		Virtual memory (bytes) snapshot=7243149312
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:42:50 INFO mapred.MRBench: Running job 12: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_1694679327
+13/09/11 17:42:50 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:42:50 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:42:50 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:42:50 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:42:50 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:42:50 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:42:50 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0515
+13/09/11 17:42:50 INFO client.YarnClientImpl: Submitted application application_1377635260170_0515 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:42:50 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0515/
+13/09/11 17:42:50 INFO mapreduce.Job: Running job: job_1377635260170_0515
+13/09/11 17:42:58 INFO mapreduce.Job: Job job_1377635260170_0515 running in uber mode : false
+13/09/11 17:42:58 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:43:03 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:43:08 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:43:08 INFO mapreduce.Job: Job job_1377635260170_0515 completed successfully
+13/09/11 17:43:08 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232222
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=12814
+		Total time spent by all reduces in occupied slots (ms)=10053
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=4090
+		Physical memory (bytes) snapshot=979566592
+		Virtual memory (bytes) snapshot=7243149312
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:43:08 INFO mapred.MRBench: Running job 13: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_-1951450513
+13/09/11 17:43:08 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:43:08 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:43:08 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:43:08 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:43:08 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:43:08 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:43:08 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0516
+13/09/11 17:43:08 INFO client.YarnClientImpl: Submitted application application_1377635260170_0516 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:43:08 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0516/
+13/09/11 17:43:08 INFO mapreduce.Job: Running job: job_1377635260170_0516
+13/09/11 17:43:15 INFO mapreduce.Job: Job job_1377635260170_0516 running in uber mode : false
+13/09/11 17:43:15 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:43:20 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:43:25 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:43:25 INFO mapreduce.Job: Job job_1377635260170_0516 completed successfully
+13/09/11 17:43:25 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232225
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=13502
+		Total time spent by all reduces in occupied slots (ms)=10986
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=4290
+		Physical memory (bytes) snapshot=974897152
+		Virtual memory (bytes) snapshot=7243149312
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:43:25 INFO mapred.MRBench: Running job 14: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_-1307909081
+13/09/11 17:43:25 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:43:25 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:43:25 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:43:25 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:43:25 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:43:26 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:43:26 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0517
+13/09/11 17:43:26 INFO client.YarnClientImpl: Submitted application application_1377635260170_0517 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:43:26 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0517/
+13/09/11 17:43:26 INFO mapreduce.Job: Running job: job_1377635260170_0517
+13/09/11 17:43:32 INFO mapreduce.Job: Job job_1377635260170_0517 running in uber mode : false
+13/09/11 17:43:32 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:43:37 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:43:43 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:43:43 INFO mapreduce.Job: Job job_1377635260170_0517 completed successfully
+13/09/11 17:43:44 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232225
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=13024
+		Total time spent by all reduces in occupied slots (ms)=12246
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3690
+		Physical memory (bytes) snapshot=983965696
+		Virtual memory (bytes) snapshot=7246069760
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:43:44 INFO mapred.MRBench: Running job 15: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_1298251743
+13/09/11 17:43:44 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:43:44 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:43:44 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:43:44 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:43:44 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:43:44 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:43:44 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0518
+13/09/11 17:43:44 INFO client.YarnClientImpl: Submitted application application_1377635260170_0518 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:43:44 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0518/
+13/09/11 17:43:44 INFO mapreduce.Job: Running job: job_1377635260170_0518
+13/09/11 17:43:51 INFO mapreduce.Job: Job job_1377635260170_0518 running in uber mode : false
+13/09/11 17:43:51 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:43:56 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:44:01 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:44:01 INFO mapreduce.Job: Job job_1377635260170_0518 completed successfully
+13/09/11 17:44:01 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232222
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=13144
+		Total time spent by all reduces in occupied slots (ms)=11145
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=4110
+		Physical memory (bytes) snapshot=992432128
+		Virtual memory (bytes) snapshot=7246069760
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:44:01 INFO mapred.MRBench: Running job 16: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_528319153
+13/09/11 17:44:01 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:44:01 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:44:01 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:44:01 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:44:01 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:44:01 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:44:01 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0519
+13/09/11 17:44:01 INFO client.YarnClientImpl: Submitted application application_1377635260170_0519 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:44:01 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0519/
+13/09/11 17:44:01 INFO mapreduce.Job: Running job: job_1377635260170_0519
+13/09/11 17:44:08 INFO mapreduce.Job: Job job_1377635260170_0519 running in uber mode : false
+13/09/11 17:44:08 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:44:13 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:44:19 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:44:19 INFO mapreduce.Job: Job job_1377635260170_0519 completed successfully
+13/09/11 17:44:19 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232219
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=12664
+		Total time spent by all reduces in occupied slots (ms)=12144
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3960
+		Physical memory (bytes) snapshot=975073280
+		Virtual memory (bytes) snapshot=7248990208
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:44:19 INFO mapred.MRBench: Running job 17: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_558468921
+13/09/11 17:44:19 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:44:19 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:44:19 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:44:19 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:44:19 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:44:20 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:44:20 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0520
+13/09/11 17:44:20 INFO client.YarnClientImpl: Submitted application application_1377635260170_0520 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:44:20 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0520/
+13/09/11 17:44:20 INFO mapreduce.Job: Running job: job_1377635260170_0520
+13/09/11 17:44:26 INFO mapreduce.Job: Job job_1377635260170_0520 running in uber mode : false
+13/09/11 17:44:26 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:44:31 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:44:36 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:44:36 INFO mapreduce.Job: Job job_1377635260170_0520 completed successfully
+13/09/11 17:44:36 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232219
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=13966
+		Total time spent by all reduces in occupied slots (ms)=10998
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3670
+		Physical memory (bytes) snapshot=986308608
+		Virtual memory (bytes) snapshot=7246069760
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:44:36 INFO mapred.MRBench: Running job 18: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_434239261
+13/09/11 17:44:36 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:44:36 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:44:36 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:44:36 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:44:36 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:44:37 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:44:37 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0521
+13/09/11 17:44:37 INFO client.YarnClientImpl: Submitted application application_1377635260170_0521 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:44:37 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0521/
+13/09/11 17:44:37 INFO mapreduce.Job: Running job: job_1377635260170_0521
+13/09/11 17:44:43 INFO mapreduce.Job: Job job_1377635260170_0521 running in uber mode : false
+13/09/11 17:44:43 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:44:48 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:44:53 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:44:53 INFO mapreduce.Job: Job job_1377635260170_0521 completed successfully
+13/09/11 17:44:53 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232219
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=13064
+		Total time spent by all reduces in occupied slots (ms)=10596
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=3900
+		Physical memory (bytes) snapshot=1003495424
+		Virtual memory (bytes) snapshot=7248990208
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+13/09/11 17:44:53 INFO mapred.MRBench: Running job 19: input=hdfs://kraken/benchmarks/MRBench/mr_input output=hdfs://kraken/benchmarks/MRBench/mr_output/output_-1303955355
+13/09/11 17:44:53 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:44:53 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:44:53 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/11 17:44:53 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/11 17:44:54 INFO mapred.FileInputFormat: Total input paths to process : 1
+13/09/11 17:44:54 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/11 17:44:54 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0522
+13/09/11 17:44:54 INFO client.YarnClientImpl: Submitted application application_1377635260170_0522 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/11 17:44:54 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0522/
+13/09/11 17:44:54 INFO mapreduce.Job: Running job: job_1377635260170_0522
+13/09/11 17:45:02 INFO mapreduce.Job: Job job_1377635260170_0522 running in uber mode : false
+13/09/11 17:45:02 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/11 17:45:07 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/11 17:45:12 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/11 17:45:12 INFO mapreduce.Job: Job job_1377635260170_0522 completed successfully
+13/09/11 17:45:12 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=27
+		FILE: Number of bytes written=232225
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=3
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=13826
+		Total time spent by all reduces in occupied slots (ms)=11016
+	Map-Reduce Framework
+		Map input records=1
+		Map output records=1
+		Map output bytes=5
+		Map output materialized bytes=39
+		Input split bytes=230
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=1
+		Reduce shuffle bytes=39
+		Reduce input records=1
+		Reduce output records=1
+		Spilled Records=2
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=4050
+		Physical memory (bytes) snapshot=989548544
+		Virtual memory (bytes) snapshot=7246069760
+		Total committed heap usage (bytes)=2271805440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=3
+	File Output Format Counters 
+		Bytes Written=3
+DataLines	Maps	Reduces	AvgTime (milliseconds)
+1		2	1	17984
