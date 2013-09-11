@@ -5,7 +5,7 @@ basedir=$(dirname $0)
 
 # save hadoop confs for checking!
 echo "Saving /etc/hadoop/conf at ./hadoop.conf.d"
-cp -r /etc/hadoop/conf ./hadoop.conf.d
+cp -r /etc/hadoop/conf/ ./hadoop.conf.d
 
 echo "Running all benchmarks..."
 $basedir/testdfsio/testdfsio
