@@ -1,0 +1,138 @@
+NNBench run stated at Tue Sep 10 23:12:20 UTC 2013 using:
+Hadoop 2.0.0-cdh4.3.1
+Subversion file:///var/lib/jenkins/workspace/generic-package-ubuntu64-12-04/CDH4.3.1-Packaging-Hadoop-2013-08-14_02-07-38/hadoop-2.0.0+1367-1.cdh4.3.1.p0.69~precise/src/hadoop-common-project/hadoop-common -r cf5b2749156df2e458f11aa708a8e89f1d80725d
+Compiled by jenkins on Wed Aug 14 02:50:11 PDT 2013
+From source with checksum 18fa7cdadba5ce1d1ce1771d83da9a94
+This command was run using /usr/lib/hadoop/hadoop-common-2.0.0-cdh4.3.1.jar
+java version "1.6.0_32"
+Java(TM) SE Runtime Environment (build 1.6.0_32-b05)
+Java HotSpot(TM) 64-Bit Server VM (build 20.7-b02, mixed mode)
+
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-client-jobclient-2.0.0-cdh4.3.1-tests.jar nnbench -operation create_write -maps 12 -reduces 6 -blockSize 1 -bytesToWrite 0 -numberOfFiles 1000 -replicationFactorPerFile 3 -readFileAfterOpen true -baseDir /benchmarks/NNBench-analytics1010
+NameNode Benchmark 0.4
+13/09/10 23:12:21 INFO hdfs.NNBench: Test Inputs: 
+13/09/10 23:12:21 INFO hdfs.NNBench:            Test Operation: create_write
+13/09/10 23:12:21 INFO hdfs.NNBench:                Start time: 2013-09-10 23:14:21,563
+13/09/10 23:12:21 INFO hdfs.NNBench:            Number of maps: 12
+13/09/10 23:12:21 INFO hdfs.NNBench:         Number of reduces: 6
+13/09/10 23:12:21 INFO hdfs.NNBench:                Block Size: 1
+13/09/10 23:12:21 INFO hdfs.NNBench:            Bytes to write: 0
+13/09/10 23:12:21 INFO hdfs.NNBench:        Bytes per checksum: 1
+13/09/10 23:12:21 INFO hdfs.NNBench:           Number of files: 1000
+13/09/10 23:12:21 INFO hdfs.NNBench:        Replication factor: 3
+13/09/10 23:12:21 INFO hdfs.NNBench:                  Base dir: /benchmarks/NNBench-analytics1010
+13/09/10 23:12:21 INFO hdfs.NNBench:      Read file after open: true
+13/09/10 23:12:22 INFO hdfs.NNBench: Deleting data directory
+13/09/10 23:12:22 INFO hdfs.NNBench: Creating 12 control files
+13/09/10 23:12:23 WARN conf.Configuration: io.bytes.per.checksum is deprecated. Instead, use dfs.bytes-per-checksum
+13/09/10 23:12:23 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/10 23:12:23 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/10 23:12:23 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/10 23:12:23 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/10 23:12:23 WARN mapreduce.JobSubmitter: Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.
+13/09/10 23:12:23 INFO mapred.FileInputFormat: Total input paths to process : 12
+13/09/10 23:12:24 INFO mapreduce.JobSubmitter: number of splits:12
+13/09/10 23:12:24 WARN conf.Configuration: mapred.jar is deprecated. Instead, use mapreduce.job.jar
+13/09/10 23:12:24 WARN conf.Configuration: mapred.map.max.attempts is deprecated. Instead, use mapreduce.map.maxattempts
+13/09/10 23:12:24 WARN conf.Configuration: mapred.map.tasks.speculative.execution is deprecated. Instead, use mapreduce.map.speculative
+13/09/10 23:12:24 WARN conf.Configuration: mapred.reduce.tasks is deprecated. Instead, use mapreduce.job.reduces
+13/09/10 23:12:24 WARN conf.Configuration: mapred.output.value.class is deprecated. Instead, use mapreduce.job.output.value.class
+13/09/10 23:12:24 WARN conf.Configuration: mapred.reduce.tasks.speculative.execution is deprecated. Instead, use mapreduce.reduce.speculative
+13/09/10 23:12:24 WARN conf.Configuration: mapred.job.name is deprecated. Instead, use mapreduce.job.name
+13/09/10 23:12:24 WARN conf.Configuration: mapred.input.dir is deprecated. Instead, use mapreduce.input.fileinputformat.inputdir
+13/09/10 23:12:24 WARN conf.Configuration: mapred.output.dir is deprecated. Instead, use mapreduce.output.fileoutputformat.outputdir
+13/09/10 23:12:24 WARN conf.Configuration: mapred.map.tasks is deprecated. Instead, use mapreduce.job.maps
+13/09/10 23:12:24 WARN conf.Configuration: mapred.output.key.class is deprecated. Instead, use mapreduce.job.output.key.class
+13/09/10 23:12:24 WARN conf.Configuration: io.bytes.per.checksum is deprecated. Instead, use dfs.bytes-per-checksum
+13/09/10 23:12:24 WARN conf.Configuration: mapred.working.dir is deprecated. Instead, use mapreduce.job.working.dir
+13/09/10 23:12:24 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1377635260170_0446
+13/09/10 23:12:24 INFO client.YarnClientImpl: Submitted application application_1377635260170_0446 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/10 23:12:24 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1377635260170_0446/
+13/09/10 23:12:24 INFO mapreduce.Job: Running job: job_1377635260170_0446
+13/09/10 23:12:31 INFO mapreduce.Job: Job job_1377635260170_0446 running in uber mode : false
+13/09/10 23:12:31 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/10 23:12:41 INFO mapreduce.Job:  map 50% reduce 0%
+13/09/10 23:12:42 INFO mapreduce.Job:  map 67% reduce 0%
+13/09/10 23:14:26 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/10 23:14:31 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/10 23:14:31 INFO mapreduce.Job: Job job_1377635260170_0446 completed successfully
+13/09/10 23:14:31 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=509
+		FILE: Number of bytes written=1423599
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=3028
+		HDFS: Number of bytes written=170
+		HDFS: Number of read operations=66
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=12012
+	Job Counters 
+		Launched map tasks=12
+		Launched reduce tasks=6
+		Rack-local map tasks=12
+		Total time spent by all maps in occupied slots (ms)=2695346
+		Total time spent by all reduces in occupied slots (ms)=67086
+	Map-Reduce Framework
+		Map input records=12
+		Map output records=84
+		Map output bytes=2016
+		Map output materialized bytes=3276
+		Input split bytes=1538
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=7
+		Reduce shuffle bytes=3276
+		Reduce input records=84
+		Reduce output records=7
+		Spilled Records=168
+		Shuffled Maps =72
+		Failed Shuffles=0
+		Merged Map outputs=72
+		GC time elapsed (ms)=0
+		CPU time spent (ms)=48510
+		Physical memory (bytes) snapshot=6414262272
+		Virtual memory (bytes) snapshot=43476418560
+		Total committed heap usage (bytes)=13630832640
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=1490
+	File Output Format Counters 
+		Bytes Written=170
+13/09/10 23:14:31 INFO hdfs.NNBench: -------------- NNBench -------------- : 
+13/09/10 23:14:31 INFO hdfs.NNBench:                                Version: NameNode Benchmark 0.4
+13/09/10 23:14:31 INFO hdfs.NNBench:                            Date & time: 2013-09-10 23:14:31,191
+13/09/10 23:14:31 INFO hdfs.NNBench: 
+13/09/10 23:14:31 INFO hdfs.NNBench:                         Test Operation: create_write
+13/09/10 23:14:31 INFO hdfs.NNBench:                             Start time: 2013-09-10 23:14:21,563
+13/09/10 23:14:31 INFO hdfs.NNBench:                            Maps to run: 12
+13/09/10 23:14:31 INFO hdfs.NNBench:                         Reduces to run: 6
+13/09/10 23:14:31 INFO hdfs.NNBench:                     Block Size (bytes): 1
+13/09/10 23:14:31 INFO hdfs.NNBench:                         Bytes to write: 0
+13/09/10 23:14:31 INFO hdfs.NNBench:                     Bytes per checksum: 1
+13/09/10 23:14:31 INFO hdfs.NNBench:                        Number of files: 1000
+13/09/10 23:14:31 INFO hdfs.NNBench:                     Replication factor: 3
+13/09/10 23:14:31 INFO hdfs.NNBench:             Successful file operations: 0
+13/09/10 23:14:31 INFO hdfs.NNBench: 
+13/09/10 23:14:31 INFO hdfs.NNBench:         # maps that missed the barrier: 0
+13/09/10 23:14:31 INFO hdfs.NNBench:                           # exceptions: 0
+13/09/10 23:14:31 INFO hdfs.NNBench: 
+13/09/10 23:14:31 INFO hdfs.NNBench:                TPS: Create/Write/Close: 0
+13/09/10 23:14:31 INFO hdfs.NNBench: Avg exec time (ms): Create/Write/Close: 0.0
+13/09/10 23:14:31 INFO hdfs.NNBench:             Avg Lat (ms): Create/Write: NaN
+13/09/10 23:14:31 INFO hdfs.NNBench:                    Avg Lat (ms): Close: NaN
+13/09/10 23:14:31 INFO hdfs.NNBench: 
+13/09/10 23:14:31 INFO hdfs.NNBench:                  RAW DATA: AL Total #1: 0
+13/09/10 23:14:31 INFO hdfs.NNBench:                  RAW DATA: AL Total #2: 0
+13/09/10 23:14:31 INFO hdfs.NNBench:               RAW DATA: TPS Total (ms): 0
+13/09/10 23:14:31 INFO hdfs.NNBench:        RAW DATA: Longest Map Time (ms): 0.0
+13/09/10 23:14:31 INFO hdfs.NNBench:                    RAW DATA: Late maps: 0
+13/09/10 23:14:31 INFO hdfs.NNBench:              RAW DATA: # of exceptions: 0
+13/09/10 23:14:31 INFO hdfs.NNBench: 
