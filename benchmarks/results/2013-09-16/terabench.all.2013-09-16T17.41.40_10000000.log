@@ -1,0 +1,257 @@
+Terabench all run stated at Mon Sep 16 17:41:40 UTC 2013 using:
+Hadoop 2.0.0-cdh4.3.1
+Subversion file:///var/lib/jenkins/workspace/generic-package-ubuntu64-12-04/CDH4.3.1-Packaging-Hadoop-2013-08-14_02-07-38/hadoop-2.0.0+1367-1.cdh4.3.1.p0.69~precise/src/hadoop-common-project/hadoop-common -r cf5b2749156df2e458f11aa708a8e89f1d80725d
+Compiled by jenkins on Wed Aug 14 02:50:11 PDT 2013
+From source with checksum 18fa7cdadba5ce1d1ce1771d83da9a94
+This command was run using /usr/lib/hadoop/hadoop-common-2.0.0-cdh4.3.1.jar
+java version "1.7.0_25"
+OpenJDK Runtime Environment (IcedTea 2.3.10) (7u25-2.3.10-1ubuntu0.12.04.2)
+OpenJDK 64-Bit Server VM (build 23.7-b01, mixed mode)
+
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples-2.0.0-cdh4.3.1.jar teragen 10000000 /benchmarks/terabench/2013-09-16T17.41.40_10000000/input
+13/09/16 17:41:42 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/16 17:41:42 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/16 17:41:43 INFO terasort.TeraSort: Generating 10000000 using 2
+13/09/16 17:41:43 INFO mapreduce.JobSubmitter: number of splits:2
+13/09/16 17:41:43 WARN conf.Configuration: mapred.jar is deprecated. Instead, use mapreduce.job.jar
+13/09/16 17:41:43 WARN conf.Configuration: mapred.reduce.tasks is deprecated. Instead, use mapreduce.job.reduces
+13/09/16 17:41:43 WARN conf.Configuration: mapred.output.value.class is deprecated. Instead, use mapreduce.job.output.value.class
+13/09/16 17:41:43 WARN conf.Configuration: mapreduce.map.class is deprecated. Instead, use mapreduce.job.map.class
+13/09/16 17:41:43 WARN conf.Configuration: mapred.job.name is deprecated. Instead, use mapreduce.job.name
+13/09/16 17:41:43 WARN conf.Configuration: mapreduce.inputformat.class is deprecated. Instead, use mapreduce.job.inputformat.class
+13/09/16 17:41:43 WARN conf.Configuration: mapred.output.dir is deprecated. Instead, use mapreduce.output.fileoutputformat.outputdir
+13/09/16 17:41:43 WARN conf.Configuration: mapreduce.outputformat.class is deprecated. Instead, use mapreduce.job.outputformat.class
+13/09/16 17:41:43 WARN conf.Configuration: mapred.map.tasks is deprecated. Instead, use mapreduce.job.maps
+13/09/16 17:41:43 WARN conf.Configuration: mapred.output.key.class is deprecated. Instead, use mapreduce.job.output.key.class
+13/09/16 17:41:43 WARN conf.Configuration: mapred.working.dir is deprecated. Instead, use mapreduce.job.working.dir
+13/09/16 17:41:43 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1379030026553_0003
+13/09/16 17:41:43 INFO client.YarnClientImpl: Submitted application application_1379030026553_0003 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/16 17:41:43 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1379030026553_0003/
+13/09/16 17:41:43 INFO mapreduce.Job: Running job: job_1379030026553_0003
+13/09/16 17:41:50 INFO mapreduce.Job: Job job_1379030026553_0003 running in uber mode : false
+13/09/16 17:41:50 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/16 17:42:00 INFO mapreduce.Job:  map 26% reduce 0%
+13/09/16 17:42:01 INFO mapreduce.Job:  map 46% reduce 0%
+13/09/16 17:42:03 INFO mapreduce.Job:  map 53% reduce 0%
+13/09/16 17:42:04 INFO mapreduce.Job:  map 58% reduce 0%
+13/09/16 17:42:06 INFO mapreduce.Job:  map 74% reduce 0%
+13/09/16 17:42:07 INFO mapreduce.Job:  map 89% reduce 0%
+13/09/16 17:42:09 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/16 17:42:09 INFO mapreduce.Job: Job job_1379030026553_0003 completed successfully
+13/09/16 17:42:09 INFO mapreduce.Job: Counters: 28
+	File System Counters
+		FILE: Number of bytes read=0
+		FILE: Number of bytes written=153538
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=167
+		HDFS: Number of bytes written=1000000000
+		HDFS: Number of read operations=8
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=4
+	Job Counters 
+		Launched map tasks=2
+		Other local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=66554
+		Total time spent by all reduces in occupied slots (ms)=0
+	Map-Reduce Framework
+		Map input records=10000000
+		Map output records=10000000
+		Input split bytes=167
+		Spilled Records=0
+		Failed Shuffles=0
+		Merged Map outputs=0
+		GC time elapsed (ms)=94
+		CPU time spent (ms)=29050
+		Physical memory (bytes) snapshot=596594688
+		Virtual memory (bytes) snapshot=3743346688
+		Total committed heap usage (bytes)=1416167424
+	org.apache.hadoop.examples.terasort.TeraGen$Counters
+		CHECKSUM=21472776955442690
+	File Input Format Counters 
+		Bytes Read=0
+	File Output Format Counters 
+		Bytes Written=1000000000
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples-2.0.0-cdh4.3.1.jar terasort /benchmarks/terabench/2013-09-16T17.41.40_10000000/input /benchmarks/terabench/2013-09-16T17.41.40_10000000/output
+13/09/16 17:42:10 INFO terasort.TeraSort: starting
+13/09/16 17:42:10 INFO input.FileInputFormat: Total input paths to process : 2
+Spent 125ms computing base-splits.
+Spent 2ms computing TeraScheduler splits.
+Computing input splits took 127ms
+Sampling 4 splits of 4
+Making 1 from 100000 sampled records
+Computing parititions took 509ms
+Spent 640ms computing partitions.
+13/09/16 17:42:11 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/16 17:42:11 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/16 17:42:12 INFO mapreduce.JobSubmitter: number of splits:4
+13/09/16 17:42:12 WARN conf.Configuration: mapred.jar is deprecated. Instead, use mapreduce.job.jar
+13/09/16 17:42:12 WARN conf.Configuration: mapred.cache.files is deprecated. Instead, use mapreduce.job.cache.files
+13/09/16 17:42:12 WARN conf.Configuration: mapreduce.partitioner.class is deprecated. Instead, use mapreduce.job.partitioner.class
+13/09/16 17:42:12 WARN conf.Configuration: mapred.output.value.class is deprecated. Instead, use mapreduce.job.output.value.class
+13/09/16 17:42:12 WARN conf.Configuration: mapred.job.name is deprecated. Instead, use mapreduce.job.name
+13/09/16 17:42:12 WARN conf.Configuration: mapreduce.inputformat.class is deprecated. Instead, use mapreduce.job.inputformat.class
+13/09/16 17:42:12 WARN conf.Configuration: mapred.input.dir is deprecated. Instead, use mapreduce.input.fileinputformat.inputdir
+13/09/16 17:42:12 WARN conf.Configuration: mapred.output.dir is deprecated. Instead, use mapreduce.output.fileoutputformat.outputdir
+13/09/16 17:42:12 WARN conf.Configuration: mapreduce.outputformat.class is deprecated. Instead, use mapreduce.job.outputformat.class
+13/09/16 17:42:12 WARN conf.Configuration: mapred.map.tasks is deprecated. Instead, use mapreduce.job.maps
+13/09/16 17:42:12 WARN conf.Configuration: mapred.cache.files.timestamps is deprecated. Instead, use mapreduce.job.cache.files.timestamps
+13/09/16 17:42:12 WARN conf.Configuration: mapred.output.key.class is deprecated. Instead, use mapreduce.job.output.key.class
+13/09/16 17:42:12 WARN conf.Configuration: mapred.working.dir is deprecated. Instead, use mapreduce.job.working.dir
+13/09/16 17:42:12 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1379030026553_0004
+13/09/16 17:42:12 INFO client.YarnClientImpl: Submitted application application_1379030026553_0004 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/16 17:42:12 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1379030026553_0004/
+13/09/16 17:42:12 INFO mapreduce.Job: Running job: job_1379030026553_0004
+13/09/16 17:42:19 INFO mapreduce.Job: Job job_1379030026553_0004 running in uber mode : false
+13/09/16 17:42:19 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/16 17:42:29 INFO mapreduce.Job:  map 48% reduce 0%
+13/09/16 17:42:32 INFO mapreduce.Job:  map 57% reduce 0%
+13/09/16 17:42:35 INFO mapreduce.Job:  map 67% reduce 0%
+13/09/16 17:42:38 INFO mapreduce.Job:  map 77% reduce 0%
+13/09/16 17:42:39 INFO mapreduce.Job:  map 78% reduce 0%
+13/09/16 17:42:41 INFO mapreduce.Job:  map 95% reduce 0%
+13/09/16 17:42:44 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/16 17:42:51 INFO mapreduce.Job:  map 100% reduce 33%
+13/09/16 17:42:57 INFO mapreduce.Job:  map 100% reduce 67%
+13/09/16 17:43:00 INFO mapreduce.Job:  map 100% reduce 69%
+13/09/16 17:43:03 INFO mapreduce.Job:  map 100% reduce 70%
+13/09/16 17:43:06 INFO mapreduce.Job:  map 100% reduce 73%
+13/09/16 17:43:09 INFO mapreduce.Job:  map 100% reduce 76%
+13/09/16 17:43:12 INFO mapreduce.Job:  map 100% reduce 80%
+13/09/16 17:43:14 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/16 17:43:14 INFO mapreduce.Job: Job job_1379030026553_0004 completed successfully
+13/09/16 17:43:14 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=883206941
+		FILE: Number of bytes written=1325752149
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=1000000660
+		HDFS: Number of bytes written=1000000000
+		HDFS: Number of read operations=15
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=4
+		Launched reduce tasks=1
+		Rack-local map tasks=4
+		Total time spent by all maps in occupied slots (ms)=166464
+		Total time spent by all reduces in occupied slots (ms)=99825
+	Map-Reduce Framework
+		Map input records=10000000
+		Map output records=10000000
+		Map output bytes=1020000000
+		Map output materialized bytes=442152668
+		Input split bytes=660
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=10000000
+		Reduce shuffle bytes=442152668
+		Reduce input records=10000000
+		Reduce output records=10000000
+		Spilled Records=30000000
+		Shuffled Maps =4
+		Failed Shuffles=0
+		Merged Map outputs=4
+		GC time elapsed (ms)=346
+		CPU time spent (ms)=121270
+		Physical memory (bytes) snapshot=2540335104
+		Virtual memory (bytes) snapshot=11016208384
+		Total committed heap usage (bytes)=3247702016
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=1000000000
+	File Output Format Counters 
+		Bytes Written=1000000000
+13/09/16 17:43:14 INFO terasort.TeraSort: done
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples-2.0.0-cdh4.3.1.jar teravalidate /benchmarks/terabench/2013-09-16T17.41.40_10000000/output /benchmarks/terabench/2013-09-16T17.41.40_10000000/validate
+13/09/16 17:43:15 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is inited.
+13/09/16 17:43:15 INFO service.AbstractService: Service:org.apache.hadoop.yarn.client.YarnClientImpl is started.
+13/09/16 17:43:16 INFO input.FileInputFormat: Total input paths to process : 1
+Spent 18ms computing base-splits.
+Spent 2ms computing TeraScheduler splits.
+13/09/16 17:43:16 INFO mapreduce.JobSubmitter: number of splits:1
+13/09/16 17:43:16 WARN conf.Configuration: mapred.jar is deprecated. Instead, use mapreduce.job.jar
+13/09/16 17:43:16 WARN conf.Configuration: mapred.reduce.tasks is deprecated. Instead, use mapreduce.job.reduces
+13/09/16 17:43:16 WARN conf.Configuration: mapred.min.split.size is deprecated. Instead, use mapreduce.input.fileinputformat.split.minsize
+13/09/16 17:43:16 WARN conf.Configuration: mapred.output.value.class is deprecated. Instead, use mapreduce.job.output.value.class
+13/09/16 17:43:16 WARN conf.Configuration: mapreduce.map.class is deprecated. Instead, use mapreduce.job.map.class
+13/09/16 17:43:16 WARN conf.Configuration: mapred.job.name is deprecated. Instead, use mapreduce.job.name
+13/09/16 17:43:16 WARN conf.Configuration: mapreduce.reduce.class is deprecated. Instead, use mapreduce.job.reduce.class
+13/09/16 17:43:16 WARN conf.Configuration: mapreduce.inputformat.class is deprecated. Instead, use mapreduce.job.inputformat.class
+13/09/16 17:43:16 WARN conf.Configuration: mapred.input.dir is deprecated. Instead, use mapreduce.input.fileinputformat.inputdir
+13/09/16 17:43:16 WARN conf.Configuration: mapred.output.dir is deprecated. Instead, use mapreduce.output.fileoutputformat.outputdir
+13/09/16 17:43:16 WARN conf.Configuration: mapred.map.tasks is deprecated. Instead, use mapreduce.job.maps
+13/09/16 17:43:16 WARN conf.Configuration: mapred.output.key.class is deprecated. Instead, use mapreduce.job.output.key.class
+13/09/16 17:43:16 WARN conf.Configuration: mapred.working.dir is deprecated. Instead, use mapreduce.job.working.dir
+13/09/16 17:43:16 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1379030026553_0005
+13/09/16 17:43:17 INFO client.YarnClientImpl: Submitted application application_1379030026553_0005 to ResourceManager at analytics1010.eqiad.wmnet/10.64.21.110:8032
+13/09/16 17:43:17 INFO mapreduce.Job: The url to track the job: http://analytics1010.eqiad.wmnet:8088/proxy/application_1379030026553_0005/
+13/09/16 17:43:17 INFO mapreduce.Job: Running job: job_1379030026553_0005
+13/09/16 17:43:24 INFO mapreduce.Job: Job job_1379030026553_0005 running in uber mode : false
+13/09/16 17:43:24 INFO mapreduce.Job:  map 0% reduce 0%
+13/09/16 17:43:34 INFO mapreduce.Job:  map 39% reduce 0%
+13/09/16 17:43:38 INFO mapreduce.Job:  map 62% reduce 0%
+13/09/16 17:43:39 INFO mapreduce.Job:  map 100% reduce 0%
+13/09/16 17:43:45 INFO mapreduce.Job:  map 100% reduce 100%
+13/09/16 17:43:45 INFO mapreduce.Job: Job job_1379030026553_0005 completed successfully
+13/09/16 17:43:45 INFO mapreduce.Job: Counters: 43
+	File System Counters
+		FILE: Number of bytes read=100
+		FILE: Number of bytes written=154713
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=1000000166
+		HDFS: Number of bytes written=24
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Rack-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=25050
+		Total time spent by all reduces in occupied slots (ms)=11373
+	Map-Reduce Framework
+		Map input records=10000000
+		Map output records=3
+		Map output bytes=82
+		Map output materialized bytes=96
+		Input split bytes=166
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=3
+		Reduce shuffle bytes=96
+		Reduce input records=3
+		Reduce output records=1
+		Spilled Records=6
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=100
+		CPU time spent (ms)=13760
+		Physical memory (bytes) snapshot=718876672
+		Virtual memory (bytes) snapshot=5374861312
+		Total committed heap usage (bytes)=1638793216
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=1000000000
+	File Output Format Counters 
+		Bytes Written=24
+hadoop fs -rm -r /benchmarks/terabench/2013-09-16T17.41.40_10000000
+Deleted /benchmarks/terabench/2013-09-16T17.41.40_10000000

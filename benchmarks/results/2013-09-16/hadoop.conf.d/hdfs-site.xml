@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!-- NOTE:  This file is managed by Puppet. -->
+
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+  <property>
+   <name>dfs.permissions.superusergroup</name>
+   <value>hadoop</value>
+  </property>
+
+  <property>
+    <name>dfs.nameservices</name>
+    <value>kraken</value>
+  </property>
+
+  <property>
+    <name>dfs.ha.namenodes.kraken</name>
+    <value>analytics1009-eqiad-wmnet,analytics1010-eqiad-wmnet</value>
+  </property>
+
+  <property>
+    <name>dfs.namenode.rpc-address.kraken.analytics1009-eqiad-wmnet</name>
+    <value>analytics1009.eqiad.wmnet:8020</value>
+  </property>
+  <property>
+    <name>dfs.namenode.rpc-address.kraken.analytics1010-eqiad-wmnet</name>
+    <value>analytics1010.eqiad.wmnet:8020</value>
+  </property>
+
+  <property>
+    <name>dfs.namenode.http-address.kraken.analytics1009-eqiad-wmnet</name>
+    <value>analytics1009.eqiad.wmnet:50070</value>
+  </property>
+  <property>
+    <name>dfs.namenode.http-address.kraken.analytics1010-eqiad-wmnet</name>
+    <value>analytics1010.eqiad.wmnet:50070</value>
+  </property>
+
+  <property>
+    <name>dfs.namenode.shared.edits.dir</name>
+    <value>qjournal://analytics1011.eqiad.wmnet:8485;analytics1012.eqiad.wmnet:8485;analytics1013.eqiad.wmnet:8485/kraken</value>
+  </property>
+
+  <property>
+    <name>dfs.journalnode.edits.dir</name>
+    <value>/var/lib/hadoop/journal</value>
+  </property>
+
+  <property>
+    <name>dfs.client.failover.proxy.provider.kraken</name>
+    <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+  </property>
+
+  <!-- Quorum-based JournalNode HA does not require fencing. -->
+  <property>
+    <name>dfs.ha.fencing.methods</name>
+    <value>shell(/bin/true)</value>
+  </property>
+
+  <property>
+   <name>dfs.namenode.name.dir</name>
+   <value>file:///var/lib/hadoop/name</value>
+  </property>
+
+  <property>
+   <name>dfs.datanode.data.dir</name>
+   <value>file:///var/lib/hadoop/data/c/hdfs/dn,file:///var/lib/hadoop/data/d/hdfs/dn,file:///var/lib/hadoop/data/e/hdfs/dn,file:///var/lib/hadoop/data/f/hdfs/dn,file:///var/lib/hadoop/data/g/hdfs/dn,file:///var/lib/hadoop/data/h/hdfs/dn,file:///var/lib/hadoop/data/i/hdfs/dn,file:///var/lib/hadoop/data/j/hdfs/dn,file:///var/lib/hadoop/data/k/hdfs/dn,file:///var/lib/hadoop/data/l/hdfs/dn</value>
+  </property>
+
+  <property>
+   <name>dfs.block.size</name>
+   <value>268435456</value>
+  </property>
+
+  <property>
+    <name>dfs.webhdfs.enabled</name>
+    <value>true</value>
+  </property>
+  
+  <property>
+    <name>dfs.hosts.exclude</name>
+    <value>/etc/hadoop/conf/hosts.exclude</value>
+    <description>
+      A file that contains a list of DataNodes to exclude.
+      This is useful for decommissioning nodes.
+    </description>
+  </property>
+
+</configuration>
