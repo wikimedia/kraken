@@ -18,7 +18,6 @@
         <module>kraken-eventlogging</module>
         <module>kraken-pig</module>
         <module>kraken-funnel</module>
-        <module>kraken-etl</module>
     </modules>
     
     <scm>
