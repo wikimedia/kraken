@@ -131,10 +131,6 @@ Get the
 
 files from an [Analytics Team member](http://www.mediawiki.org/wiki/Analytics) and store them in kraken-pig/src/test/resources in your clone of kraken.
 
-## Maven configuration
-
-Before running maven in the kraken repository, we need to configure maven. Copy (or merge, if you already have a Maven settings.xml) maven/example.settings.xml from your maven clone to $HOME/.m2/settings.xml. Note that this will change where Maven tries to download jars.
-
 ## Running tests
 
 To test whether things worked out, run
