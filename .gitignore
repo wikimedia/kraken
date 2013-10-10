@@ -23,3 +23,5 @@ kraken-dclass/src/main/java/org/openddr/
 tmp/
 *.swp
 .deploy
+
+*.pyc
