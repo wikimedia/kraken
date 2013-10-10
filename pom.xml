@@ -16,6 +16,7 @@
         <module>kraken-generic</module>
         <module>kraken-dclass</module>
         <module>kraken-pig</module>
+        <module>kraken-etl</module>
     </modules>
     
     <scm>
