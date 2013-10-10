@@ -16,8 +16,6 @@
 
 package org.wikimedia.analytics.kraken.etl.camus.kafka.coders;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.Properties;
 import java.text.SimpleDateFormat;
 
@@ -26,7 +24,6 @@ import com.google.gson.JsonObject;
 
 import com.linkedin.camus.coders.CamusWrapper;
 import com.linkedin.camus.coders.MessageDecoder;
-import com.linkedin.camus.coders.MessageDecoderException;
 
 import org.apache.log4j.Logger;
 
