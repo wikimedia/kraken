@@ -1,0 +1,112 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""" Imports any missing hourly pagecounts from dumps.wikimedia.org into
+    a time bucketed HDFS directory hierarchy.
+    Considers hours since either:
+        1. The first hour imported
+        2. The hour specified as --start
+        3. The first hour of today's date
+
+Usage: pagecount-importer [options] <datadir>
+
+<datadir> is a directory in hdfs under which to import pagecounts/hourly
+
+Options:
+    -h --help                           Show this help message and exit.
+    -d --dry-run                        Do a dry run, just show what would be imported
+    -s --start=<start_hour>             The first hour to use if nothing is imported yet
+                                        Format: %Y.%m.%d_%H
+"""
+import os
+import re
+import urllib2
+import traceback
+import logging
+from docopt import docopt
+from datetime import datetime, timedelta, date
+from util import (
+    HdfsDatasetUtils, diff_datewise, timestamps_to_now, sh,
+)
+
+if __name__ == '__main__':
+    # parse arguments
+    arguments = docopt(__doc__)
+
+    datadir = arguments['<datadir>']
+    dry_run = arguments['--dry-run']
+    start = arguments['--start']
+    if start:
+        start = datetime.strptime(start, '%Y.%m.%d_%H')
+    else:
+        start = date.today()
+
+target = HdfsDatasetUtils(datadir)
+dataset = 'pagecounts'
+hdfs_target = target.dataset_dir(dataset, interval='hourly')
+hdfs_dir_format = os.path.join(hdfs_target, '%Y/%m/%d/%H')
+hdfs_file_format = os.path.join(hdfs_dir_format, 'pagecounts-%Y.%m.%d_%H')
+
+imported = target.partitions(dataset)
+if not imported or not imported[0]:
+    imported = [start.strftime(hdfs_dir_format)]
+first_hour = datetime.strptime(min(imported), hdfs_dir_format)
+hours_to_attempt = timestamps_to_now(first_hour, timedelta(hours=1))
+
+hours_missing = diff_datewise(
+    hours_to_attempt,
+    imported,
+    right_parse=hdfs_dir_format,
+)[0]
+
+month_cache = dict()
+hours_to_import = dict()
+ymdh_format = '%Y%m%d%H'
+link_format = 'pagecounts-%Y%m%d-%H%M%S.gz'
+base_url = 'http://dumps.wikimedia.org/other/pagecounts-raw/%Y/%Y-%m/'
+
+for timestamp in hours_missing:
+    url_for_month = timestamp.strftime(base_url)
+    ymdh = timestamp.strftime(ymdh_format)
+
+    if not url_for_month in month_cache:
+        month_cache[url_for_month] = dict()
+        res = urllib2.urlopen(url_for_month)
+        if res.code == 200:
+            html = res.read()
+            hour_links = re.findall('(?<=href=")pagecounts-[^"]*.gz', html)
+            for hour_link in hour_links:
+                parsed = datetime.strptime(hour_link, link_format)
+                parsed_ymdh = parsed.strftime(ymdh_format)
+                month_cache[url_for_month][parsed_ymdh] = \
+                    url_for_month + hour_link
+
+    if ymdh in month_cache[url_for_month]:
+        hours_to_import[timestamp] = month_cache[url_for_month][ymdh]
+
+for hour_to_import, link in hours_to_import.iteritems():
+    print('*************************')
+    print('Importing {0} From {1} To {2}'.format(
+        hour_to_import,
+        link,
+        hour_to_import.strftime(hdfs_file_format)
+    ))
+    if dry_run:
+        print('Skipping due to DRY RUN option')
+        continue
+
+    hdfs_dir = hour_to_import.strftime(hdfs_dir_format)
+    try:
+        sh('hdfs dfs -mkdir -p {0}'.format(hdfs_dir))
+        result = sh('wget -O - {0} | gunzip -c | hdfs dfs -put - {1}'.format(
+            link, hour_to_import.strftime(hdfs_file_format)
+        ))
+    except Exception as e:
+        print('ERROR')
+        traceback.print_exc()
+        sh('hdfs dfs -rm {0}'.format(hdfs_dir))
+
+    print('Done Importing {0} '.format(hour_to_import))
+    print('*************************')
+
+print('')
+print('Importing pageview data is up to date')

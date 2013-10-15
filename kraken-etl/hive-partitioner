@@ -1,58 +1,75 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""" Automatically adds Hive partitions based on HDFS directory hierarchy.
+""" Automatically adds Hive partitions based on time bucketed HDFS directory hierarchy.
 
-Usage: hive-partitioner [options] <camus_destination_path>
+Usage: hive-partitioner [options] <datadir>
     
 Options:
-    -h --help                       Show this help message and exit.
-    -D --database=<dbname>          Hive database name.  [default: default]
-    -o --hive-options=<options>     Any valid Hive CLI options you want to pass to Hive commands.
-                                    Example: '--auxpath /path/to/hive-serdes-1.0-SNAPSHOT.jar'
+    -h --help                           Show this help message and exit.
+    -D --database=<dbname>              Hive database name.  [default: default]
+    -t --tables=<table1[,table2...]>    Tables to create partitions for.  If not specified,
+                                        all directories found in <datadir> will be partitioned.
+    -o --hive-options=<options>         Any valid Hive CLI options you want to pass to Hive commands.
+                                        Example: '--auxpath /path/to/hive-serdes-1.0-SNAPSHOT.jar'
+    -v --verbose                        Turn on verbose debug logging.
+    -n --dry-run                        Don't actually create any partitions, just output the Hive queries to add partitions.
 """
 __author__ = 'Andrew Otto <otto@wikimedia.org>'
 
 from   datetime import datetime
-from   docopt import docopt
+from   docopt   import docopt
 import logging
-import os
-import subprocess
-import pprint
 
-from util import HiveUtils, CamusUtils, sh, diffDatewise, interval_hierarchies
-
-pp     = pprint.pprint
-logger = logging.getLogger('hive-partitioner')
-
+from util import HiveUtils, HdfsDatasetUtils, diff_datewise, interval_hierarchies
 
 if __name__ == '__main__':
     # parse arguments
     arguments = docopt(__doc__)
-    print(arguments)
-    logging.basicConfig(level=logging.DEBUG)
+    # print(arguments)
 
-    camus_destination_path = arguments['<camus_destination_path>']
+    datadir                = arguments['<datadir>']
     database               = arguments['--database']
+    tables                 = arguments['--tables']
     hive_options           = arguments['--hive-options']
+    verbose                = arguments['--verbose']
+    dry_run                = arguments['--dry-run']
 
-    hive = HiveUtils(database, hive_options)
-    camus = CamusUtils(camus_destination_path)
+    log_level = logging.INFO
+    if verbose:
+        log_level = logging.DEBUG
 
-    topics = camus.topics()
-    print("Topics: " + ','.join(topics))
-    for topic in topics:
-        if hive.table_exists(topic):
-            interval         = hive.partition_interval(topic)
-            hive_partitions  = hive.partitions(topic)
-            camus_partitions = camus.partitions(topic, camus_destination_path)
+    logging.basicConfig(level=log_level,
+                        format='%(asctime)s %(levelname)-6s %(message)s',
+                        datefmt='%Y-%m-%dT%H:%M:%S')
 
-            logger.debug(("Hive Partitions for %s:\n" % topic) + '\n'.join(hive_partitions))
-            logger.debug(("Camus Partitions for %s:\n " % topic) + '\n'.join(camus_partitions))
-            logger.debug("%s import interval is %s" % (topic, interval))
 
-            # diff the camus and hive partitions
-            missing_hive, missing_camus = diffDatewise(camus_partitions, hive_partitions,
+    hive  = HiveUtils(database, hive_options)
+    hdfs  = HdfsDatasetUtils(datadir)
+
+    if tables:
+        tables = tables.split(',')
+    else:
+        tables = hdfs.datasets()
+
+    for table in tables:
+        if hive.table_exists(table):
+            interval         = hive.partition_interval(table)
+            hive_partitions  = hive.partitions(table)
+            hdfs_partitions  = hdfs.partitions(table, interval)
+
+            # logging.debug(("Hive Partitions for %s:\n" % table) + '\n'.join(hive_partitions))
+            # logging.debug(("HDFS Partitions for %s:\n " % table) + '\n'.join(hdfs_partitions))
+            # logging.debug("%s import interval is %s" % (table, interval))
+
+            # diff the hdfs dataset and hive table partitions
+            missing_hive, missing_hdfs = diff_datewise(hdfs_partitions, hive_partitions,
                 interval_hierarchies[interval]['directory_format'],
                 interval_hierarchies[interval]['hive_partition_format'])
-            print("Need to create partition for:")
-            pp(missing_hive)
+
+            if not missing_hive:
+                logging.info("No partitions need added for table %s." % table)
+            elif dry_run:
+                print(hive.add_partitions_ddl(table, missing_hive))
+            else:
+                logging.info("Adding %d partitions to table %s." % (len(missing_hive), table))
+                hive.create_partitions(table, missing_hive)
