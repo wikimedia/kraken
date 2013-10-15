@@ -60,8 +60,8 @@ public class ZeroFilterFunc extends FilterFunc {
         // Information is obtained from https://wikimediafoundation.org/wiki/Mobile_partnerships
         // see also the Zero namespace on meta: http://meta.wikimedia.org/wiki/Zero:410-01 for example
         //
-        // Dates as of 13:27, 7 October 2013 (oldid=93897)
-        // Config from 2013-10-07 18:31 UTC
+        // Dates as of 18:12, 15 October 2013 (oldid=93957)
+        // Config from 2013-10-15 18:12 UTC
         config.put("641-14/Orange/Orange Uganda", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 4), true, false, new String[] {"ar", "de", "en", "es", "fr", "hi", "ko", "rw", "sw", "zh", ""}, null));
         config.put("605-01/Orange/Orange Tunisia", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 24), true, false, new String[] {"ar", "de", "en", "es", "fr", "it", "ja", "ru", "zh", ""}, null));
         config.put("502-16/Digi/DIGI Malaysia", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 4, 21), false, true, new String[] {}, null)); // Opera
@@ -81,6 +81,7 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("404-01/Aircel/Aircel India", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 25), true, true, new String[] {}, null));
         // No zero domain whitelisted although the Mobile_partnership page says so, as Zero:646-02 trumps that information and says only m is wihtelisted
         config.put("646-02/Orange/Orange Madagascar", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 8, 21), true, false, new String[] {"en", "fr", "mg", ""}, null));
+        config.put("470-03/Banglalink/Banglalink Bangladesh", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 9, 6), true, true, new String[] {"bn", "en", ""}, null));
 
         config.put("WMF/Wikimedia/Test Configuration", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"en", ""}, null));
 
@@ -102,6 +103,7 @@ public class ZeroFilterFunc extends FilterFunc {
         xCSCarrierMap.put("420-01", "420-01/Saudi Telecom STC/Saudi Telecom");
         //Unused //xCSCarrierMap.put("456-02", "456-02/Hello Cambodia/Hello Cambodia");
         //Unused //xCSCarrierMap.put("470-01", "470-01/Grameenphone Bangladesh/Grameenphone Bangladesh");
+        xCSCarrierMap.put("470-03", "470-03/Banglalink/Banglalink Bangladesh");
         //Unused //xCSCarrierMap.put("502-13", "502-13/Celcom Malaysia/Celcom Malaysia");
         xCSCarrierMap.put("502-16", "502-16/Digi/DIGI Malaysia");
         xCSCarrierMap.put("510-11", "510-11/XL Axiata/XL Axiata Indonesia");
