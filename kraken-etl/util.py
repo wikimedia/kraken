@@ -111,7 +111,11 @@ def sh(command, check_return_code=True):
 class HiveUtils(object):
     def __init__(self, database='default', options=''):
         self.database   = database
-        self.options    = options.split()
+        if options:
+            self.options    = options.split()
+        else:
+            self.options = []
+
         self.hivecmd = ['hive'] + self.options + ['cli', '--database', self.database]
         self.tables  = {}
 
@@ -145,7 +149,6 @@ class HiveUtils(object):
 
         if 'schema' not in self.tables[table].keys():
             cmd = ' '.join(self.hivecmd) + ' -e \'SHOW CREATE TABLE ' + table + ';\' | sed \'1d\''
-            logger.debug('Running: %s' % cmd)
             self.tables[table]['schema'] = sh(cmd)
 
         return self.tables[table]['schema']
@@ -242,7 +245,6 @@ class HiveUtils(object):
             # counts the number of partition keys this table has
             # and returns a string time interval based in this number        
             cmd = ' '.join(self.hivecmd) + ' -e \'SHOW CREATE TABLE ' + table + ';\' | sed -n \'/PARTITIONED BY (/,/)/p\' | grep -v \'PARTITIONED BY\' | wc -l'
-            logger.debug('Running: %s' % cmd)
             partition_depth = int(sh(cmd))
 
             self.tables[table]['depth']    = partition_depth
