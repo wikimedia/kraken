@@ -12,8 +12,8 @@ Usage: pagecount-importer [options] <datadir>
 <datadir> is a directory in hdfs under which to import pagecounts/hourly
 
 Options:
-    -h --help                           Show this help message and exit.
-    -d --dry-run                        Do a dry run, just show what would be imported
+    -h --help                           Show this help message and exit
+    -n --dry-run                        Just show what would be imported
     -s --start=<start_hour>             The first hour to use if nothing is imported yet
                                         Format: %Y.%m.%d_%H
 """
