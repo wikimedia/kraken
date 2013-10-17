@@ -13,6 +13,7 @@ Usage: pagecount-importer [options] <datadir>
 
 Options:
     -h --help                           Show this help message and exit
+    -v --verbose                        Print out DEBUG messages
     -n --dry-run                        Just show what would be imported
     -s --start=<start_hour>             The first hour to use if nothing is imported yet
                                         Format: %Y.%m.%d_%H
@@ -32,8 +33,18 @@ if __name__ == '__main__':
     # parse arguments
     arguments = docopt(__doc__)
 
-    datadir = arguments['<datadir>']
-    dry_run = arguments['--dry-run']
+    datadir                 = arguments['<datadir>']
+    verbose                 = arguments['--verbose']
+    dry_run                 = arguments['--dry-run']
+
+    log_level = logging.INFO
+    if verbose:
+        log_level = logging.DEBUG
+
+    logging.basicConfig(level=log_level,
+                        format='%(asctime)s %(levelname)-6s %(message)s',
+                        datefmt='%Y-%m-%dT%H:%M:%S')
+
     start = arguments['--start']
     if start:
         start = datetime.strptime(start, '%Y.%m.%d_%H')
