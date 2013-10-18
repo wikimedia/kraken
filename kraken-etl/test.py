@@ -86,15 +86,14 @@ class TestHiveUtil(TestCase):
         interval = 'hourly'
         ddl_format = interval_hierarchies[interval]['hive_partition_ddl_format']
         ds = [datetime(2013,10,15,10), datetime(2013,10,15,11)]
-        expect = "ALTER TABLE table1 ADD\nPARTITION (%s),\nPARTITION (%s);" % (ds[0].strftime(ddl_format), ds[1].strftime(ddl_format))
+
 
         expect_ddls = ['PARTITION (%s) LOCATION \'%s/%s\'' % (
             d.strftime(interval_hierarchies[interval]['hive_partition_ddl_format']),
             self.hive.tables[table]['location'],
             d.strftime(interval_hierarchies[interval]['directory_format'])
         ) for d in ds]
-
-        expect = 'ALTER TABLE ' + table + ' ADD\n' + '\n'.join(expect_ddls) + ';'
+        expect = '\n'.join(['ALTER TABLE %s ADD %s;' % (table, partition_ddl) for partition_ddl in expect_ddls])
 
         add_statement = self.hive.add_partitions_ddl(table, ds)
         self.assertEqual(add_statement, expect)

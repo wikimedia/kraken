@@ -202,7 +202,7 @@ class HiveUtils(object):
         """
         ddls = [(self.partition_ddl(table, p)) for p in partition_datetimes]
         ddls.sort()
-        return 'ALTER TABLE %s ADD\n%s;' % (table, '\n'.join(ddls))
+        return '\n'.join(['ALTER TABLE %s ADD %s;' % (table, ddl) for ddl in ddls])
 
 
     def partition_ddl(self, table, partition_datetime):
