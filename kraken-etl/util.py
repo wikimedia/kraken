@@ -3,6 +3,7 @@ from datetime import datetime
 import os
 import re
 import subprocess
+import tempfile
 
 
 logger = logging.getLogger('kraken-etl-util')
@@ -187,7 +188,9 @@ class HiveUtils(object):
         """
         if partition_datetimes:
             q = self.add_partitions_ddl(table, partition_datetimes)
-            return self.query(q, True)
+            # This query could be large if there are many partiitons to create.
+            # Use a tempfile when adding partitions.
+            return self.query(q, use_tempfile=True)
         else:
             logger.info("Not creating any partitions for table %s.  No partition datetimes were given." % table)
 
@@ -252,14 +255,29 @@ class HiveUtils(object):
 
         return self.tables[table]['interval']
 
+    def query(self, query, check_return_code=True, use_tempfile=False):
+        """
+        Runs the given Hive query and returns stdout.
 
-    def query(self, query, check_return_code=True):
-        """Runs the given hive query and returns stdout"""
-        return self.command(['-e', query], check_return_code)
+        If use_tempfile is True, the query will be written to
+        a temporary file and run as a Hive script.
+        """
+
+        if use_tempfile:
+            f = tempfile.NamedTemporaryFile(prefix='tmp-hive-query-', suffix='.hiveql')
+            logger.debug('Writing Hive query to tempfile %s.' % f.name)
+            f.write(query)
+            f.flush()
+            out = self.script(f.name)
+            # NamedTemporaryFile will be deleted on close().
+            f.close()
+            return out
+        else:
+            return self.command(['-e', query], check_return_code)
 
 
     def script(self, script, check_return_code=True):
-        """Runs the contents of the given script in hive and returns stdout"""
+        """Runs the contents of the given script in hive and returns stdout."""
         if not os.path.isfile(script):
             raise RuntimeError("Hive script: {0} does not exist.".format(script))
         return self.command( ['-f', script], check_return_code)
