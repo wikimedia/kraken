@@ -436,6 +436,25 @@ public class ZeroFilterFuncTest extends TestCase {
         assertTrue("No zero page view, although it should be", isZeroPageView);
     }
 
+    public void testExecApiZeroConfig() throws IOException {
+        Tuple input = tupleFactory.newTuple(9);
+        input.set(0, "http://en.m.wikipedia.org/w/api.php?format=json&action=zeroconfig&type=config"); // uri
+        input.set(1, "http://en.m.wikipedia.org/wiki/Main_Page"); // referrer
+        input.set(2, "-"); // user agent
+        input.set(3, "hit/200"); // http status
+        input.set(4, "209.34.2.203"); // remote_addr (random)
+        input.set(5, "application/json; charset=utf-8"); // content type
+        input.set(6, "GET"); // request-method
+        input.set(7, "zero=404-01;"); // analytics
+        input.set(8, "2013-07-25T04:59:08.3"); // timestamp
+
+        ZeroFilterFunc zero = new ZeroFilterFunc();
+
+        boolean isZeroPageView = zero.exec(input);
+
+        assertFalse("Zero page view, although it should not be", isZeroPageView);
+    }
+
     public void testOutputSchemaMatch() throws IOException {
         List<Schema.FieldSchema> fields = new ArrayList<Schema.FieldSchema>(9);
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));

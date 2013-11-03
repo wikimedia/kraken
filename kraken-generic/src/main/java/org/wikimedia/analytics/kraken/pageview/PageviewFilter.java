@@ -95,6 +95,12 @@ public class PageviewFilter {
      * @return true/false
      */
     public final boolean isApiPageview(final URL url, final URL referer) {
+        final String query = url.getQuery();
+        if (query != null && url.getPath().equals("/w/api.php")
+                && query.equals("format=json&action=zeroconfig&type=config"))
+        {
+            return false;
+        }
         boolean resultMainRequest = isApiPageviewRequest(url);
         if (referer == null) {
             return resultMainRequest;
