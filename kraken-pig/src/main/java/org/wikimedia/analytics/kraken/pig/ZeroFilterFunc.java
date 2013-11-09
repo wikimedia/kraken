@@ -60,8 +60,8 @@ public class ZeroFilterFunc extends FilterFunc {
         // Information is obtained from https://wikimediafoundation.org/wiki/Mobile_partnerships
         // see also the Zero namespace on meta: http://meta.wikimedia.org/wiki/Zero:410-01 for example
         //
-        // Dates as of 18:21, 15 October 2013 (oldid=93959)
-        // Config from 2013-10-15 19:05 UTC
+        // Dates as of 18:44, 1 November 2013 (oldid=94177)
+        // Config from 2013-11-01 21:07 UTC
         config.put("641-14/Orange/Orange Uganda", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 4), true, false, new String[] {"ar", "de", "en", "es", "fr", "hi", "ko", "rw", "sw", "zh", ""}, null));
         config.put("605-01/Orange/Orange Tunisia", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 24), true, false, new String[] {"ar", "de", "en", "es", "fr", "it", "ja", "ru", "zh", ""}, null));
         config.put("502-16/Digi/DIGI Malaysia", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 4, 21), false, true, new String[] {}, null)); // Opera
@@ -83,6 +83,7 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("646-02/Orange/Orange Madagascar", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 8, 21), true, false, new String[] {"en", "fr", "mg", ""}, null));
         config.put("416-03/Umniah/Umniah Jordan", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 8, 29), true, true, new String[] {"ar", "en", ""}, null));
         config.put("470-03/Banglalink/Banglalink Bangladesh", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 9, 6), true, true, new String[] {"bn", "en", ""}, null));
+        config.put("639-03/Airtel/Airtel Kenya", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 9, 24), true, true, new String[] {}, null));
 
         config.put("WMF/Wikimedia/Test Configuration", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"en", ""}, null));
 
@@ -115,6 +116,7 @@ public class ZeroFilterFunc extends FilterFunc {
         xCSCarrierMap.put("614-04", "614-04/Orange/Orange Niger");
         xCSCarrierMap.put("624-02", "624-02/Orange Cameroon/Orange Cameroon");
         xCSCarrierMap.put("630-86", "630-86/Orange Congo/Orange Congo");
+        xCSCarrierMap.put("639-03", "639-03/Airtel/Airtel Kenya");
         xCSCarrierMap.put("639-07", "639-07/Orange/Orange Kenya");
         xCSCarrierMap.put("641-14", "641-14/Orange/Orange Uganda");
         xCSCarrierMap.put("646-02", "646-02/Orange/Orange Madagascar");
