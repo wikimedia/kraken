@@ -60,8 +60,8 @@ public class ZeroFilterFunc extends FilterFunc {
         // Information is obtained from https://wikimediafoundation.org/wiki/Mobile_partnerships
         // see also the Zero namespace on meta: http://meta.wikimedia.org/wiki/Zero:410-01 for example
         //
-        // Dates as of 18:44, 1 November 2013 (oldid=94177)
-        // Config from 2013-11-01 21:07 UTC
+        // Dates as of 22:12, 25 November 2013 (oldid=94506)
+        // Config from 2013-12-04 13:51 UTC
         config.put("641-14/Orange/Orange Uganda", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 4), true, false, new String[] {"ar", "de", "en", "es", "fr", "hi", "ko", "rw", "sw", "zh", ""}, null));
         config.put("605-01/Orange/Orange Tunisia", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 24), true, false, new String[] {"ar", "de", "en", "es", "fr", "it", "ja", "ru", "zh", ""}, null));
         config.put("502-16/Digi/DIGI Malaysia", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 4, 21), false, true, new String[] {}, null)); // Opera
@@ -85,6 +85,10 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("470-03/Banglalink/Banglalink Bangladesh", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 9, 6), true, true, new String[] {"bn", "en", ""}, null));
         config.put("639-03/Airtel/Airtel Kenya", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 9, 24), true, true, new String[] {}, null));
 
+        //The following two start dates currently seem swapped on the wikitable, as otherwise 401-01 would be free before in got enabled.
+        config.put("401-01/Beeline/Beeline Kazakhstan", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 10, 25), true, true, new String[] {"en", "kk", "ru", ""}, null));
+        config.put("436-01/Tcell/Tcell Tajikistan", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 10, 19), true, true, new String[] {}, null));
+
         config.put("WMF/Wikimedia/Test Configuration", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"en", ""}, null));
 
 
@@ -99,11 +103,13 @@ public class ZeroFilterFunc extends FilterFunc {
         this.xCSCarrierMap = new HashMap<String, String>();
         xCSCarrierMap.put("250-99", "250-99/Beeline/Vimpelcom Beeline");
         xCSCarrierMap.put("297-01", "297-01/Telenor Montenegro/Telenor Montenegro");
+        xCSCarrierMap.put("401-01", "401-01/Beeline/Beeline Kazakhstan");
         xCSCarrierMap.put("404-01", "404-01/Aircel/Aircel India");
         xCSCarrierMap.put("410-01", "410-01/Mobilink/Vimpelcom Mobilink Pakistan");
         xCSCarrierMap.put("413-02", "413-02/Dialog Sri Lanka/Dialog Sri Lanka");
         xCSCarrierMap.put("416-03", "416-03/Umniah/Umniah Jordan");
         xCSCarrierMap.put("420-01", "420-01/Saudi Telecom STC/Saudi Telecom");
+        xCSCarrierMap.put("436-01", "436-01/Tcell/Tcell Tajikistan");
         //Unused //xCSCarrierMap.put("456-02", "456-02/Hello Cambodia/Hello Cambodia");
         //Unused //xCSCarrierMap.put("470-01", "470-01/Grameenphone Bangladesh/Grameenphone Bangladesh");
         xCSCarrierMap.put("470-03", "470-03/Banglalink/Banglalink Bangladesh");
