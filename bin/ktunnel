@@ -12,6 +12,7 @@ Available tunnel services:
   hue
   oozie
   logs
+  proxy
 
 Options:
   -h --help             show this help message and exit
@@ -28,6 +29,8 @@ Examples:
 
   Tunnel to Oozie web UI as a different user using a different bastion.
     ktunnel oozie bubba@analytics1001.wikimedia.org
+
+  Create a SOCKS proxy tunnel to analytics1010.
 
 """
 
@@ -46,6 +49,7 @@ services = {
     'oozie':    {'host': 'analytics1027.eqiad.wmnet', 'port': 11000},
     'logs':     {'host': 'analytics1020.eqiad.wmnet', 'port': 8042},
     'j':        {'host': 'analytics1010.eqiad.wmnet', 'port': 50030},
+    'proxy':    {'host': 'analytics1010.eqiad.wmnet', 'port': 8999},
 }
 
 def tunnel(ssh_host, bind_port, dest_host, dest_port, background=False, verbose=True):
@@ -54,11 +58,18 @@ def tunnel(ssh_host, bind_port, dest_host, dest_port, background=False, verbose=
     command = "ssh -N%s%s %s -L %i:%s:%i" % (background_flag, verbose_flag, ssh_host, bind_port, dest_host, dest_port)
     print(command)
     os.system(command)
-    
+
+def proxy(proxy_host, proxy_port, background=False, verbose=True):
+    background_flag = 'f' if background else ''
+    verbose_flag    = 'v' if verbose    else ''
+    command = "ssh -ND%s%s %i %s" % (background_flag, verbose_flag, proxy_port, proxy_host)
+    print(command)
+    os.system(command)
+
 if __name__ == '__main__':
     # parse arguments
     arguments = docopt(__doc__)
-    # print(arguments)
+    print(arguments)
 
     if (arguments['<service>'] not in services.keys()):
         print("Error.  service must be one of " + ', '.join(services.keys()))
@@ -67,6 +78,10 @@ if __name__ == '__main__':
     ssh_host = arguments['<ssh_host>'] if arguments['<ssh_host>'] else default_ssh_address
 
     service = services[arguments['<service>']]
-    print("Tunneling to %s.  Tunnel will be available at http://localhost:%s\n" % (arguments['<service>'], service['port']))
-    tunnel(ssh_host, service['port'], service['host'], service['port'], arguments['--background'], arguments['--verbose'])
+    if arguments['<service>'] == 'proxy':
+        print('Starting SOCKS proxy through %s:%i')
+        proxy(service['host'], service['port'], arguments['--background'], arguments['--verbose'])
+    else:
+        print("Tunneling to %s.  Tunnel will be available at http://localhost:%s\n" % (arguments['<service>'], service['port']))
+        tunnel(ssh_host, service['port'], service['host'], service['port'], arguments['--background'], arguments['--verbose'])
     
