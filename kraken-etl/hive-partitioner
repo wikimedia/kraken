@@ -73,3 +73,5 @@ if __name__ == '__main__':
             else:
                 logging.info("Adding %d partitions to table %s." % (len(missing_hive), table))
                 hive.create_partitions(table, missing_hive)
+        else:
+            logger.warning('Table {0} does not exist, skipping.'.format(table))
