@@ -38,7 +38,7 @@ from docopt import docopt
 import sys
 import os
 
-default_ssh_address = 'analytics1001.wikimedia.org'
+default_ssh_address = 'bast1001.wikimedia.org'
 
 services = {
     'namenode': {'host': 'analytics1010.eqiad.wmnet', 'port': 50070},
