@@ -1,0 +1,16 @@
+#/bin/bash
+
+# Use this script for easily cat-ing out YARN job logs based
+# on YARN application id.
+
+application_id="${1}"
+if [ -z "${application_id}" ]; then
+    echo "Must provide application_id."
+    echo "Usage: $0 <application_id> [user]" 
+    exit 1
+fi
+
+user="${2:-$USER}"
+
+log_path="/var/log/hadoop-yarn/apps/${user}/logs"
+hdfs dfs -cat "${log_path}/${application_id}/*"
