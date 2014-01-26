@@ -60,8 +60,8 @@ public class ZeroFilterFunc extends FilterFunc {
         // Information is obtained from https://wikimediafoundation.org/wiki/Mobile_partnerships
         // see also the Zero namespace on meta: http://meta.wikimedia.org/wiki/Zero:410-01 for example
         //
-        // Dates as of 22:12, 25 November 2013 (oldid=94506)
-        // Config from 2013-12-04 13:51 UTC
+        // Dates as of 23:18, 21 January 2014 (oldid=95497)
+        // Config from 2013-01-26 14:07:01 UTC
         config.put("641-14/Orange/Orange Uganda", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 4), true, false, new String[] {"ar", "de", "en", "es", "fr", "hi", "ko", "rw", "sw", "zh", ""}, null));
         config.put("605-01/Orange/Orange Tunisia", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 3, 24), true, false, new String[] {"ar", "de", "en", "es", "fr", "it", "ja", "ru", "zh", ""}, null));
         config.put("502-16/Digi/DIGI Malaysia", new ZeroConfig("Uganda", "Orange", createStartDate(2012, 4, 21), false, true, new String[] {}, null)); // Opera
@@ -84,17 +84,15 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("416-03/Umniah/Umniah Jordan", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 8, 29), true, true, new String[] {"ar", "en", ""}, null));
         config.put("470-03/Banglalink/Banglalink Bangladesh", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 9, 6), true, true, new String[] {"bn", "en", ""}, null));
         config.put("639-03/Airtel/Airtel Kenya", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 9, 24), true, true, new String[] {}, null));
-
-        //The following two start dates currently seem swapped on the wikitable, as otherwise 401-01 would be free before in got enabled.
         config.put("401-01/Beeline/Beeline Kazakhstan", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 10, 25), true, true, new String[] {"en", "kk", "ru", ""}, null));
         config.put("436-01/Tcell/Tcell Tajikistan", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 10, 19), true, true, new String[] {}, null));
+        config.put("470-01/Gramenphone/Gramenphone Bangladesh", new ZeroConfig("Bangladesh", "Gramenphone", createStartDate(2013, 11, 16), false, true, new String[] {}, null));
 
         config.put("WMF/Wikimedia/Test Configuration", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"en", ""}, null));
 
 
         // Unused
         //config.put("456-02/Hello Cambodia/Hello Cambodia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
-        //config.put("470-01/Grameenphone Bangladesh/Grameenphone Bangladesh", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"bn", ""}, null));
         //config.put("502-13/Celcom Malaysia/Celcom Malaysia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
 
         // add a default setting in case we cannot find a carrier
@@ -111,7 +109,7 @@ public class ZeroFilterFunc extends FilterFunc {
         xCSCarrierMap.put("420-01", "420-01/Saudi Telecom STC/Saudi Telecom");
         xCSCarrierMap.put("436-01", "436-01/Tcell/Tcell Tajikistan");
         //Unused //xCSCarrierMap.put("456-02", "456-02/Hello Cambodia/Hello Cambodia");
-        //Unused //xCSCarrierMap.put("470-01", "470-01/Grameenphone Bangladesh/Grameenphone Bangladesh");
+        xCSCarrierMap.put("470-01", "470-01/Gramenphone/Gramenphone Bangladesh");
         xCSCarrierMap.put("470-03", "470-03/Banglalink/Banglalink Bangladesh");
         //Unused //xCSCarrierMap.put("502-13", "502-13/Celcom Malaysia/Celcom Malaysia");
         xCSCarrierMap.put("502-16", "502-16/Digi/DIGI Malaysia");
