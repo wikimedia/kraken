@@ -41,15 +41,15 @@ import os
 default_ssh_address = 'bast1001.wikimedia.org'
 
 services = {
-    'namenode': {'host': 'analytics1010.eqiad.wmnet', 'port': 50070},
-    'datanode': {'host': 'analytics1011.eqiad.wmnet', 'port': 50075},
-    'jobs':     {'host': 'analytics1010.eqiad.wmnet', 'port': 8088 },
-    'history':  {'host': 'analytics1010.eqiad.wmnet', 'port': 19888},
-    'hue':      {'host': 'analytics1027.eqiad.wmnet', 'port': 8888 },
-    'oozie':    {'host': 'analytics1027.eqiad.wmnet', 'port': 11000},
-    'logs':     {'host': 'analytics1020.eqiad.wmnet', 'port': 8042},
-    'j':        {'host': 'analytics1010.eqiad.wmnet', 'port': 50030},
-    'proxy':    {'host': 'analytics1010.eqiad.wmnet', 'port': 8999},
+    'namenode': {'host': 'analytics1010.eqiad.wmnet', 'port': 50070, 'https': False},
+    'datanode': {'host': 'analytics1011.eqiad.wmnet', 'port': 50075, 'https': False},
+    'jobs':     {'host': 'analytics1010.eqiad.wmnet', 'port': 8088, 'https': False },
+    'history':  {'host': 'analytics1010.eqiad.wmnet', 'port': 19888, 'https': False},
+    'hue':      {'host': 'analytics1027.eqiad.wmnet', 'port': 8888, 'https': True },
+    'oozie':    {'host': 'analytics1027.eqiad.wmnet', 'port': 11000, 'https': False},
+    'logs':     {'host': 'analytics1020.eqiad.wmnet', 'port': 8042, 'https': False},
+    'j':        {'host': 'analytics1010.eqiad.wmnet', 'port': 50030, 'https': False},
+    'proxy':    {'host': 'analytics1010.eqiad.wmnet', 'port': 8999, 'https': False},
 }
 
 def tunnel(ssh_host, bind_port, dest_host, dest_port, background=False, verbose=True):
@@ -82,6 +82,7 @@ if __name__ == '__main__':
         print('Starting SOCKS proxy through %s:%i')
         proxy(service['host'], service['port'], arguments['--background'], arguments['--verbose'])
     else:
-        print("Tunneling to %s.  Tunnel will be available at http://localhost:%s\n" % (arguments['<service>'], service['port']))
+        protocol = 'https' if service['https'] == True else 'http'
+        print("Tunneling to %s.  Tunnel will be available at %s://localhost:%s\n" % (arguments['<service>'], protocol, service['port']))
         tunnel(ssh_host, service['port'], service['host'], service['port'], arguments['--background'], arguments['--verbose'])
     
