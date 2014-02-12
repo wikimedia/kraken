@@ -90,41 +90,65 @@ public class ZeroFilterFunc extends FilterFunc {
 
         config.put("WMF/Wikimedia/Test Configuration", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {"en", ""}, null));
 
-
-        // Unused
-        //config.put("456-02/Hello Cambodia/Hello Cambodia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
-        //config.put("502-13/Celcom Malaysia/Celcom Malaysia", new ZeroConfig("Uganda", "Orange", createStartDate(2013, 6, 1), false, true, new String[] {}, null));
+        // Carriers without start date. We mark the free as of 1st February 2014, so we can start collecting their data.
+        config.put("293-41/IPKO/IPKO Kosovo", new ZeroConfig("Kosovo", "IPKO", createStartDate(2014, 1, 1), true, true, new String[] {}, null));
+        // The following carrier currently (2014-02-12) does not seem to get any traffic.
+        config.put("405-25/Tata/Tata India", new ZeroConfig("India", "Tata", createStartDate(2014, 1, 1), false, true, new String[] {}, null));
+        config.put("426-04/VIVA/VIVA Bahrain", new ZeroConfig("Bahrain", "VIVA", createStartDate(2014, 1, 1), true, true, new String[] {}, null));
+        config.put("428-98/G-Mobile/G-Mobile Mongolia", new ZeroConfig("Mongolia", "G-Mobile", createStartDate(2014, 1, 1), true, true, new String[] {}, null));
+        config.put("436-04/Babilon-Mobile/Babilon-Mobile Tajikistan", new ZeroConfig("Tajikistan", "Babilon-Mobile", createStartDate(2014, 1, 1), true, true, new String[] {}, null));
+        // The following carrier currently (2014-02-12) does not seem to get any traffic.
+        config.put("456-02/Smart/Smart Cambodia", new ZeroConfig("Cambodia", "Smart", createStartDate(2014, 1, 1), false, true, new String[] {}, null));
+        config.put("470-07/Airtel/Airtel Bangladesh", new ZeroConfig("Bangladesh", "Airtel", createStartDate(2014, 1, 1), true, true, new String[] {}, null));
+        // The following carrier currently (2014-02-12) does not seem to get any traffic.
+        config.put("502-13/Celcom/Celcom Malaysia", new ZeroConfig("Malaysia", "Celcom", createStartDate(2014, 1, 1), false, true, new String[] {}, null));
+        config.put("604-00/Orange/Orange Morocco", new ZeroConfig("Morocco", "Orange", createStartDate(2014, 1, 1), true, false, new String[] {"fr", "en", "ar", "es", "de", "it", "zh", "nl", "pt", "ru", ""}, null));
+        config.put("621-20/Airtel/Airtel Nigeria", new ZeroConfig("Nigeria", "Airtel", createStartDate(2014, 1, 1), true, true, new String[] {}, null));
+        config.put("623-03/Orange/Orange - Central African Republic", new ZeroConfig("Central African Republic", "Orange", createStartDate(2014, 1, 1), true, false, new String[] {"fr", "ha", "ln", "yo", "eo", "ar", "zh", "en", "es", "de", ""}, null));
+        config.put("639-02/Safaricom/Safaricom Kenya", new ZeroConfig("Kenya", "Safaricom", createStartDate(2014, 1, 1), true, true, new String[] {}, null));
+        config.put("655-12/MTN/MTN South Africa", new ZeroConfig("South Africa", "MTN South Africa", createStartDate(2014, 1, 1), true, true, new String[] {}, null));
 
         // add a default setting in case we cannot find a carrier
         config.put("default", new ZeroConfig("default", "default", createStartDate(2000, 0, 1), true, true, new String[] {}, null));
 
         this.xCSCarrierMap = new HashMap<String, String>();
         xCSCarrierMap.put("250-99", "250-99/Beeline/Vimpelcom Beeline");
+        xCSCarrierMap.put("293-41", "293-41/IPKO/IPKO Kosovo");
         xCSCarrierMap.put("297-01", "297-01/Telenor Montenegro/Telenor Montenegro");
         xCSCarrierMap.put("401-01", "401-01/Beeline/Beeline Kazakhstan");
         xCSCarrierMap.put("404-01", "404-01/Aircel/Aircel India");
+        xCSCarrierMap.put("405-25", "405-25/Tata/Tata India");
         xCSCarrierMap.put("410-01", "410-01/Mobilink/Vimpelcom Mobilink Pakistan");
         xCSCarrierMap.put("413-02", "413-02/Dialog Sri Lanka/Dialog Sri Lanka");
         xCSCarrierMap.put("416-03", "416-03/Umniah/Umniah Jordan");
         xCSCarrierMap.put("420-01", "420-01/Saudi Telecom STC/Saudi Telecom");
+        xCSCarrierMap.put("426-04", "426-04/VIVA/VIVA Bahrain");
+        xCSCarrierMap.put("428-98", "428-98/G-Mobile/G-Mobile Mongolia");
         xCSCarrierMap.put("436-01", "436-01/Tcell/Tcell Tajikistan");
-        //Unused //xCSCarrierMap.put("456-02", "456-02/Hello Cambodia/Hello Cambodia");
+        xCSCarrierMap.put("436-04", "436-04/Babilon-Mobile/Babilon-Mobile Tajikistan");
+        xCSCarrierMap.put("456-02", "456-02/Smart/Smart Cambodia");
         xCSCarrierMap.put("470-01", "470-01/Gramenphone/Gramenphone Bangladesh");
         xCSCarrierMap.put("470-03", "470-03/Banglalink/Banglalink Bangladesh");
-        //Unused //xCSCarrierMap.put("502-13", "502-13/Celcom Malaysia/Celcom Malaysia");
+        xCSCarrierMap.put("470-07", "470-07/Airtel/Airtel Bangladesh");
+        xCSCarrierMap.put("502-13", "502-13/Celcom/Celcom Malaysia");
         xCSCarrierMap.put("502-16", "502-16/Digi/DIGI Malaysia");
         xCSCarrierMap.put("510-11", "510-11/XL Axiata/XL Axiata Indonesia");
         xCSCarrierMap.put("520-18", "520-18/DTAC Thailand/DTAC");
+        xCSCarrierMap.put("604-00", "604-00/Orange/Orange Morocco");
         xCSCarrierMap.put("605-01", "605-01/Orange/Orange Tunisia");
         xCSCarrierMap.put("612-03", "612-03/Orange/Orange Ivory Coast");
         xCSCarrierMap.put("614-04", "614-04/Orange/Orange Niger");
+        xCSCarrierMap.put("621-20", "621-20/Airtel/Airtel Nigeria");
+        xCSCarrierMap.put("623-03", "623-03/Orange/Orange - Central African Republic");
         xCSCarrierMap.put("624-02", "624-02/Orange Cameroon/Orange Cameroon");
         xCSCarrierMap.put("630-86", "630-86/Orange Congo/Orange Congo");
+        xCSCarrierMap.put("639-02", "639-02/Safaricom/Safaricom Kenya");
         xCSCarrierMap.put("639-03", "639-03/Airtel/Airtel Kenya");
         xCSCarrierMap.put("639-07", "639-07/Orange/Orange Kenya");
         xCSCarrierMap.put("641-14", "641-14/Orange/Orange Uganda");
         xCSCarrierMap.put("646-02", "646-02/Orange/Orange Madagascar");
         xCSCarrierMap.put("652-02", "652-02/Orange/Orange Botswana");
+        xCSCarrierMap.put("655-12", "655-12/MTN/MTN South Africa");
         xCSCarrierMap.put("WMF", "WMF/Wikimedia/Test Configuration");
 
         this.pageViewFilterFunc = new PageViewFilterFunc();
