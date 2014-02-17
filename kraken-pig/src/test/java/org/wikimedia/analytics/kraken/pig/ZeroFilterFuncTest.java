@@ -46,7 +46,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=639-07;"); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -65,7 +65,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "639-07;"); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -84,7 +84,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=639-07;"); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -103,7 +103,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=639-07"); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -122,7 +122,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, ""); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -141,7 +141,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, null); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -160,7 +160,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "-"); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -182,7 +182,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=612-03;"); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -205,7 +205,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=612-03;"); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -227,7 +227,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=520-18;"); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -250,7 +250,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=520-18;"); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -269,7 +269,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=Some-Partner-MCC-MNC;"); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -291,7 +291,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=624-02;"); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -313,7 +313,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=624-02;"); // analytics
-        input.set(8, "2013-07-09T06:27:08.096"); // timestamp
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -332,7 +332,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=404-01;"); // analytics
-        input.set(8, "2013-07-24T23:59:59.999"); // timestamp
+        input.set(8, "2013-12-31T23:59:59.999"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -351,7 +351,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=404-01;"); // analytics
-        input.set(8, "2013-07-25T04:59:08.096"); // timestamp
+        input.set(8, "2014-01-01T00:00:00.001"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -370,7 +370,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=404-01;"); // analytics
-        input.set(8, "2013-07-24T23:59:59"); // timestamp
+        input.set(8, "2013-12-31T23:59:59"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -389,7 +389,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=404-01;"); // analytics
-        input.set(8, "2013-07-25T04:59:08"); // timestamp
+        input.set(8, "2014-01-01T00:00:01"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -408,7 +408,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=404-01;"); // analytics
-        input.set(8, "2013-07-24T23:59:59:9"); // timestamp
+        input.set(8, "2013-12-31T23:59:59.9"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -427,7 +427,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "text/html; charset=UTF-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=404-01;"); // analytics
-        input.set(8, "2013-07-25T04:59:08.3"); // timestamp
+        input.set(8, "2014-01-01T00:00:00.1"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
@@ -446,7 +446,7 @@ public class ZeroFilterFuncTest extends TestCase {
         input.set(5, "application/json; charset=utf-8"); // content type
         input.set(6, "GET"); // request-method
         input.set(7, "zero=404-01;"); // analytics
-        input.set(8, "2013-07-25T04:59:08.3"); // timestamp
+        input.set(8, "2014-07-25T04:59:08.3"); // timestamp
 
         ZeroFilterFunc zero = new ZeroFilterFunc();
 
