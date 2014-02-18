@@ -76,7 +76,7 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("436-01/Tcell/Tcell Tajikistan", new ZeroConfig("Tajikistan", "Tcell", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("436-04/Babilon-Mobile/Babilon-Mobile Tajikistan", new ZeroConfig("Tajikistan", "Babilon-Mobile", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("456-02/Smart/Smart Cambodia", new ZeroConfig("Cambodia", "Smart", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
-        config.put("470-01/Gramenphone/Gramenphone Bangladesh", new ZeroConfig("Bangladesh", "Gramenphone", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
+        config.put("470-01/Grameenphone/Grameenphone Bangladesh", new ZeroConfig("Bangladesh", "Grameenphone", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
         config.put("470-03/Banglalink/Banglalink Bangladesh", new ZeroConfig("Bangladesh", "Banglalink", createStartDate(2014, 0, 1), true, true, new String[] {"en", "bn", ""}, null));
         config.put("470-07/Airtel/Airtel Bangladesh", new ZeroConfig("Bangladesh", "Airtel", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("502-13/Celcom/Celcom Malaysia", new ZeroConfig("Malaysia", "Celcom", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
@@ -117,7 +117,7 @@ public class ZeroFilterFunc extends FilterFunc {
         xCSCarrierMap.put("436-01", "436-01/Tcell/Tcell Tajikistan");
         xCSCarrierMap.put("436-04", "436-04/Babilon-Mobile/Babilon-Mobile Tajikistan");
         xCSCarrierMap.put("456-02", "456-02/Smart/Smart Cambodia");
-        xCSCarrierMap.put("470-01", "470-01/Gramenphone/Gramenphone Bangladesh");
+        xCSCarrierMap.put("470-01", "470-01/Grameenphone/Grameenphone Bangladesh");
         xCSCarrierMap.put("470-03", "470-03/Banglalink/Banglalink Bangladesh");
         xCSCarrierMap.put("470-07", "470-07/Airtel/Airtel Bangladesh");
         xCSCarrierMap.put("502-13", "502-13/Celcom/Celcom Malaysia");
