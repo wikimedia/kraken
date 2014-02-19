@@ -59,9 +59,6 @@ public class ZeroFilterFunc extends FilterFunc {
 
         // Information is obtained from https://wikimediafoundation.org/wiki/Mobile_partnerships
         // see also the Zero namespace on meta: http://meta.wikimedia.org/wiki/Zero:410-01 for example
-        //
-        // Dates as of 23:18, 21 January 2014 (oldid=95497)
-        // Config from 2013-01-26 14:07:01 UTC
         config.put("250-99/Beeline/Beeline Russia", new ZeroConfig("Russia", "Beeline", createStartDate(2014, 0, 1), true, true, new String[] {"ru", "en", ""}, null));
         config.put("293-41/IPKO/IPKO Kosovo", new ZeroConfig("Kosovo", "IPKO", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("297-01/Telenor/Telenor Montenegro", new ZeroConfig("Montenegro", "Telenor", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
@@ -76,7 +73,7 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("436-01/Tcell/Tcell Tajikistan", new ZeroConfig("Tajikistan", "Tcell", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("436-04/Babilon-Mobile/Babilon-Mobile Tajikistan", new ZeroConfig("Tajikistan", "Babilon-Mobile", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("456-02/Smart/Smart Cambodia", new ZeroConfig("Cambodia", "Smart", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
-        config.put("470-01/Grameenphone/Grameenphone Bangladesh", new ZeroConfig("Bangladesh", "Grameenphone", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
+        config.put("470-01/Grameenphone/Grameenphone Bangladesh", new ZeroConfig("Bangladesh", "Grameenphone", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("470-03/Banglalink/Banglalink Bangladesh", new ZeroConfig("Bangladesh", "Banglalink", createStartDate(2014, 0, 1), true, true, new String[] {"en", "bn", ""}, null));
         config.put("470-07/Airtel/Airtel Bangladesh", new ZeroConfig("Bangladesh", "Airtel", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("502-13/Celcom/Celcom Malaysia", new ZeroConfig("Malaysia", "Celcom", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
