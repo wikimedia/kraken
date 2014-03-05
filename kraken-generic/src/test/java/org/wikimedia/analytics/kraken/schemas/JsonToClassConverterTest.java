@@ -30,15 +30,6 @@ import static org.junit.Assert.assertEquals;
 public class JsonToClassConverterTest {
 
     @Test
-    public void readAppleUserAgentJsonFile()
-            throws JsonMappingException, JsonParseException, RuntimeException {
-        JsonToClassConverter converter = new JsonToClassConverter();
-        HashMap<String, Schema> map = converter.construct("org.wikimedia.analytics.kraken.schemas.AppleUserAgent", "ios.json", "getProduct");
-        assertEquals(map.keySet().size(), 89);
-
-    }
-
-    @Test
     public void readMccMncJsonFile()
             throws JsonMappingException, JsonParseException, RuntimeException {
         JsonToClassConverter converter = new JsonToClassConverter();

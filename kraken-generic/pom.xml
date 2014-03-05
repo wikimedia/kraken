@@ -17,12 +17,6 @@
     
     <dependencies>
         <dependency>
-            <groupId>org.wikimedia.analytics.kraken</groupId>
-            <artifactId>kraken-dclass</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
             <version>3.1</version>

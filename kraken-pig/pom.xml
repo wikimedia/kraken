@@ -22,12 +22,6 @@
         
         <dependency>
             <groupId>org.wikimedia.analytics.kraken</groupId>
-            <artifactId>kraken-dclass</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.wikimedia.analytics.kraken</groupId>
             <artifactId>kraken-generic</artifactId>
             <version>0.0.2-SNAPSHOT</version>
         </dependency>
