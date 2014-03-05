@@ -1,20 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <name>Kraken Base Library</name>
-    
+
     <groupId>org.wikimedia.analytics.kraken</groupId>
     <artifactId>kraken-generic</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
-    
+
     <parent>
         <groupId>org.wikimedia.analytics.kraken</groupId>
         <artifactId>kraken</artifactId>
         <version>0.0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
+
     <dependencies>
         <dependency>
             <groupId>commons-net</groupId>
@@ -46,8 +46,7 @@
             <version>4.0.3</version>
         </dependency>
     </dependencies>
-    
-    
+
     <build>
         <plugins>
             <plugin>
@@ -69,10 +68,9 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skip.tests>false</skip.tests>
     </properties>
-    
 </project>

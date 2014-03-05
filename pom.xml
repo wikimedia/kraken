@@ -1,35 +1,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <name>Kraken</name>
     <description>Wikimedia Analytics utilities for Kraken, our data-processing platform built on Hadoop.</description>
     <url>https://github.com/wikimedia/kraken</url>
-    
+
     <groupId>org.wikimedia.analytics.kraken</groupId>
     <artifactId>kraken</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
-    
-    
+
     <modules>
         <module>kraken-generic</module>
         <module>kraken-pig</module>
         <module>kraken-toolbelt</module>
     </modules>
-    
+
     <scm>
         <url>scm:git:git@github.com/wikimedia/kraken.git</url>
         <connection>scm:git:git@github.com/wikimedia/kraken.git</connection>
         <developerConnection>scm:git:git@github.com/wikimedia/kraken.git</developerConnection>
     </scm>
-    
-    
+
     <organization>
         <name>Wikimedia Foundation</name>
         <url>http://www.wikimediafoundation.org</url>
     </organization>
-    
+
     <licenses>
         <license>
             <name>GPL2</name>
@@ -46,13 +44,12 @@
             <archive>http://lists.wikimedia.org/pipermail/analytics/</archive>
         </mailingList>
     </mailingLists>
-    
+
     <issueManagement>
         <system>Github Issues</system>
         <url>https://github.com/wikimedia/kraken/issues</url>
     </issueManagement>
-    
-    
+
     <repositories>
         <repository>
             <id>central</id>
@@ -107,21 +104,20 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.1.1</version>
         </dependency>
-        
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>2.1.1</version>
         </dependency>
     </dependencies>
-    
-    
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -131,7 +127,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 
     <build>
         <plugins>
@@ -144,7 +139,7 @@
                     <compilerArgument></compilerArgument>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -153,7 +148,7 @@
                     <linksource>true</linksource>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
@@ -181,7 +176,7 @@
                     </reportPlugins>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -206,7 +201,7 @@
                 </executions>
             </plugin>
         </plugins>
-        
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -222,7 +217,7 @@
             </plugins>
         </pluginManagement>
     </build>
-    
+
     <reporting>
         <plugins>
             <plugin>
@@ -234,10 +229,9 @@
             </plugin>
         </plugins>
     </reporting>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skip.tests>false</skip.tests>
     </properties>
-    
 </project>
