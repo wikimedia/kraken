@@ -71,6 +71,5 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <skip.tests>false</skip.tests>
     </properties>
 </project>
