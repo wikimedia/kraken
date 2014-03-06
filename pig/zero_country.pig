@@ -1,5 +1,4 @@
 REGISTER 'kraken-generic-0.0.2-SNAPSHOT-jar-with-dependencies.jar'
-REGISTER 'kraken-dclass-0.0.2-SNAPSHOT.jar'
 REGISTER 'kraken-pig-0.0.2-SNAPSHOT.jar'
 
 -- Script Parameters
