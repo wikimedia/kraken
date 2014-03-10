@@ -79,6 +79,7 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("502-13/Celcom/Celcom Malaysia", new ZeroConfig("Malaysia", "Celcom", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
         config.put("502-16/Digi/Digi Malaysia", new ZeroConfig("Malaysia", "Digi", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
         config.put("510-11/XL Axiata/XL Axiata Indonesia", new ZeroConfig("Indonesia", "XL Axiata", createStartDate(2014, 0, 1), false, true, new String[] {"id", "en", "zh", "ar", "hi", "ms", "jv", "su", ""}, null));
+        config.put("515-03/Smart/Smart Philippines", new ZeroConfig("Philippines", "Smart", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("520-18/DTAC/DTAC Thailand", new ZeroConfig("Thailand", "DTAC", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
         config.put("604-00/Orange/Orange Morocco", new ZeroConfig("Morocco", "Orange", createStartDate(2014, 0, 1), true, false, new String[] {"fr", "en", "ar", "es", "de", "it", "zh", "nl", "pt", "ru", ""}, null));
         config.put("605-01/Orange/Orange Tunisia", new ZeroConfig("Tunisia", "Orange", createStartDate(2014, 0, 1), true, false, new String[] {"fr", "ru", "ja", "zh", "it", "de", "en", "es", "ar", ""}, null));
@@ -120,6 +121,7 @@ public class ZeroFilterFunc extends FilterFunc {
         xCSCarrierMap.put("502-13", "502-13/Celcom/Celcom Malaysia");
         xCSCarrierMap.put("502-16", "502-16/Digi/Digi Malaysia");
         xCSCarrierMap.put("510-11", "510-11/XL Axiata/XL Axiata Indonesia");
+        xCSCarrierMap.put("515-03", "515-03/Smart/Smart Philippines");
         xCSCarrierMap.put("520-18", "520-18/DTAC/DTAC Thailand");
         xCSCarrierMap.put("604-00", "604-00/Orange/Orange Morocco");
         xCSCarrierMap.put("605-01", "605-01/Orange/Orange Tunisia");
