@@ -90,4 +90,55 @@ public class ZeroTest {
         assertEquals("stc/al-jawal-saudi-arabia", carrier.get(0));
         assertEquals("SA", carrier.get(1));
     }
+
+    @Test
+    public void testZeroDoubledSame() throws IOException  {
+        Tuple input = tupleFactory.newTuple(1);
+        input.set(0, "zero=639-07;zero=639-07");
+        Zero zero = new Zero();
+        Tuple carrier = zero.exec(input);
+        assertEquals("orange-kenya", carrier.get(0));
+        assertEquals("KE", carrier.get(1));
+    }
+
+    @Test
+    public void testZeroDoubledDifferent() throws IOException  {
+        Tuple input = tupleFactory.newTuple(1);
+        input.set(0, "zero=639-07;zero=624-02");
+        Zero zero = new Zero();
+        Tuple carrier = zero.exec(input);
+        assertEquals("orange-kenya", carrier.get(0));
+        assertEquals("KE", carrier.get(1));
+    }
+
+    @Test
+    public void testZeroDoubledWHttps() throws IOException  {
+        Tuple input = tupleFactory.newTuple(1);
+        input.set(0, "zero=639-07;zero=639-07;https=1");
+        Zero zero = new Zero();
+        Tuple carrier = zero.exec(input);
+        assertEquals("orange-kenya", carrier.get(0));
+        assertEquals("KE", carrier.get(1));
+    }
+
+    @Test
+    public void testZeroDoubledWProxy() throws IOException  {
+        Tuple input = tupleFactory.newTuple(1);
+        input.set(0, "zero=639-07;zero=639-07;proxy=Opera");
+        Zero zero = new Zero();
+        Tuple carrier = zero.exec(input);
+        assertEquals("orange-kenya", carrier.get(0));
+        assertEquals("KE", carrier.get(1));
+    }
+
+    @Test
+    public void testZeroDoubledWProxyAndHttps() throws IOException  {
+        Tuple input = tupleFactory.newTuple(1);
+        input.set(0, "zero=639-07;zero=639-07;proxy=Opera;https=1");
+        Zero zero = new Zero();
+        Tuple carrier = zero.exec(input);
+        assertEquals("orange-kenya", carrier.get(0));
+        assertEquals("KE", carrier.get(1));
+    }
+
 }

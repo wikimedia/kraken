@@ -484,6 +484,94 @@ public class ZeroFilterFuncTest extends TestCase {
 
     }
 
+    public void testExecDoubledZero() throws IOException {
+        // For this test to work, assure that for the zero partner with
+        // MCC-MNC 624-02 requests to "eo" language are free for the "m".
+
+        Tuple input = tupleFactory.newTuple(9);
+        input.set(0, "http://eo.m.wikipedia.org/wiki/James_Ingram"); // uri
+        input.set(1, "-"); // referrer
+        input.set(2, "-"); // user agent
+        input.set(3, "hit/200"); // http status
+        input.set(4, "209.34.2.203"); // remote_addr (random)
+        input.set(5, "text/html; charset=UTF-8"); // content type
+        input.set(6, "GET"); // request-method
+        input.set(7, "zero=624-02;zero=624-02"); // analytics
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
+
+        ZeroFilterFunc zero = new ZeroFilterFunc();
+
+        boolean isZeroPageView = zero.exec(input);
+
+        assertTrue("No zero page view, although it should be", isZeroPageView);
+    }
+
+    public void testExecDoubledZeroWProxy() throws IOException {
+        // For this test to work, assure that for the zero partner with
+        // MCC-MNC 624-02 requests to "eo" language are free for the "m".
+
+        Tuple input = tupleFactory.newTuple(9);
+        input.set(0, "http://eo.m.wikipedia.org/wiki/James_Ingram"); // uri
+        input.set(1, "-"); // referrer
+        input.set(2, "-"); // user agent
+        input.set(3, "hit/200"); // http status
+        input.set(4, "209.34.2.203"); // remote_addr (random)
+        input.set(5, "text/html; charset=UTF-8"); // content type
+        input.set(6, "GET"); // request-method
+        input.set(7, "zero=624-02;zero=624-02;proxy=Opera"); // analytics
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
+
+        ZeroFilterFunc zero = new ZeroFilterFunc();
+
+        boolean isZeroPageView = zero.exec(input);
+
+        assertTrue("No zero page view, although it should be", isZeroPageView);
+    }
+
+    public void testExecDoubledZeroWHttpsAndProxy() throws IOException {
+        // For this test to work, assure that for the zero partner with
+        // MCC-MNC 624-02 requests to "eo" language are free for the "m".
+
+        Tuple input = tupleFactory.newTuple(9);
+        input.set(0, "http://eo.m.wikipedia.org/wiki/James_Ingram"); // uri
+        input.set(1, "-"); // referrer
+        input.set(2, "-"); // user agent
+        input.set(3, "hit/200"); // http status
+        input.set(4, "209.34.2.203"); // remote_addr (random)
+        input.set(5, "text/html; charset=UTF-8"); // content type
+        input.set(6, "GET"); // request-method
+        input.set(7, "zero=624-02;zero=624-02;proxy=Opera;https=1"); // analytics
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
+
+        ZeroFilterFunc zero = new ZeroFilterFunc();
+
+        boolean isZeroPageView = zero.exec(input);
+
+        assertTrue("No zero page view, although it should be", isZeroPageView);
+    }
+
+    public void testExecDoubledZeroWHttps() throws IOException {
+        // For this test to work, assure that for the zero partner with
+        // MCC-MNC 624-02 requests to "eo" language are free for the "m".
+
+        Tuple input = tupleFactory.newTuple(9);
+        input.set(0, "http://eo.m.wikipedia.org/wiki/James_Ingram"); // uri
+        input.set(1, "-"); // referrer
+        input.set(2, "-"); // user agent
+        input.set(3, "hit/200"); // http status
+        input.set(4, "209.34.2.203"); // remote_addr (random)
+        input.set(5, "text/html; charset=UTF-8"); // content type
+        input.set(6, "GET"); // request-method
+        input.set(7, "zero=624-02;zero=624-02;https=1"); // analytics
+        input.set(8, "2014-07-09T06:27:08.096"); // timestamp
+
+        ZeroFilterFunc zero = new ZeroFilterFunc();
+
+        boolean isZeroPageView = zero.exec(input);
+
+        assertTrue("No zero page view, although it should be", isZeroPageView);
+    }
+
     public void testOutputSchemaInputWrongSize() throws IOException {
         List<Schema.FieldSchema> fields = new ArrayList<Schema.FieldSchema>(1);
         fields.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
