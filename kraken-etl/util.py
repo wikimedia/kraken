@@ -141,7 +141,8 @@ class HiveUtils(object):
     def tables_get(self):
         """Returns a list of tables in the current database"""
         t = self.query('SHOW TABLES').split('\n')
-        t.remove('tab_name')
+        if 'tab_name' in t:
+          t.remove('tab_name')
         return t
 
 
@@ -191,7 +192,8 @@ class HiveUtils(object):
         if not 'partitions' in self.tables[table].keys():
             stdout     = self.query("SHOW PARTITIONS %s;" % table)
             partitions = stdout.split('\n')
-            partitions.remove('partition')
+            if 'partition' in partitions:
+              partitions.remove('partition')
             self.tables[table]['partitions'] = partitions
 
         return self.tables[table]['partitions']
