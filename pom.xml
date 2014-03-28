@@ -56,20 +56,6 @@
     
     <repositories>
         <repository>
-            <id>wmf-releases</id>
-            <name>WMF Releases</name>
-            <url>http://nexus.wmflabs.org/nexus/content/repositories/releases</url>
-            <releases><enabled>true</enabled></releases>
-            <snapshots><enabled>false</enabled></snapshots>
-        </repository>
-        <repository>
-            <id>wmf-snapshots</id>
-            <name>WMF Snapshots</name>
-            <url>http://nexus.wmflabs.org/nexus/content/repositories/snapshots</url>
-            <releases><enabled>false</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
-        </repository>
-        <repository>
             <id>cloudera</id>
             <name>Cloudera</name>
             <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
