@@ -48,7 +48,6 @@ services = {
     'hue':      {'host': 'analytics1027.eqiad.wmnet', 'port': 8888, 'https': True },
     'oozie':    {'host': 'analytics1027.eqiad.wmnet', 'port': 11000, 'https': False},
     'logs':     {'host': 'analytics1020.eqiad.wmnet', 'port': 8042, 'https': False},
-    'j':        {'host': 'analytics1010.eqiad.wmnet', 'port': 50030, 'https': False},
     'proxy':    {'host': 'analytics1010.eqiad.wmnet', 'port': 8999, 'https': False},
 }
 
