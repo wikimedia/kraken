@@ -7,7 +7,7 @@ Usage: camus [options] <properties-file>
 Options:
     -h --help                           Show this help message and exit.
     -N --job-name=<job-name>            Hadoop JobName. [default: Camus Job]
-    -j --jar=<jar-file>                 Path to Camus .jar file.  [default: /srv/deployment/analytics/kraken/lib/camus.jar]
+    -j --jar=<jar-file>                 Path to Camus .jar file.  [default: /srv/deployment/analytics/kraken/deploy/artifacts/camus.jar]
     -f --force                          If set, job will be submitted without checking if it is already running.
     -n --dry-run                        Prints command that would have been run without running it.
 """
