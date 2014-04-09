@@ -56,13 +56,37 @@
     
     <repositories>
         <repository>
-            <id>cloudera</id>
-            <name>Cloudera</name>
-            <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
-            <releases><enabled>true</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>wmf-mirrored</id>
+            <url>http://archiva.wikimedia.org/repository/mirrored/</url>
         </repository>
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>wmf-mirrored</id>
+            <url>http://archiva.wikimedia.org/repository/mirrored/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <distributionManagement>
         <repository>
