@@ -70,8 +70,10 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("420-01/Saudi Telecom/Saudi Telecom Saudi arabia", new ZeroConfig("Saudi arabia", "Saudi Telecom", createStartDate(2014, 0, 1), true, true, new String[] {"ar", "tl", "en", "bn", "ur", ""}, null));
         config.put("426-04/VIVA/VIVA Bahrain", new ZeroConfig("Bahrain", "VIVA", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("428-98/G-Mobile/G-Mobile Mongolia", new ZeroConfig("Mongolia", "G-Mobile", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
+        config.put("429-02/NCell/NCell Nepal", new ZeroConfig("Nepal", "NCell", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("436-01/Tcell/Tcell Tajikistan", new ZeroConfig("Tajikistan", "Tcell", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("436-04/Babilon-Mobile/Babilon-Mobile Tajikistan", new ZeroConfig("Tajikistan", "Babilon-Mobile", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
+        config.put("437-01/Beeline/Beeline Kyrgyzstan", new ZeroConfig("Kyrgyzstan", "Beeline", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("456-02/Smart/Smart Cambodia", new ZeroConfig("Cambodia", "Smart", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
         config.put("470-01/Grameenphone/Grameenphone Bangladesh", new ZeroConfig("Bangladesh", "Grameenphone", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("470-03/Banglalink/Banglalink Bangladesh", new ZeroConfig("Bangladesh", "Banglalink", createStartDate(2014, 0, 1), true, true, new String[] {"en", "bn", ""}, null));
@@ -79,6 +81,7 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("502-13/Celcom/Celcom Malaysia", new ZeroConfig("Malaysia", "Celcom", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
         config.put("502-16/Digi/Digi Malaysia", new ZeroConfig("Malaysia", "Digi", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
         config.put("510-11/XL Axiata/XL Axiata Indonesia", new ZeroConfig("Indonesia", "XL Axiata", createStartDate(2014, 0, 1), false, true, new String[] {"id", "en", "zh", "ar", "hi", "ms", "jv", "su", ""}, null));
+        config.put("514-02/Timor Telecom/Timor Telecom Timor-Leste", new ZeroConfig("Timor-Leste", "Timor Telecom", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("515-03/Smart/Smart Philippines", new ZeroConfig("Philippines", "Smart", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("520-18/DTAC/DTAC Thailand", new ZeroConfig("Thailand", "DTAC", createStartDate(2014, 0, 1), false, true, new String[] {}, null));
         config.put("604-00/Orange/Orange Morocco", new ZeroConfig("Morocco", "Orange", createStartDate(2014, 0, 1), true, false, new String[] {"fr", "en", "ar", "es", "de", "it", "zh", "nl", "pt", "ru", ""}, null));
@@ -86,9 +89,11 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("612-03/Orange/Orange Ivory Coast", new ZeroConfig("Ivory Coast", "Orange", createStartDate(2014, 0, 1), true, false, new String[] {}, null));
         config.put("614-04/Orange/Orange Niger", new ZeroConfig("Niger", "Orange", createStartDate(2014, 0, 1), true, false, new String[] {}, null));
         config.put("621-20/Airtel/Airtel Nigeria", new ZeroConfig("Nigeria", "Airtel", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
+        config.put("621-30/MTN/MTN Nigeria", new ZeroConfig("Nigeria", "MTN", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("623-03/Orange/Orange Central African Republic", new ZeroConfig("Central African Republic", "Orange", createStartDate(2014, 0, 1), true, false, new String[] {"fr", "ha", "ln", "yo", "eo", "ar", "zh", "en", "es", "de", ""}, null));
         config.put("624-02/Orange/Orange Cameroon", new ZeroConfig("Cameroon", "Orange", createStartDate(2014, 0, 1), true, false, new String[] {"fr", "ha", "ln", "yo", "eo", "ar", "zh", "en", "es", "de", ""}, null));
         config.put("630-86/Orange/Orange Democratic Republic of the Congo", new ZeroConfig("Democratic Republic of the Congo", "Orange", createStartDate(2014, 0, 1), true, false, new String[] {}, null));
+        config.put("635-10/MTN/MTN Rwanda", new ZeroConfig("Rwanda", "MTN", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("639-02/Safaricom/Safaricom Kenya", new ZeroConfig("Kenya", "Safaricom", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("639-03/Airtel/Airtel Kenya", new ZeroConfig("Kenya", "Airtel", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("639-07/Orange/Orange Kenya", new ZeroConfig("Kenya", "Orange", createStartDate(2014, 0, 1), true, false, new String[] {}, null));
@@ -112,8 +117,10 @@ public class ZeroFilterFunc extends FilterFunc {
         xCSCarrierMap.put("420-01", "420-01/Saudi Telecom/Saudi Telecom Saudi arabia");
         xCSCarrierMap.put("426-04", "426-04/VIVA/VIVA Bahrain");
         xCSCarrierMap.put("428-98", "428-98/G-Mobile/G-Mobile Mongolia");
+        xCSCarrierMap.put("429-02", "429-02/NCell/NCell Nepal");
         xCSCarrierMap.put("436-01", "436-01/Tcell/Tcell Tajikistan");
         xCSCarrierMap.put("436-04", "436-04/Babilon-Mobile/Babilon-Mobile Tajikistan");
+        xCSCarrierMap.put("437-01", "437-01/Beeline/Beeline Kyrgyzstan");
         xCSCarrierMap.put("456-02", "456-02/Smart/Smart Cambodia");
         xCSCarrierMap.put("470-01", "470-01/Grameenphone/Grameenphone Bangladesh");
         xCSCarrierMap.put("470-03", "470-03/Banglalink/Banglalink Bangladesh");
@@ -121,6 +128,7 @@ public class ZeroFilterFunc extends FilterFunc {
         xCSCarrierMap.put("502-13", "502-13/Celcom/Celcom Malaysia");
         xCSCarrierMap.put("502-16", "502-16/Digi/Digi Malaysia");
         xCSCarrierMap.put("510-11", "510-11/XL Axiata/XL Axiata Indonesia");
+        xCSCarrierMap.put("514-02", "514-02/Timor Telecom/Timor Telecom Timor-Leste");
         xCSCarrierMap.put("515-03", "515-03/Smart/Smart Philippines");
         xCSCarrierMap.put("520-18", "520-18/DTAC/DTAC Thailand");
         xCSCarrierMap.put("604-00", "604-00/Orange/Orange Morocco");
@@ -128,9 +136,11 @@ public class ZeroFilterFunc extends FilterFunc {
         xCSCarrierMap.put("612-03", "612-03/Orange/Orange Ivory Coast");
         xCSCarrierMap.put("614-04", "614-04/Orange/Orange Niger");
         xCSCarrierMap.put("621-20", "621-20/Airtel/Airtel Nigeria");
+        xCSCarrierMap.put("621-30", "621-30/MTN/MTN Nigeria");
         xCSCarrierMap.put("623-03", "623-03/Orange/Orange Central African Republic");
         xCSCarrierMap.put("624-02", "624-02/Orange/Orange Cameroon");
         xCSCarrierMap.put("630-86", "630-86/Orange/Orange Democratic Republic of the Congo");
+        xCSCarrierMap.put("635-10", "635-10/MTN/MTN Rwanda");
         xCSCarrierMap.put("639-02", "639-02/Safaricom/Safaricom Kenya");
         xCSCarrierMap.put("639-03", "639-03/Airtel/Airtel Kenya");
         xCSCarrierMap.put("639-07", "639-07/Orange/Orange Kenya");
