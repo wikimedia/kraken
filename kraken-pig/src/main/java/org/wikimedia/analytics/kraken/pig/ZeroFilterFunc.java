@@ -62,6 +62,7 @@ public class ZeroFilterFunc extends FilterFunc {
         config.put("250-99/Beeline/Beeline Russia", new ZeroConfig("Russia", "Beeline", createStartDate(2014, 0, 1), true, true, new String[] {"ru", "en", ""}, null));
         config.put("293-41/IPKO/IPKO Kosovo", new ZeroConfig("Kosovo", "IPKO", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("297-01/Telenor/Telenor Montenegro", new ZeroConfig("Montenegro", "Telenor", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
+        config.put("310-260/T-Mobile/T-Mobile United States of America", new ZeroConfig("United States of America", "T-Mobile", createStartDate(2014, 0, 1), false, true, new String[] {"en", ""}, null));
         config.put("401-01/Beeline/Beeline Kazakhstan", new ZeroConfig("Kazakhstan", "Beeline", createStartDate(2014, 0, 1), true, true, new String[] {"ru", "kk", "en", ""}, null));
         config.put("404-01/Aircel/Aircel India", new ZeroConfig("India", "Aircel", createStartDate(2014, 0, 1), true, true, new String[] {}, null));
         config.put("410-01/Mobilink/Mobilink Pakistan", new ZeroConfig("Pakistan", "Mobilink", createStartDate(2014, 0, 1), true, true, new String[] {"en", "ur", ""}, null));
@@ -109,6 +110,7 @@ public class ZeroFilterFunc extends FilterFunc {
         xCSCarrierMap.put("250-99", "250-99/Beeline/Beeline Russia");
         xCSCarrierMap.put("293-41", "293-41/IPKO/IPKO Kosovo");
         xCSCarrierMap.put("297-01", "297-01/Telenor/Telenor Montenegro");
+        xCSCarrierMap.put("310-260", "310-260/T-Mobile/T-Mobile United States of America");
         xCSCarrierMap.put("401-01", "401-01/Beeline/Beeline Kazakhstan");
         xCSCarrierMap.put("404-01", "404-01/Aircel/Aircel India");
         xCSCarrierMap.put("410-01", "410-01/Mobilink/Mobilink Pakistan");
